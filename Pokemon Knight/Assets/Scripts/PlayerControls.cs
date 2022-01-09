@@ -1,0 +1,508 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using Rewired;
+using Com.LuisPedroFonseca.ProCamera2D;
+
+public class PlayerControls : MonoBehaviour
+{
+    private Player player;
+    public int playerID = 0;
+    public GameManager manager;
+    
+
+    [Space] [Header("Ui")]
+    public Image hpEffectImg;
+    public Image hpImg;
+    [Space]
+    public Image expEffectImg;  // white
+    public Image expImg;        // blue
+    [Space]
+    public TextMeshProUGUI lvText;
+    [SerializeField] private float effectSpeed = 0.005f;
+    public ProCamera2DTransitionsFX camTransition;
+    
+    [Space] 
+    public Image pokeballY1;
+    public Image pokeballX1;
+    public Image pokeballA1;
+    public Image pokemonY1;
+    public Image pokemonX1;
+    public Image pokemonA1;
+
+    [Space] 
+    public Image pokeballY2;
+    public Image pokeballX2;
+    public Image pokeballA2;
+    public Image pokemonY2;
+    public Image pokemonX2;
+    public Image pokemonA2;
+
+    
+    [Space]
+    [Header("Player data")]
+    public int maxHp;
+    public int hp;  // current hp
+    private int lv=1;
+    private int expNeeded=100;
+    private int exp;  // current exp
+
+
+    [Space] [Header("Platformer Mechanics")]
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private float moveSpeed = 10;
+    [SerializeField] private float dashSpeed = 75;
+    [SerializeField] private float dashTime = 0.5f;
+    [SerializeField] private float jumpHeight = 10;
+    [SerializeField] private float jumpTimer = 0.35f;
+    private float jumpTimerCounter = 0;
+
+    [Space]
+    [SerializeField] private Transform feetPos; // To detect ground
+    [SerializeField] private float feetRadius;
+    [SerializeField] private LayerMask whatIsGround;
+    [HideInInspector] public bool grounded = true;
+    [HideInInspector] public bool jumping = false;
+    private bool receivingKnockback;
+    private int dashes = 1;
+    private bool dashing;
+    private bool canPressButtonNorth = true;   // (X)
+    private bool canPressButtonWest = true;    // (Y)
+    private bool canPressButtonEast = true;    // (A)
+    private int nPokemonOut;
+    private int maxPokemonOut = 1;
+    private float localX;
+    [SerializeField] private GameObject holder;
+    [SerializeField] private Animator anim;
+    private bool inCutscene;
+
+
+    //* Powerups
+    // private bool canDoubleJump = true;
+    // private bool groundedDouble = true;
+
+
+    [Header("Pokemon (Allies)")]
+    [SerializeField] private Transform spawnPos;    // Place to Summon Pokemon
+    [SerializeField] private GameObject bulbasaur;
+    [Space][SerializeField] private GameObject squirtle;
+    [Space][SerializeField] private GameObject charmander;
+
+
+    
+    private static PlayerControls playerInstance;   // There can only be one
+         
+    private void Awake() {
+        DontDestroyOnLoad(this.gameObject);
+        if (playerInstance == null)
+            playerInstance = this;
+        else 
+            Destroy(this.gameObject);
+        
+        if (rb == null)
+            rb = GetComponent<Rigidbody2D>();
+        
+        localX = holder.transform.localScale.x;
+    }
+
+
+
+    void Start()
+    {
+        player = ReInput.players.GetPlayer(playerID);
+        hp = maxHp;
+        if (camTransition != null)
+            camTransition.TransitionEnter();
+    }
+    void Update()
+    {
+        if (hp > 0 && !inCutscene)
+        {
+            float xValue = player.GetAxis("Move Horizontal");
+            if (!receivingKnockback)
+                rb.velocity = new Vector2(xValue * moveSpeed, rb.velocity.y);   
+
+            grounded = Physics2D.OverlapCircle(feetPos.position, feetRadius, whatIsGround);
+            if (rb.velocity.y == 0 && grounded)
+                anim.SetBool("isGrounded", true);
+            // else
+            //     anim.SetBool("isGrounded", false);
+
+
+            //* Walking animation
+            if (!dashing)
+            {
+                if (Mathf.Abs(xValue) > 0)
+                {
+                    anim.SetBool("isWalking", true);
+                    anim.speed = Mathf.Min(Mathf.Abs(xValue) * moveSpeed, 3);
+                }
+                else
+                {
+                    anim.SetBool("isWalking", false);
+                    anim.speed = 1;
+                }
+                //* Flip character
+                playerDirection(xValue);
+
+                if (dashes > 0 && player.GetButtonDown("ZR"))
+                    Dash();
+                    if (grounded && player.GetButtonDown("B"))
+                        Jump();
+                    if (player.GetButton("B") && jumping)
+                    {
+                        if (jumpTimerCounter > 0)
+                        {
+                            rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
+                            jumpTimerCounter -= Time.deltaTime;
+                        } 
+                        else
+                        {
+                            jumping = false;
+                        }
+                    }
+                    if (player.GetButtonUp("B"))
+                        jumping = false;
+            }
+            // * Dashing
+            else
+            {
+                if (holder.transform.localScale.x > 0)
+                    rb.velocity = Vector2.right * dashSpeed;
+                else
+                    rb.velocity = Vector2.left * dashSpeed;
+            }
+
+
+            //* Pokemon
+            if (nPokemonOut < maxPokemonOut)
+            {
+                if (canPressButtonWest && player.GetButtonDown("Y"))
+                {
+                    if (bulbasaur != null)
+                    {
+                        nPokemonOut++;
+                        var pokemon = Instantiate(bulbasaur, spawnPos.position, bulbasaur.transform.rotation);
+                        Ally ally = pokemon.GetComponent<Ally>();
+                        ally.body.velocity = Vector2.up * this.rb.velocity.y;
+                        StartCoroutine( PokemonYCooldown(ally.outTime, ally.resummonTime) );
+                        // pokemon.SendMessage("WaitTime", null, SendMessageOptions.DontRequireReceiver);
+                        
+                        //* Looking left
+                        if (holder.transform.localScale.x < 0)
+                            pokemon.transform.localScale *= new Vector2(-1,1);
+                    }
+                }
+                if (canPressButtonEast && player.GetButtonDown("A"))
+                {
+                    if (squirtle != null)
+                    {
+                        nPokemonOut++;
+                        var pokemon = Instantiate(squirtle, spawnPos.position, squirtle.transform.rotation);
+                        Ally ally = pokemon.GetComponent<Ally>();
+                        ally.body.velocity = Vector2.up * this.rb.velocity.y;
+                        StartCoroutine( PokemonACooldown(ally.outTime, ally.resummonTime) );
+                        // pokemon.SendMessage("WaitTime", null, SendMessageOptions.DontRequireReceiver);
+                        
+                        //* Looking left
+                        if (holder.transform.localScale.x < 0)
+                            pokemon.transform.localScale *= new Vector2(-1,1);
+                    }
+                }
+                if (canPressButtonNorth && player.GetButtonDown("X"))
+                {
+                    if (charmander != null)
+                    {
+                        nPokemonOut++;
+                        var pokemon = Instantiate(charmander, spawnPos.position, charmander.transform.rotation);
+                        Ally ally = pokemon.GetComponent<Ally>();
+                        ally.body.velocity = Vector2.up * this.rb.velocity.y;
+                        StartCoroutine( PokemonXCooldown(ally.outTime, ally.resummonTime) );
+                        // pokemon.SendMessage("WaitTime", null, SendMessageOptions.DontRequireReceiver);
+                        
+                        //* Looking left
+                        if (holder.transform.localScale.x < 0)
+                            pokemon.transform.eulerAngles = new Vector3(0,180);
+                            // pokemon.transform.localScale *= new Vector2(-1,1);
+                    }
+                }
+            }
+        }
+
+        //* Normal Jump
+        // if (!canDoubleJump)
+        // {
+        // }
+        // else
+        // {
+        //     if (grounded && player.GetButtonDown("B"))
+        //         Jump();
+        // }
+    }
+    private void LateUpdate() 
+    {
+        if (expImg != null)
+        {
+            expEffectImg.fillAmount = ((float)exp /(float) expNeeded);
+            if (expImg.fillAmount < expEffectImg.fillAmount)
+                    expImg.fillAmount += effectSpeed;
+            else 
+                expImg.fillAmount = expEffectImg.fillAmount;
+        }
+        if (hpImg != null && hpEffectImg != null)
+        {
+            hpImg.fillAmount = ((float)hp /(float) maxHp);
+            
+            //* Hp lost Effect
+            if (hpEffectImg.fillAmount > hpImg.fillAmount)
+                if (hp > 0)
+                    hpEffectImg.fillAmount -= effectSpeed;
+                else
+                    hpEffectImg.fillAmount -= (effectSpeed/4);
+            else 
+                hpEffectImg.fillAmount = hpImg.fillAmount;
+            
+            //* Hp color Effect
+            if (hpImg.fillAmount <= 0.25f)
+                hpImg.color = new Color(0.8f, 0.01f, 0f);
+            else if (hpImg.fillAmount <= 0.5f)
+                hpImg.color = new Color(1f, 0.65f, 0f);
+            else
+                hpImg.color = new Color(0f, 0.85f, 0f);
+        }
+    }
+
+
+    private void Jump()
+    {
+        anim.SetBool("isGrounded", false);
+        anim.SetTrigger("jump");
+        anim.speed = 1;
+        jumping = true;
+        jumpTimerCounter = jumpTimer;
+        rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
+    }
+    private void Dash()
+    {
+        dashes = 0;
+        StartCoroutine( restoreDash() );
+    }
+    private void playerDirection(float xValue=0)
+    {
+        if (xValue < -0.01f)
+            holder.transform.localScale = new Vector3(-localX, localX, localX);
+        else if (xValue > 0.01f)
+            holder.transform.localScale = new Vector3(localX, localX, localX);
+    }
+
+    IEnumerator restoreDash()
+    {
+        dashing = true;
+        if (holder.transform.localScale.x > 0)
+            rb.velocity = Vector2.right * dashSpeed;
+        else
+            rb.velocity = Vector2.left * dashSpeed;
+
+        yield return new WaitForSeconds(0.1f);
+        dashing = false;
+        rb.velocity = Vector2.zero;
+
+        yield return new WaitForSeconds(0.3f);
+        dashes = 1;
+    }
+
+
+    public void TakeDamage(int dmg=0, Transform opponent=null, float force=0)
+    {
+        if (hp > 0)
+        {
+            hp -= dmg;
+            // Debug.Log("player took " + dmg + ", with force " + force + ", by " + opponent.name);
+
+            if (force > 0 && opponent != null)
+                StartCoroutine( ApplyKnockback(opponent, force) );
+
+            if (hp <= 0)
+            {
+                StartCoroutine( Died() );
+            }
+        }
+    }
+
+    public IEnumerator ApplyKnockback(Transform opponent, float force)
+    {
+        receivingKnockback = true;
+        Vector2 direction = (opponent.position - this.transform.position).normalized;
+        direction = new Vector2(direction.x,-1);
+        rb.AddForce(-direction * force, ForceMode2D.Impulse);
+        
+        yield return new WaitForSeconds(0.1f);
+        rb.velocity = Vector2.zero;
+        receivingKnockback = false;
+    }
+
+
+    public void GainExp(int expGained, int enemyLevel)
+    {
+        exp += (int) (expGained * Mathf.Min(5f, enemyLevel / lv));
+        if (exp > expNeeded)
+        {
+            lv++;
+            exp %= expNeeded;
+            expNeeded = (int) (expNeeded * 1.2f);
+        }
+    }
+
+    IEnumerator Died()
+    {
+        rb.velocity = Vector2.zero;
+        anim.SetTrigger("died");
+        // yield return new WaitForEndOfFrame();
+        Time.timeScale = 0.25f;
+
+        yield return new WaitForSeconds(0.4f);
+        if (camTransition != null)
+            camTransition.TransitionExit();
+    }
+
+    public void SetNextArea(string nextArea, float xPos, float yPos, bool walkLeft)
+    {
+        if (camTransition != null)
+            camTransition.TransitionExit();
+        StartCoroutine( MovingToNextArea(nextArea, xPos, yPos, walkLeft) );
+    }
+    public IEnumerator MovingToNextArea(string nextArea, float xPos, float yPos, bool walkLeft)
+    {
+        if (!inCutscene)
+        {
+            bool walkingRight = (rb.velocity.x > 0);
+            inCutscene = true;
+
+            yield return new WaitForSeconds(1);
+            SceneManager.LoadScene(nextArea);
+            rb.velocity = Vector2.zero;
+
+            yield return new WaitForEndOfFrame();
+            this.transform.position = new Vector3(xPos,yPos);
+
+            yield return new WaitForSeconds(0.1f);
+            if (camTransition != null)
+                camTransition.TransitionEnter();
+            
+            yield return new WaitForSeconds(0.4f);
+
+            if (!walkingRight)
+                StartCoroutine( WalkingLeft() );
+            else
+                StartCoroutine( WalkingRight() );
+        }
+    }
+
+    IEnumerator WalkingRight()  // Moving right
+    {
+        yield return new WaitForEndOfFrame();
+        anim.SetBool("isGrounded", true);
+        rb.AddForce(Vector2.right * 10, ForceMode2D.Impulse);
+        
+        yield return new WaitForSeconds(0.5f);
+        inCutscene = false;
+        rb.velocity = Vector2.zero;
+    }
+    IEnumerator WalkingLeft()  // Moving left
+    {
+        yield return new WaitForEndOfFrame();
+        anim.SetBool("isGrounded", true);
+        rb.AddForce(Vector2.left * 10, ForceMode2D.Impulse);
+        
+        yield return new WaitForSeconds(0.5f);
+        inCutscene = false;
+        rb.velocity = Vector2.zero;
+    }
+
+    // todo ------------------------------------------------------------------------------------
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if (other.CompareTag("Roar"))
+            EngagedBossRoar();
+    }
+    private void OnTriggerExit2D(Collider2D other) 
+    {
+        if (other.CompareTag("Roar"))
+            RoarOver();
+        
+    }
+    // todo ------------------------------------------------------------------------------------
+
+    public void EngagedBossRoar()
+    {
+        inCutscene = true;
+        anim.speed = 1;
+        anim.SetBool("inBossFight", true);
+        anim.SetTrigger("engaged");
+        rb.velocity = Vector2.zero;
+    }
+    
+    public void RoarOver()
+    {
+        anim.SetBool("inBossFight", false);
+        inCutscene = false;
+        rb.velocity = Vector2.zero;
+    }
+
+    IEnumerator PokemonXCooldown(float outTime, float cooldown) //* NORTH
+    {
+        pokemonX1.color = new Color(0.3f,0.3f,0.3f);
+        canPressButtonNorth = false;
+        pokeballX1.fillAmount = 0;
+
+        yield return new WaitForSeconds(outTime);
+        nPokemonOut--;  // pokemon returned to ball
+        float s = cooldown / 20;
+        for (int i=0 ; i<20 ; i++)
+        {
+            yield return new WaitForSeconds(s);
+            pokeballX1.fillAmount += 0.05f;
+        }
+        canPressButtonNorth = true;
+        pokemonX1.color = new Color(1,1,1);
+    }
+    IEnumerator PokemonYCooldown(float outTime, float cooldown) //* WEST
+    {
+        pokemonY1.color = new Color(0.3f,0.3f,0.3f);
+        canPressButtonWest = false;
+        pokeballY1.fillAmount = 0;
+
+        yield return new WaitForSeconds(outTime);
+        nPokemonOut--;  // pokemon returned to ball
+        float s = cooldown / 20;
+        for (int i=0 ; i<20 ; i++)
+        {
+            yield return new WaitForSeconds(s);
+            pokeballY1.fillAmount += 0.05f;
+        }
+        canPressButtonWest = true;
+        pokemonY1.color = new Color(1,1,1);
+    }
+    IEnumerator PokemonACooldown(float outTime, float cooldown) //* EAST
+    {
+        pokemonA1.color = new Color(0.3f,0.3f,0.3f);
+        canPressButtonEast = false;
+        pokeballA1.fillAmount = 0;
+
+        yield return new WaitForSeconds(outTime);
+        nPokemonOut--;  // pokemon returned to ball
+        float s = cooldown / 20;
+        for (int i=0 ; i<20 ; i++)
+        {
+            yield return new WaitForSeconds(s);
+            pokeballA1.fillAmount += 0.05f;
+        }
+        canPressButtonEast = true;
+        pokemonA1.color = new Color(1,1,1);
+    }
+
+
+}
