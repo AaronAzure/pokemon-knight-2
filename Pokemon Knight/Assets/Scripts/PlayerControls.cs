@@ -173,7 +173,7 @@ public class PlayerControls : MonoBehaviour
             // * Dashing
             else
             {
-                if (holder.transform.localScale.x > 0)
+                if (holder.transform.eulerAngles.y >= 0)
                     rb.velocity = Vector2.right * dashSpeed;
                 else
                     rb.velocity = Vector2.left * dashSpeed;
@@ -195,9 +195,9 @@ public class PlayerControls : MonoBehaviour
                         // pokemon.SendMessage("WaitTime", null, SendMessageOptions.DontRequireReceiver);
                         
                         //* Looking left
-                        if (holder.transform.localScale.x < 0)
-                            // pokemon.transform.localScale *= new Vector2(-1,1);
-                            pokemon.transform.eulerAngles = new Vector3(0,180);
+                        Debug.Log(holder.transform.eulerAngles.y);
+                        if (holder.transform.eulerAngles.y > 0)
+                            pokemon.transform.eulerAngles = new Vector3(0,-180);
                     }
                 }
                 if (canPressButtonEast && player.GetButtonDown("A"))
@@ -212,9 +212,8 @@ public class PlayerControls : MonoBehaviour
                         // pokemon.SendMessage("WaitTime", null, SendMessageOptions.DontRequireReceiver);
                         
                         //* Looking left
-                        if (holder.transform.localScale.x < 0)
-                            // pokemon.transform.localScale *= new Vector2(-1,1);
-                            pokemon.transform.eulerAngles = new Vector3(0,180);
+                        if (holder.transform.eulerAngles.y > 0)
+                            pokemon.transform.eulerAngles = new Vector3(0,-180);
                     }
                 }
                 if (canPressButtonNorth && player.GetButtonDown("X"))
@@ -229,9 +228,8 @@ public class PlayerControls : MonoBehaviour
                         // pokemon.SendMessage("WaitTime", null, SendMessageOptions.DontRequireReceiver);
                         
                         //* Looking left
-                        if (holder.transform.localScale.x < 0)
-                            pokemon.transform.eulerAngles = new Vector3(0,180);
-                            //! pokemon.transform.localScale *= new Vector2(-1,1);
+                        if (holder.transform.eulerAngles.y > 0)
+                            pokemon.transform.eulerAngles = new Vector3(0,-180);
                     }
                 }
             }
@@ -282,8 +280,6 @@ public class PlayerControls : MonoBehaviour
     private void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(feetPos.position, feetBox);
-        // Gizmos.DrawLine(groundDetection.position, groundDetection.position + new Vector3(0,-distanceDetect));
-        // Gizmos.DrawLine(face.position, face.position + new Vector3(-forwardDetect,0));
     }
 
     private void Jump()
@@ -303,20 +299,18 @@ public class PlayerControls : MonoBehaviour
     private void playerDirection(float xValue=0)
     {
         if (xValue < -0.01f)
-            //! holder.transform.localScale = new Vector3(-localX, localX, localX);
             holder.transform.eulerAngles = new Vector3(0,180);
         else if (xValue > 0.01f)
-            //! holder.transform.localScale = new Vector3(localX, localX, localX);
             holder.transform.eulerAngles = new Vector3(0,0);
     }
 
     IEnumerator restoreDash()
     {
         dashing = true;
-        if (holder.transform.localScale.x > 0)
-            rb.velocity = Vector2.right * dashSpeed;
-        else
+        if (holder.transform.eulerAngles.y > 0)
             rb.velocity = Vector2.left * dashSpeed;
+        else
+            rb.velocity = Vector2.right * dashSpeed;
 
         yield return new WaitForSeconds(0.1f);
         dashing = false;

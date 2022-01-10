@@ -41,11 +41,11 @@
      <Compile Include="Assets/Rewired/Examples/CustomControllersTouch/Scripts/CustomControllerDemo.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIImageHelper.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ControlMapper_InputGrid.cs" />
-     <Compile Include="Assets/Scripts/AllySquirtle.cs" />
+     <Compile Include="Assets/Scripts/-Allies/AllySquirtle.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/Utils/MinMaxSliderAttribute.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ControlMapper.cs" />
-     <Compile Include="Assets/Scripts/Ally.cs" />
-     <Compile Include="Assets/Scripts/AllyBulbasaur.cs" />
+     <Compile Include="Assets/Scripts/-Allies/Ally.cs" />
+     <Compile Include="Assets/Scripts/-Allies/AllyBulbasaur.cs" />
      <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/Player/PlayerInputBot.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DSpeedBasedZoom.cs" />
      <Compile Include="Assets/Scripts/NewArea.cs" />
@@ -60,9 +60,9 @@
      <Compile Include="Assets/ProCamera2D/Code/Core/ISizeDeltaChanger.cs" />
      <Compile Include="Assets/Rewired/Examples/GamepadTemplateUI/Scripts/ControllerUIEffect.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DZoomToFitTargets.cs" />
-     <Compile Include="Assets/Scripts/Enemies/Magnemite.cs" />
+     <Compile Include="Assets/Scripts/-Enemies/Magnemite.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/EnumMovementAxis.cs" />
-     <Compile Include="Assets/Scripts/AllyAttack.cs" />
+     <Compile Include="Assets/Scripts/-Allies/AllyAttack.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DCinematics.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/EnumUpdateType.cs" />
      <Compile Include="Assets/Rewired/Examples/ControlRemapping1/Scripts/ControlRemappingDemo1.cs" />
@@ -70,8 +70,8 @@
      <Compile Include="Assets/ProCamera2D/Code/Core/MoveInColliderBoundaries.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CustomSlider.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/Window.cs" />
-     <Compile Include="Assets/Scripts/Enemies/Enemy.cs" />
-     <Compile Include="Assets/Scripts/AllyCharmander.cs" />
+     <Compile Include="Assets/Scripts/-Enemies/Enemy.cs" />
+     <Compile Include="Assets/Scripts/-Allies/AllyCharmander.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Examples/ControlMapperDemo/Scripts/ControlMapperDemoMessage.cs" />
      <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DCinematicsToggle.cs" />
      <Compile Include="Assets/Scripts/GameManager.cs" />
@@ -92,7 +92,7 @@
      <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DShakeWithPreset.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/IPreMover.cs" />
      <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DShakeConstantStop.cs" />
-     <Compile Include="Assets/Scripts/Enemies/EnemyAttack.cs" />
+     <Compile Include="Assets/Scripts/-Enemies/EnemyAttack.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CanvasScalerFitter.cs" />
      <Compile Include="Assets/Rewired/Examples/SimpleControlRemapping/Scripts/SimpleControlRemapping.cs" />
      <Compile Include="Assets/Rewired/Examples/PressStartToJoin/Scripts/PressStartToJoinExample_Assigner.cs" />
@@ -102,7 +102,7 @@
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DTransitionsFX.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Helpers/TransitionFX/BasicBlit.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/InputFieldInfo.cs" />
-     <Compile Include="Assets/Scripts/Enemies/Caterpie.cs" />
+     <Compile Include="Assets/Scripts/-Enemies/Caterpie.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Triggers/ProCamera2DTriggerInfluence.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UITools.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ControlMapper_Enums.cs" />
@@ -165,9 +165,9 @@
      <Compile Include="Assets/Rewired/Examples/EightPlayers/Scripts/EightPlayersExample_Player.cs" />
      <Compile Include="Assets/Rewired/Examples/CustomControllersTouch/Scripts/CustomControllerDemo_Player.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DLimitDistance.cs" />
-     <Compile Include="Assets/Scripts/AllyProjectile.cs" />
+     <Compile Include="Assets/Scripts/-Allies/AllyProjectile.cs" />
      <Compile Include="Assets/Rewired/Examples/CustomControllersTouch/Scripts/TouchJoystickExample.cs" />
-     <Compile Include="Assets/Scripts/Enemies/ButterfreeBoss.cs" />
+     <Compile Include="Assets/Scripts/-Enemies/ButterfreeBoss.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Triggers/ProCamera2DTriggerZoom.cs" />
      <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/ToggleTransitionsFX.cs" />
      <Compile Include="Assets/Rewired/Integration/UnityUI/RewiredStandaloneInputModule.cs" />
@@ -189,10 +189,14 @@
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIGroup.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/IPostMover.cs" />
      <Compile Include="Assets/Scripts/testing.cs" />
+     <Compile Include="Assets/Scripts/TitleFunctions.cs" />
+     <Compile Include="Assets/Scripts/ButtonSelectionTracker.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" />
+     <None Include="Assets/TextMesh Pro/Examples &amp; Extras/Fonts/Oswald-Bold - OFL.txt" />
      <None Include="Assets/ProCamera2D/Code/Helpers/TransitionFX/Resources/PC2D_Fade.shader" />
+     <None Include="Assets/TextMesh Pro/Examples &amp; Extras/Fonts/Anton OFL.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader" />
@@ -222,6 +226,7 @@
      <None Include="Assets/ProCamera2D/Code/Helpers/TransitionFX/Resources/PC2D_Shutters.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Sprite.shader" />
+     <None Include="Assets/TextMesh Pro/Examples &amp; Extras/Fonts/Bangers - OFL.txt" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/Hub/Editor/2020.3.23f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
