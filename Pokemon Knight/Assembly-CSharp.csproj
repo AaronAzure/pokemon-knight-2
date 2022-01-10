@@ -36,170 +36,192 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets/Rewired/Examples/GamepadTemplateUI/Scripts/ControllerUIElement.cs" />
-     <Compile Include="Assets/Rewired/Internal/Scripts/ControllerTemplates/ControllerTemplates.cs" />
-     <Compile Include="Assets/Rewired/Internal/Scripts/Platforms/Ouya/OuyaInputSource.cs" />
-     <Compile Include="Assets/Rewired/Integration/UnityUI/PlayerPointerEventData.cs" />
-     <Compile Include="Assets/Rewired/Examples/SimpleControlRemapping/Scripts/SimpleControlRemapping.cs" />
-     <Compile Include="Assets/Rewired/Examples/PressAnyButtonToJoin/Scripts/PressAnyButtonToJoinExample_Assigner.cs" />
-     <Compile Include="Assets/Rewired/Examples/SimpleCombinedKeyboardMouseRemapping/Scripts/SimpleCombinedKeyboardMouseRemapping.cs" />
-     <Compile Include="Assets/Rewired/Examples/CustomControllersTouch/Scripts/TouchJoystickExample.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DGeometryBoundaries.cs" />
+     <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/Player/PlayerInput.cs" />
      <Compile Include="Assets/Rewired/Examples/CustomControllersTouch/Scripts/CustomControllerDemo.cs" />
-     <Compile Include="Assets/Rewired/Examples/PressStartToJoin/Scripts/PressStartToJoinExample_Assigner.cs" />
-     <Compile Include="Assets/Rewired/Examples/Shared/Scripts/Bullet.cs" />
-     <Compile Include="Assets/Rewired/Examples/CustomControllersTilt/Scripts/CustomControllersTiltDemo.cs" />
-     <Compile Include="Assets/Rewired/Internal/Scripts/Misc/ExternalTools.cs" />
-     <Compile Include="Assets/Rewired/Examples/DualShock4SpecialFeatures/Scripts/DualShock4SpecialFeaturesExample.cs" />
-     <Compile Include="Assets/Rewired/Examples/PlayerMouseSprite/Scripts/PlayerMouseSpriteExample.cs" />
-     <Compile Include="Assets/Rewired/Examples/PlayerMouseUnityUI/Scripts/UIPointer.cs" />
-     <Compile Include="Assets/Rewired/Examples/ControlRemapping1/Scripts/ControlRemappingDemo1.cs" />
-     <Compile Include="Assets/Rewired/Examples/FallbackJoystickIdentification/Scripts/FallbackJoystickIdentificationDemo.cs" />
-     <Compile Include="Assets/Rewired/Examples/GamepadTemplateUI/Scripts/ControllerUIEffect.cs" />
-     <Compile Include="Assets/Rewired/Examples/EightPlayers/Scripts/EightPlayersExample_Player.cs" />
-     <Compile Include="Assets/Rewired/Examples/GamepadTemplateUI/Scripts/GamepadTemplateUI.cs" />
-     <Compile Include="Assets/Rewired/Internal/Scripts/InputManager.cs" />
-     <Compile Include="Assets/Rewired/Examples/PressAnyButtonToJoin/Scripts/PressAnyButtonToJoinExample_GamePlayer.cs" />
-     <Compile Include="Assets/Rewired/Examples/CustomControllersTouch/Scripts/TouchButtonExample.cs" />
-     <Compile Include="Assets/Rewired/Integration/UnityUI/RewiredStandaloneInputModule.cs" />
-     <Compile Include="Assets/Rewired/Examples/CustomControllersTouch/Scripts/CustomControllerDemo_Player.cs" />
-     <Compile Include="Assets/Rewired/Examples/PressStartToJoin/Scripts/PressStartToJoinExample_GamePlayer.cs" />
-     <Compile Include="Assets/Rewired/Integration/UnityUI/RewiredEventSystem.cs" />
-     <Compile Include="Assets/Rewired/Integration/UnityUI/RewiredPointerInputModule.cs" />
-     <Compile Include="Assets/Rewired/Examples/PlayerMouseUnityUI/Scripts/PlayerPointerEventHandlerExample.cs" />
-     <Compile Include="Assets/Rewired/Internal/Scripts/DataStorage/UserDataStore_PlayerPrefs.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CustomToggle.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Examples/ControlMapperDemo/Scripts/ControlMapperDemoMessage.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ToggleInfo.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/LanguageDataBase.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ButtonInfo.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CalibrationWindow.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ControlMapper_Enums.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CustomButton.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CustomSlider.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CanvasScalerExt.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ControlMapper.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIImageHelper.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ControlMapper_WindowManager.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/Window.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/InputBehaviorWindow.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CanvasScalerFitter.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ThemedElement.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ICustomSelectable.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/InputRow.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ScrollRectSelectableChild.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UISelectionUtility.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ControlMapper_InputGrid.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/InputFieldInfo.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UISliderControl.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIControl.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ScrollbarVisibilityHelper.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIElementInfo.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIGroup.cs" />
+     <Compile Include="Assets/Scripts/AllySquirtle.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Core/Utils/MinMaxSliderAttribute.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ControlMapper.cs" />
+     <Compile Include="Assets/Scripts/Ally.cs" />
+     <Compile Include="Assets/Scripts/AllyBulbasaur.cs" />
+     <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/Player/PlayerInputBot.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DSpeedBasedZoom.cs" />
+     <Compile Include="Assets/Scripts/NewArea.cs" />
+     <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/ShakeExample.cs" />
+     <Compile Include="Assets/Scripts/PlayerControls.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Core/BaseTrigger.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ThemeSettings.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/LanguageData.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIControlSet.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UITools.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ControlMapper_Classes.cs" />
-     <Compile Include="Assets/Scripts/Ally.cs" />
-     <Compile Include="Assets/Scripts/Enemies/EnemyAttack.cs" />
-     <Compile Include="Assets/Scripts/Enemies/ButterfreeBoss.cs" />
-     <Compile Include="Assets/Scripts/AllyCharmander.cs" />
-     <Compile Include="Assets/Scripts/AllyAttack.cs" />
-     <Compile Include="Assets/Scripts/TransitionOut.cs" />
-     <Compile Include="Assets/Scripts/AudioManager.cs" />
-     <Compile Include="Assets/Scripts/NewArea.cs" />
-     <Compile Include="Assets/Scripts/AllySquirtle.cs" />
-     <Compile Include="Assets/Scripts/Enemies/Enemy.cs" />
-     <Compile Include="Assets/Scripts/TargetFinder.cs" />
-     <Compile Include="Assets/Scripts/AllyProjectile.cs" />
-     <Compile Include="Assets/Scripts/AllyBulbasaur.cs" />
-     <Compile Include="Assets/Scripts/DestroyAfter.cs" />
-     <Compile Include="Assets/Scripts/Enemies/Magnemite.cs" />
-     <Compile Include="Assets/Scripts/Feet.cs" />
-     <Compile Include="Assets/Scripts/PlayerControls.cs" />
-     <Compile Include="Assets/Scripts/Enemies/Caterpie.cs" />
-     <Compile Include="Assets/Scripts/GameManager.cs" />
-     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DShakeWithValues.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Core/IPositionDeltaChanger.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DForwardFocus.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DLimitDistance.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Helpers/Pixel Perfect/ProCamera2DPixelPerfectSprite.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DShake.cs" />
-     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DAdjustCameraTargetInfluence.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DGeometryBoundaries.cs" />
-     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DCinematicsToggle.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Core/ConstantShakePreset.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Core/EnumUpdateType.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Core/ShakePreset.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DParallax.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Helpers/Parallax/ProCamera2DParallaxObject.cs" />
-     <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/Player/PlayerInput.cs" />
      <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/ToggleCinematics.cs" />
-     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DApplyInfluencesTimed.cs" />
-     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DRoomsEnter.cs" />
-     <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/Player/PlayerInputBot.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Triggers/ProCamera2DTriggerRails.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DCameraWindow.cs" />
-     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DAddCameraTarget.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DRails.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DNumericBoundaries.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ScrollRectSelectableChild.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/Utils/Utils.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DSpeedBasedZoom.cs" />
-     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DRemoveCameraTarget.cs" />
-     <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/RoomsEventsExample.cs" />
-     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DShakeWithPreset.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Core/BasePC2D.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Core/IPositionOverrider.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/ISizeDeltaChanger.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Core/CameraTarget.cs" />
-     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DApplyInfluence.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DPixelPerfect.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DRooms.cs" />
-     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DShakeConstantWithPreset.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Triggers/ProCamera2DTriggerZoom.cs" />
-     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DShakeStop.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DContentFitter.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Helpers/Letterbox/ProCamera2DLetterbox.cs" />
-     <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/ToggleTransitionsFX.cs" />
-     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DMoveCameraInstantlyToPosition.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Core/Utils/MinMaxSliderAttribute.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Core/IPreMover.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Core/KDTree.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Core/BoundariesAnimator.cs" />
+     <Compile Include="Assets/Rewired/Examples/GamepadTemplateUI/Scripts/ControllerUIEffect.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DZoomToFitTargets.cs" />
-     <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/DollyZoomExample.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Core/MoveInColliderBoundaries.cs" />
-     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DShakeConstantStop.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DTransitionsFX.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Helpers/TransitionFX/BasicBlit.cs" />
+     <Compile Include="Assets/Scripts/Enemies/Magnemite.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/EnumMovementAxis.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DPanAndZoom.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DLimitSpeed.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Triggers/ProCamera2DTriggerBoundaries.cs" />
-     <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/ShakeExample.cs" />
+     <Compile Include="Assets/Scripts/AllyAttack.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DCinematics.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Core/EnumUpdateType.cs" />
+     <Compile Include="Assets/Rewired/Examples/ControlRemapping1/Scripts/ControlRemappingDemo1.cs" />
+     <Compile Include="Assets/Scripts/AudioManager.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Core/MoveInColliderBoundaries.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CustomSlider.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/Window.cs" />
+     <Compile Include="Assets/Scripts/Enemies/Enemy.cs" />
+     <Compile Include="Assets/Scripts/AllyCharmander.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Examples/ControlMapperDemo/Scripts/ControlMapperDemoMessage.cs" />
+     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DCinematicsToggle.cs" />
+     <Compile Include="Assets/Scripts/GameManager.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CustomToggle.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ToggleInfo.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Core/BoundariesAnimator.cs" />
      <Compile Include="Assets/ProCamera2D/ProCamera2D.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DPointerInfluence.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Core/Utils/PrefsData.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ButtonInfo.cs" />
+     <Compile Include="Assets/Scripts/TargetFinder.cs" />
+     <Compile Include="Assets/Rewired/Examples/FallbackJoystickIdentification/Scripts/FallbackJoystickIdentificationDemo.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/ISizeOverrider.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DRepeater.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Core/IPostMover.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Core/BaseTrigger.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Core/Utils/EditorPrefsX.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DCinematics.cs" />
+     <Compile Include="Assets/Rewired/Internal/Scripts/ControllerTemplates/ControllerTemplates.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DForwardFocus.cs" />
+     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DAdjustCameraTargetInfluence.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Core/ConstantShakePreset.cs" />
+     <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/RoomsEventsExample.cs" />
+     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DShakeWithPreset.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Core/IPreMover.cs" />
+     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DShakeConstantStop.cs" />
+     <Compile Include="Assets/Scripts/Enemies/EnemyAttack.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CanvasScalerFitter.cs" />
+     <Compile Include="Assets/Rewired/Examples/SimpleControlRemapping/Scripts/SimpleControlRemapping.cs" />
+     <Compile Include="Assets/Rewired/Examples/PressStartToJoin/Scripts/PressStartToJoinExample_Assigner.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CustomButton.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DNumericBoundaries.cs" />
+     <Compile Include="Assets/Rewired/Internal/Scripts/Misc/ExternalTools.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DTransitionsFX.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Helpers/TransitionFX/BasicBlit.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/InputFieldInfo.cs" />
+     <Compile Include="Assets/Scripts/Enemies/Caterpie.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Triggers/ProCamera2DTriggerInfluence.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UITools.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ControlMapper_Enums.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/InputBehaviorWindow.cs" />
+     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DShakeStop.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DPanAndZoom.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIControlSet.cs" />
+     <Compile Include="Assets/Rewired/Internal/Scripts/DataStorage/UserDataStore_PlayerPrefs.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ControlMapper_Classes.cs" />
+     <Compile Include="Assets/Rewired/Integration/UnityUI/PlayerPointerEventData.cs" />
+     <Compile Include="Assets/Rewired/Examples/PressAnyButtonToJoin/Scripts/PressAnyButtonToJoinExample_Assigner.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Core/ShakePreset.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UISelectionUtility.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIControl.cs" />
+     <Compile Include="Assets/Rewired/Examples/PlayerMouseSprite/Scripts/PlayerMouseSpriteExample.cs" />
+     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DShakeConstantWithPreset.cs" />
+     <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/DollyZoomExample.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Core/Utils/EditorPrefsX.cs" />
+     <Compile Include="Assets/Rewired/Internal/Scripts/Platforms/Ouya/OuyaInputSource.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Helpers/Pixel Perfect/ProCamera2DPixelPerfectSprite.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Core/BasePC2D.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIElementInfo.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/LanguageDataBase.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DLimitSpeed.cs" />
+     <Compile Include="Assets/Rewired/Examples/PlayerMouseUnityUI/Scripts/PlayerPointerEventHandlerExample.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Core/IPositionDeltaChanger.cs" />
+     <Compile Include="Assets/Rewired/Examples/SimpleCombinedKeyboardMouseRemapping/Scripts/SimpleCombinedKeyboardMouseRemapping.cs" />
+     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DAddCameraTarget.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ICustomSelectable.cs" />
+     <Compile Include="Assets/Rewired/Examples/PlayerMouseUnityUI/Scripts/UIPointer.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Core/CameraTarget.cs" />
+     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DApplyInfluence.cs" />
+     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DMoveCameraInstantlyToPosition.cs" />
+     <Compile Include="Assets/Rewired/Internal/Scripts/InputManager.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ControlMapper_WindowManager.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CanvasScalerExt.cs" />
+     <Compile Include="Assets/Rewired/Examples/CustomControllersTouch/Scripts/TouchButtonExample.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/InputRow.cs" />
+     <Compile Include="Assets/Rewired/Examples/PressStartToJoin/Scripts/PressStartToJoinExample_GamePlayer.cs" />
+     <Compile Include="Assets/Rewired/Examples/GamepadTemplateUI/Scripts/ControllerUIElement.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DRails.cs" />
+     <Compile Include="Assets/Rewired/Examples/CustomControllersTilt/Scripts/CustomControllersTiltDemo.cs" />
+     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DRemoveCameraTarget.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DRooms.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Helpers/Letterbox/ProCamera2DLetterbox.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Core/KDTree.cs" />
+     <Compile Include="Assets/Rewired/Examples/PressAnyButtonToJoin/Scripts/PressAnyButtonToJoinExample_GamePlayer.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Core/Utils/PrefsData.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DRepeater.cs" />
+     <Compile Include="Assets/Rewired/Integration/UnityUI/RewiredEventSystem.cs" />
      <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/FsmStateActionProCamera2DBase.cs" />
+     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DShakeWithValues.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DShake.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CalibrationWindow.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DParallax.cs" />
+     <Compile Include="Assets/Rewired/Examples/DualShock4SpecialFeatures/Scripts/DualShock4SpecialFeaturesExample.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ThemedElement.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Core/IPositionOverrider.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DPixelPerfect.cs" />
+     <Compile Include="Assets/Rewired/Examples/EightPlayers/Scripts/EightPlayersExample_Player.cs" />
+     <Compile Include="Assets/Rewired/Examples/CustomControllersTouch/Scripts/CustomControllerDemo_Player.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DLimitDistance.cs" />
+     <Compile Include="Assets/Scripts/AllyProjectile.cs" />
+     <Compile Include="Assets/Rewired/Examples/CustomControllersTouch/Scripts/TouchJoystickExample.cs" />
+     <Compile Include="Assets/Scripts/Enemies/ButterfreeBoss.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Triggers/ProCamera2DTriggerZoom.cs" />
+     <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/ToggleTransitionsFX.cs" />
+     <Compile Include="Assets/Rewired/Integration/UnityUI/RewiredStandaloneInputModule.cs" />
+     <Compile Include="Assets/Scripts/Feet.cs" />
+     <Compile Include="Assets/Rewired/Integration/UnityUI/RewiredPointerInputModule.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Helpers/Parallax/ProCamera2DParallaxObject.cs" />
+     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DApplyInfluencesTimed.cs" />
+     <Compile Include="Assets/Rewired/Examples/Shared/Scripts/Bullet.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Triggers/ProCamera2DTriggerRails.cs" />
+     <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DRoomsEnter.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DCameraWindow.cs" />
+     <Compile Include="Assets/Scripts/TransitionOut.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UISliderControl.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ScrollbarVisibilityHelper.cs" />
+     <Compile Include="Assets/Scripts/DestroyAfter.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DContentFitter.cs" />
+     <Compile Include="Assets/Rewired/Examples/GamepadTemplateUI/Scripts/GamepadTemplateUI.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Triggers/ProCamera2DTriggerBoundaries.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIGroup.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Core/IPostMover.cs" />
+     <Compile Include="Assets/Scripts/testing.cs" />
+     <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
+     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
+     <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" />
      <None Include="Assets/ProCamera2D/Code/Helpers/TransitionFX/Resources/PC2D_Fade.shader" />
+     <None Include="Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc" />
+     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader" />
+     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets/Rewired/Documentation/ReleaseNotes.txt" />
      <None Include="Assets/Rewired/Documentation/ReadMe.txt" />
      <None Include="Assets/ProCamera2D/Code/Helpers/TransitionFX/Resources/PC2D_Texture.shader" />
+     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader" />
      <None Include="Assets/Rewired/Documentation/licences.txt" />
+     <None Include="Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt" />
+     <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader" />
+     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF.shader" />
+     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader" />
+     <None Include="Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt" />
      <None Include="Assets/ProCamera2D/Code/Helpers/TransitionFX/Resources/PC2D_Circle.shader" />
+     <None Include="Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc" />
      <None Include="Assets/ProCamera2D/Code/Helpers/Letterbox/Resources/Letterbox.shader" />
+     <None Include="Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc" />
+     <None Include="Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt" />
      <None Include="Assets/ProCamera2D/TransitionFX Textures/README.txt" />
      <None Include="Assets/ProCamera2D/Code/Helpers/TransitionFX/Resources/PC2D_Wipe.shader" />
      <None Include="Assets/ProCamera2D/Code/Helpers/TransitionFX/Resources/PC2D_Blinds.shader" />
+     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader" />
      <None Include="Assets/ProCamera2D/Timeline/README.txt" />
+     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader" />
+     <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader" />
+     <None Include="Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt" />
      <None Include="Assets/ProCamera2D/Code/Helpers/TransitionFX/Resources/PC2D_Shutters.shader" />
+     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader" />
+     <None Include="Assets/TextMesh Pro/Shaders/TMP_Sprite.shader" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/Hub/Editor/2020.3.23f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -422,14 +444,14 @@
     <Reference Include="UnityEditor.UnityConnectModule">
         <HintPath>/Applications/Unity/Hub/Editor/2020.3.23f1/Unity.app/Contents/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Rewired_OSX">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Assets/Rewired/Internal/Libraries/Runtime/Rewired_OSX.dll</HintPath>
     </Reference>
     <Reference Include="Rewired_Core">
         <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Core.dll</HintPath>
     </Reference>
-    <Reference Include="Rewired_OSX">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Assets/Rewired/Internal/Libraries/Runtime/Rewired_OSX.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
         <HintPath>/Applications/Unity/Hub/Editor/2020.3.23f1/Unity.app/Contents/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -776,98 +798,128 @@
     <Reference Include="mscorlib">
         <HintPath>/Applications/Unity/Hub/Editor/2020.3.23f1/Unity.app/Contents/NetStandard/compat/2.0.0/shims/netfx/mscorlib.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.2D.Animation.Editor">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Animation.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.InternalAPIEngineBridge.001">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VSCode.Editor">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.PixelPerfect">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.PixelPerfect.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Tilemap.Editor">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="PsdPlugin">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/PsdPlugin.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro.Editor">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VisualStudio.Editor">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Timeline">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.IK.Editor">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.IK.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Sprite.Editor">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Psdimporter.Editor">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Psdimporter.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Path.Editor">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Path.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.InternalAPIEditorBridge.001">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.InternalAPIEditorBridge.001.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.PlasticSCM.Editor">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Rider.Editor">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Mathematics">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.IK.Runtime">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.IK.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Animation.Triangle.Runtime">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Animation.Triangle.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Animation.Runtime">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Animation.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.PixelPerfect.Editor">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.PixelPerfect.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Timeline.Editor">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Mathematics.Editor">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Common.Runtime">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Common.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.SpriteShape.Editor">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.SpriteShape.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Common.Editor">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Common.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.SpriteShape.Runtime">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Unity.2D.Animation.Editor.csproj">
+      <Project>{f6f0dce0-122a-0dc6-a11d-9a64486632c4}</Project>
+      <Name>Unity.2D.Animation.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.InternalAPIEngineBridge.001.csproj">
+      <Project>{a2726ec9-d22a-8913-a580-143b3612782e}</Project>
+      <Name>Unity.InternalAPIEngineBridge.001</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.VSCode.Editor.csproj">
+      <Project>{edd15e5e-98b4-a35b-a3d5-bb028abd0f55}</Project>
+      <Name>Unity.VSCode.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.PixelPerfect.csproj">
+      <Project>{71b26d72-26db-4304-6003-36911da42ad2}</Project>
+      <Name>Unity.2D.PixelPerfect</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.Tilemap.Editor.csproj">
+      <Project>{7048f872-c2ad-0929-f120-61cf07d5ef44}</Project>
+      <Name>Unity.2D.Tilemap.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="PsdPlugin.csproj">
+      <Project>{a40ebfbb-52ed-cb5a-f958-ba482888250c}</Project>
+      <Name>PsdPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.TextMeshPro.Editor.csproj">
+      <Project>{a4c4101c-a832-9ccc-444b-213bd1fa19df}</Project>
+      <Name>Unity.TextMeshPro.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.VisualStudio.Editor.csproj">
+      <Project>{613f6f07-7efc-60d0-1901-749f2b81e448}</Project>
+      <Name>Unity.VisualStudio.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Timeline.csproj">
+      <Project>{550e4771-fa83-9acf-8944-c8f938296354}</Project>
+      <Name>Unity.Timeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.TextMeshPro.csproj">
+      <Project>{dd86c4f7-7a78-7b78-bc45-4e64ed503694}</Project>
+      <Name>Unity.TextMeshPro</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.IK.Editor.csproj">
+      <Project>{31a2264f-165f-398a-9770-fd328c93f085}</Project>
+      <Name>Unity.2D.IK.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.Sprite.Editor.csproj">
+      <Project>{b8f981c0-69a4-900d-7618-4689bfe23a22}</Project>
+      <Name>Unity.2D.Sprite.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.Psdimporter.Editor.csproj">
+      <Project>{041a9d00-4c2f-ab02-ee7c-93ef53e9fe0d}</Project>
+      <Name>Unity.2D.Psdimporter.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.Path.Editor.csproj">
+      <Project>{22ce28fe-47ab-a7f9-3d12-df0ba7bb80d2}</Project>
+      <Name>Unity.2D.Path.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.InternalAPIEditorBridge.001.csproj">
+      <Project>{c7631d52-e039-a712-0877-9360f4364a34}</Project>
+      <Name>Unity.InternalAPIEditorBridge.001</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{a36d6521-5001-ed1d-1d8f-4486242797b0}</Project>
+      <Name>UnityEditor.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.PlasticSCM.Editor.csproj">
+      <Project>{589e1f91-d4e2-8002-ac4f-056d6743654f}</Project>
+      <Name>Unity.PlasticSCM.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Rider.Editor.csproj">
+      <Project>{ed856674-d8a7-32fc-8977-f61f643e81df}</Project>
+      <Name>Unity.Rider.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.UI.csproj">
+      <Project>{2f406119-228b-f66d-e341-cd51281f00a1}</Project>
+      <Name>UnityEngine.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Mathematics.csproj">
+      <Project>{585b5ae0-ba90-cf44-3e65-1ef23633c424}</Project>
+      <Name>Unity.Mathematics</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.IK.Runtime.csproj">
+      <Project>{95bd44d2-070c-7927-37c1-adb49273b4f4}</Project>
+      <Name>Unity.2D.IK.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.Animation.Triangle.Runtime.csproj">
+      <Project>{315eb858-da87-ec68-7f7b-e4f640ab1676}</Project>
+      <Name>Unity.2D.Animation.Triangle.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.Animation.Runtime.csproj">
+      <Project>{8dfc9b50-154c-74b7-9660-883139c8feb7}</Project>
+      <Name>Unity.2D.Animation.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.PixelPerfect.Editor.csproj">
+      <Project>{2933210b-3296-0258-0235-23381dd90b83}</Project>
+      <Name>Unity.2D.PixelPerfect.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Timeline.Editor.csproj">
+      <Project>{c04837a3-35e5-c3f4-7315-51546e733992}</Project>
+      <Name>Unity.Timeline.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Mathematics.Editor.csproj">
+      <Project>{074172b7-4f49-02da-220e-957e9da7f62a}</Project>
+      <Name>Unity.Mathematics.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.Common.Runtime.csproj">
+      <Project>{7e557641-b9cf-5475-238e-92092ff4bd50}</Project>
+      <Name>Unity.2D.Common.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.SpriteShape.Editor.csproj">
+      <Project>{2c7badaa-374c-3570-bb91-d2c397fef18f}</Project>
+      <Name>Unity.2D.SpriteShape.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.Common.Editor.csproj">
+      <Project>{3f91c617-19fa-3923-a7e1-f053985b259d}</Project>
+      <Name>Unity.2D.Common.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.SpriteShape.Runtime.csproj">
+      <Project>{0c2d501a-1ab2-294d-3cbb-d77671492550}</Project>
+      <Name>Unity.2D.SpriteShape.Runtime</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

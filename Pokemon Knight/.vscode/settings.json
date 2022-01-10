@@ -1,6 +1,9 @@
-﻿{
+{
     "files.exclude":
     {
+        "git.decorations.enabled": true,
+        "workbench.editor.decorations.badges":true,
+        "workbench.editor.decorations.colors":true,
         "**/.DS_Store":true,
         "**/.git":true,
         "**/.gitignore":true,
@@ -52,5 +55,6 @@
         "ProjectSettings/":true,
         "temp/":true,
         "Temp/":true
-    }
+    },
+    "omnisharp.useGlobalMono": "always"
 }

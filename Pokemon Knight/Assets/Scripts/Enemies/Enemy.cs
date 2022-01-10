@@ -12,7 +12,7 @@ public abstract class Enemy : MonoBehaviour
     public int hp;
     public int expPossess=5;
     protected PlayerControls playerControls;
-
+    
 
     [Space]
     [Header("Level Bonus")]

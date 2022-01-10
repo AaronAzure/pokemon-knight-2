@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Caterpie : Enemy
 {
-    public float moveSpeedf=5;
+    public float moveSpeed=5;
     public float distanceDetect=2f;
     [SerializeField] private bool movingRight = false;
     public Transform groundDetection;

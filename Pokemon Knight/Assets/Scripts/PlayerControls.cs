@@ -63,6 +63,7 @@ public class PlayerControls : MonoBehaviour
     [Space]
     [SerializeField] private Transform feetPos; // To detect ground
     [SerializeField] private float feetRadius;
+    [SerializeField] private Vector2 feetBox;
     [SerializeField] private LayerMask whatIsGround;
     [HideInInspector] public bool grounded = true;
     [HideInInspector] public bool jumping = false;
@@ -114,6 +115,7 @@ public class PlayerControls : MonoBehaviour
     {
         player = ReInput.players.GetPlayer(playerID);
         hp = maxHp;
+        
         if (camTransition != null)
             camTransition.TransitionEnter();
     }
@@ -125,12 +127,13 @@ public class PlayerControls : MonoBehaviour
             if (!receivingKnockback)
                 rb.velocity = new Vector2(xValue * moveSpeed, rb.velocity.y);   
 
-            grounded = Physics2D.OverlapCircle(feetPos.position, feetRadius, whatIsGround);
+            // grounded = Physics2D.OverlapCircle(feetPos.position, feetRadius, whatIsGround);
+            grounded = Physics2D.OverlapBox(feetPos.position, feetBox, 0, whatIsGround);
+            // grounded = physi;
             if (rb.velocity.y == 0 && grounded)
                 anim.SetBool("isGrounded", true);
             // else
             //     anim.SetBool("isGrounded", false);
-
 
             //* Walking animation
             if (!dashing)
@@ -193,7 +196,8 @@ public class PlayerControls : MonoBehaviour
                         
                         //* Looking left
                         if (holder.transform.localScale.x < 0)
-                            pokemon.transform.localScale *= new Vector2(-1,1);
+                            // pokemon.transform.localScale *= new Vector2(-1,1);
+                            pokemon.transform.eulerAngles = new Vector3(0,180);
                     }
                 }
                 if (canPressButtonEast && player.GetButtonDown("A"))
@@ -209,7 +213,8 @@ public class PlayerControls : MonoBehaviour
                         
                         //* Looking left
                         if (holder.transform.localScale.x < 0)
-                            pokemon.transform.localScale *= new Vector2(-1,1);
+                            // pokemon.transform.localScale *= new Vector2(-1,1);
+                            pokemon.transform.eulerAngles = new Vector3(0,180);
                     }
                 }
                 if (canPressButtonNorth && player.GetButtonDown("X"))
@@ -226,7 +231,7 @@ public class PlayerControls : MonoBehaviour
                         //* Looking left
                         if (holder.transform.localScale.x < 0)
                             pokemon.transform.eulerAngles = new Vector3(0,180);
-                            // pokemon.transform.localScale *= new Vector2(-1,1);
+                            //! pokemon.transform.localScale *= new Vector2(-1,1);
                     }
                 }
             }
@@ -274,7 +279,12 @@ public class PlayerControls : MonoBehaviour
                 hpImg.color = new Color(0f, 0.85f, 0f);
         }
     }
-
+    private void OnDrawGizmosSelected() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(feetPos.position, feetBox);
+        // Gizmos.DrawLine(groundDetection.position, groundDetection.position + new Vector3(0,-distanceDetect));
+        // Gizmos.DrawLine(face.position, face.position + new Vector3(-forwardDetect,0));
+    }
 
     private void Jump()
     {
@@ -293,9 +303,11 @@ public class PlayerControls : MonoBehaviour
     private void playerDirection(float xValue=0)
     {
         if (xValue < -0.01f)
-            holder.transform.localScale = new Vector3(-localX, localX, localX);
+            //! holder.transform.localScale = new Vector3(-localX, localX, localX);
+            holder.transform.eulerAngles = new Vector3(0,180);
         else if (xValue > 0.01f)
-            holder.transform.localScale = new Vector3(localX, localX, localX);
+            //! holder.transform.localScale = new Vector3(localX, localX, localX);
+            holder.transform.eulerAngles = new Vector3(0,0);
     }
 
     IEnumerator restoreDash()

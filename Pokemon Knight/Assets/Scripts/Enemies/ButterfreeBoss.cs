@@ -62,12 +62,14 @@ public class ButterfreeBoss : Enemy
         if (target.x - this.transform.position.x > 0)
         {
             // Debug.Log("looking right");
-            model.transform.localScale = new Vector3(-localX, localX, 1);
+            //! model.transform.localScale = new Vector3(-localX, localX, 1);
+            model.transform.eulerAngles = new Vector3(0,180);
         }
         else if (target.x - this.transform.position.x < 0)
         {
             // Debug.Log("looking left");
-            model.transform.localScale = new Vector3(localX, localX, 1);
+            model.transform.eulerAngles = new Vector3(0,0);
+            //! model.transform.localScale = new Vector3(localX, localX, 1);
         }
     }
 
