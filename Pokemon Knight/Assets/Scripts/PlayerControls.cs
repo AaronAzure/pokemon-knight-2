@@ -173,7 +173,7 @@ public class PlayerControls : MonoBehaviour
             // * Dashing
             else
             {
-                if (holder.transform.eulerAngles.y >= 0)
+                if (holder.transform.eulerAngles.y < 180)
                     rb.velocity = Vector2.right * dashSpeed;
                 else
                     rb.velocity = Vector2.left * dashSpeed;

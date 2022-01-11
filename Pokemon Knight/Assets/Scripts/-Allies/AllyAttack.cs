@@ -7,11 +7,11 @@ public class AllyAttack : MonoBehaviour
     // public Transform atkPos;
     // public LayerMask whatIsEnemy;
     // public float atkRange;
-    public int atkDmg;
-    public int atkForce;    // knockback force
+    [HideInInspector] public int atkDmg;
+    [HideInInspector] public int atkForce;    // knockback force
 
-    [SerializeField] private GameObject physicalAtkObj;
-    [SerializeField] private bool physicalAtk;
+    [SerializeField] private GameObject spawnEffectObj;
+    [SerializeField] private bool spawnEffect;
 
     public float velocity=0;
     public Rigidbody2D body;
@@ -32,9 +32,9 @@ public class AllyAttack : MonoBehaviour
             {
                 // Debug.Log(script.name + "  -  " + script.GetType());
                 script.GetComponent<Enemy>().TakeDamage(atkDmg, this.transform, atkForce);
-                if (physicalAtk && physicalAtkObj != null)
+                if (spawnEffect && spawnEffectObj != null)
                 {
-                    var obj = Instantiate(physicalAtkObj, script.gameObject.transform.position, Quaternion.identity);
+                    var obj = Instantiate(spawnEffectObj, script.gameObject.transform.position, Quaternion.identity);
                     Destroy(obj.gameObject, 0.5f);
                 }
                 // script.SendMessage("TakeDamage", atkPower, SendMessageOptions.DontRequireReceiver); //! SendMessage = calling methods from unknown classes

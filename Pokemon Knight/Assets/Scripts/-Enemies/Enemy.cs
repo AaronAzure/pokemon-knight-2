@@ -28,6 +28,7 @@ public abstract class Enemy : MonoBehaviour
     public Rigidbody2D body;
     public GameObject model;    // sprites holder
     protected bool receivingKnockback;
+    [Tooltip("1 = 100% kb, 0 = 0%")] [Range(0,1f)] protected float kbDefense=1;
     [SerializeField] protected LayerMask whatIsGround;
 
     //* UI
@@ -149,7 +150,7 @@ public abstract class Enemy : MonoBehaviour
         receivingKnockback = true;
         Vector2 direction = (opponent.position - this.transform.position).normalized;
         direction *= new Vector2(1,0);
-        body.AddForce(-direction * force, ForceMode2D.Impulse);
+        body.AddForce(-direction * force * kbDefense, ForceMode2D.Impulse);
         
         yield return new WaitForSeconds(0.1f);
         body.velocity = Vector2.zero;
@@ -158,7 +159,7 @@ public abstract class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.tag == "Player" && hp > 0 && !inCutscene)
+        if (other.gameObject.CompareTag("Player") && hp > 0 && !inCutscene)
         {
             PlayerControls player = other.gameObject.GetComponent<PlayerControls>();
             player.TakeDamage(contactDmg, this.transform, contactKb);
