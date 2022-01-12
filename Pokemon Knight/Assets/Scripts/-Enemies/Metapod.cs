@@ -8,20 +8,24 @@ public class Metapod : Enemy
     public float distanceDetect=2f;
     public Transform groundDetection;
     [SerializeField] private LayerMask whatIsPlayer;
+    
 
+    void Start() {
+        
+    }
 
     void FixedUpdate() 
     {
         if (!receivingKnockback)
             body.velocity = new Vector2(-moveSpeed, body.velocity.y);
-        RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsPlayer);
+        RaycastHit2D playerDetect = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsPlayer);
 
         //* If at edge, then turn around
-        if (plas)
-            Flip();
+        if (playerDetect)
+            Fall();
     }
 
-    private void Flip()
+    private void Fall()
     {
         if (model.transform.eulerAngles.y != 0)
             model.transform.eulerAngles = new Vector3(0, 0);

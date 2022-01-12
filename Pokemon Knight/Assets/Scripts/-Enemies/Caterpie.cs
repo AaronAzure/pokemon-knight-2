@@ -9,7 +9,7 @@ public class Caterpie : Enemy
     public Transform groundDetection;
     public float forwardDetect=2f;
     public Transform face;
-
+    
 
     void FixedUpdate() 
     {
