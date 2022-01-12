@@ -2,24 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Caterpie : Enemy
+public class Metapod : Enemy
 {
-    [Space] [Header("Caterpie")] public float moveSpeed=5;
+    [Space] [Header("Metapod")] 
     public float distanceDetect=2f;
     public Transform groundDetection;
-    public float forwardDetect=2f;
-    public Transform face;
+    [SerializeField] private LayerMask whatIsPlayer;
 
 
     void FixedUpdate() 
     {
         if (!receivingKnockback)
             body.velocity = new Vector2(-moveSpeed, body.velocity.y);
-        RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsGround);
-        RaycastHit2D frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
+        RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsPlayer);
 
         //* If at edge, then turn around
-        if (body.velocity.y >= 0 && (!groundInfo || frontInfo))
+        if (plas)
             Flip();
     }
 

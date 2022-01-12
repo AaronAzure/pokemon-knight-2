@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ButterfreeBoss : Enemy
 {
-    public float moveSpeed=7.5f;
+    [Space] [Header("Butterfree")]  public float moveSpeed=7.5f;
     public float dashSpeed=50;
     public GameObject player;
     private Vector3 target;
