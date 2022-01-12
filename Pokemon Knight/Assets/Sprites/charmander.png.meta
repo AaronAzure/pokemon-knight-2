@@ -50,6 +50,7 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -58,9 +59,9 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
-    aniso: -1
-    mipBias: -100
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -81,9 +82,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 0
   platformSettings:
   - serializedVersion: 3
@@ -130,11 +134,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 18
-        y: 340
-        width: 104
-        height: 146
+        y: 347
+        width: 108
+        height: 150
       alignment: 9
-      pivot: {x: 0.8027391, y: 0.12435202}
+      pivot: {x: 0.77, y: 0.15}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -150,12 +154,12 @@ TextureImporter:
       name: charmander_1
       rect:
         serializedVersion: 2
-        x: 141
-        y: 340
-        width: 104
-        height: 146
+        x: 145
+        y: 348
+        width: 108
+        height: 150
       alignment: 9
-      pivot: {x: 0.8027389, y: 0.12435202}
+      pivot: {x: 0.23, y: 0.15}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -171,12 +175,12 @@ TextureImporter:
       name: charmander_2
       rect:
         serializedVersion: 2
-        x: 266
-        y: 401
-        width: 88
-        height: 90
+        x: 272
+        y: 297
+        width: 240
+        height: 203
       alignment: 9
-      pivot: {x: 0.6731207, y: 0.8611165}
+      pivot: {x: 0.2, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -192,12 +196,12 @@ TextureImporter:
       name: charmander_3
       rect:
         serializedVersion: 2
-        x: 499
-        y: 289
-        width: 210
-        height: 193
+        x: 533
+        y: 294
+        width: 245
+        height: 207
       alignment: 9
-      pivot: {x: 0.3177284, y: 0.16356805}
+      pivot: {x: 0.2, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -213,12 +217,12 @@ TextureImporter:
       name: charmander_4
       rect:
         serializedVersion: 2
-        x: 742
-        y: 177
-        width: 216
-        height: 259
+        x: 755
+        y: 10
+        width: 221
+        height: 266
       alignment: 9
-      pivot: {x: 0.8103344, y: 0.17844571}
+      pivot: {x: 0.85, y: 0.15}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -231,36 +235,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: charmander_5
-      rect:
-        serializedVersion: 2
-        x: 266
-        y: 340
-        width: 95
-        height: 43
-      alignment: 6
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bfc2ee3345df6d720800000000000000
-      internalID: 2870760350585597179
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: charmander_6
       rect:
         serializedVersion: 2
         x: 25
-        y: 150
-        width: 168
-        height: 159
+        y: 112
+        width: 173
+        height: 164
       alignment: 9
-      pivot: {x: 0.33677197, y: 0.8129963}
+      pivot: {x: 0.3, y: 0.9}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -276,12 +259,12 @@ TextureImporter:
       name: charmander_7
       rect:
         serializedVersion: 2
-        x: 203
-        y: 150
-        width: 168
-        height: 159
+        x: 206
+        y: 112
+        width: 173
+        height: 164
       alignment: 9
-      pivot: {x: 0.2884081, y: 0.80660856}
+      pivot: {x: 0.3, y: 0.9}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -297,12 +280,12 @@ TextureImporter:
       name: charmander_8
       rect:
         serializedVersion: 2
-        x: 376
-        y: 1
-        width: 240
-        height: 274
+        x: 411
+        y: 4
+        width: 243
+        height: 278
       alignment: 9
-      pivot: {x: 0.26627493, y: 0.041080814}
+      pivot: {x: 0.28604063, y: 0.078114055}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

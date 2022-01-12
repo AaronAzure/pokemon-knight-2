@@ -28,7 +28,7 @@ public abstract class Enemy : MonoBehaviour
     public Rigidbody2D body;
     public GameObject model;    // sprites holder
     protected bool receivingKnockback;
-    [Tooltip("1 = 100% kb, 0 = 0%")] [Range(0,1f)] protected float kbDefense=1;
+    [Tooltip("1 = 100% kb, 0 = 0%")] [SerializeField] [Range(0,1f)] protected float kbDefense=1;
     [SerializeField] protected LayerMask whatIsGround;
 
     //* UI
@@ -54,6 +54,10 @@ public abstract class Enemy : MonoBehaviour
     [Header("Damage Related")]
     public int contactDmg=5;
     public float contactKb=30;
+    
+    [Space] [SerializeField] private SpriteRenderer[] renderers;
+    [SerializeField] private Material flashMat;
+    [SerializeField] private Material origMat;
 
 
     private void Awake()
@@ -115,6 +119,8 @@ public abstract class Enemy : MonoBehaviour
             // Destroy(holder.gameObject, 0.5f);
             // var obj = Instantiate(dmgText, new Vector3(transform.position.x, transform.position.y + 2), Quaternion.identity, holder.transform);
             // obj.text = dmg.ToString();
+            if (dmg > 0)
+                StartCoroutine( Flash() );
 
             if (force > 0 && opponent != null)
                 StartCoroutine( ApplyKnockback(opponent, force) );
@@ -156,6 +162,22 @@ public abstract class Enemy : MonoBehaviour
         body.velocity = Vector2.zero;
         receivingKnockback = false;
     }
+    IEnumerator Flash()
+    {
+        foreach (SpriteRenderer renderer in renderers)
+        {
+            if (flashMat != null && origMat != null)
+                renderer.material = flashMat;
+        }
+        
+        yield return new WaitForSeconds(0.1f);
+        foreach (SpriteRenderer renderer in renderers)
+        {
+            if (flashMat != null && origMat != null)
+                renderer.material = origMat;
+        }
+
+    }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -165,6 +187,9 @@ public abstract class Enemy : MonoBehaviour
             player.TakeDamage(contactDmg, this.transform, contactKb);
         }    
     }
+
+
+    // todo  (BOSS)  ------------------------------------------------------------
 
     // Cutscene
     protected IEnumerator BossIntro()

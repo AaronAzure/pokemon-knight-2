@@ -1,10 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AllySquirtle : Ally
 {
-    [SerializeField] private AllyProjectile watergunObj;
+    [Space] [Header("Squirtle")] [SerializeField] private AllyProjectile watergunObj;
     [SerializeField] private Transform atkPos;
     private void Start() 
     {
@@ -13,7 +12,7 @@ public class AllySquirtle : Ally
     }
     IEnumerator Watergun()
     {
-        yield return new WaitForSeconds(0.125f);
+        yield return new WaitForSeconds(0.25f);
         var obj = Instantiate(watergunObj, atkPos.position, Quaternion.identity);
         obj.atkDmg = this.atkDmg;
         obj.atkForce = this.atkForce;

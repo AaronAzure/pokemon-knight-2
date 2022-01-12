@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AllyAttack : MonoBehaviour
 {
@@ -13,7 +11,7 @@ public class AllyAttack : MonoBehaviour
     [SerializeField] private GameObject spawnEffectObj;
     [SerializeField] private bool spawnEffect;
 
-    public float velocity=0;
+    [Header("Moving projectile")] public float velocity=0;
     public Rigidbody2D body;
 
 
@@ -24,9 +22,9 @@ public class AllyAttack : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if (other.tag == "Enemy")
+        // Debug.Log("-- logging " + other.name);
+        if (other.CompareTag("Enemy"))
         {
-            // Debug.Log("-- logging " + other.name);
             Component[] scripts = other.GetComponents(typeof(Enemy));
             foreach (var script in scripts)
             {

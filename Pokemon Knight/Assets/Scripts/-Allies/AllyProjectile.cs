@@ -9,7 +9,6 @@ public class AllyProjectile : MonoBehaviour
 
     [SerializeField] private GameObject trailObj;
     [SerializeField] private GameObject explosionObj;
-    [SerializeField] private bool physicalAtk;
 
     public float velocity=0;
     public Rigidbody2D body;
@@ -24,28 +23,38 @@ public class AllyProjectile : MonoBehaviour
     public IEnumerator UnparentTrail()
     {
         yield return new WaitForSeconds(0.5f);
-        trailObj.transform.parent = null;
+        if (trailObj != null) 
+        {
+            trailObj.transform.parent = null;
+        }
         Destroy(this.gameObject);
     }
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if (other.CompareTag("Ground") || other.CompareTag("Enemy"))
-            trailObj.transform.parent = null;
-        if (other.tag == "Enemy")
         {
-            Component[] scripts = other.GetComponents(typeof(Enemy));
-            foreach (var script in scripts)
+            if (trailObj != null) 
+                trailObj.transform.parent = null;
+            if (other.tag == "Enemy")
             {
-                script.GetComponent<Enemy>().TakeDamage(atkDmg, this.transform, atkForce);
-                if (explosionObj != null)
+                Component[] scripts = other.GetComponents(typeof(Enemy));
+                foreach (var script in scripts)
                 {
-                    var obj = Instantiate(explosionObj, script.gameObject.transform.position, Quaternion.identity);
-                    Destroy(obj.gameObject, 0.5f);
+                    script.GetComponent<Enemy>().TakeDamage(atkDmg, this.transform, atkForce);
+                    // if (explosionObj != null)
+                    // {
+                    //     var obj = Instantiate(explosionObj, script.gameObject.transform.position, Quaternion.identity);
+                    //     Destroy(obj.gameObject, 0.5f);
+                    // }
                 }
             }
-        }
-        if (other.CompareTag("Ground") || other.CompareTag("Enemy"))
+            if (explosionObj != null)
+            {
+                var obj = Instantiate(explosionObj, this.transform.position, Quaternion.identity);
+                Destroy(obj.gameObject, 0.5f);
+            }
             Destroy(this.gameObject);
+        }
     }
 
 }

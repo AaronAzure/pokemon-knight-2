@@ -23,7 +23,8 @@ public class PlayerControls : MonoBehaviour
     [Space]
     public TextMeshProUGUI lvText;
     [SerializeField] private float effectSpeed = 0.005f;
-    public ProCamera2DTransitionsFX camTransition;
+    // public ProCamera2DTransitionsFX camTransition;
+    public Animator transitionAnim;
     
     [Space] 
     public Image pokeballY1;
@@ -43,6 +44,12 @@ public class PlayerControls : MonoBehaviour
 
     
     [Space]
+    [Header("Damage Related")]
+    [SerializeField] private SpriteRenderer[] renderers;
+    [SerializeField] private Material flashMat;
+    [SerializeField] private Material origMat;
+
+    [Space]
     [Header("Player data")]
     public int maxHp;
     public int hp;  // current hp
@@ -54,8 +61,8 @@ public class PlayerControls : MonoBehaviour
     [Space] [Header("Platformer Mechanics")]
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private float moveSpeed = 10;
-    [SerializeField] private float dashSpeed = 75;
-    [SerializeField] private float dashTime = 0.5f;
+    [SerializeField] private float dashSpeed = 50;
+    [SerializeField] private float dashTime = 0.3f;
     [SerializeField] private float jumpHeight = 10;
     [SerializeField] private float jumpTimer = 0.35f;
     private float jumpTimerCounter = 0;
@@ -65,7 +72,8 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float feetRadius;
     [SerializeField] private Vector2 feetBox;
     [SerializeField] private LayerMask whatIsGround;
-    [HideInInspector] public bool grounded = true;
+    [SerializeField]    private bool falling;
+    [SerializeField] public bool grounded = true;
     [HideInInspector] public bool jumping = false;
     private bool receivingKnockback;
     private int dashes = 1;
@@ -116,8 +124,10 @@ public class PlayerControls : MonoBehaviour
         player = ReInput.players.GetPlayer(playerID);
         hp = maxHp;
         
-        if (camTransition != null)
-            camTransition.TransitionEnter();
+        // if (camTransition != null)
+        //     camTransition.TransitionEnter();
+        if (transitionAnim != null)
+            transitionAnim.SetTrigger("fromBlack");
     }
     void Update()
     {
@@ -131,7 +141,18 @@ public class PlayerControls : MonoBehaviour
             grounded = Physics2D.OverlapBox(feetPos.position, feetBox, 0, whatIsGround);
             // grounded = physi;
             if (rb.velocity.y == 0 && grounded)
+            {
                 anim.SetBool("isGrounded", true);
+                anim.SetBool("isFalling", false);
+                falling = false;
+            }
+            
+            if (rb.velocity.y < -0.1f && !grounded)
+            {
+                anim.SetTrigger("fall");
+                anim.SetBool("isFalling", true);
+                falling = true;
+            }
             // else
             //     anim.SetBool("isGrounded", false);
 
@@ -190,12 +211,14 @@ public class PlayerControls : MonoBehaviour
                         nPokemonOut++;
                         var pokemon = Instantiate(bulbasaur, spawnPos.position, bulbasaur.transform.rotation);
                         Ally ally = pokemon.GetComponent<Ally>();
-                        ally.body.velocity = Vector2.up * this.rb.velocity.y;
+                        // ally.body.velocity = Vector2.up * this.rb.velocity.y;
+                        ally.body.velocity = this.rb.velocity;
+                        ally.trainer = this.gameObject;
+
                         StartCoroutine( PokemonYCooldown(ally.outTime, ally.resummonTime) );
                         // pokemon.SendMessage("WaitTime", null, SendMessageOptions.DontRequireReceiver);
                         
                         //* Looking left
-                        Debug.Log(holder.transform.eulerAngles.y);
                         if (holder.transform.eulerAngles.y > 0)
                             pokemon.transform.eulerAngles = new Vector3(0,-180);
                     }
@@ -207,7 +230,10 @@ public class PlayerControls : MonoBehaviour
                         nPokemonOut++;
                         var pokemon = Instantiate(squirtle, spawnPos.position, squirtle.transform.rotation);
                         Ally ally = pokemon.GetComponent<Ally>();
-                        ally.body.velocity = Vector2.up * this.rb.velocity.y;
+                        // ally.body.velocity = Vector2.up * this.rb.velocity.y;
+                        ally.body.velocity = this.rb.velocity;
+                        ally.trainer = this.gameObject;
+
                         StartCoroutine( PokemonACooldown(ally.outTime, ally.resummonTime) );
                         // pokemon.SendMessage("WaitTime", null, SendMessageOptions.DontRequireReceiver);
                         
@@ -223,7 +249,10 @@ public class PlayerControls : MonoBehaviour
                         nPokemonOut++;
                         var pokemon = Instantiate(charmander, spawnPos.position, charmander.transform.rotation);
                         Ally ally = pokemon.GetComponent<Ally>();
-                        ally.body.velocity = Vector2.up * this.rb.velocity.y;
+                        // ally.body.velocity = Vector2.up * this.rb.velocity.y;
+                        ally.body.velocity = this.rb.velocity;
+                        ally.trainer = this.gameObject;
+
                         StartCoroutine( PokemonXCooldown(ally.outTime, ally.resummonTime) );
                         // pokemon.SendMessage("WaitTime", null, SendMessageOptions.DontRequireReceiver);
                         
@@ -326,6 +355,8 @@ public class PlayerControls : MonoBehaviour
         if (hp > 0)
         {
             hp -= dmg;
+            if (dmg > 0)
+                StartCoroutine( Flash() );
             // Debug.Log("player took " + dmg + ", with force " + force + ", by " + opponent.name);
 
             if (force > 0 && opponent != null)
@@ -335,6 +366,22 @@ public class PlayerControls : MonoBehaviour
             {
                 StartCoroutine( Died() );
             }
+        }
+    }
+
+    IEnumerator Flash()
+    {
+        foreach (SpriteRenderer renderer in renderers)
+        {
+            if (flashMat != null && origMat != null)
+                renderer.material = flashMat;
+        }
+        
+        yield return new WaitForSeconds(0.1f);
+        foreach (SpriteRenderer renderer in renderers)
+        {
+            if (flashMat != null && origMat != null)
+                renderer.material = origMat;
         }
     }
 
@@ -370,14 +417,18 @@ public class PlayerControls : MonoBehaviour
         Time.timeScale = 0.25f;
 
         yield return new WaitForSeconds(0.4f);
-        if (camTransition != null)
-            camTransition.TransitionExit();
+        // if (camTransition != null)
+        //     camTransition.TransitionExit();
+        if (transitionAnim != null)
+            transitionAnim.SetTrigger("toBlack");
     }
 
     public void SetNextArea(string nextArea, float xPos, float yPos, bool walkLeft)
     {
-        if (camTransition != null)
-            camTransition.TransitionExit();
+        // if (camTransition != null)
+        //     camTransition.TransitionExit();
+        if (transitionAnim != null)
+            transitionAnim.SetTrigger("toBlack");
         StartCoroutine( MovingToNextArea(nextArea, xPos, yPos, walkLeft) );
     }
     public IEnumerator MovingToNextArea(string nextArea, float xPos, float yPos, bool walkLeft)
@@ -395,8 +446,10 @@ public class PlayerControls : MonoBehaviour
             this.transform.position = new Vector3(xPos,yPos);
 
             yield return new WaitForSeconds(0.1f);
-            if (camTransition != null)
-                camTransition.TransitionEnter();
+            // if (camTransition != null)
+            //     camTransition.TransitionEnter();
+            if (transitionAnim != null)
+                transitionAnim.SetTrigger("fromBlack");
             
             yield return new WaitForSeconds(0.4f);
 
