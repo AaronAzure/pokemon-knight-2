@@ -11,7 +11,6 @@ public class PlayerControls : MonoBehaviour
 {
     private Player player;
     public int playerID = 0;
-    public GameManager manager;
     
 
     [Space] [Header("Ui")]
@@ -96,6 +95,7 @@ public class PlayerControls : MonoBehaviour
     private int nExtraJumps = 1;
     private int nExtraJumpsLeft = 1;
     [SerializeField] private Transform doubleJumpSpawnPos;
+    private MusicManager musicManager;
     // private bool groundedDouble = true;
 
 
@@ -130,6 +130,9 @@ public class PlayerControls : MonoBehaviour
         
         if (transitionAnim != null)
             transitionAnim.SetTrigger("fromBlack");
+        
+        if (musicManager == null)
+            musicManager = GameObject.Find("Music Manager").GetComponent<MusicManager>();
     }
     void Update()
     {
