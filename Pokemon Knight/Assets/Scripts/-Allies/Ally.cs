@@ -4,24 +4,30 @@ using UnityEngine;
 
 public abstract class Ally : MonoBehaviour
 {
-    [HideInInspector] public GameObject trainer;    // player who summoned
     [Space] [SerializeField] protected GameObject model;
     [Space] public AllyAttack hitbox;  // Separate gameobject with collider
     public int atkDmg;
     public int atkForce;
     public float outTime = 0.5f;    // Time pokemon appears in the overworld
     public float resummonTime = 0.5f;    // Delay before calling pokemon again
-
+    // [SerializeField] private int delayTimes=50;
     [Space] public Rigidbody2D body;
     [Space] [Tooltip("PokeballTrail prefab - return back to player")] public FollowTowards trailObj;
+    
+
+    // [Header("Called from player")]
+    [HideInInspector] public PlayerControls trainer;    // player who summoned
+    [HideInInspector] public string button;
+
 
     [Header("Flash")]
     [SerializeField] protected SpriteRenderer[] renderers;
     [SerializeField] protected Material flashMat;
 
+
     [Header("Physics")] 
     [SerializeField] private LayerMask whatIsGround;
-    [SerializeField] private float feetRadius=0.1f;
+    [SerializeField] private float feetRadius=0.01f;
     private bool once;
     
 
@@ -38,13 +44,12 @@ public abstract class Ally : MonoBehaviour
         StartCoroutine( BackToBall() );
     }
 
-    void FixedUpdate() 
+    void Update() 
     {
-        // bool grounded = Physics2D.OverlapCircle(this.transform.position, feetRadius, whatIsGround);
         if (!once)
         {
             RaycastHit2D groundInfo = Physics2D.Raycast(this.transform.position, Vector2.down, feetRadius, whatIsGround);
-            if (groundInfo)
+            if (groundInfo && body != null)
                 body.velocity = Vector2.zero;
         }
     }
@@ -52,7 +57,7 @@ public abstract class Ally : MonoBehaviour
     protected IEnumerator BackToBall()
     {
         yield return new WaitForSeconds(outTime);
-        int times = 20;
+        int times = 40;
         float x = model.transform.localScale.x / times;
         foreach (SpriteRenderer renderer in renderers)
         {
@@ -62,12 +67,28 @@ public abstract class Ally : MonoBehaviour
         for (int i=0 ; i<times ; i++)
         {
             model.transform.localScale -= new Vector3(x,x);
+            // yield return new WaitForSeconds(0.01f);
             yield return new WaitForEndOfFrame();
         }
-        var returnObj = Instantiate(trailObj, this.transform.position, Quaternion.identity);
-        if (trainer != null)
-            returnObj.target = trainer.transform;
+        if (trailObj != null)
+        {
+            var returnObj = Instantiate(trailObj, this.transform.position, Quaternion.identity, null);
+            returnObj.button = this.button;
+            returnObj.cooldownTime = this.resummonTime;
 
+            if (trainer != null)
+            {
+                returnObj.player = this.trainer;
+                returnObj.target = trainer.transform;
+            }
+            else
+            {
+                Debug.LogError(" PlayerControls not assigned to Ally.trainer");
+            }
+        }
+
+        // yield return new WaitForSeconds(0.01f);
+        yield return new WaitForEndOfFrame();
         Destroy(this.gameObject);
     }
     // protected IEnumerator 

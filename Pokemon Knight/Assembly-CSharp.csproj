@@ -55,6 +55,7 @@
      <Compile Include="Assets/Scripts/-Allies/Ally.cs" />
      <Compile Include="Assets/Scripts/-Allies/AllyBulbasaur.cs" />
      <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/Player/PlayerInputBot.cs" />
+     <Compile Include="Assets/Scripts/-Allies/AllyButterfreeJump.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DSpeedBasedZoom.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/Brush/RoadBrush.cs" />
      <Compile Include="Assets/Scripts/NewArea.cs" />
@@ -86,17 +87,21 @@
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Utils/Vector2Int.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/MoveInColliderBoundaries.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CustomSlider.cs" />
+     <Compile Include="Assets/Scripts/FollowTowards.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/Window.cs" />
+     <Compile Include="Assets/Scripts/MusicManager.cs" />
      <Compile Include="Assets/Scripts/-Enemies/Enemy.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/TileObjectBehaviour.cs" />
      <Compile Include="Assets/Scripts/-Allies/AllyCharmander.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Examples/ControlMapperDemo/Scripts/ControlMapperDemoMessage.cs" />
+     <Compile Include="Assets/Scripts/BossRoom.cs" />
      <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DCinematicsToggle.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/Tileset.cs" />
      <Compile Include="Assets/Scripts/GameManager.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CustomToggle.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ToggleInfo.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/BoundariesAnimator.cs" />
+     <Compile Include="Assets/Scripts/RoomScreenLock.cs" />
      <Compile Include="Assets/ProCamera2D/ProCamera2D.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DPointerInfluence.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ButtonInfo.cs" />
@@ -131,6 +136,7 @@
      <Compile Include="Assets/ProCamera2D/Code/Helpers/TransitionFX/BasicBlit.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Utils/TilemapVertexPaintUtils.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/InputFieldInfo.cs" />
+     <Compile Include="Assets/Scripts/Framerate.cs" />
      <Compile Include="Assets/Scripts/-Enemies/Caterpie.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Triggers/ProCamera2DTriggerInfluence.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UITools.cs" />
@@ -141,8 +147,8 @@
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/TileDataAttribute.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/TilemapChunk_TileObjFactory.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIControlSet.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ControlMapper_Classes.cs" />
      <Compile Include="Assets/Rewired/Internal/Scripts/DataStorage/UserDataStore_PlayerPrefs.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ControlMapper_Classes.cs" />
      <Compile Include="Assets/Rewired/Integration/UnityUI/PlayerPointerEventData.cs" />
      <Compile Include="Assets/Rewired/Examples/PressAnyButtonToJoin/Scripts/PressAnyButtonToJoinExample_Assigner.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/ShakePreset.cs" />
@@ -153,6 +159,7 @@
      <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DShakeConstantWithPreset.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Utils/TilemapUtils.cs" />
      <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/DollyZoomExample.cs" />
+     <Compile Include="Assets/Scripts/WhiteFlash.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/clipper.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/Utils/EditorPrefsX.cs" />
      <Compile Include="Assets/Rewired/Internal/Scripts/Platforms/Ouya/OuyaInputSource.cs" />
@@ -218,6 +225,7 @@
      <Compile Include="Assets/Rewired/Integration/UnityUI/RewiredStandaloneInputModule.cs" />
      <Compile Include="Assets/Scripts/Feet.cs" />
      <Compile Include="Assets/Rewired/Integration/UnityUI/RewiredPointerInputModule.cs" />
+     <Compile Include="Assets/Scripts/-Enemies/Metapod.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Helpers/Parallax/ProCamera2DParallaxObject.cs" />
      <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DApplyInfluencesTimed.cs" />
      <Compile Include="Assets/Rewired/Examples/Shared/Scripts/Bullet.cs" />
@@ -233,9 +241,6 @@
      <Compile Include="Assets/ProCamera2D/Code/Triggers/ProCamera2DTriggerBoundaries.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIGroup.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/IPostMover.cs" />
-     <Compile Include="Assets/Scripts/FollowTowards.cs" />
-     <Compile Include="Assets/Scripts/WhiteFlash.cs" />
-     <Compile Include="Assets/Scripts/-Enemies/Metapod.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Epic Toon FX/Prefabs/Environment/Environment FX.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
@@ -943,6 +948,14 @@
       <Project>{95bd44d2-070c-7927-37c1-adb49273b4f4}</Project>
       <Name>Unity.2D.IK.Runtime</Name>
     </ProjectReference>
+    <ProjectReference Include="Cinemachine.csproj">
+      <Project>{fbdfd636-65fb-d71d-6c1a-bd581c3aaa0f}</Project>
+      <Name>Cinemachine</Name>
+    </ProjectReference>
+    <ProjectReference Include="com.unity.cinemachine.editor.csproj">
+      <Project>{ad8869a2-754d-db7c-3baa-420e025e75ce}</Project>
+      <Name>com.unity.cinemachine.editor</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.2D.Animation.Triangle.Runtime.csproj">
       <Project>{315eb858-da87-ec68-7f7b-e4f640ab1676}</Project>
       <Name>Unity.2D.Animation.Triangle.Runtime</Name>
@@ -978,14 +991,6 @@
     <ProjectReference Include="Unity.2D.SpriteShape.Runtime.csproj">
       <Project>{0c2d501a-1ab2-294d-3cbb-d77671492550}</Project>
       <Name>Unity.2D.SpriteShape.Runtime</Name>
-    </ProjectReference>
-    <ProjectReference Include="com.unity.cinemachine.editor.csproj">
-      <Project>{ad8869a2-754d-db7c-3baa-420e025e75ce}</Project>
-      <Name>com.unity.cinemachine.editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Cinemachine.csproj">
-      <Project>{fbdfd636-65fb-d71d-6c1a-bd581c3aaa0f}</Project>
-      <Name>Cinemachine</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

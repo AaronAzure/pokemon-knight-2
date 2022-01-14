@@ -24,14 +24,15 @@ public class AllyProjectile : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         if (trailObj != null) 
-        {
             trailObj.transform.parent = null;
-        }
-        Destroy(this.gameObject);
+
+        yield return new WaitForEndOfFrame();
+        if (this.gameObject != null)
+            Destroy(this.gameObject);
     }
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if (other.CompareTag("Ground") || other.CompareTag("Enemy"))
+        if (other.CompareTag("Ground") || other.CompareTag("Tree") || other.CompareTag("Enemy"))
         {
             if (trailObj != null) 
                 trailObj.transform.parent = null;

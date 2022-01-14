@@ -7,7 +7,7 @@ public class AllySquirtle : Ally
     [SerializeField] private Transform atkPos;
     private void Start() 
     {
-        StartCoroutine(Watergun());
+        StartCoroutine( Watergun() );
         StartCoroutine( BackToBall() );
     }
     IEnumerator Watergun()
@@ -18,6 +18,5 @@ public class AllySquirtle : Ally
         obj.atkForce = this.atkForce;
         if (this.transform.localScale.x < 0 || this.transform.eulerAngles.y == 180)    // looking left
             obj.velocity *= -1;
-        StartCoroutine( obj.UnparentTrail() );
     }
 }

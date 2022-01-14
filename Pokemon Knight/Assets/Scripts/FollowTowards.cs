@@ -7,8 +7,15 @@ public class FollowTowards : MonoBehaviour
     public Vector3 offset = new Vector3(0,1);
     [SerializeField] private float speed = 5;
     private bool done;
-
+    [SerializeField] private bool isPokemonReturning=true;
     [Space] [SerializeField] private ParticleSystem ps;
+
+    
+    [Header("Pokemon Returned")]
+    public bool powerup;
+    public PlayerControls player;
+    public string button;
+    public float cooldownTime=0.5f;
 
 
     // Start is called before the first frame update
@@ -39,13 +46,19 @@ public class FollowTowards : MonoBehaviour
 
     IEnumerator Done()
     {
-        this.transform.parent = target.transform;
-        // ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-        var main = ps.main;
-        main.loop = false;
+        if (isPokemonReturning)
+        {
+            this.transform.parent = target.transform;
+            // ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            var main = ps.main;
+            main.loop = false;
+            if (button != "" && player != null)
+            {
+                player.PokemonReturned(button, cooldownTime);
+            }
 
-        yield return new WaitForSeconds(0.5f);
-        Destroy(this.gameObject);
-
+            yield return new WaitForSeconds(0.25f);
+            Destroy(this.gameObject);
+        }
     }
 }

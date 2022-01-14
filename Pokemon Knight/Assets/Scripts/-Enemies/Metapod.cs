@@ -1,43 +1,41 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Metapod : Enemy
 {
-    [Space] [Header("Metapod")] 
-    public float distanceDetect=2f;
-    public Transform groundDetection;
-    [SerializeField] private LayerMask whatIsPlayer;
-    
+    [Space] [Header("Metapod")]
+    // public float distanceDetect=2f;
+    public LayerMask whatIsPlayer;
+    private bool once;
 
-    void Start() {
-        
+
+    // Start is called before the first frame update
+    public override void Start()
+    {
+        Setup();
+        if (body != null) body.gravityScale = 0;
     }
 
-    void FixedUpdate() 
+    // Update is called once per frame
+    void FixedUpdate()
     {
-        if (!receivingKnockback)
-            body.velocity = new Vector2(-moveSpeed, body.velocity.y);
-        RaycastHit2D playerDetect = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsPlayer);
+        if (!once)
+        {
+            // RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position, Vector2.down, 10, whatIsPlayer);
+            RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position, this.transform.position + new Vector3(0,-10), whatIsPlayer);
+            RaycastHit2D playerInfoRight = Physics2D.Linecast(
+                this.transform.position + new Vector3(1,0), this.transform.position + new Vector3(1,-10), whatIsPlayer);
+            RaycastHit2D playerInfoLeft = Physics2D.Linecast(
+                this.transform.position + new Vector3(-1,0), this.transform.position + new Vector3(-1,-10), whatIsPlayer);
 
-        //* If at edge, then turn around
-        if (playerDetect)
-            Fall();
-    }
+            // Player underneath or been hit
+            if (playerInfo || playerInfoRight || playerInfoLeft || body.velocity != Vector2.zero)
+            {
+                once = true;
+                body.gravityScale = 3;
+            }
+        }
 
-    private void Fall()
-    {
-        if (model.transform.eulerAngles.y != 0)
-            model.transform.eulerAngles = new Vector3(0, 0);
-        else
-            model.transform.eulerAngles = new Vector3(0, 180);
-        moveSpeed *= -1;
-    }
-
-    private void OnDrawGizmosSelected() 
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(groundDetection.position, groundDetection.position + new Vector3(0,-distanceDetect));
-        Gizmos.DrawLine(face.position, face.position + new Vector3(-forwardDetect,0));
     }
 }

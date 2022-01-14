@@ -11,7 +11,7 @@ public abstract class Enemy : MonoBehaviour
     public int maxHp=100;
     public int hp;
     public int expPossess=5;
-    protected PlayerControls playerControls;
+    [SerializeField] protected PlayerControls playerControls;
     
 
     [Space]
@@ -22,8 +22,8 @@ public abstract class Enemy : MonoBehaviour
     public int lvBreak=50;  // Additional bonus
     public int extraExp=2;  // Additional bonus
     
-    [SerializeField] private GameObject emptyHolder;
-    [SerializeField] private TextMeshPro dmgText;
+    //// [SerializeField] private GameObject emptyHolder;
+    //// [SerializeField] private TextMeshPro dmgText;
 
     public Rigidbody2D body;
     public GameObject model;    // sprites holder
@@ -45,7 +45,9 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected GameObject rageAuraObj;
     [SerializeField] protected bool isBoss;
     protected bool inRage;
-    protected bool inCutscene;
+    public bool inCutscene; // Can't move
+    public bool inRageCutscene; // Can't move
+    protected bool startingBossFight; // Can't move
     protected bool isDefeated;
 
     [Space] [SerializeField] protected AudioManager audioManager;
@@ -58,9 +60,10 @@ public abstract class Enemy : MonoBehaviour
     [Space] [SerializeField] private SpriteRenderer[] renderers;
     [SerializeField] private Material flashMat;
     [SerializeField] private Material origMat;
+    [HideInInspector] public BossRoom bossRoom;
 
 
-    private void Awake()
+    protected void Awake()
     {
         // Bonus Hp per level greater
         if (lv > defaultLv)
@@ -73,7 +76,12 @@ public abstract class Enemy : MonoBehaviour
             lvText.text = "Lv. " + lv; 
     }
 
-    private void Start() 
+    public virtual void Start() 
+    {
+        Setup();
+    }
+
+    public void Setup()
     {
         if (statusBar != null)
             statusBar.SetActive(false);
@@ -83,7 +91,7 @@ public abstract class Enemy : MonoBehaviour
             this.gameObject.transform.localScale *= Random.Range(0.95f, 1.05f);
     }
 
-    private void LateUpdate() 
+    protected void LateUpdate() 
     {
         if (hpImg != null && hpEffectImg != null)
         {
@@ -115,32 +123,36 @@ public abstract class Enemy : MonoBehaviour
                 statusBar.SetActive(true);
             }
 
-            // var holder = Instantiate(emptyHolder, new Vector3(transform.position.x, transform.position.y + 2), Quaternion.identity);
-            // Destroy(holder.gameObject, 0.5f);
-            // var obj = Instantiate(dmgText, new Vector3(transform.position.x, transform.position.y + 2), Quaternion.identity, holder.transform);
-            // obj.text = dmg.ToString();
+            //// var holder = Instantiate(emptyHolder, new Vector3(transform.position.x, transform.position.y + 2), Quaternion.identity);
+            //// Destroy(holder.gameObject, 0.5f);
+            //// var obj = Instantiate(dmgText, new Vector3(transform.position.x, transform.position.y + 2), Quaternion.identity, holder.transform);
+            //// obj.text = dmg.ToString();
             if (dmg > 0)
                 StartCoroutine( Flash() );
 
             if (force > 0 && opponent != null)
                 StartCoroutine( ApplyKnockback(opponent, force) );
 
-            if (isBoss && hp <= 0)
+            // Dramatic Boss Finisher
+            if (isBoss && hp <= 0 && !isDefeated)
             {
-                Time.timeScale = 0.5f;
                 isDefeated = true;
+                if (bossRoom != null)
+                    bossRoom.Walls(false);
+                StartCoroutine(DramaticSlowmo());
                 inCutscene = true;
                 statusBar.SetActive(false);
                 body.velocity = Vector2.zero;
                 body.gravityScale = 7.5f;
             }
+            // Player Gains exp
             else if (!isBoss && hp <= 0)
             {
                 if (playerControls != null)
                     playerControls.GainExp(expPossess,lv);
                 Destroy(this.gameObject);
             }
-            // half health
+            // Boss half health
             else if (isBoss && !inRage && (float)hp/(float)maxHp < 0.5f)
             {
                 inRage = true;  
@@ -150,7 +162,12 @@ public abstract class Enemy : MonoBehaviour
             }
         }
     }
-
+    IEnumerator DramaticSlowmo()
+    {
+        Time.timeScale = 0.5f;
+        yield return new WaitForSeconds(0.5f);
+        Time.timeScale = 1;
+    }
     public IEnumerator ApplyKnockback(Transform opponent, float force)
     {
         receivingKnockback = true;
@@ -185,13 +202,21 @@ public abstract class Enemy : MonoBehaviour
         {
             PlayerControls player = other.gameObject.GetComponent<PlayerControls>();
             player.TakeDamage(contactDmg, this.transform, contactKb);
+            body.velocity = Vector2.zero;
         }    
     }
 
 
     // todo  (BOSS)  ------------------------------------------------------------
 
-    // Cutscene
+    public void StartBossBattle()
+    {
+        // player = playerControls.gameObject;
+        // count = 0;
+        StartCoroutine( BossIntro() );
+        // StartCoroutine( TrackPlayer() );
+        // localX = model.transform.localScale.x;
+    }
     protected IEnumerator BossIntro()
     {
         body.velocity = Vector2.zero;
@@ -201,6 +226,7 @@ public abstract class Enemy : MonoBehaviour
         battleRoarObj.SetActive(true);
         
         yield return new WaitForSeconds(3);
+        startingBossFight = true;
         battleRoarObj.SetActive(false);
         inCutscene = false;
     }
@@ -208,6 +234,7 @@ public abstract class Enemy : MonoBehaviour
     {
         body.velocity = Vector2.zero;
         inCutscene = true;
+        inRageCutscene = true;
 
         yield return new WaitForSeconds(0.5f);
         rageChargeObj.SetActive(true);
@@ -215,6 +242,7 @@ public abstract class Enemy : MonoBehaviour
         rageAuraObj.SetActive(true);
         yield return new WaitForSeconds(0.75f);
         inCutscene = false;
+        inRageCutscene = false;
     }
 
     void OnInspectorUpdate()
