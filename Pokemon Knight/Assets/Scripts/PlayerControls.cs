@@ -293,6 +293,7 @@ public class PlayerControls : MonoBehaviour
     }
     private void LateUpdate() 
     {
+        //* Exp
         if (expImg != null)
         {
             expEffectImg.fillAmount = ((float)exp /(float) expNeeded);
@@ -300,7 +301,10 @@ public class PlayerControls : MonoBehaviour
                     expImg.fillAmount += effectSpeed;
             else 
                 expImg.fillAmount = expEffectImg.fillAmount;
+            if (expImg.fillAmount >= 1)
+                LevelUp();
         }
+        //* Hp
         if (hpImg != null && hpEffectImg != null)
         {
             hpImg.fillAmount = ((float)hp /(float) maxHp);
@@ -464,26 +468,28 @@ public class PlayerControls : MonoBehaviour
     public void GainExp(int expGained, int enemyLevel)
     {
         // exp += (int) (expGained);
-        levelUpObj.SetActive(false);
         exp += (int) (expGained * Mathf.Min(3f, enemyLevel / lv));
-        if (exp > expNeeded)
-        {
-            expEffectImg.fillAmount = 0;
-            expImg.fillAmount = 0;
-            levelUpObj.SetActive(true);
-            lv++;
-            exp %= expNeeded;
-            if (levelUpEffect != null)
-            {
-                var obj = Instantiate(levelUpEffect, this.transform.position, levelUpEffect.transform.rotation, this.transform);
-                Destroy(obj.gameObject, 3);
-            }
-            expNeeded = (int) (expNeeded * 1.2f);
+    }
 
-            // Increase health
-            maxHp += 5;
-            hp += 5;
+    void LevelUp()
+    {
+        levelUpObj.SetActive(false);
+        expEffectImg.fillAmount = 0;
+        expImg.fillAmount = 0;
+        levelUpObj.SetActive(true);
+        lv++;
+        exp -= expNeeded;
+        if (levelUpEffect != null)
+        {
+            var obj = Instantiate(levelUpEffect, this.transform.position, levelUpEffect.transform.rotation, this.transform);
+            Destroy(obj.gameObject, 3);
         }
+        expNeeded = (int) (expNeeded * 1.2f);
+
+        // Increase health
+        maxHp += 5;
+        hp += 5;
+
         if (lvText != null)
             lvText.text = "Lv " + lv;
     }

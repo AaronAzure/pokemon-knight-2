@@ -35,7 +35,7 @@ public abstract class Ally : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         // Strength grows per level
         if (trainer != null)
