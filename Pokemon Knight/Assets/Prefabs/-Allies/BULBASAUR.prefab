@@ -330,7 +330,7 @@ SortingGroup:
   m_GameObject: {fileID: 4319595063331818081}
   m_Enabled: 1
   m_SortingLayerID: 480402825
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 0
 --- !u!95 &4319595063331818080
 Animator:
@@ -363,15 +363,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74f452066c94470b8664474b1c2d6f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trainer: {fileID: 0}
   model: {fileID: 4319595061820776096}
   hitbox: {fileID: 4319595062940671707}
   atkDmg: 25
   atkForce: 15
+  extraDmg: 5
+  perLevel: 1
   outTime: 0.35
   resummonTime: 0.1
   body: {fileID: 4319595063331818108}
   trailObj: {fileID: 1133196975338173599, guid: 68d6e6c0a5773413db7e478ab4425d98, type: 3}
+  trainer: {fileID: 0}
+  button: 
   renderers:
   - {fileID: 4319595062021501515}
   - {fileID: 4319595063407800932}

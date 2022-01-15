@@ -8,7 +8,9 @@ public abstract class Ally : MonoBehaviour
     [Space] public AllyAttack hitbox;  // Separate gameobject with collider
     public int atkDmg;
     public int atkForce;
-    public float outTime = 0.5f;    // Time pokemon appears in the overworld
+    [Space] public int extraDmg;
+    public int perLevel=1;
+    [Space] public float outTime = 0.5f;    // Time pokemon appears in the overworld
     public float resummonTime = 0.5f;    // Delay before calling pokemon again
     // [SerializeField] private int delayTimes=50;
     [Space] public Rigidbody2D body;
@@ -35,6 +37,10 @@ public abstract class Ally : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Strength grows per level
+        if (trainer != null)
+            atkDmg += ( extraDmg * (int) ((trainer.lv - 1) / perLevel) );
+
         if (hitbox != null)
         {
             hitbox.atkDmg = this.atkDmg;

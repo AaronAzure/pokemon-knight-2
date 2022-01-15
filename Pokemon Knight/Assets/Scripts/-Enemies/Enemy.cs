@@ -162,7 +162,7 @@ public abstract class Enemy : MonoBehaviour
             {
                 if (playerControls != null)
                 {
-                    playerControls.GainExp(expPossess,lv);
+                    playerControls.GainExp(expPossess + (extraDmg * Mathf.Max(1, lv - defaultLv)), lv);
                 }
                 if (!isBoss)
                     Destroy(this.gameObject);
@@ -219,7 +219,7 @@ public abstract class Enemy : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && hp > 0 && !inCutscene)
         {
             PlayerControls player = other.gameObject.GetComponent<PlayerControls>();
-            player.TakeDamage(contactDmg, this.transform, contactKb);
+            player.TakeDamage(contactDmg + (extraDmg * Mathf.Max(1, lv - defaultLv)), this.transform, contactKb);
             body.velocity = Vector2.zero;
         }    
         else if (other.gameObject.CompareTag("Player") && canCatch)

@@ -51,7 +51,7 @@ public class PlayerControls : MonoBehaviour
     [Header("Player data")]
     public int maxHp;
     public int hp;  // current hp
-    private int lv=1;
+    public int lv=1;
     private int expNeeded=100;
     private int exp;  // current exp
     [SerializeField] private GameObject levelUpEffect;
@@ -468,6 +468,8 @@ public class PlayerControls : MonoBehaviour
         exp += (int) (expGained * Mathf.Min(3f, enemyLevel / lv));
         if (exp > expNeeded)
         {
+            expEffectImg.fillAmount = 0;
+            expImg.fillAmount = 0;
             levelUpObj.SetActive(true);
             lv++;
             exp %= expNeeded;
@@ -477,6 +479,10 @@ public class PlayerControls : MonoBehaviour
                 Destroy(obj.gameObject, 3);
             }
             expNeeded = (int) (expNeeded * 1.2f);
+
+            // Increase health
+            maxHp += 5;
+            hp += 5;
         }
         if (lvText != null)
             lvText.text = "Lv " + lv;
