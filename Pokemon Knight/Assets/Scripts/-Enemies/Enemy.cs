@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+// using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -40,6 +40,7 @@ public abstract class Enemy : MonoBehaviour
 
     [Space]
     [Header("Boss")]
+    [SerializeField] protected GameObject possessedAura;
     [SerializeField] protected GameObject battleRoarObj;
     [SerializeField] protected GameObject rageChargeObj;
     [SerializeField] protected GameObject rageAuraObj;
@@ -49,8 +50,9 @@ public abstract class Enemy : MonoBehaviour
     public bool inRageCutscene; // Can't move
     protected bool startingBossFight; // Can't move
     protected bool isDefeated;
+    [Space] [SerializeField] private string powerupName;
+    [Space] [SerializeField] private GameObject pokeball;
 
-    [Space] [SerializeField] protected AudioManager audioManager;
 
     [Space]
     [Header("Damage Related")]
@@ -60,7 +62,9 @@ public abstract class Enemy : MonoBehaviour
     [Space] [SerializeField] private SpriteRenderer[] renderers;
     [SerializeField] private Material flashMat;
     [SerializeField] private Material origMat;
+    [SerializeField] private Material defeatedMat;
     [HideInInspector] public BossRoom bossRoom;
+    private bool canCatch;
 
 
     protected void Awake()
@@ -81,7 +85,7 @@ public abstract class Enemy : MonoBehaviour
         Setup();
     }
 
-    public void Setup()
+    public virtual void Setup()
     {
         if (statusBar != null)
             statusBar.SetActive(false);
@@ -127,7 +131,7 @@ public abstract class Enemy : MonoBehaviour
             //// Destroy(holder.gameObject, 0.5f);
             //// var obj = Instantiate(dmgText, new Vector3(transform.position.x, transform.position.y + 2), Quaternion.identity, holder.transform);
             //// obj.text = dmg.ToString();
-            if (dmg > 0)
+            if (dmg > 0 && dmg < hp)
                 StartCoroutine( Flash() );
 
             if (force > 0 && opponent != null)
@@ -136,29 +140,40 @@ public abstract class Enemy : MonoBehaviour
             // Dramatic Boss Finisher
             if (isBoss && hp <= 0 && !isDefeated)
             {
+                if (defeatedMat != null)
+                {
+                    foreach (SpriteRenderer renderer in renderers)
+                    {
+                        renderer.material = defeatedMat;
+                    }
+                }
                 isDefeated = true;
-                if (bossRoom != null)
-                    bossRoom.Walls(false);
+
                 StartCoroutine(DramaticSlowmo());
+                if (possessedAura != null)
+                    possessedAura.SetActive(false);
                 inCutscene = true;
                 statusBar.SetActive(false);
                 body.velocity = Vector2.zero;
-                body.gravityScale = 7.5f;
+                body.gravityScale = 3;
             }
             // Player Gains exp
-            else if (!isBoss && hp <= 0)
+            else if (hp <= 0)
             {
                 if (playerControls != null)
+                {
                     playerControls.GainExp(expPossess,lv);
-                Destroy(this.gameObject);
+                }
+                if (!isBoss)
+                    Destroy(this.gameObject);
+                else if (playerControls != null)
+                    playerControls.BossBattleOver();
             }
             // Boss half health
             else if (isBoss && !inRage && (float)hp/(float)maxHp < 0.5f)
             {
                 inRage = true;  
                 StartCoroutine( ActivateRageMode() );
-                if (audioManager != null)
-                    StartCoroutine( audioManager.TransitionBossTrack() );
             }
         }
     }
@@ -167,6 +182,9 @@ public abstract class Enemy : MonoBehaviour
         Time.timeScale = 0.5f;
         yield return new WaitForSeconds(0.5f);
         Time.timeScale = 1;
+        yield return new WaitForSeconds(0.5f);
+        rageAuraObj.SetActive(false);
+        canCatch = true;
     }
     public IEnumerator ApplyKnockback(Transform opponent, float force)
     {
@@ -204,6 +222,13 @@ public abstract class Enemy : MonoBehaviour
             player.TakeDamage(contactDmg, this.transform, contactKb);
             body.velocity = Vector2.zero;
         }    
+        else if (other.gameObject.CompareTag("Player") && canCatch)
+        {
+            canCatch = false;
+            StartCoroutine( BackToBall() );
+            Pokeball obj = Instantiate( pokeball, this.transform.position, Quaternion.identity).GetComponent<Pokeball>();
+            obj.powerup = this.powerupName;
+        }    
     }
 
 
@@ -211,11 +236,7 @@ public abstract class Enemy : MonoBehaviour
 
     public void StartBossBattle()
     {
-        // player = playerControls.gameObject;
-        // count = 0;
         StartCoroutine( BossIntro() );
-        // StartCoroutine( TrackPlayer() );
-        // localX = model.transform.localScale.x;
     }
     protected IEnumerator BossIntro()
     {
@@ -243,6 +264,31 @@ public abstract class Enemy : MonoBehaviour
         yield return new WaitForSeconds(0.75f);
         inCutscene = false;
         inRageCutscene = false;
+    }
+
+
+    protected IEnumerator BackToBall()
+    {
+        // yield return new WaitForSeconds(5);
+        int times = 40;
+        float x = model.transform.localScale.x / times;
+        foreach (SpriteRenderer renderer in renderers)
+        {
+            if (flashMat != null)
+                renderer.material = flashMat;
+        }
+        for (int i=0 ; i<times ; i++)
+        {
+            model.transform.localScale -= new Vector3(x,x);
+            // yield return new WaitForSeconds(0.01f);
+            yield return new WaitForEndOfFrame();
+        }
+        if (bossRoom != null)
+            bossRoom.Walls(false);
+
+        // yield return new WaitForSeconds(0.01f);
+        yield return new WaitForEndOfFrame();
+        Destroy(this.gameObject);
     }
 
     void OnInspectorUpdate()

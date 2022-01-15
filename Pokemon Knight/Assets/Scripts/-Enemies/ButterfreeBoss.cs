@@ -21,6 +21,15 @@ public class ButterfreeBoss : Enemy
     private bool once;
 
 
+    public override void Setup()
+    {
+        if (PlayerPrefsElite.GetBoolean("canDoubleJump"))
+            Destroy(this.gameObject);
+        if (statusBar != null)
+            statusBar.SetActive(false);
+        playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
+    }
+
     void FixedUpdate()
     {
         if (!once && startingBossFight)
@@ -39,8 +48,10 @@ public class ButterfreeBoss : Enemy
                 //Check if we need to follow object then do so 
                 // if (!receivingKnockback)
                 if (Vector3.Distance(target, body.transform.position) > 0.5f)
-                    body.AddForce(dir * moveSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
-                    // body.MovePosition(body.transform.position + dir * moveSpeed * Time.fixedDeltaTime);
+                    if (inRage)
+                        body.MovePosition(body.transform.position + dir * moveSpeed * Time.fixedDeltaTime);
+                    else
+                        body.AddForce(dir * moveSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
                 else {
                     LocatePlayer();
                 }
@@ -51,7 +62,7 @@ public class ButterfreeBoss : Enemy
             callOnce = true;
             count = 0;
             newAttackPattern = 3;
-            moveSpeed *= 1.25f;
+            // moveSpeed *= 1.25f;
         }
     }
 

@@ -1,11 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+// using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Rewired;
-using Com.LuisPedroFonseca.ProCamera2D;
+// using Com.LuisPedroFonseca.ProCamera2D;
 
 public class PlayerControls : MonoBehaviour
 {
@@ -55,6 +55,7 @@ public class PlayerControls : MonoBehaviour
     private int expNeeded=100;
     private int exp;  // current exp
     [SerializeField] private GameObject levelUpEffect;
+    [SerializeField] private GameObject levelUpObj;
 
 
     [Space] [Header("Platformer Mechanics")]
@@ -91,10 +92,12 @@ public class PlayerControls : MonoBehaviour
 
 
     //* Powerups
-    public bool canDoubleJump = true;
+    [Header("Powerups")]
+    public bool canDoubleJump;
     private int nExtraJumps = 1;
     private int nExtraJumpsLeft = 1;
     [SerializeField] private Transform doubleJumpSpawnPos;
+    public bool canDash;
     private MusicManager musicManager;
     // private bool groundedDouble = true;
 
@@ -105,6 +108,7 @@ public class PlayerControls : MonoBehaviour
     [Space][SerializeField] private GameObject squirtle;
     [Space][SerializeField] private GameObject charmander;
     [Space][SerializeField] private GameObject doubleJumpObj;
+    [SerializeField] private float dmgMultiplier = 1;
 
 
     
@@ -132,7 +136,13 @@ public class PlayerControls : MonoBehaviour
             transitionAnim.SetTrigger("fromBlack");
         
         if (musicManager == null)
+        {
             musicManager = GameObject.Find("Music Manager").GetComponent<MusicManager>();
+            StartingMusic();
+        }
+
+        canDoubleJump = PlayerPrefsElite.GetBoolean("canDoubleJump");
+        canDash = PlayerPrefsElite.GetBoolean("canDash");
     }
     void Update()
     {
@@ -173,8 +183,8 @@ public class PlayerControls : MonoBehaviour
                 //* Flip character
                 playerDirection(xValue);
 
-                if (dashes > 0 && player.GetButtonDown("ZR"))
-                    Dash();
+                if (dashes > 0)
+                {
                     if (grounded && player.GetButtonDown("B"))
                         Jump();
                     //* Double Jump (mid air jump)
@@ -198,6 +208,9 @@ public class PlayerControls : MonoBehaviour
                     }
                     if (player.GetButtonUp("B"))
                         jumping = false;
+                }
+                if (canDash && dashes > 0 && player.GetButtonDown("ZR"))
+                    Dash();
             }
             // * Dashing
             else
@@ -219,6 +232,7 @@ public class PlayerControls : MonoBehaviour
                         nPokemonOut++;
                         var pokemon = Instantiate(bulbasaur, spawnPos.position, bulbasaur.transform.rotation);
                         Ally ally = pokemon.GetComponent<Ally>();
+                        ally.atkDmg = (int) (dmgMultiplier * ally.atkDmg);
                         // ally.body.velocity = Vector2.up * this.rb.velocity.y;
                         ally.body.velocity = this.rb.velocity;
                         ally.trainer = this;
@@ -239,6 +253,7 @@ public class PlayerControls : MonoBehaviour
                         nPokemonOut++;
                         var pokemon = Instantiate(squirtle, spawnPos.position, squirtle.transform.rotation);
                         Ally ally = pokemon.GetComponent<Ally>();
+                        ally.atkDmg = (int) (dmgMultiplier * ally.atkDmg);
                         // ally.body.velocity = Vector2.up * this.rb.velocity.y;
                         ally.body.velocity = this.rb.velocity;
                         ally.trainer = this;
@@ -259,6 +274,7 @@ public class PlayerControls : MonoBehaviour
                         nPokemonOut++;
                         var pokemon = Instantiate(charmander, spawnPos.position, charmander.transform.rotation);
                         Ally ally = pokemon.GetComponent<Ally>();
+                        ally.atkDmg = (int) (dmgMultiplier * ally.atkDmg);
                         // ally.body.velocity = Vector2.up * this.rb.velocity.y;
                         ally.body.velocity = this.rb.velocity;
                         ally.trainer = this;
@@ -408,11 +424,11 @@ public class PlayerControls : MonoBehaviour
     IEnumerator IgnoreEnemyCollision()
     {
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
+        // Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
         
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.75f);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        // Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
         
     }
 
@@ -448,9 +464,11 @@ public class PlayerControls : MonoBehaviour
     public void GainExp(int expGained, int enemyLevel)
     {
         // exp += (int) (expGained);
+        levelUpObj.SetActive(false);
         exp += (int) (expGained * Mathf.Min(3f, enemyLevel / lv));
         if (exp > expNeeded)
         {
+            levelUpObj.SetActive(true);
             lv++;
             exp %= expNeeded;
             if (levelUpEffect != null)
@@ -468,8 +486,8 @@ public class PlayerControls : MonoBehaviour
     {
         rb.velocity = Vector2.zero;
         anim.SetTrigger("died");
-        // yield return new WaitForEndOfFrame();
         Time.timeScale = 0.25f;
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
 
         yield return new WaitForSeconds(0.4f);
         if (transitionAnim != null)
@@ -542,12 +560,41 @@ public class PlayerControls : MonoBehaviour
     {
         if (other.CompareTag("Roar"))
             EngagedBossRoar();
+        if (other.CompareTag("Rage") && musicManager != null)
+            StartCoroutine( musicManager.TransitionMusic(musicManager.bossOutroMusic) );;
     }
     private void OnTriggerExit2D(Collider2D other) 
     {
         if (other.CompareTag("Roar"))
             RoarOver();
     }
+
+    // todo ------------------------------------------------------------------------------------
+    // todo -----------------  M U S I C  ------------------------------------------------------
+    
+    public void StartingMusic(string location="forest")
+    {
+        if (musicManager != null)
+        {
+            switch (location)
+            {
+                case "forest":
+                    StartCoroutine( musicManager.TransitionMusic(musicManager.forestMusic) );
+                    break;
+                default:
+                    Debug.LogError("Location has not been register in switch PlayerControls.StartingMusic()");
+                    break;
+            }
+        }
+    }
+    
+    public void BossBattleOver()
+    {
+        if (musicManager != null)
+            StartCoroutine( musicManager.LowerMusic(musicManager.currentMusic) );
+    }
+    
+    
     // todo ------------------------------------------------------------------------------------
 
     public void EngagedBossRoar()
@@ -557,6 +604,9 @@ public class PlayerControls : MonoBehaviour
         anim.SetBool("inBossFight", true);
         anim.SetTrigger("engaged");
         rb.velocity = Vector2.zero;
+
+        if (musicManager != null)
+            StartCoroutine( musicManager.TransitionMusic(musicManager.bossIntroMusic, true) );
     }
     
     public void RoarOver()
@@ -564,6 +614,22 @@ public class PlayerControls : MonoBehaviour
         anim.SetBool("inBossFight", false);
         inCutscene = false;
         rb.velocity = Vector2.zero;
+    }
+
+
+    public void GainPowerup(string powerupName)
+    {
+        switch (powerupName)
+        {
+            case "butterfree": 
+                canDoubleJump = true;
+                PlayerPrefsElite.SetBoolean("canDoubleJump", true);
+                break;
+            default:
+                Debug.LogError("PlayerControls.GainPowerup - unregistered powerup (ADD TO SWITCH CASE)");
+                break;
+        }
+        musicManager.StartMusic(musicManager.previousMusic);
     }
 
     void PokemonSummoned(string button)
@@ -685,57 +751,6 @@ public class PlayerControls : MonoBehaviour
                 break;
         }
 
-    }
-    IEnumerator PokemonXCooldown(float outTime, float cooldown) //* NORTH
-    {
-        pokemonX1.color = new Color(0.3f,0.3f,0.3f);
-        canPressButtonNorth = false;
-        pokeballX1.fillAmount = 0;
-
-        yield return new WaitForSeconds(outTime);
-        nPokemonOut--;  // pokemon returned to ball
-        float s = cooldown / 20;
-        for (int i=0 ; i<20 ; i++)
-        {
-            yield return new WaitForSeconds(s);
-            pokeballX1.fillAmount += 0.05f;
-        }
-        canPressButtonNorth = true;
-        pokemonX1.color = new Color(1,1,1);
-    }
-    IEnumerator PokemonYCooldown(float outTime, float cooldown) //* WEST
-    {
-        pokemonY1.color = new Color(0.3f,0.3f,0.3f);
-        canPressButtonWest = false;
-        pokeballY1.fillAmount = 0;
-
-        yield return new WaitForSeconds(outTime);
-        nPokemonOut--;  // pokemon returned to ball
-        float s = cooldown / 20;
-        for (int i=0 ; i<20 ; i++)
-        {
-            yield return new WaitForSeconds(s);
-            pokeballY1.fillAmount += 0.05f;
-        }
-        canPressButtonWest = true;
-        pokemonY1.color = new Color(1,1,1);
-    }
-    IEnumerator PokemonACooldown(float outTime, float cooldown) //* EAST
-    {
-        pokemonA1.color = new Color(0.3f,0.3f,0.3f);
-        canPressButtonEast = false;
-        pokeballA1.fillAmount = 0;
-
-        yield return new WaitForSeconds(outTime);
-        nPokemonOut--;  // pokemon returned to ball
-        float s = cooldown / 20;
-        for (int i=0 ; i<20 ; i++)
-        {
-            yield return new WaitForSeconds(s);
-            pokeballA1.fillAmount += 0.05f;
-        }
-        canPressButtonEast = true;
-        pokemonA1.color = new Color(1,1,1);
     }
 
 

@@ -49,7 +49,15 @@ MonoBehaviour:
   target: {fileID: 0}
   offset: {x: 0, y: 1, z: 0}
   speed: 25
+  isPokemonReturning: 1
   ps: {fileID: 7543729391301439259}
+  powerup: 0
+  player: {fileID: 0}
+  button: 
+  powerupName: 
+  justForShow: 0
+  cooldownTime: 0.5
+  powerupAcquired: {fileID: 182714, guid: f4645b758a8ad41d0b2ca8ea1cc48431, type: 3}
 --- !u!210 &361934810294491225
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -59,7 +67,7 @@ SortingGroup:
   m_GameObject: {fileID: 1133196975338173597}
   m_Enabled: 1
   m_SortingLayerID: 480402825
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 1
 --- !u!1 &2261505451071870331
 GameObject:

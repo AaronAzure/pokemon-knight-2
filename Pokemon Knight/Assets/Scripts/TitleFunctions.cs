@@ -18,6 +18,11 @@ public class TitleFunctions : MonoBehaviour
     {
 
     }
+    public void ResetPrefs()
+    {
+        PlayerPrefsElite.SetBoolean("canDoubleJump", false);
+        PlayerPrefsElite.SetBoolean("canDash", false);
+    }
     public void QuitGame()
     {
         Application.Quit();

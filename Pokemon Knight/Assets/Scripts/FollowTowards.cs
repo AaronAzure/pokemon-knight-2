@@ -15,7 +15,10 @@ public class FollowTowards : MonoBehaviour
     public bool powerup;
     public PlayerControls player;
     public string button;
+    public string powerupName;
+    public bool justForShow=false;
     public float cooldownTime=0.5f;
+    [SerializeField] private GameObject powerupAcquired;
 
 
     // Start is called before the first frame update
@@ -52,9 +55,15 @@ public class FollowTowards : MonoBehaviour
             // ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             var main = ps.main;
             main.loop = false;
-            if (button != "" && player != null)
+            if (!justForShow && player != null)
             {
                 player.PokemonReturned(button, cooldownTime);
+            }
+            if (powerupName.Length > 0 && player != null)
+            {
+                var obj = Instantiate(powerupAcquired, this.transform.position,
+                     powerupAcquired.transform.rotation, player.transform);
+                player.GainPowerup(powerupName);
             }
 
             yield return new WaitForSeconds(0.25f);

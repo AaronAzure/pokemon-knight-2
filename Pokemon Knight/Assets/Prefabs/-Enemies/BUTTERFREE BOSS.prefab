@@ -492,6 +492,63 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &4993874056179854760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2609754214506434734}
+  - component: {fileID: 6191848130971512670}
+  m_Layer: 0
+  m_Name: Rage
+  m_TagString: Rage
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2609754214506434734
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4993874056179854760}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3517699386015663787}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &6191848130971512670
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4993874056179854760}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 45, y: 20}
+  m_EdgeRadius: 0
 --- !u!1 &5932676383707125480
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,7 +559,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8094515171724798975}
   m_Layer: 0
-  m_Name: Stun Spoere Spawn Pos
+  m_Name: Stun Spore Spawn Pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -516,7 +573,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5932676383707125480}
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 12.736731, y: -5.3775935, z: 0.6596113}
+  m_LocalPosition: {x: 12.736731, y: -5.3775935, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6284788807071692393}
@@ -757,7 +814,7 @@ MonoBehaviour:
   extraExp: 2
   body: {fileID: 5132741295536627786}
   model: {fileID: 6347547858869078386}
-  kbDefense: 0.5
+  kbDefense: 0.1
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
@@ -766,18 +823,32 @@ MonoBehaviour:
   hpImg: {fileID: 6092031458691811909}
   lvText: {fileID: 4264851925808073977}
   effectSpeed: 0.005
+  possessedAura: {fileID: 8365389850214731242}
   battleRoarObj: {fileID: 8017134829077844470}
   rageChargeObj: {fileID: 3517699386015975339}
   rageAuraObj: {fileID: 445333867548375796}
   isBoss: 1
   inCutscene: 1
   inRageCutscene: 0
-  audioManager: {fileID: 0}
+  powerupName: butterfree
+  pokeball: {fileID: 5440643809216196248, guid: 0eb4cb200322c4a548e62b8c3661399b, type: 3}
   contactDmg: 15
   contactKb: 15
-  renderers: []
+  renderers:
+  - {fileID: 6201443634278078878}
+  - {fileID: 5635582273553281161}
+  - {fileID: 4553523078151066480}
+  - {fileID: 5326972338745019336}
+  - {fileID: 5773640374914880734}
+  - {fileID: 8192777259640324269}
+  - {fileID: 4586948813259512463}
+  - {fileID: 8676072211916011654}
+  - {fileID: 2702450904983023270}
+  - {fileID: 2291465842648553294}
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
+  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
+  bossRoom: {fileID: 0}
   moveSpeed: 4
   dashSpeed: 25
   player: {fileID: 0}
@@ -1823,6 +1894,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6dbfe9ab44054723a942f2cb14d2834, type: 3}
+--- !u!1 &8365389850214731242 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1465899634756489508, guid: d6dbfe9ab44054723a942f2cb14d2834, type: 3}
+  m_PrefabInstance: {fileID: 6935611923425402062}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8365389850214551982 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1465899634756832608, guid: d6dbfe9ab44054723a942f2cb14d2834, type: 3}

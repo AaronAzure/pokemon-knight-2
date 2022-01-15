@@ -21,6 +21,9 @@ public class BossRoom : MonoBehaviour
     {
         if (!once && other.CompareTag("Player"))    
         {
+            once = true;
+            if (boss == null)
+                return;
             cm.Priority = 100;
             once = true;
             boss.StartBossBattle();

@@ -1,27 +1,42 @@
 using System.Collections;
-using System.Collections.Generic;
+// using System.Collections.Generic;
 using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
     public AudioSource titleMusic, forestMusic, bossIntroMusic, bossOutroMusic;
+    public AudioSource currentMusic;
+    public AudioSource previousMusic;
 
-    public IEnumerator TransitionMusic(AudioSource stopMusic, AudioSource startMusic)
+    void Start() 
     {
+        if (titleMusic != null)
+        {
+            titleMusic.Play();
+            currentMusic = titleMusic;
+        }
+    }
+    public IEnumerator TransitionMusic(AudioSource startMusic, bool rememberLastMusic=false)
+    {
+        if (rememberLastMusic)
+            previousMusic = currentMusic;
         int times = 30;
-        float fraction = stopMusic.volume / times;
+        float fraction = currentMusic.volume / times;
         for (int i=0 ; i<times ; i++)
         {
             yield return new WaitForEndOfFrame();
-            stopMusic.volume -= fraction;
+            currentMusic.volume -= fraction;
         }
         yield return new WaitForEndOfFrame();
-        stopMusic.Stop();
+        currentMusic.Stop();
+
         startMusic.volume = 0.25f;
         startMusic.Play();
+        currentMusic = startMusic;
         startMusic.loop = true;
     }
         
+    // For dramatic silence
     public IEnumerator LowerMusic(AudioSource music)
     {
         int times = 30;
@@ -38,6 +53,7 @@ public class MusicManager : MonoBehaviour
     {
         music.volume = 0.25f;
         music.Play();
+        currentMusic = music;
         music.loop = true;
     }
 }
