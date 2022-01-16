@@ -385,15 +385,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lv: 4
+  defaultLv: 4
   maxHp: 100
   hp: 0
-  expPossess: 8
-  playerControls: {fileID: 0}
   extraHp: 5
-  extraDmg: 2
-  defaultLv: 4
-  lvBreak: 50
+  extraDmg: 4
+  expPossess: 8
   extraExp: 2
+  lvBreak: 50
   body: {fileID: 5850416406816429715}
   model: {fileID: 8959013983781483716}
   kbDefense: 0.1
@@ -405,17 +404,23 @@ MonoBehaviour:
   hpImg: {fileID: 5850416408007061264}
   lvText: {fileID: 5850416407615454019}
   effectSpeed: 0.005
+  isBoss: 0
+  possessedAura: {fileID: 0}
   battleRoarObj: {fileID: 0}
   rageChargeObj: {fileID: 0}
   rageAuraObj: {fileID: 0}
-  isBoss: 0
-  audioManager: {fileID: 0}
+  inCutscene: 0
+  inRageCutscene: 0
+  powerupName: 
+  pokeball: {fileID: 0}
   contactDmg: 10
   contactKb: 10
   renderers:
   - {fileID: 8959013983781483722}
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
+  defeatedMat: {fileID: 0}
+  bossRoom: {fileID: 0}
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64

@@ -11,6 +11,7 @@ public class PlayerControls : MonoBehaviour
 {
     private Player player;
     public int playerID = 0;
+    [SerializeField] private GameObject rewiredInputSystem;
     
 
     [Space] [Header("Ui")]
@@ -56,6 +57,7 @@ public class PlayerControls : MonoBehaviour
     private int exp;  // current exp
     [SerializeField] private GameObject levelUpEffect;
     [SerializeField] private GameObject levelUpObj;
+    [SerializeField] private GameObject playerUi;
 
 
     [Space] [Header("Platformer Mechanics")]
@@ -89,15 +91,19 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private GameObject holder;
     [SerializeField] private Animator anim;
     private bool inCutscene;
+    [Space] [SerializeField] private Animator settings;
+    private bool returningToTitle;
+    
 
 
     //* Powerups
     [Header("Powerups")]
+    [SerializeField] private Animator doubleJumpScreen;
     public bool canDoubleJump;
     private int nExtraJumps = 1;
     private int nExtraJumpsLeft = 1;
     [SerializeField] private Transform doubleJumpSpawnPos;
-    public bool canDash;
+    [Space] public bool canDash;
     private MusicManager musicManager;
     // private bool groundedDouble = true;
 
@@ -130,7 +136,6 @@ public class PlayerControls : MonoBehaviour
     void Start()
     {
         player = ReInput.players.GetPlayer(playerID);
-        hp = maxHp;
         
         if (transitionAnim != null)
             transitionAnim.SetTrigger("fromBlack");
@@ -141,15 +146,41 @@ public class PlayerControls : MonoBehaviour
             StartingMusic();
         }
 
-        canDoubleJump = PlayerPrefsElite.GetBoolean("canDoubleJump");
-        canDash = PlayerPrefsElite.GetBoolean("canDash");
+        // Last save
+        if (PlayerPrefsElite.VerifyBoolean("canDoubleJump"))
+            canDoubleJump = PlayerPrefsElite.GetBoolean("canDoubleJump");
+        if (PlayerPrefsElite.VerifyBoolean("canDash"))
+            canDash = PlayerPrefsElite.GetBoolean("canDash");
+        if (PlayerPrefsElite.VerifyInt("playerExp"))
+            exp = PlayerPrefsElite.GetInt("playerExp");
+        if (PlayerPrefsElite.VerifyInt("playerLevel"))
+        {
+            lv = PlayerPrefsElite.GetInt("playerLevel");
+            maxHp += (5 * (lv - 1));
+            if (lvText != null)
+                 lvText.text = "Lv. " + lv;
+        }
+        if (PlayerPrefsElite.VerifyBoolean("item1") && PlayerPrefsElite.GetBoolean("item1"))
+            IncreaseMaxPokemonOut();
+
+        hp = maxHp;
     }
     void Update()
     {
-        if (hp > 0 && !inCutscene)
+        if (player.GetButtonDown("START") && !settings.gameObject.activeSelf && !returningToTitle)
         {
-            float xValue = player.GetAxis("Move Horizontal");
-            Walk(xValue);
+            Time.timeScale = 0;
+            inCutscene = true;
+            settings.gameObject.SetActive(true);
+        }
+        else if (player.GetButtonDown("START") && settings.gameObject.activeSelf)
+        {
+            Resume();
+        }
+        //* Paused
+        if (settings.gameObject.activeSelf) {}
+        else if (hp > 0 && !inCutscene)
+        {
 
             grounded = Physics2D.OverlapBox(feetPos.position, feetBox, 0, whatIsGround);
             // Touched floor
@@ -169,19 +200,6 @@ public class PlayerControls : MonoBehaviour
             //* Walking & jumping
             if (!dashing)
             {
-                if (Mathf.Abs(xValue) > 0)
-                {
-                    anim.SetBool("isWalking", true);
-                    anim.speed = Mathf.Min(Mathf.Abs(xValue) * moveSpeed, 3);
-                }
-                // Not moving (idle)
-                else
-                {
-                    anim.SetBool("isWalking", false);
-                    anim.speed = 1;
-                }
-                //* Flip character
-                playerDirection(xValue);
 
                 if (dashes > 0)
                 {
@@ -290,6 +308,30 @@ public class PlayerControls : MonoBehaviour
                 }
             }
         }
+        else if (inCutscene && doubleJumpScreen.gameObject.activeSelf)
+        {
+            if (player.GetButtonDown("A"))
+                doubleJumpScreen.SetTrigger("confirm");
+        }
+    }
+    void FixedUpdate()
+    {
+        float xValue = player.GetAxis("Move Horizontal");
+        Walk(xValue);
+
+        if (Mathf.Abs(xValue) > 0)
+        {
+            anim.SetBool("isWalking", true);
+            anim.speed = Mathf.Min(Mathf.Abs(xValue) * moveSpeed, 3);
+        }
+        // Not moving (idle)
+        else
+        {
+            anim.SetBool("isWalking", false);
+            anim.speed = 1;
+        }
+        //* Flip character
+        playerDirection(xValue);
     }
     private void LateUpdate() 
     {
@@ -407,7 +449,7 @@ public class PlayerControls : MonoBehaviour
 
     public void TakeDamage(int dmg=0, Transform opponent=null, float force=0)
     {
-        if (hp > 0)
+        if (hp > 0 && !inCutscene)
         {
             StartCoroutine( IgnoreEnemyCollision() );
             
@@ -467,8 +509,12 @@ public class PlayerControls : MonoBehaviour
 
     public void GainExp(int expGained, int enemyLevel)
     {
-        // exp += (int) (expGained);
-        exp += (int) (expGained * Mathf.Min(3f, enemyLevel / lv));
+        if (lv < 100)
+            exp += (int) (expGained * Mathf.Min(3f, enemyLevel / lv));
+        else
+            exp = 0;
+        
+        PlayerPrefsElite.SetInt("playerExp", exp);
     }
 
     void LevelUp()
@@ -478,6 +524,7 @@ public class PlayerControls : MonoBehaviour
         expImg.fillAmount = 0;
         levelUpObj.SetActive(true);
         lv++;
+
         exp -= expNeeded;
         if (levelUpEffect != null)
         {
@@ -490,8 +537,14 @@ public class PlayerControls : MonoBehaviour
         maxHp += 5;
         hp += 5;
 
+        PlayerPrefsElite.SetInt("playerLevel", lv);
         if (lvText != null)
-            lvText.text = "Lv " + lv;
+             lvText.text = "Lv. " + lv;
+        
+        if (lv >= 100)
+            exp = 0;
+        
+        PlayerPrefsElite.SetInt("playerExp", exp);
     }
 
     IEnumerator Died()
@@ -499,11 +552,16 @@ public class PlayerControls : MonoBehaviour
         rb.velocity = Vector2.zero;
         anim.SetTrigger("died");
         Time.timeScale = 0.25f;
+        rb.bodyType = RigidbodyType2D.Static;
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
+
 
         yield return new WaitForSeconds(0.4f);
         if (transitionAnim != null)
             transitionAnim.SetTrigger("toBlack");
+        yield return new WaitForSeconds(0.5f);
+        Time.timeScale = 1;
+        ReturnToTitle();
     }
 
     public void SetNextArea(string nextArea, float xPos, float yPos, bool walkLeft)
@@ -603,11 +661,11 @@ public class PlayerControls : MonoBehaviour
     public void BossBattleOver()
     {
         if (musicManager != null)
-            StartCoroutine( musicManager.LowerMusic(musicManager.currentMusic) );
+            StartCoroutine( musicManager.TransitionMusic(musicManager.previousMusic) );
     }
     
     
-    // todo ------------------------------------------------------------------------------------
+    // todo ---------------------  B O S S  ----------------------------------------------------
 
     public void EngagedBossRoar()
     {
@@ -628,6 +686,7 @@ public class PlayerControls : MonoBehaviour
         rb.velocity = Vector2.zero;
     }
 
+    // todo ------------------------------------------------------------------------------------
 
     public void GainPowerup(string powerupName)
     {
@@ -636,13 +695,72 @@ public class PlayerControls : MonoBehaviour
             case "butterfree": 
                 canDoubleJump = true;
                 PlayerPrefsElite.SetBoolean("canDoubleJump", true);
+                inCutscene = true;
+                doubleJumpScreen.gameObject.SetActive(true);
                 break;
             default:
                 Debug.LogError("PlayerControls.GainPowerup - unregistered powerup (ADD TO SWITCH CASE)");
                 break;
         }
-        musicManager.StartMusic(musicManager.previousMusic);
+        // musicManager.StartMusic(musicManager.previousMusic);
     }
+
+    public void IncreaseMaxPokemonOut()
+    {
+        maxPokemonOut++;
+    }
+
+
+
+    public void Resume()
+    {
+        settings.gameObject.SetActive(false);
+        Time.timeScale = 1;
+        StartCoroutine( CanPressButtonsagain() );
+    }
+    IEnumerator CanPressButtonsagain()
+    {
+        yield return new WaitForEndOfFrame();
+        inCutscene = false;
+    }
+    public void FinishedCutscene()
+    {
+        inCutscene = false;
+    }
+    public void ReturnToTitle()
+    {
+        returningToTitle = true;
+        if (rewiredInputSystem != null)
+            Destroy(rewiredInputSystem);
+        // inCutscene = false;
+        Time.timeScale = 1;
+        settings.gameObject.SetActive(false);
+        StartCoroutine(ReturningToTitleScreen());
+    }
+    IEnumerator ReturningToTitleScreen()
+    {
+        if (transitionAnim != null)
+            transitionAnim.SetTrigger("toBlack");
+
+        if (playerUi != null)
+            playerUi.SetActive(false);
+        playerInstance = null;
+
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene("0Title");
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        
+        if (musicManager != null)
+            musicManager.BackToTitle();
+
+        yield return new WaitForSeconds(0.5f);
+        if (transitionAnim != null)
+            transitionAnim.SetTrigger("fromBlack");
+        yield return new WaitForSeconds(0.5f);
+        Destroy(this.gameObject);
+    }
+
+
 
     void PokemonSummoned(string button)
     {

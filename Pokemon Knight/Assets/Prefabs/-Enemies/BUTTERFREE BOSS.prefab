@@ -803,17 +803,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lv: 15
-  maxHp: 500
+  defaultLv: 15
+  maxHp: 600
   hp: 0
-  expPossess: 100
-  playerControls: {fileID: 0}
   extraHp: 2
   extraDmg: 2
-  defaultLv: 50
-  lvBreak: 50
+  expPossess: 100
   extraExp: 2
+  lvBreak: 50
   body: {fileID: 5132741295536627786}
   model: {fileID: 6347547858869078386}
+  cannotRecieveKb: 0
   kbDefense: 0.1
   whatIsGround:
     serializedVersion: 2
@@ -823,11 +823,11 @@ MonoBehaviour:
   hpImg: {fileID: 6092031458691811909}
   lvText: {fileID: 4264851925808073977}
   effectSpeed: 0.005
+  isBoss: 1
   possessedAura: {fileID: 8365389850214731242}
   battleRoarObj: {fileID: 8017134829077844470}
   rageChargeObj: {fileID: 3517699386015975339}
   rageAuraObj: {fileID: 445333867548375796}
-  isBoss: 1
   inCutscene: 1
   inRageCutscene: 0
   powerupName: butterfree

@@ -20,7 +20,7 @@ public class Pokeball : MonoBehaviour
 
     protected IEnumerator BackToBall()
     {
-        yield return new WaitForSeconds(4.5f);
+        yield return new WaitForSeconds(4f);
         int times = 40;
         float x = model.transform.localScale.x / times;
         foreach (SpriteRenderer renderer in renderers)

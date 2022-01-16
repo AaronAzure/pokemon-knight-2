@@ -23,7 +23,7 @@ public class ButterfreeBoss : Enemy
 
     public override void Setup()
     {
-        if (PlayerPrefsElite.GetBoolean("canDoubleJump"))
+        if (PlayerPrefsElite.VerifyBoolean("canDoubleJump") && PlayerPrefsElite.GetBoolean("canDoubleJump"))
             Destroy(this.gameObject);
         if (statusBar != null)
             statusBar.SetActive(false);
@@ -114,12 +114,14 @@ public class ButterfreeBoss : Enemy
             yield return new WaitForSeconds(0.5f);
         else
             yield return new WaitForSeconds(0.8f);
+        cannotRecieveKb = true;
         Vector3 dir = (target - body.transform.position).normalized;
         if (!inCutscene) 
             body.AddForce(dir*dashSpeed, ForceMode2D.Impulse);
 
         // resting
         yield return new WaitForSeconds(0.3f);
+        cannotRecieveKb = false;
         glint.SetActive(false);
         count = 0;
         LocatePlayer();

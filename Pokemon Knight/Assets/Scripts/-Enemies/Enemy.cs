@@ -8,19 +8,19 @@ using UnityEngine.UI;
 public abstract class Enemy : MonoBehaviour
 {
     public int lv=2;
-    public int maxHp=100;
+    public int defaultLv=5; // Bonus
+    [Space] public int maxHp=100;
     public int hp;
-    public int expPossess=5;
-    [SerializeField] protected PlayerControls playerControls;
+    protected PlayerControls playerControls;
     
 
     [Space]
     [Header("Level Bonus")]
     public int extraHp=2;   // Bonus
     public int extraDmg=2;  // Bonus
-    public int defaultLv=5; // Bonus
-    public int lvBreak=50;  // Additional bonus
+    [Space] public int expPossess=5;
     public int extraExp=2;  // Additional bonus
+    public int lvBreak=50;  // Additional bonus
     
     //// [SerializeField] private GameObject emptyHolder;
     //// [SerializeField] private TextMeshPro dmgText;
@@ -28,6 +28,7 @@ public abstract class Enemy : MonoBehaviour
     public Rigidbody2D body;
     public GameObject model;    // sprites holder
     protected bool receivingKnockback;
+    public bool cannotRecieveKb;
     [Tooltip("1 = 100% kb, 0 = 0%")] [SerializeField] [Range(0,1f)] protected float kbDefense=1;
     [SerializeField] protected LayerMask whatIsGround;
 
@@ -40,11 +41,11 @@ public abstract class Enemy : MonoBehaviour
 
     [Space]
     [Header("Boss")]
+    [SerializeField] protected bool isBoss;
     [SerializeField] protected GameObject possessedAura;
     [SerializeField] protected GameObject battleRoarObj;
     [SerializeField] protected GameObject rageChargeObj;
     [SerializeField] protected GameObject rageAuraObj;
-    [SerializeField] protected bool isBoss;
     protected bool inRage;
     public bool inCutscene; // Can't move
     public bool inRageCutscene; // Can't move
@@ -57,7 +58,7 @@ public abstract class Enemy : MonoBehaviour
     [Space]
     [Header("Damage Related")]
     public int contactDmg=5;
-    public float contactKb=30;
+    public float contactKb=10;
     
     [Space] [SerializeField] private SpriteRenderer[] renderers;
     [SerializeField] private Material flashMat;
@@ -82,17 +83,19 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void Start() 
     {
-        Setup();
-    }
-
-    public virtual void Setup()
-    {
         if (statusBar != null)
             statusBar.SetActive(false);
         playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
 
         if (!isBoss)
             this.gameObject.transform.localScale *= Random.Range(0.95f, 1.05f);
+
+        Setup();
+    }
+
+    public virtual void Setup()
+    {
+
     }
 
     protected void LateUpdate() 
@@ -134,7 +137,7 @@ public abstract class Enemy : MonoBehaviour
             if (dmg > 0 && dmg < hp)
                 StartCoroutine( Flash() );
 
-            if (force > 0 && opponent != null)
+            if (force > 0 && opponent != null && !cannotRecieveKb)
                 StartCoroutine( ApplyKnockback(opponent, force) );
 
             // Dramatic Boss Finisher
@@ -158,12 +161,11 @@ public abstract class Enemy : MonoBehaviour
                 body.gravityScale = 3;
             }
             // Player Gains exp
-            else if (hp <= 0)
+            if (hp <= 0)
             {
                 if (playerControls != null)
-                {
                     playerControls.GainExp(expPossess + (extraDmg * Mathf.Max(1, lv - defaultLv)), lv);
-                }
+
                 if (!isBoss)
                     Destroy(this.gameObject);
                 else if (playerControls != null)
@@ -193,7 +195,10 @@ public abstract class Enemy : MonoBehaviour
         direction *= new Vector2(1,0);
         body.AddForce(-direction * force * kbDefense, ForceMode2D.Impulse);
         
-        yield return new WaitForSeconds(0.1f);
+        if (!isBoss)
+            yield return new WaitForSeconds(0.1f);
+        else
+            yield return new WaitForSeconds(0.02f);
         body.velocity = Vector2.zero;
         receivingKnockback = false;
     }

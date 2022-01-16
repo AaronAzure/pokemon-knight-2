@@ -127,15 +127,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lv: 2
+  defaultLv: 2
   maxHp: 60
   hp: 0
-  expPossess: 5
-  playerControls: {fileID: 0}
   extraHp: 5
   extraDmg: 2
-  defaultLv: 5
-  lvBreak: 50
+  expPossess: 5
   extraExp: 2
+  lvBreak: 50
   body: {fileID: 8531754209341023285}
   model: {fileID: 8531754209428490774}
   kbDefense: 1
@@ -147,11 +146,15 @@ MonoBehaviour:
   hpImg: {fileID: 8531754210197151158}
   lvText: {fileID: 8531754211222161893}
   effectSpeed: 0.005
+  isBoss: 0
+  possessedAura: {fileID: 0}
   battleRoarObj: {fileID: 0}
   rageChargeObj: {fileID: 0}
   rageAuraObj: {fileID: 0}
-  isBoss: 0
-  audioManager: {fileID: 0}
+  inCutscene: 0
+  inRageCutscene: 0
+  powerupName: 
+  pokeball: {fileID: 0}
   contactDmg: 5
   contactKb: 10
   renderers:
@@ -160,6 +163,8 @@ MonoBehaviour:
   - {fileID: 8531754210116118984}
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   origMat: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  defeatedMat: {fileID: 0}
+  bossRoom: {fileID: 0}
   moveSpeed: 1
   distanceDetect: 0.75
   groundDetection: {fileID: 8531754210282593835}

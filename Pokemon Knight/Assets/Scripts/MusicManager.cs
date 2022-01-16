@@ -16,6 +16,11 @@ public class MusicManager : MonoBehaviour
             currentMusic = titleMusic;
         }
     }
+
+    public void BackToTitle()
+    {
+        StartCoroutine( TransitionMusic(titleMusic) );
+    }
     public IEnumerator TransitionMusic(AudioSource startMusic, bool rememberLastMusic=false)
     {
         if (rememberLastMusic)

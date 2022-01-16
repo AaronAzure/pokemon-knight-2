@@ -8,12 +8,12 @@ public class Metapod : Enemy
     // public float distanceDetect=2f;
     public LayerMask whatIsPlayer;
     private bool once;
+    [SerializeField] private float distanceDetect = 10;
 
 
     // Start is called before the first frame update
-    public override void Start()
+    public override void Setup()
     {
-        Setup();
         if (body != null) body.gravityScale = 0;
     }
 
@@ -23,11 +23,11 @@ public class Metapod : Enemy
         if (!once)
         {
             // RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position, Vector2.down, 10, whatIsPlayer);
-            RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position, this.transform.position + new Vector3(0,-10), whatIsPlayer);
+            RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position, this.transform.position + new Vector3(0,-distanceDetect), whatIsPlayer);
             RaycastHit2D playerInfoRight = Physics2D.Linecast(
-                this.transform.position + new Vector3(1,0), this.transform.position + new Vector3(1,-10), whatIsPlayer);
+                this.transform.position + new Vector3(1,0), this.transform.position + new Vector3(1,-distanceDetect), whatIsPlayer);
             RaycastHit2D playerInfoLeft = Physics2D.Linecast(
-                this.transform.position + new Vector3(-1,0), this.transform.position + new Vector3(-1,-10), whatIsPlayer);
+                this.transform.position + new Vector3(-1,0), this.transform.position + new Vector3(-1,-distanceDetect), whatIsPlayer);
 
             // Player underneath or been hit
             if (playerInfo || playerInfoRight || playerInfoLeft || body.velocity != Vector2.zero)
@@ -37,5 +37,13 @@ public class Metapod : Enemy
             }
         }
 
+    }
+
+    private void OnDrawGizmosSelected() 
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(this.transform.position, this.transform.position + new Vector3(0,-distanceDetect));
+        Gizmos.DrawLine(this.transform.position + new Vector3(1,0), this.transform.position + new Vector3(1,-distanceDetect));
+        Gizmos.DrawLine(this.transform.position + new Vector3(-1,0), this.transform.position + new Vector3(-1,-distanceDetect));
     }
 }
