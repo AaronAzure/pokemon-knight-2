@@ -2,7 +2,7 @@
 
 public class EnemyAttack : MonoBehaviour
 {
-    [SerializeField] private int atkDmg=3;
+    public int atkDmg=3;
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if (other.CompareTag("Player"))    

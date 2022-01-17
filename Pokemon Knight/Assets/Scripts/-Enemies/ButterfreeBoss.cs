@@ -109,7 +109,11 @@ public class ButterfreeBoss : Enemy
     {
         // charging up
         body.velocity = Vector2.zero;
+        
+        glint.SetActive(false);
+        yield return new WaitForEndOfFrame();
         glint.SetActive(true);
+        
         if (inRage)
             yield return new WaitForSeconds(0.5f);
         else
@@ -122,7 +126,6 @@ public class ButterfreeBoss : Enemy
         // resting
         yield return new WaitForSeconds(0.3f);
         cannotRecieveKb = false;
-        glint.SetActive(false);
         count = 0;
         LocatePlayer();
         StartCoroutine( TrackPlayer() );

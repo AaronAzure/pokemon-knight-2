@@ -57,6 +57,7 @@ public class PlayerControls : MonoBehaviour
     private int exp;  // current exp
     [SerializeField] private GameObject levelUpEffect;
     [SerializeField] private GameObject levelUpObj;
+    [SerializeField] private AudioSource levelUpSound;
     [SerializeField] private GameObject playerUi;
 
 
@@ -76,9 +77,20 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] public bool grounded = true;
     [HideInInspector] public bool jumping = false;
+    [Space] [SerializeField] private bool leftWallDetect = true;
+    [SerializeField] private Transform leftWallPos;
+    [SerializeField] private bool rightWallDetect = true;
+    [SerializeField] private Transform rightWallPos;
+    [SerializeField] private Vector2 wallDetectBox;
     private bool receivingKnockback;
     private int dashes = 1;
     private bool dashing;
+    private bool dodging;
+    private bool canDodge = true;
+    private bool dodgingThruScene;
+    private float dodgeSpeed = 7.5f;
+
+
     private bool canPressButtonNorth = true;   // (X)
     private bool canPressButtonWest = true;    // (Y)
     private bool canPressButtonEast = true;    // (A)
@@ -88,11 +100,14 @@ public class PlayerControls : MonoBehaviour
     private int nPokemonOut;
     private int maxPokemonOut = 1;
     private float localX;
-    [SerializeField] private GameObject holder;
+    [Space] [SerializeField] private GameObject holder;
     [SerializeField] private Animator anim;
     private bool inCutscene;
     [Space] [SerializeField] private Animator settings;
     private bool returningToTitle;
+
+    [Space] public bool canRest;
+    public bool resting;
     
 
 
@@ -105,7 +120,6 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private Transform doubleJumpSpawnPos;
     [Space] public bool canDash;
     private MusicManager musicManager;
-    // private bool groundedDouble = true;
 
 
     [Header("Pokemon (Allies)")]
@@ -136,9 +150,7 @@ public class PlayerControls : MonoBehaviour
     void Start()
     {
         player = ReInput.players.GetPlayer(playerID);
-        
-        if (transitionAnim != null)
-            transitionAnim.SetTrigger("fromBlack");
+
         
         if (musicManager == null)
         {
@@ -151,8 +163,6 @@ public class PlayerControls : MonoBehaviour
             canDoubleJump = PlayerPrefsElite.GetBoolean("canDoubleJump");
         if (PlayerPrefsElite.VerifyBoolean("canDash"))
             canDash = PlayerPrefsElite.GetBoolean("canDash");
-        if (PlayerPrefsElite.VerifyInt("playerExp"))
-            exp = PlayerPrefsElite.GetInt("playerExp");
         if (PlayerPrefsElite.VerifyInt("playerLevel"))
         {
             lv = PlayerPrefsElite.GetInt("playerLevel");
@@ -160,13 +170,28 @@ public class PlayerControls : MonoBehaviour
             if (lvText != null)
                  lvText.text = "Lv. " + lv;
         }
+        for (int i=1 ; i<lv ; i++)
+            expNeeded = (int) (expNeeded * 1.2f);
+        if (PlayerPrefsElite.VerifyInt("playerExp"))
+            exp = PlayerPrefsElite.GetInt("playerExp");
         if (PlayerPrefsElite.VerifyBoolean("item1") && PlayerPrefsElite.GetBoolean("item1"))
             IncreaseMaxPokemonOut();
 
         hp = maxHp;
+        if (PlayerPrefsElite.VerifyString("checkpointScene") && PlayerPrefsElite.VerifyVector3("checkpointPos"))
+        {
+            SceneManager.LoadScene(PlayerPrefsElite.GetString("checkpointScene"));
+            this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos");
+        }
+        
+        if (transitionAnim != null)
+            transitionAnim.SetTrigger("fromBlack");
     }
     void Update()
     {
+        leftWallDetect = Physics2D.OverlapBox(leftWallPos.position, wallDetectBox, 0, whatIsGround);
+        rightWallDetect = Physics2D.OverlapBox(rightWallPos.position, wallDetectBox, 0, whatIsGround);
+        
         if (player.GetButtonDown("START") && !settings.gameObject.activeSelf && !returningToTitle)
         {
             Time.timeScale = 0;
@@ -179,8 +204,17 @@ public class PlayerControls : MonoBehaviour
         }
         //* Paused
         if (settings.gameObject.activeSelf) {}
-        else if (hp > 0 && !inCutscene)
+        else if (resting)
         {
+            if (PressedStandardButton())
+                LeaveBench();
+        }
+        //* Walking, Dashing, Summoning, jumping
+        else if (hp > 0 && !inCutscene && !dodging)
+        {
+            if (canRest && Interact())
+                RestOnBench();
+
 
             grounded = Physics2D.OverlapBox(feetPos.position, feetBox, 0, whatIsGround);
             // Touched floor
@@ -195,6 +229,12 @@ public class PlayerControls : MonoBehaviour
             {
                 anim.SetTrigger("fall");
                 anim.SetBool("isFalling", true);
+            }
+
+            if (grounded && canDodge && player.GetButtonDown("ZR"))
+            {
+                canDodge = false;
+                StartCoroutine( Dodge() );
             }
 
             //* Walking & jumping
@@ -264,7 +304,7 @@ public class PlayerControls : MonoBehaviour
                             pokemon.transform.eulerAngles = new Vector3(0,-180);
                     }
                 }
-                if (canPressButtonEast && player.GetButtonDown("A"))
+                else if (canPressButtonEast && player.GetButtonDown("A"))
                 {
                     if (squirtle != null)
                     {
@@ -285,7 +325,7 @@ public class PlayerControls : MonoBehaviour
                             pokemon.transform.eulerAngles = new Vector3(0,-180);
                     }
                 }
-                if (canPressButtonNorth && player.GetButtonDown("X"))
+                else if (canPressButtonNorth && player.GetButtonDown("X"))
                 {
                     if (charmander != null)
                     {
@@ -308,30 +348,38 @@ public class PlayerControls : MonoBehaviour
                 }
             }
         }
+        
+        //* Powerup or new pokemon cutscene
         else if (inCutscene && doubleJumpScreen.gameObject.activeSelf)
         {
-            if (player.GetButtonDown("A"))
+            if (PressedStandardButton())
                 doubleJumpScreen.SetTrigger("confirm");
         }
     }
     void FixedUpdate()
     {
-        float xValue = player.GetAxis("Move Horizontal");
-        Walk(xValue);
+        //* Paused
+        if (settings.gameObject.activeSelf) {}
+        else if (resting) {}
+        else if (hp > 0 && !inCutscene && !dodging)
+        {
+            float xValue = player.GetAxis("Move Horizontal");
+            Walk(xValue);
 
-        if (Mathf.Abs(xValue) > 0)
-        {
-            anim.SetBool("isWalking", true);
-            anim.speed = Mathf.Min(Mathf.Abs(xValue) * moveSpeed, 3);
+            if (Mathf.Abs(xValue) > 0)
+            {
+                anim.SetBool("isWalking", true);
+                anim.speed = Mathf.Min(Mathf.Abs(xValue) * moveSpeed, 3);
+            }
+            // Not moving (idle)
+            else
+            {
+                anim.SetBool("isWalking", false);
+                anim.speed = 1;
+            }
+            //* Flip character
+            playerDirection(xValue);
         }
-        // Not moving (idle)
-        else
-        {
-            anim.SetBool("isWalking", false);
-            anim.speed = 1;
-        }
-        //* Flip character
-        playerDirection(xValue);
     }
     private void LateUpdate() 
     {
@@ -369,17 +417,36 @@ public class PlayerControls : MonoBehaviour
                 hpImg.color = new Color(0f, 0.85f, 0f);
         }
     }
-    private void OnDrawGizmosSelected() {
+        private void OnDrawGizmosSelected() 
+    {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(feetPos.position, feetBox);
+        Gizmos.DrawWireCube(leftWallPos.position, wallDetectBox);
+        Gizmos.DrawWireCube(rightWallPos.position, wallDetectBox);
     }
 
+
+    // todo ------------------------------------------------------------------------------------
+    // todo -----------------  M E C H A N I C S  ----------------------------------------------
+
+    bool Interact()
+    {
+        float yValue = Mathf.Abs( player.GetAxis("Move Vertical") );
+        return (yValue > 0.5f);
+    }
     private void Walk(float xValue)
     {
         if (Mathf.Abs(xValue) < 0.1f)
             xValue = 0;
         if (!receivingKnockback)
             rb.velocity = new Vector2(xValue * moveSpeed, rb.velocity.y);
+    }
+    private void playerDirection(float xValue=0)
+    {
+        if (xValue < -0.01f)
+            holder.transform.eulerAngles = new Vector3(0,180);  // left
+        else if (xValue > 0.01f)
+            holder.transform.eulerAngles = new Vector3(0,0);    // right
     }
     private void Jump()
     {
@@ -404,7 +471,6 @@ public class PlayerControls : MonoBehaviour
         // Butterfree jump
         if (doubleJumpObj != null)
         {
-            // var pokemon = Instantiate(doubleJumpObj, doubleJumpSpawnPos.position, doubleJumpObj.transform.rotation, holder.transform);
             var pokemon = Instantiate(doubleJumpObj, doubleJumpSpawnPos.position, doubleJumpObj.transform.rotation);
             pokemon.transform.SetParent(doubleJumpSpawnPos, true);
             Ally ally = pokemon.GetComponent<Ally>();
@@ -417,19 +483,12 @@ public class PlayerControls : MonoBehaviour
         }
 
     }
+
     private void Dash()
     {
         dashes = 0;
         StartCoroutine( restoreDash() );
     }
-    private void playerDirection(float xValue=0)
-    {
-        if (xValue < -0.01f)
-            holder.transform.eulerAngles = new Vector3(0,180);
-        else if (xValue > 0.01f)
-            holder.transform.eulerAngles = new Vector3(0,0);
-    }
-
     IEnumerator restoreDash()
     {
         dashing = true;
@@ -446,19 +505,50 @@ public class PlayerControls : MonoBehaviour
         dashes = 1;
     }
 
+    bool PressedStandardButton()
+    {
+        return (player.GetButtonDown("A") || player.GetButtonDown("B") || player.GetButtonDown("X") || player.GetButtonDown("Y"));
+    }
 
+    IEnumerator Dodge()
+    {
+        anim.speed = 1;
+        rb.velocity = Vector2.zero;
+        dodging = true;
+        canDodge = false;
+        anim.SetTrigger("dodge");
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
+
+        if (holder.transform.eulerAngles.y < 180)   // right
+            rb.AddForce(Vector2.right * dodgeSpeed, ForceMode2D.Impulse);
+        else    // left
+            rb.AddForce(Vector2.left * dodgeSpeed, ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(0.5f);
+        rb.velocity = Vector2.zero;
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        dodging = false;
+        
+        yield return new WaitForSeconds(0.5f);
+        canDodge = true;
+
+    }
+
+    // todo -----------------  D A M A G E  ------------------------------------------------
     public void TakeDamage(int dmg=0, Transform opponent=null, float force=0)
     {
         if (hp > 0 && !inCutscene)
         {
-            StartCoroutine( IgnoreEnemyCollision() );
             
             hp -= dmg;
             if (dmg > 0 && hp > 0)
                 StartCoroutine( Flash() );
 
             if (force > 0 && opponent != null)
+            {
+                StartCoroutine( IgnoreEnemyCollision() );
                 StartCoroutine( ApplyKnockback(opponent, force) );
+            }
 
             if (hp <= 0)
             {
@@ -466,18 +556,13 @@ public class PlayerControls : MonoBehaviour
             }
         }
     }
-
     IEnumerator IgnoreEnemyCollision()
     {
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
-        // Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
         
         yield return new WaitForSeconds(0.75f);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
-        // Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
-        
     }
-
     IEnumerator Flash()
     {
         foreach (SpriteRenderer renderer in renderers)
@@ -493,13 +578,26 @@ public class PlayerControls : MonoBehaviour
                 renderer.material = origMat;
         }
     }
-
     public IEnumerator ApplyKnockback(Transform opponent, float force)
     {
+
         receivingKnockback = true;
-        Vector2 direction = (opponent.position - this.transform.position).normalized;
-        direction = new Vector2(direction.x,-1);
-        rb.AddForce(-direction * force, ForceMode2D.Impulse);
+        if (leftWallDetect)
+        {
+            Vector2 direction = new Vector2(1,1);
+            rb.AddForce(direction * force, ForceMode2D.Impulse);
+        }
+        else if (rightWallDetect)
+        {
+            Vector2 direction = new Vector2(-1,1);
+            rb.AddForce(direction * force, ForceMode2D.Impulse);
+        }
+        else if (!leftWallDetect && !rightWallDetect)
+        {
+            Vector2 direction = (opponent.position - this.transform.position).normalized;
+            direction = new Vector2(direction.x,-1);
+            rb.AddForce(-direction * force, ForceMode2D.Impulse);
+        }
         
         yield return new WaitForSeconds(0.1f);
         rb.velocity = Vector2.zero;
@@ -510,11 +608,9 @@ public class PlayerControls : MonoBehaviour
     public void GainExp(int expGained, int enemyLevel)
     {
         if (lv < 100)
-            exp += (int) (expGained * Mathf.Min(3f, enemyLevel / lv));
+            exp += (int) (expGained * Mathf.Min(3f, (float) enemyLevel / lv));
         else
             exp = 0;
-        
-        PlayerPrefsElite.SetInt("playerExp", exp);
     }
 
     void LevelUp()
@@ -524,6 +620,8 @@ public class PlayerControls : MonoBehaviour
         expImg.fillAmount = 0;
         levelUpObj.SetActive(true);
         lv++;
+        if (levelUpSound != null)
+            levelUpSound.Play();
 
         exp -= expNeeded;
         if (levelUpEffect != null)
@@ -537,37 +635,48 @@ public class PlayerControls : MonoBehaviour
         maxHp += 5;
         hp += 5;
 
-        PlayerPrefsElite.SetInt("playerLevel", lv);
         if (lvText != null)
              lvText.text = "Lv. " + lv;
         
         if (lv >= 100)
             exp = 0;
         
-        PlayerPrefsElite.SetInt("playerExp", exp);
     }
 
+    // todo ------------------------------------------------------------------------------------
+    // todo -----------------  C U T S C E N E  ------------------------------------------------
     IEnumerator Died()
     {
         rb.velocity = Vector2.zero;
         anim.SetTrigger("died");
-        Time.timeScale = 0.25f;
-        rb.bodyType = RigidbodyType2D.Static;
+        
+        if (musicManager != null)
+            StartCoroutine(musicManager.LowerMusic(musicManager.currentMusic));
+        
+        // Time.timeScale = 0.25f;
+        // rb.bodyType = RigidbodyType2D.Static;
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
 
 
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(2f);
         if (transitionAnim != null)
             transitionAnim.SetTrigger("toBlack");
-        yield return new WaitForSeconds(0.5f);
-        Time.timeScale = 1;
-        ReturnToTitle();
+        
+        yield return new WaitForSeconds(1f);
+        Respawn();
+        // Time.timeScale = 1;
+        // ReturnToTitle();
     }
 
     public void SetNextArea(string nextArea, float xPos, float yPos, bool walkLeft)
     {
         if (!inCutscene)
         {
+            if (dodging)
+                dodgingThruScene = true;
+            else
+                dodgingThruScene = false;
+            
             if (transitionAnim != null)
                 transitionAnim.SetTrigger("toBlack");
             StartCoroutine( MovingToNextArea(nextArea, xPos, yPos, walkLeft) );
@@ -606,6 +715,9 @@ public class PlayerControls : MonoBehaviour
         anim.SetBool("isGrounded", true);
         anim.SetBool("isFalling", false);
 
+        if (dodgingThruScene)
+            anim.SetTrigger("dodge");
+
         rb.AddForce(Vector2.right * moveSpeed, ForceMode2D.Impulse);
         
         yield return new WaitForSeconds(0.5f);
@@ -618,6 +730,9 @@ public class PlayerControls : MonoBehaviour
         anim.SetBool("isGrounded", true);
         anim.SetBool("isFalling", false);
 
+        if (dodgingThruScene)
+            anim.SetTrigger("dodge");
+
         rb.AddForce(Vector2.left * moveSpeed, ForceMode2D.Impulse);
         
         yield return new WaitForSeconds(0.5f);
@@ -625,13 +740,48 @@ public class PlayerControls : MonoBehaviour
         rb.velocity = Vector2.zero;
     }
 
+
+    public void ReturnToTitle()
+    {
+        returningToTitle = true;
+        if (rewiredInputSystem != null)
+            Destroy(rewiredInputSystem);
+        
+        Time.timeScale = 1;
+        settings.gameObject.SetActive(false);
+        StartCoroutine(ReturningToTitleScreen());
+    }
+    IEnumerator ReturningToTitleScreen()
+    {
+        if (transitionAnim != null)
+            transitionAnim.SetTrigger("toBlack");
+
+        if (playerUi != null)
+            playerUi.SetActive(false);
+        playerInstance = null;
+
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene("0Title");
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        
+        if (musicManager != null)
+            musicManager.BackToTitle();
+
+        yield return new WaitForSeconds(0.5f);
+        if (transitionAnim != null)
+            transitionAnim.SetTrigger("fromBlack");
+        yield return new WaitForSeconds(0.5f);
+        Destroy(this.gameObject);
+    }
+
     // todo ------------------------------------------------------------------------------------
+    // todo -----------------  T R I G G E R S  ------------------------------------------------
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if (other.CompareTag("Roar"))
             EngagedBossRoar();
         if (other.CompareTag("Rage") && musicManager != null)
-            StartCoroutine( musicManager.TransitionMusic(musicManager.bossOutroMusic) );;
+            StartCoroutine( musicManager.TransitionMusic(musicManager.bossOutroMusic) );
     }
     private void OnTriggerExit2D(Collider2D other) 
     {
@@ -665,6 +815,7 @@ public class PlayerControls : MonoBehaviour
     }
     
     
+    // todo ------------------------------------------------------------------------------------
     // todo ---------------------  B O S S  ----------------------------------------------------
 
     public void EngagedBossRoar()
@@ -694,7 +845,7 @@ public class PlayerControls : MonoBehaviour
         {
             case "butterfree": 
                 canDoubleJump = true;
-                PlayerPrefsElite.SetBoolean("canDoubleJump", true);
+                // PlayerPrefsElite.SetBoolean("canDoubleJump", true);
                 inCutscene = true;
                 doubleJumpScreen.gameObject.SetActive(true);
                 break;
@@ -702,6 +853,7 @@ public class PlayerControls : MonoBehaviour
                 Debug.LogError("PlayerControls.GainPowerup - unregistered powerup (ADD TO SWITCH CASE)");
                 break;
         }
+        rb.velocity = Vector2.zero;
         // musicManager.StartMusic(musicManager.previousMusic);
     }
 
@@ -710,7 +862,10 @@ public class PlayerControls : MonoBehaviour
         maxPokemonOut++;
     }
 
-
+    public void FullRestore()
+    {
+        hp = maxHp;
+    }
 
     public void Resume()
     {
@@ -727,39 +882,54 @@ public class PlayerControls : MonoBehaviour
     {
         inCutscene = false;
     }
-    public void ReturnToTitle()
+
+    public void RestOnBench()
     {
-        returningToTitle = true;
-        if (rewiredInputSystem != null)
-            Destroy(rewiredInputSystem);
-        // inCutscene = false;
-        Time.timeScale = 1;
-        settings.gameObject.SetActive(false);
-        StartCoroutine(ReturningToTitleScreen());
+        resting = true;
+        FullRestore();
+        anim.speed = 1;
+        anim.SetTrigger("rest");
+        anim.SetBool("isResting", true);
+
+        SaveState();
+        rb.velocity = Vector2.zero;
     }
-    IEnumerator ReturningToTitleScreen()
+    public void SaveState()
     {
-        if (transitionAnim != null)
-            transitionAnim.SetTrigger("toBlack");
+        PlayerPrefsElite.SetString("checkpointScene", SceneManager.GetActiveScene().name);
+        PlayerPrefsElite.SetVector3("checkpointPos", this.transform.position);
+        PlayerPrefsElite.SetInt("playerExp", exp);
+        PlayerPrefsElite.SetInt("playerLevel", lv);
+        PlayerPrefsElite.SetBoolean("canDoubleJump", canDoubleJump);
+        PlayerPrefsElite.SetBoolean("canDash", canDash);
+    }
 
-        if (playerUi != null)
-            playerUi.SetActive(false);
-        playerInstance = null;
+    public void LeaveBench()
+    {
+        resting = false;
+        anim.SetBool("isResting", false);
+    }
 
-        yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene("0Title");
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
-        
+    public void Respawn()
+    {
         if (musicManager != null)
-            musicManager.BackToTitle();
-
-        yield return new WaitForSeconds(0.5f);
+            musicManager.StartMusic(musicManager.previousMusic);
+            
+        if (PlayerPrefsElite.VerifyString("checkpointScene") && PlayerPrefsElite.VerifyVector3("checkpointPos"))
+        {
+            SceneManager.LoadScene(PlayerPrefsElite.GetString("checkpointScene"));
+            this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos");
+        }
+        else 
+        {
+            SceneManager.LoadScene("Scene 000");
+        }
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        hp = maxHp;
+        anim.SetTrigger("reset");
         if (transitionAnim != null)
             transitionAnim.SetTrigger("fromBlack");
-        yield return new WaitForSeconds(0.5f);
-        Destroy(this.gameObject);
     }
-
 
 
     void PokemonSummoned(string button)

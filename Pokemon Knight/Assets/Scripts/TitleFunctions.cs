@@ -34,6 +34,14 @@ public class TitleFunctions : MonoBehaviour
         
         if (PlayerPrefsElite.VerifyBoolean("item1"))
             PlayerPrefsElite.SetBoolean("item1", false);
+
+        if (PlayerPrefsElite.VerifyString("checkpointScene"))
+            PlayerPrefsElite.DeleteKey("checkpointScene");
+        
+        if (PlayerPrefsElite.VerifyVector3("checkpointPos"))
+            PlayerPrefsElite.DeleteKey("checkpointPos");
+
+        StartCoroutine( FadeToGame() );
     }
     public void QuitGame()
     {

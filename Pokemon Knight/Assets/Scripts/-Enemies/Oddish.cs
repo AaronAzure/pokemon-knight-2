@@ -13,11 +13,13 @@ public class Oddish : Enemy
     private bool canFlip = true;
     private bool movingLeft;
     private bool movingRight;
+    // [Space] private EnemyAttack stunSporeDmg;
 
 
     [Header("Attacks")]
     [SerializeField] private Animator anim;
-    [SerializeField] private GameObject stunSpore;
+    [SerializeField] private EnemyAttack stunSpore;
+    [SerializeField] private int stunSporeDmg=2;
     [SerializeField] private Transform stunSporePos;
     public bool canSeePlayer;
     public bool canAtk = true;
@@ -130,6 +132,7 @@ public class Oddish : Enemy
         movingRight = false;
         canAtk = false;
         var obj = Instantiate(stunSpore, stunSporePos.position, stunSporePos.transform.rotation);
+        obj.atkDmg = stunSporeDmg;
         Destroy(obj, 4.5f);
 
         yield return new WaitForSeconds(1f);

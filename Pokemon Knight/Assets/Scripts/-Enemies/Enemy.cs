@@ -53,6 +53,7 @@ public abstract class Enemy : MonoBehaviour
     protected bool isDefeated;
     [Space] [SerializeField] private string powerupName;
     [Space] [SerializeField] private GameObject pokeball;
+    [Space] [SerializeField] private GameObject canCatchEffect;
 
 
     [Space]
@@ -186,6 +187,8 @@ public abstract class Enemy : MonoBehaviour
         Time.timeScale = 1;
         yield return new WaitForSeconds(0.5f);
         rageAuraObj.SetActive(false);
+        if (canCatchEffect != null) 
+            canCatchEffect.SetActive(true);
         canCatch = true;
     }
     public IEnumerator ApplyKnockback(Transform opponent, float force)

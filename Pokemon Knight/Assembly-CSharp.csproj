@@ -44,7 +44,9 @@
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIImageHelper.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/TilemapChunk_Renderer.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ControlMapper_InputGrid.cs" />
+     <Compile Include="Assets/Scripts/PowerupScreen.cs" />
      <Compile Include="Assets/Scripts/-Allies/AllySquirtle.cs" />
+     <Compile Include="Assets/Scripts/-Enemies/OddishAttack.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/Brush/RandomBrush.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/Utils/MinMaxSliderAttribute.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/STETilemap.cs" />
@@ -64,8 +66,9 @@
      <Compile Include="Assets/Scripts/TitleFunctions.cs" />
      <Compile Include="Assets/Scripts/PlayerControls.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/BaseTrigger.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ThemeSettings.cs" />
+     <Compile Include="Assets/Scripts/Item.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/LanguageData.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ThemeSettings.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/MapPathFinding/PathfindingBehaviour.cs" />
      <Compile Include="Assets/Scripts/Pokeball.cs" />
      <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/ToggleCinematics.cs" />
@@ -102,6 +105,7 @@
      <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DCinematicsToggle.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/Tileset.cs" />
      <Compile Include="Assets/Scripts/BossRoom.cs" />
+     <Compile Include="Assets/Scripts/-Enemies/Oddish.cs" />
      <Compile Include="Assets/Scripts/GameManager.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CustomToggle.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ToggleInfo.cs" />
@@ -170,6 +174,7 @@
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Utils/TilemapUtils.cs" />
      <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/DollyZoomExample.cs" />
      <Compile Include="Assets/Scripts/WhiteFlash.cs" />
+     <Compile Include="Assets/Scripts/ConditionalFieldAttribute.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/clipper.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/Utils/EditorPrefsX.cs" />
      <Compile Include="Assets/Rewired/Internal/Scripts/Platforms/Ouya/OuyaInputSource.cs" />
@@ -252,11 +257,8 @@
      <Compile Include="Assets/ProCamera2D/Code/Triggers/ProCamera2DTriggerBoundaries.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIGroup.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/IPostMover.cs" />
-     <Compile Include="Assets/Scripts/PowerupScreen.cs" />
-     <Compile Include="Assets/Scripts/-Enemies/Oddish.cs" />
-     <Compile Include="Assets/Scripts/-Enemies/OddishAttack.cs" />
-     <Compile Include="Assets/Scripts/ConditionalFieldAttribute.cs" />
-     <Compile Include="Assets/Scripts/Item.cs" />
+     <Compile Include="Assets/Scripts/RestBench.cs" />
+     <Compile Include="Assets/Scripts/Interactable.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Epic Toon FX/Prefabs/Environment/Environment FX.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6578306421477813114}
   - component: {fileID: 6578306421477813113}
-  - component: {fileID: 1929727826126720913}
   m_Layer: 0
   m_Name: Boss Roar
   m_TagString: Roar
@@ -59,25 +58,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 25, y: 15}
   m_EdgeRadius: 0
---- !u!95 &1929727826126720913
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6578306421477813112}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8953b4a22947f434ebcd816b581a0b5f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &6578306422152995064
 PrefabInstance:
   m_ObjectHideFlags: 0
