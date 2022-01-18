@@ -922,7 +922,7 @@ public class PlayerControls : MonoBehaviour
         }
         else 
         {
-            SceneManager.LoadScene("Scene 000");
+            SceneManager.LoadScene("Forest 000");
         }
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
         hp = maxHp;

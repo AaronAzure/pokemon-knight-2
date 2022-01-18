@@ -56,6 +56,6 @@ public class TitleFunctions : MonoBehaviour
         starting = true;
         transitionCam.TransitionExit();
         yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene("Scene 000");
+        SceneManager.LoadScene("Forest 000");
     }
 }

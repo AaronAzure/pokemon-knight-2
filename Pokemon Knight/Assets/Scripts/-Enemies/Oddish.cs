@@ -45,12 +45,11 @@ public class Oddish : Enemy
         if (canSeePlayer && canAtk)
         {
             canAtk = false;
-            StartCoroutine(StunSpore());
+            StartCoroutine(PoisonPowder());
         }
         RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsGround);
         RaycastHit2D frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
-        // if (movingLeft)
-        //     frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
+
         if (movingRight)
             frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
         
@@ -123,7 +122,7 @@ public class Oddish : Enemy
         canFlip = true;
     }
 
-    public IEnumerator StunSpore()
+    public IEnumerator PoisonPowder()
     {
         yield return new WaitForSeconds(0.5f);
         StopCoroutine(co);

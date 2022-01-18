@@ -101,7 +101,7 @@ public class ButterfreeBoss : Enemy
         if (atkCount % 2 == 0)
             StartCoroutine( Tackle() );
         else
-            StartCoroutine( StunSpore() );
+            StartCoroutine( PoisonPowder() );
     }
 
 
@@ -130,7 +130,7 @@ public class ButterfreeBoss : Enemy
         LocatePlayer();
         StartCoroutine( TrackPlayer() );
     }
-    IEnumerator StunSpore()
+    IEnumerator PoisonPowder()
     {
         anim.SetTrigger("stunSpore");
         body.velocity = Vector2.zero;
