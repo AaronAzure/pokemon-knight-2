@@ -102,12 +102,16 @@ public class PlayerControls : MonoBehaviour
     private float localX;
     [Space] [SerializeField] private GameObject holder;
     [SerializeField] private Animator anim;
-    private bool inCutscene;
+    public bool inCutscene;
     [Space] [SerializeField] private Animator settings;
     private bool returningToTitle;
 
     [Space] public bool canRest;
     public bool resting;
+    [Space] public bool canEnter;
+    public string newSceneName;
+    public Vector2 newScenePos;
+    [Tooltip("true = moving left\nfalse = moving right")] public bool moveLeftFromDoor; 
     
 
 
@@ -152,7 +156,7 @@ public class PlayerControls : MonoBehaviour
         player = ReInput.players.GetPlayer(playerID);
 
         
-        if (musicManager == null)
+        if (musicManager == null && GameObject.Find("Music Manager") != null)
         {
             musicManager = GameObject.Find("Music Manager").GetComponent<MusicManager>();
             StartingMusic();
@@ -185,12 +189,16 @@ public class PlayerControls : MonoBehaviour
         }
         
         if (transitionAnim != null)
+        {
+            transitionAnim.gameObject.SetActive(true);
             transitionAnim.SetTrigger("fromBlack");
+        }
     }
     void Update()
     {
         leftWallDetect = Physics2D.OverlapBox(leftWallPos.position, wallDetectBox, 0, whatIsGround);
         rightWallDetect = Physics2D.OverlapBox(rightWallPos.position, wallDetectBox, 0, whatIsGround);
+        
         
         if (player.GetButtonDown("START") && !settings.gameObject.activeSelf && !returningToTitle)
         {
@@ -209,11 +217,14 @@ public class PlayerControls : MonoBehaviour
             if (PressedStandardButton())
                 LeaveBench();
         }
-        //* Walking, Dashing, Summoning, jumping
+        //* Walking, Dashing, Summoning, jumping, Interacting
         else if (hp > 0 && !inCutscene && !dodging)
         {
             if (canRest && Interact())
                 RestOnBench();
+
+            if (canEnter && Interact())
+                StartCoroutine( EnteringDoor() );
 
 
             grounded = Physics2D.OverlapBox(feetPos.position, feetBox, 0, whatIsGround);
@@ -668,7 +679,7 @@ public class PlayerControls : MonoBehaviour
         // ReturnToTitle();
     }
 
-    public void SetNextArea(string nextArea, float xPos, float yPos, bool walkLeft)
+    public void SetNextArea(string nextArea, Vector2 newPos)
     {
         if (!inCutscene)
         {
@@ -679,10 +690,10 @@ public class PlayerControls : MonoBehaviour
             
             if (transitionAnim != null)
                 transitionAnim.SetTrigger("toBlack");
-            StartCoroutine( MovingToNextArea(nextArea, xPos, yPos, walkLeft) );
+            StartCoroutine( MovingToNextArea(nextArea, newPos) );
         }
     }
-    public IEnumerator MovingToNextArea(string nextArea, float xPos, float yPos, bool walkLeft)
+    public IEnumerator MovingToNextArea(string nextArea, Vector2 newPos)
     {
         if (!inCutscene)
         {
@@ -694,7 +705,7 @@ public class PlayerControls : MonoBehaviour
             rb.velocity = Vector2.zero;
 
             yield return new WaitForEndOfFrame();
-            this.transform.position = new Vector3(xPos,yPos);
+            this.transform.position = newPos;
 
             yield return new WaitForSeconds(0.1f);
             if (transitionAnim != null)
@@ -714,6 +725,7 @@ public class PlayerControls : MonoBehaviour
         yield return new WaitForEndOfFrame();
         anim.SetBool("isGrounded", true);
         anim.SetBool("isFalling", false);
+        
 
         if (dodgingThruScene)
             anim.SetTrigger("dodge");
@@ -729,6 +741,7 @@ public class PlayerControls : MonoBehaviour
         yield return new WaitForEndOfFrame();
         anim.SetBool("isGrounded", true);
         anim.SetBool("isFalling", false);
+        
 
         if (dodgingThruScene)
             anim.SetTrigger("dodge");
@@ -739,6 +752,44 @@ public class PlayerControls : MonoBehaviour
         inCutscene = false;
         rb.velocity = Vector2.zero;
     }
+
+    public IEnumerator EnteringDoor()
+    {
+        if (!inCutscene)
+        {
+            rb.velocity = Vector2.zero;
+            inCutscene = true;
+
+            if (transitionAnim != null)
+                transitionAnim.SetTrigger("toBlack");
+
+            yield return new WaitForSeconds(1);
+            SceneManager.LoadScene(newSceneName);
+            rb.velocity = Vector2.zero;
+            canEnter = false;
+
+            yield return new WaitForEndOfFrame();
+            this.transform.position = newScenePos;
+
+            yield return new WaitForSeconds(0.1f);
+            if (transitionAnim != null)
+                transitionAnim.SetTrigger("fromBlack");
+            
+            yield return new WaitForSeconds(0.4f);
+
+            if (moveLeftFromDoor)
+            {
+                holder.transform.eulerAngles = new Vector3(0,180);
+                StartCoroutine( WalkingLeft() );
+            }
+            else
+            {
+                holder.transform.eulerAngles = new Vector3(0,0);
+                StartCoroutine( WalkingRight() );
+            }
+        }
+    }
+
 
 
     public void ReturnToTitle()
@@ -885,6 +936,7 @@ public class PlayerControls : MonoBehaviour
 
     public void RestOnBench()
     {
+        rb.velocity = Vector2.zero;
         resting = true;
         FullRestore();
         anim.speed = 1;
@@ -892,7 +944,6 @@ public class PlayerControls : MonoBehaviour
         anim.SetBool("isResting", true);
 
         SaveState();
-        rb.velocity = Vector2.zero;
     }
     public void SaveState()
     {

@@ -4,7 +4,7 @@ using TMPro;
 public class Interactable : MonoBehaviour
 {
     // [SerializeField] private GameObject textbox;
-    [SerializeField] private TextMeshPro text;
+    public TextMeshPro text;
 
     private void Start() 
     {

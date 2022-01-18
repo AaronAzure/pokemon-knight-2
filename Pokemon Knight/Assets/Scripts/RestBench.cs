@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class RestBench : MonoBehaviour
 {
-    [SerializeField] private PlayerControls playerControls;
+    private PlayerControls playerControls;
+
+
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if (other.CompareTag("Player"))
@@ -10,7 +12,7 @@ public class RestBench : MonoBehaviour
             if (playerControls == null)
                 playerControls = other.GetComponent<PlayerControls>();
             
-            if (playerControls != null)
+            if (playerControls != null && !playerControls.inCutscene)
                 playerControls.canRest = true;
         }
     }
@@ -21,7 +23,7 @@ public class RestBench : MonoBehaviour
             if (playerControls == null)
                 playerControls = other.GetComponent<PlayerControls>();
             
-            if (playerControls != null)
+            if (playerControls != null && !playerControls.inCutscene)
                 playerControls.canRest = false;
         }
     }

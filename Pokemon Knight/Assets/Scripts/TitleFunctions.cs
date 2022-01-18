@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class TitleFunctions : MonoBehaviour
 {
     [SerializeField] private ProCamera2DTransitionsFX transitionCam;
+    [SerializeField] private GameObject[] toDestroy;
     private bool starting;
 
 
@@ -49,6 +50,9 @@ public class TitleFunctions : MonoBehaviour
     }
     IEnumerator FadeToGame()
     {
+        if (toDestroy.Length > 0)
+            foreach (GameObject obj in toDestroy)
+                Destroy(obj);
         // Can only press once
         if (starting)
             yield break;
