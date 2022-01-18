@@ -63,6 +63,7 @@ public class PlayerControls : MonoBehaviour
 
     [Space] [Header("Platformer Mechanics")]
     [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Collider2D col;
     [SerializeField] private float moveSpeed = 10;
     [SerializeField] private float dashSpeed = 50;
     [SerializeField] private float dashTime = 0.3f;
@@ -132,7 +133,11 @@ public class PlayerControls : MonoBehaviour
     [Space][SerializeField] private GameObject squirtle;
     [Space][SerializeField] private GameObject charmander;
     [Space][SerializeField] private GameObject doubleJumpObj;
+    
+    
+    [Header("CHEATS")]
     [SerializeField] private float dmgMultiplier = 1;
+    [SerializeField] private float expMultiplier = 1;
 
 
     
@@ -154,7 +159,6 @@ public class PlayerControls : MonoBehaviour
     void Start()
     {
         player = ReInput.players.GetPlayer(playerID);
-
         
         if (musicManager == null && GameObject.Find("Music Manager") != null)
         {
@@ -182,11 +186,14 @@ public class PlayerControls : MonoBehaviour
             IncreaseMaxPokemonOut();
 
         hp = maxHp;
-        if (PlayerPrefsElite.VerifyString("checkpointScene") && PlayerPrefsElite.VerifyVector3("checkpointPos"))
-        {
+        if (PlayerPrefsElite.VerifyString("checkpointScene"))
             SceneManager.LoadScene(PlayerPrefsElite.GetString("checkpointScene"));
+        else 
+            PlayerPrefsElite.SetString("checkpointScene", SceneManager.GetActiveScene().name);
+        if (PlayerPrefsElite.VerifyVector3("checkpointPos"))
             this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos");
-        }
+        else 
+            PlayerPrefsElite.SetVector3("checkpointPos", this.transform.position);
         
         if (transitionAnim != null)
         {
@@ -242,7 +249,7 @@ public class PlayerControls : MonoBehaviour
                 anim.SetBool("isFalling", true);
             }
 
-            if (grounded && canDodge && player.GetButtonDown("ZR"))
+            if (grounded && canDodge && player.GetButtonDown("ZR") && !canRest && !canEnter)
             {
                 canDodge = false;
                 StartCoroutine( Dodge() );
@@ -442,8 +449,9 @@ public class PlayerControls : MonoBehaviour
 
     bool Interact()
     {
-        float yValue = Mathf.Abs( player.GetAxis("Move Vertical") );
-        return (yValue > 0.5f);
+        return player.GetButtonDown("ZR");
+        // float yValue = Mathf.Abs( player.GetAxis("Move Vertical") );
+        // return (yValue > 0.5f);
     }
     private void Walk(float xValue)
     {
@@ -555,7 +563,7 @@ public class PlayerControls : MonoBehaviour
             if (dmg > 0 && hp > 0)
                 StartCoroutine( Flash() );
 
-            if (force > 0 && opponent != null)
+            if (force > 0 && opponent != null && hp > 0)
             {
                 StartCoroutine( IgnoreEnemyCollision() );
                 StartCoroutine( ApplyKnockback(opponent, force) );
@@ -619,7 +627,7 @@ public class PlayerControls : MonoBehaviour
     public void GainExp(int expGained, int enemyLevel)
     {
         if (lv < 100)
-            exp += (int) (expGained * Mathf.Min(3f, (float) enemyLevel / lv));
+            exp += (int) ((expGained * Mathf.Min(3f, (float) enemyLevel / lv)) * expMultiplier);
         else
             exp = 0;
     }
@@ -662,11 +670,15 @@ public class PlayerControls : MonoBehaviour
         anim.SetTrigger("died");
         
         if (musicManager != null)
-            StartCoroutine(musicManager.LowerMusic(musicManager.currentMusic));
+            StartCoroutine( musicManager.LowerMusic(musicManager.currentMusic, 0.75f) );
+        
         
         // Time.timeScale = 0.25f;
-        // rb.bodyType = RigidbodyType2D.Static;
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
+        float origGravity = rb.gravityScale;
+        rb.gravityScale = 0;
+        if (col != null)
+            col.enabled = false;
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
 
 
         yield return new WaitForSeconds(2f);
@@ -675,8 +687,14 @@ public class PlayerControls : MonoBehaviour
         
         yield return new WaitForSeconds(1f);
         Respawn();
+        rb.gravityScale = origGravity;
+        if (col != null)
+            col.enabled = true;
         // Time.timeScale = 1;
         // ReturnToTitle();
+        yield return new WaitForSeconds(1f);
+        if (musicManager != null)
+            StartCoroutine( musicManager.RaiseMusic(musicManager.currentMusic, 0.75f) );
     }
 
     public void SetNextArea(string nextArea, Vector2 newPos)
@@ -725,7 +743,6 @@ public class PlayerControls : MonoBehaviour
         yield return new WaitForEndOfFrame();
         anim.SetBool("isGrounded", true);
         anim.SetBool("isFalling", false);
-        
 
         if (dodgingThruScene)
             anim.SetTrigger("dodge");
@@ -734,6 +751,7 @@ public class PlayerControls : MonoBehaviour
         
         yield return new WaitForSeconds(0.5f);
         inCutscene = false;
+        canEnter = false;
         rb.velocity = Vector2.zero;
     }
     IEnumerator WalkingLeft()  // Moving left
@@ -741,7 +759,6 @@ public class PlayerControls : MonoBehaviour
         yield return new WaitForEndOfFrame();
         anim.SetBool("isGrounded", true);
         anim.SetBool("isFalling", false);
-        
 
         if (dodgingThruScene)
             anim.SetTrigger("dodge");
@@ -750,6 +767,7 @@ public class PlayerControls : MonoBehaviour
         
         yield return new WaitForSeconds(0.5f);
         inCutscene = false;
+        canEnter = false;
         rb.velocity = Vector2.zero;
     }
 
@@ -766,7 +784,6 @@ public class PlayerControls : MonoBehaviour
             yield return new WaitForSeconds(1);
             SceneManager.LoadScene(newSceneName);
             rb.velocity = Vector2.zero;
-            canEnter = false;
 
             yield return new WaitForEndOfFrame();
             this.transform.position = newScenePos;
@@ -945,6 +962,33 @@ public class PlayerControls : MonoBehaviour
 
         SaveState();
     }
+    public void ReloadState()
+    {
+        if (PlayerPrefsElite.VerifyBoolean("canDoubleJump"))
+            canDoubleJump = PlayerPrefsElite.GetBoolean("canDoubleJump");
+        if (PlayerPrefsElite.VerifyBoolean("canDash"))
+            canDash = PlayerPrefsElite.GetBoolean("canDash");
+        if (PlayerPrefsElite.VerifyInt("playerLevel"))
+        {
+            lv = PlayerPrefsElite.GetInt("playerLevel");
+            maxHp += (5 * (lv - 1));
+            if (lvText != null)
+                 lvText.text = "Lv. " + lv;
+        }
+        for (int i=1 ; i<lv ; i++)
+            expNeeded = (int) (expNeeded * 1.2f);
+        if (PlayerPrefsElite.VerifyInt("playerExp"))
+            exp = PlayerPrefsElite.GetInt("playerExp");
+        if (PlayerPrefsElite.VerifyBoolean("item1") && PlayerPrefsElite.GetBoolean("item1"))
+            IncreaseMaxPokemonOut();
+
+        hp = maxHp;
+        if (PlayerPrefsElite.VerifyString("checkpointScene") && PlayerPrefsElite.VerifyVector3("checkpointPos"))
+        {
+            SceneManager.LoadScene(PlayerPrefsElite.GetString("checkpointScene"));
+            this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos");
+        }
+    }
     public void SaveState()
     {
         PlayerPrefsElite.SetString("checkpointScene", SceneManager.GetActiveScene().name);
@@ -963,21 +1007,16 @@ public class PlayerControls : MonoBehaviour
 
     public void Respawn()
     {
-        if (musicManager != null)
+        if (musicManager != null && musicManager.previousMusic != null)
             musicManager.StartMusic(musicManager.previousMusic);
             
-        if (PlayerPrefsElite.VerifyString("checkpointScene") && PlayerPrefsElite.VerifyVector3("checkpointPos"))
-        {
-            SceneManager.LoadScene(PlayerPrefsElite.GetString("checkpointScene"));
-            this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos");
-        }
-        else 
-        {
-            SceneManager.LoadScene("Forest 000");
-        }
+        ReloadState();
+
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
         hp = maxHp;
         anim.SetTrigger("reset");
+
         if (transitionAnim != null)
             transitionAnim.SetTrigger("fromBlack");
     }

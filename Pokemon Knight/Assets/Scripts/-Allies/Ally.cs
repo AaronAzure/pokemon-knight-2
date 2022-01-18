@@ -39,7 +39,7 @@ public abstract class Ally : MonoBehaviour
     {
         // Strength grows per level
         if (trainer != null)
-            atkDmg += ( extraDmg * (int) ((trainer.lv - 1) / perLevel) );
+            atkDmg += ( extraDmg * Mathf.CeilToInt(((trainer.lv - 1) / perLevel)) );
 
         if (hitbox != null)
         {

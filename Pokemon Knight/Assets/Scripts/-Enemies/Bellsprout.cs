@@ -7,8 +7,8 @@ public class Bellsprout : Enemy
     [Space] [Header("Bellsprout")]  
     public Animator anim;
     public float moveSpeed=2;
-    public float chaseSpeed=4;
-    public float maxSpeed=6;
+    public float chaseSpeed=5;
+    public float maxSpeed=7.5f;
     public float distanceDetect=1f;
     public Transform groundDetection;
     // [SerializeField] private LayerMask whatIsTree;
@@ -16,17 +16,22 @@ public class Bellsprout : Enemy
     private bool canFlip = true;
     private bool movingLeft;
     private bool movingRight;
+    [SerializeField] private LayerMask whatIsPlayer;
+    [SerializeField] private LayerMask whatIsBounds;
 
 
     [Header("Attacks")]
     public Transform target;
     public bool chasing;
+    public bool playerInRange;
     private Coroutine co;
+    private LayerMask finalMask;    // detect Player, Ground, ignores Enemy, Bounds
 
 
     public override void Setup()
     {
         co = StartCoroutine( DoSomething() );
+        finalMask = (whatIsPlayer | whatIsGround);
     }
 
 
@@ -61,21 +66,48 @@ public class Bellsprout : Enemy
             if (target.position.x > this.transform.position.x)  // player is to the right
             {
                 // body.velocity = new Vector2(chaseSpeed, body.velocity.y);
-                body.AddForce(Vector2.right * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
+                body.AddForce(Vector2.right * 5 * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
                 float cappedSpeed = Mathf.Min(body.velocity.x, maxSpeed);
+
                 body.velocity = new Vector2(cappedSpeed, body.velocity.y);
                 model.transform.eulerAngles = new Vector3(0, 180);  // face right
             }
             else
             {
                 // body.velocity = new Vector2(-chaseSpeed, body.velocity.y);
-                body.AddForce(Vector2.left * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
+                body.AddForce(Vector2.left * 5 * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
                 float cappedSpeed = Mathf.Max(body.velocity.x, -maxSpeed);
+
                 body.velocity = new Vector2(cappedSpeed, body.velocity.y);
                 model.transform.eulerAngles = new Vector3(0, 0);  // face left
             }
         }
 
+        if (target != null && playerInRange)
+        {
+            Vector3 lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));
+            RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position + new Vector3(0, 1),
+                this.transform.position + new Vector3(0, 1) + lineOfSight, finalMask);
+            if (playerInfo.collider != null && playerInfo.collider.gameObject.CompareTag("Player"))
+            {
+                chasing = true;
+                anim.speed = chaseSpeed;
+            }
+            else
+                chasing = false;
+
+        }
+        
+    }
+    private void OnDrawGizmosSelected() 
+    {
+        Gizmos.color = Color.yellow;
+        if (target != null)
+        {
+            Vector3 lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));
+            Gizmos.DrawLine(this.transform.position + new Vector3(0, 1),
+                this.transform.position + new Vector3(0, 1) + lineOfSight);
+        }
     }
 
     private void Flip()
@@ -108,10 +140,7 @@ public class Bellsprout : Enemy
         anim.SetTrigger(triggerName);
         if (triggerName == "walking")
         {
-            if (!chasing)
-                anim.speed = moveSpeed;
-            else
-                anim.speed = chaseSpeed;
+            anim.speed = moveSpeed;
         }
         else
             anim.speed = 1;

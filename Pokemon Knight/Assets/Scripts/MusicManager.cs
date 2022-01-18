@@ -42,7 +42,7 @@ public class MusicManager : MonoBehaviour
     }
         
     // For dramatic silence
-    public IEnumerator LowerMusic(AudioSource music)
+    public IEnumerator StopMusic(AudioSource music)
     {
         int times = 30;
         float fraction = music.volume / times;
@@ -53,6 +53,26 @@ public class MusicManager : MonoBehaviour
         }
         yield return new WaitForEndOfFrame();
         music.Stop();
+    }
+    public IEnumerator LowerMusic(AudioSource music, float percent)
+    {
+        int times = 30;
+        float fraction = (music.volume  * percent) / times;
+        for (int i=0 ; i<times ; i++)
+        {
+            yield return new WaitForEndOfFrame();
+            music.volume -= fraction;
+        }
+    }
+    public IEnumerator RaiseMusic(AudioSource music, float percent)
+    {
+        int times = 30;
+        float fraction = (music.volume  * times) / percent;
+        for (int i=0 ; i<times ; i++)
+        {
+            yield return new WaitForEndOfFrame();
+            music.volume += fraction;
+        }
     }
     public void StartMusic(AudioSource music)
     {

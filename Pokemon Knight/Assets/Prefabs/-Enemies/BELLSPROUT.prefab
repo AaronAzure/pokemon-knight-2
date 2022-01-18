@@ -408,7 +408,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -2.5, y: 0}
+  m_Offset: {x: -2, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -419,7 +419,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5, y: 5}
+  m_Size: {x: 8, y: 5}
   m_EdgeRadius: 0
 --- !u!114 &2093179658061621343
 MonoBehaviour:
@@ -726,7 +726,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lv: 4
   defaultLv: 4
-  maxHp: 150
+  maxHp: 80
   hp: 0
   extraHp: 5
   extraDmg: 5
@@ -755,7 +755,7 @@ MonoBehaviour:
   powerupName: 
   pokeball: {fileID: 0}
   canCatchEffect: {fileID: 0}
-  contactDmg: 15
+  contactDmg: 10
   contactKb: 10
   renderers:
   - {fileID: 8888419576735348821}
@@ -769,12 +769,20 @@ MonoBehaviour:
   defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
   bossRoom: {fileID: 0}
   anim: {fileID: 6948537191354315187}
-  moveSpeed: 2
+  moveSpeed: 1
   chaseSpeed: 3
+  maxSpeed: 5
   distanceDetect: 1
   groundDetection: {fileID: 2690864748907692025}
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 64
+  whatIsBounds:
+    serializedVersion: 2
+    m_Bits: 1024
   target: {fileID: 0}
   chasing: 0
+  playerInRange: 0
 --- !u!1 &8531754209428490774
 GameObject:
   m_ObjectHideFlags: 0

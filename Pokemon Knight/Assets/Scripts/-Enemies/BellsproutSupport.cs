@@ -7,8 +7,11 @@ public class BellsproutSupport : MonoBehaviour
     {
         if (other.CompareTag("Player") && bellsprout != null)
         {
-            bellsprout.target = other.transform;
-            bellsprout.chasing = true;
+            if (bellsprout.target == null)
+                bellsprout.target = other.transform;
+            bellsprout.playerInRange = true;
+            bellsprout.anim.SetTrigger("walking");
+
             bellsprout.anim.speed = bellsprout.chaseSpeed;
         }    
     }
@@ -17,7 +20,7 @@ public class BellsproutSupport : MonoBehaviour
     {
         if (other.CompareTag("Player") && bellsprout != null)
         {
-            bellsprout.chasing = false;
+            bellsprout.playerInRange = false;
             bellsprout.anim.speed = 1;
         }    
     }
