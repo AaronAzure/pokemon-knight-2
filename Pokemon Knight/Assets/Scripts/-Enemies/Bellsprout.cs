@@ -17,7 +17,7 @@ public class Bellsprout : Enemy
     private bool movingLeft;
     private bool movingRight;
     [SerializeField] private LayerMask whatIsPlayer;
-    [SerializeField] private LayerMask whatIsBounds;
+    // [SerializeField] private LayerMask whatIsBounds;
 
 
     [Header("Attacks")]
@@ -27,14 +27,15 @@ public class Bellsprout : Enemy
     private Coroutine co;
     private LayerMask finalMask;    // detect Player, Ground, ignores Enemy, Bounds
 
+    [Space] [SerializeField] private GameObject alert;
+
 
     public override void Setup()
     {
         co = StartCoroutine( DoSomething() );
         finalMask = (whatIsPlayer | whatIsGround);
+        if (alert != null) alert.gameObject.SetActive(false);
     }
-
-
 
     // Start is called before the first frame update
     void FixedUpdate() 
@@ -91,11 +92,20 @@ public class Bellsprout : Enemy
             if (playerInfo.collider != null && playerInfo.collider.gameObject.CompareTag("Player"))
             {
                 chasing = true;
+                if (alert != null) alert.gameObject.SetActive(true);
                 anim.speed = chaseSpeed;
             }
             else
+            {
                 chasing = false;
+                if (alert != null) alert.gameObject.SetActive(false);
+            }
 
+        }
+        else
+        {
+            chasing = false;
+            if (alert != null) alert.gameObject.SetActive(false);
         }
         
     }

@@ -107,6 +107,15 @@ public class PlayerControls : MonoBehaviour
     [Space] [SerializeField] private Animator settings;
     private bool returningToTitle;
 
+
+    [Space] [Header("Moomoo milk")]
+    public int nMoomooMilk = 1;
+    public int nMoomooMilkLeft = 1;
+    public int moomooMilkRecovery = 50;
+    public Animator[] moomooUi;
+    public bool drinking;
+    public GameObject healEffect;
+
     [Space] public bool canRest;
     public bool resting;
     [Space] public bool canEnter;
@@ -219,6 +228,20 @@ public class PlayerControls : MonoBehaviour
         }
         //* Paused
         if (settings.gameObject.activeSelf) {}
+        else if (drinking)
+        {
+            if (player.GetButtonUp("L"))
+            {
+                anim.speed = 1;
+                rb.velocity = Vector2.zero;
+                anim.SetBool("isDrinking", false);
+                drinking = false;
+            }
+        }
+        else if (nMoomooMilkLeft > 0 && hp != maxHp && player.GetButtonDown("L"))
+        {
+            DrinkingMoomooMilk();
+        }
         else if (resting)
         {
             if (PressedStandardButton())
@@ -379,7 +402,7 @@ public class PlayerControls : MonoBehaviour
         //* Paused
         if (settings.gameObject.activeSelf) {}
         else if (resting) {}
-        else if (hp > 0 && !inCutscene && !dodging)
+        else if (hp > 0 && !inCutscene && !dodging && !drinking)
         {
             float xValue = player.GetAxis("Move Horizontal");
             Walk(xValue);
@@ -558,7 +581,7 @@ public class PlayerControls : MonoBehaviour
     {
         if (hp > 0 && !inCutscene)
         {
-            
+            anim.SetBool("isDrinking", false);
             hp -= dmg;
             if (dmg > 0 && hp > 0)
                 StartCoroutine( Flash() );
@@ -669,8 +692,8 @@ public class PlayerControls : MonoBehaviour
         rb.velocity = Vector2.zero;
         anim.SetTrigger("died");
         
-        if (musicManager != null)
-            StartCoroutine( musicManager.LowerMusic(musicManager.currentMusic, 0.75f) );
+        // if (musicManager != null)
+        //     StartCoroutine( musicManager.LowerMusic(musicManager.currentMusic, 0.75f) );
         
         
         // Time.timeScale = 0.25f;
@@ -686,7 +709,7 @@ public class PlayerControls : MonoBehaviour
             transitionAnim.SetTrigger("toBlack");
         
         yield return new WaitForSeconds(1f);
-        Respawn();
+        StartCoroutine( Respawn() );
         rb.gravityScale = origGravity;
         if (col != null)
             col.enabled = true;
@@ -694,10 +717,29 @@ public class PlayerControls : MonoBehaviour
         // ReturnToTitle();
         yield return new WaitForSeconds(1f);
         if (musicManager != null)
-            StartCoroutine( musicManager.RaiseMusic(musicManager.currentMusic, 0.75f) );
+            StartCoroutine( musicManager.TransitionMusic(musicManager.previousMusic) );
+    }
+    IEnumerator Respawn()
+    {
+        if (musicManager != null && musicManager.previousMusic != null)
+        {
+            // StartCoroutine( musicManager.StopMusic(musicManager.currentMusic) );
+            yield return new WaitForSeconds(0.5f);
+            // musicManager.StartMusic(musicManager.previousMusic);
+        }
+            
+        ReloadState();
+
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        hp = maxHp;
+        anim.SetTrigger("reset");
+
+        if (transitionAnim != null)
+            transitionAnim.SetTrigger("fromBlack");
     }
 
-    public void SetNextArea(string nextArea, Vector2 newPos)
+    public void SetNextArea(string nextArea, Vector2 newPos, bool exitingDoor=false)
     {
         if (!inCutscene)
         {
@@ -708,10 +750,10 @@ public class PlayerControls : MonoBehaviour
             
             if (transitionAnim != null)
                 transitionAnim.SetTrigger("toBlack");
-            StartCoroutine( MovingToNextArea(nextArea, newPos) );
+            StartCoroutine( MovingToNextArea(nextArea, newPos, exitingDoor) );
         }
     }
-    public IEnumerator MovingToNextArea(string nextArea, Vector2 newPos)
+    public IEnumerator MovingToNextArea(string nextArea, Vector2 newPos, bool exitingDoor)
     {
         if (!inCutscene)
         {
@@ -731,10 +773,15 @@ public class PlayerControls : MonoBehaviour
             
             yield return new WaitForSeconds(0.4f);
 
-            if (!walkingRight)
-                StartCoroutine( WalkingLeft() );
+            if (!exitingDoor)
+            {
+                if (!walkingRight)
+                    StartCoroutine( WalkingLeft() );
+                else
+                    StartCoroutine( WalkingRight() );
+            }
             else
-                StartCoroutine( WalkingRight() );
+                StartCoroutine( ExitingDoor() );
         }
     }
 
@@ -743,6 +790,7 @@ public class PlayerControls : MonoBehaviour
         yield return new WaitForEndOfFrame();
         anim.SetBool("isGrounded", true);
         anim.SetBool("isFalling", false);
+        anim.SetTrigger("reset");
 
         if (dodgingThruScene)
             anim.SetTrigger("dodge");
@@ -759,12 +807,26 @@ public class PlayerControls : MonoBehaviour
         yield return new WaitForEndOfFrame();
         anim.SetBool("isGrounded", true);
         anim.SetBool("isFalling", false);
-
+        anim.SetTrigger("reset");
+        
         if (dodgingThruScene)
             anim.SetTrigger("dodge");
 
         rb.AddForce(Vector2.left * moveSpeed, ForceMode2D.Impulse);
         
+        yield return new WaitForSeconds(0.5f);
+        inCutscene = false;
+        canEnter = false;
+        rb.velocity = Vector2.zero;
+    }
+    IEnumerator ExitingDoor()  // Moving left
+    {
+        yield return new WaitForEndOfFrame();
+        anim.SetBool("isGrounded", true);
+        anim.SetBool("isFalling", false);
+        anim.SetBool("isWalking", false);
+        anim.SetTrigger("reset");
+
         yield return new WaitForSeconds(0.5f);
         inCutscene = false;
         canEnter = false;
@@ -930,6 +992,25 @@ public class PlayerControls : MonoBehaviour
         maxPokemonOut++;
     }
 
+    public void DrinkingMoomooMilk()
+    {
+        drinking = true;
+        anim.SetBool("isDrinking", true);
+        anim.SetTrigger("drink");
+    }
+    public void DrankMoomooMilk()
+    {
+        if (healEffect != null)
+            Instantiate(healEffect, this.transform.position + new Vector3(0,1), Quaternion.identity, this.transform);
+        drinking = false;
+        hp += moomooMilkRecovery;
+        nMoomooMilkLeft--;
+
+        // UI indication
+        if (moomooUi != null && nMoomooMilkLeft < moomooUi.Length)
+            moomooUi[ nMoomooMilkLeft ].SetTrigger("used");
+        
+    }
     public void FullRestore()
     {
         hp = maxHp;
@@ -959,11 +1040,27 @@ public class PlayerControls : MonoBehaviour
         anim.speed = 1;
         anim.SetTrigger("rest");
         anim.SetBool("isResting", true);
+        nMoomooMilkLeft = nMoomooMilk;
+        // UI indication
+        if (moomooUi != null)
+        {
+            foreach (Animator ui in moomooUi)
+                ui.SetTrigger("restored");
+        }
 
         SaveState();
     }
     public void ReloadState()
     {
+        nMoomooMilkLeft = nMoomooMilk;
+        // UI indication
+        if (moomooUi != null)
+        {
+            foreach (Animator ui in moomooUi)
+                ui.SetTrigger("restored");
+        }
+
+
         if (PlayerPrefsElite.VerifyBoolean("canDoubleJump"))
             canDoubleJump = PlayerPrefsElite.GetBoolean("canDoubleJump");
         if (PlayerPrefsElite.VerifyBoolean("canDash"))
@@ -1003,22 +1100,6 @@ public class PlayerControls : MonoBehaviour
     {
         resting = false;
         anim.SetBool("isResting", false);
-    }
-
-    public void Respawn()
-    {
-        if (musicManager != null && musicManager.previousMusic != null)
-            musicManager.StartMusic(musicManager.previousMusic);
-            
-        ReloadState();
-
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
-        hp = maxHp;
-        anim.SetTrigger("reset");
-
-        if (transitionAnim != null)
-            transitionAnim.SetTrigger("fromBlack");
     }
 
 

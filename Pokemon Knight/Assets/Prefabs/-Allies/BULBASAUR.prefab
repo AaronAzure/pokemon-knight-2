@@ -206,9 +206,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4319595062940671704}
-  - component: {fileID: 4319595062940671705}
   - component: {fileID: 4319595062940671710}
   - component: {fileID: 4319595062940671707}
+  - component: {fileID: 8619596130431126787}
   m_Layer: 0
   m_Name: whip (effect)
   m_TagString: Untagged
@@ -231,22 +231,6 @@ Transform:
   m_Father: {fileID: 4319595063331818082}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &4319595062940671705
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4319595062940671711}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 1.5, y: 0.4}
-  serializedVersion: 2
-  m_Radius: 0.8
 --- !u!95 &4319595062940671710
 Animator:
   serializedVersion: 3
@@ -284,6 +268,22 @@ MonoBehaviour:
   spawnEffect: 1
   velocity: 0
   body: {fileID: 0}
+--- !u!70 &8619596130431126787
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4319595062940671711}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 1, y: 0.4}
+  m_Size: {x: 2.5, y: 1.6}
+  m_Direction: 1
 --- !u!1 &4319595063331818081
 GameObject:
   m_ObjectHideFlags: 0

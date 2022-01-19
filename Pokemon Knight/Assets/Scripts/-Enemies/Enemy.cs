@@ -62,11 +62,12 @@ public abstract class Enemy : MonoBehaviour
     public float contactKb=10;
     
     [Space] [SerializeField] private SpriteRenderer[] renderers;
+    [SerializeField] private Material defeatedMat;
     [SerializeField] private Material flashMat;
     [SerializeField] private Material origMat;
-    [SerializeField] private Material defeatedMat;
     [HideInInspector] public BossRoom bossRoom;
     private bool canCatch;
+    public bool isSmart;    // Turns if attacked from behind;
 
 
     protected void Awake()
@@ -94,10 +95,7 @@ public abstract class Enemy : MonoBehaviour
         Setup();
     }
 
-    public virtual void Setup()
-    {
-
-    }
+    public virtual void Setup() {}
 
     protected void LateUpdate() 
     {
@@ -135,6 +133,11 @@ public abstract class Enemy : MonoBehaviour
             //// Destroy(holder.gameObject, 0.5f);
             //// var obj = Instantiate(dmgText, new Vector3(transform.position.x, transform.position.y + 2), Quaternion.identity, holder.transform);
             //// obj.text = dmg.ToString();
+            // if (isSmart)
+            // {
+            //     Vector3 opponent
+            // }
+
             if (dmg > 0 && dmg < hp)
                 StartCoroutine( Flash() );
 
