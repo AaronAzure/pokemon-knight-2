@@ -611,7 +611,7 @@ MonoBehaviour:
   extraHp: 10
   extraDmg: 5
   expPossess: 10
-  extraExp: 3
+  extraExp: 5
   lvBreak: 50
   body: {fileID: 5798675815866953818}
   model: {fileID: 8315939532998918946}
@@ -638,10 +638,11 @@ MonoBehaviour:
   contactDmg: 5
   contactKb: 10
   renderers: []
+  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
-  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
   bossRoom: {fileID: 0}
+  isSmart: 0
   moveSpeed: 2
   distanceDetect: 1
   groundDetection: {fileID: 8404566178504463058}

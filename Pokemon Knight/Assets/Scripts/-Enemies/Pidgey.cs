@@ -63,6 +63,7 @@ public class Pidgey : Enemy
             }
 
         }
+        else if (alert != null) alert.gameObject.SetActive(false);
         
     }
     private void CapVelocity()

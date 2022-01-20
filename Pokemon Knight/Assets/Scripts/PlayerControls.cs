@@ -115,6 +115,7 @@ public class PlayerControls : MonoBehaviour
     public Animator[] moomooUi;
     public bool drinking;
     public GameObject healEffect;
+    [SerializeField] private AudioSource healSound;
 
     [Space] public bool canRest;
     public bool resting;
@@ -576,6 +577,34 @@ public class PlayerControls : MonoBehaviour
 
     }
 
+    public void DrinkingMoomooMilk()
+    {
+        drinking = true;
+        anim.SetBool("isDrinking", true);
+        anim.SetTrigger("drink");
+    }
+    public void DrankMoomooMilk()
+    {
+        if (healEffect != null)
+            Instantiate(healEffect, this.transform.position + new Vector3(0,1), Quaternion.identity, this.transform);
+        drinking = false;
+        hp += moomooMilkRecovery;
+        nMoomooMilkLeft--;
+        
+        if (healSound != null)
+            healSound.Play();
+
+        // UI indication
+        if (moomooUi != null && nMoomooMilkLeft < moomooUi.Length)
+            moomooUi[ nMoomooMilkLeft ].SetTrigger("used");
+        
+    }
+    public void FullRestore()
+    {
+        hp = maxHp;
+    }
+
+
     // todo -----------------  D A M A G E  ------------------------------------------------
     public void TakeDamage(int dmg=0, Transform opponent=null, float force=0)
     {
@@ -586,9 +615,9 @@ public class PlayerControls : MonoBehaviour
             if (dmg > 0 && hp > 0)
                 StartCoroutine( Flash() );
 
-            if (force > 0 && opponent != null && hp > 0)
+            if (force > 0 && opponent != null)
             {
-                StartCoroutine( IgnoreEnemyCollision() );
+                if (hp > 0) StartCoroutine( IgnoreEnemyCollision() );
                 StartCoroutine( ApplyKnockback(opponent, force) );
             }
 
@@ -707,6 +736,8 @@ public class PlayerControls : MonoBehaviour
         yield return new WaitForSeconds(2f);
         if (transitionAnim != null)
             transitionAnim.SetTrigger("toBlack");
+        if (musicManager != null)
+            StartCoroutine( musicManager.TransitionMusic(musicManager.previousMusic) );
         
         yield return new WaitForSeconds(1f);
         StartCoroutine( Respawn() );
@@ -715,9 +746,7 @@ public class PlayerControls : MonoBehaviour
             col.enabled = true;
         // Time.timeScale = 1;
         // ReturnToTitle();
-        yield return new WaitForSeconds(1f);
-        if (musicManager != null)
-            StartCoroutine( musicManager.TransitionMusic(musicManager.previousMusic) );
+        // yield return new WaitForSeconds(1f);
     }
     IEnumerator Respawn()
     {
@@ -990,30 +1019,6 @@ public class PlayerControls : MonoBehaviour
     public void IncreaseMaxPokemonOut()
     {
         maxPokemonOut++;
-    }
-
-    public void DrinkingMoomooMilk()
-    {
-        drinking = true;
-        anim.SetBool("isDrinking", true);
-        anim.SetTrigger("drink");
-    }
-    public void DrankMoomooMilk()
-    {
-        if (healEffect != null)
-            Instantiate(healEffect, this.transform.position + new Vector3(0,1), Quaternion.identity, this.transform);
-        drinking = false;
-        hp += moomooMilkRecovery;
-        nMoomooMilkLeft--;
-
-        // UI indication
-        if (moomooUi != null && nMoomooMilkLeft < moomooUi.Length)
-            moomooUi[ nMoomooMilkLeft ].SetTrigger("used");
-        
-    }
-    public void FullRestore()
-    {
-        hp = maxHp;
     }
 
     public void Resume()

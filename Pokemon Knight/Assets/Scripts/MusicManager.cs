@@ -21,7 +21,7 @@ public class MusicManager : MonoBehaviour
     {
         StartCoroutine( TransitionMusic(titleMusic) );
     }
-    public IEnumerator TransitionMusic(AudioSource startMusic, bool rememberLastMusic=false)
+    public IEnumerator TransitionMusic(AudioSource nextMusic, bool rememberLastMusic=false)
     {
         if (rememberLastMusic)
             previousMusic = currentMusic;
@@ -35,10 +35,19 @@ public class MusicManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
         currentMusic.Stop();
 
-        startMusic.volume = 0.25f;
-        startMusic.Play();
-        currentMusic = startMusic;
-        startMusic.loop = true;
+        if (nextMusic == null)
+        {
+            currentMusic.volume = 0.25f;
+            currentMusic.Play();
+            currentMusic.loop = true;
+        }
+        else
+        {
+            nextMusic.volume = 0.25f;
+            nextMusic.Play();
+            currentMusic = nextMusic;
+            nextMusic.loop = true;
+        }
     }
         
     // For dramatic silence

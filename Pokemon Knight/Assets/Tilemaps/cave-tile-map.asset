@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0d98f5be51926f46bc797504da5ad22, type: 3}
-  m_Name: forest-tile-map-2
+  m_Name: cave-tile-map
   m_EditorClassIdentifier: 
-  AtlasTexture: {fileID: 2800000, guid: 3423f0d22a3c24da19ae9bb0180a868c, type: 3}
+  AtlasTexture: {fileID: 2800000, guid: aa32b752718e24847beed4611439fe4c, type: 3}
   TilePxSize: {x: 126, y: 126}
   SliceOffset: {x: 1, y: 1}
   SlicePadding: {x: 2, y: 2}
   BackgroundColor: {r: 0.8039216, g: 0.8039216, b: 0.8039216, a: 0.8039216}
-  VisualTileSize: {x: 40.64, y: 40.64}
+  VisualTileSize: {x: 32, y: 32}
   VisualTilePadding: 1
   TileRowLength: 8
   m_tileViews: []
@@ -102,9 +102,114 @@ MonoBehaviour:
       height: 0.123046875
     collData:
       vertices:
-      - {x: 0, y: 0}
-      - {x: 0, y: 0.63492066}
-      - {x: 0.37301588, y: 0.63492066}
+      - {x: 0.6031746, y: 0.14285715}
+      - {x: 0.37301588, y: 0.6031746}
+      - {x: 1, y: 0.6031746}
+      - {x: 1, y: 0.14285715}
+      type: 2
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.50097656
+      y: 0.87597656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices:
+      - {x: 0, y: 0.14285715}
+      - {x: 0, y: 0.6031746}
+      - {x: 1, y: 0.6031746}
+      - {x: 1, y: 0.14285715}
+      type: 2
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.62597656
+      y: 0.87597656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices:
+      - {x: 0, y: 0.14285715}
+      - {x: 0, y: 0.6031746}
+      - {x: 0.5952381, y: 0.6031746}
+      - {x: 0.41269842, y: 0.14285715}
+      type: 2
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.75097656
+      y: 0.87597656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices: []
+      type: 1
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.87597656
+      y: 0.87597656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices: []
+      type: 0
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.0009765625
+      y: 0.75097656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices:
+      - {x: 0.37301588, y: 0}
       - {x: 0.37301588, y: 1}
       - {x: 1, y: 1}
       - {x: 1, y: 0}
@@ -121,8 +226,394 @@ MonoBehaviour:
     autilingGroup: 0
   - uv:
       serializedVersion: 2
+      x: 0.12597656
+      y: 0.75097656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices: []
+      type: 1
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.25097656
+      y: 0.75097656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices:
+      - {x: 0, y: 0}
+      - {x: 0, y: 1}
+      - {x: 0.6269841, y: 1}
+      - {x: 0.6269841, y: 0}
+      type: 2
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.37597656
+      y: 0.75097656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices: []
+      type: 0
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
       x: 0.50097656
-      y: 0.87597656
+      y: 0.75097656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices: []
+      type: 0
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.62597656
+      y: 0.75097656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices: []
+      type: 0
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.75097656
+      y: 0.75097656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices: []
+      type: 0
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.87597656
+      y: 0.75097656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices:
+      - {x: 0, y: 0.37301588}
+      - {x: 0, y: 1}
+      - {x: 1, y: 1}
+      - {x: 1, y: 0.37301588}
+      type: 2
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.0009765625
+      y: 0.62597656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices:
+      - {x: 0.37301588, y: 0.37301588}
+      - {x: 0.37301588, y: 1}
+      - {x: 1, y: 1}
+      - {x: 1, y: 0.37301588}
+      type: 2
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.12597656
+      y: 0.62597656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices:
+      - {x: 0, y: 0.37301588}
+      - {x: 0, y: 1}
+      - {x: 1, y: 1}
+      - {x: 1, y: 0.37301588}
+      type: 2
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.25097656
+      y: 0.62597656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices:
+      - {x: 0, y: 1}
+      - {x: 0.6269841, y: 1}
+      - {x: 0.6269841, y: 0.37301588}
+      - {x: 0, y: 0.37301588}
+      type: 2
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.37597656
+      y: 0.62597656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices:
+      - {x: 0, y: 0}
+      - {x: 0, y: 1}
+      - {x: 1, y: 1}
+      - {x: 1, y: 0.37301588}
+      - {x: 0.6269841, y: 0.37301588}
+      - {x: 0.6269841, y: 0}
+      type: 2
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.50097656
+      y: 0.62597656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices:
+      - {x: 0.37301588, y: 0.37301588}
+      - {x: 0, y: 0.37301588}
+      - {x: 0, y: 1}
+      - {x: 1, y: 1}
+      - {x: 1, y: 0}
+      - {x: 0.37301588, y: 0}
+      type: 2
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.62597656
+      y: 0.62597656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices:
+      - {x: 0.37301588, y: 0}
+      - {x: 0.37301588, y: 1}
+      - {x: 1, y: 1}
+      - {x: 1, y: 0}
+      type: 2
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.75097656
+      y: 0.62597656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices:
+      - {x: 0, y: 0}
+      - {x: 0, y: 1}
+      - {x: 0.6269841, y: 1}
+      - {x: 0.6269841, y: 0}
+      type: 2
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.87597656
+      y: 0.62597656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices:
+      - {x: 0, y: 0}
+      - {x: 0, y: 0.63492066}
+      - {x: 1, y: 0.63492066}
+      - {x: 1, y: 0}
+      type: 2
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.0009765625
+      y: 0.50097656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices: []
+      type: 0
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.12597656
+      y: 0.50097656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices: []
+      type: 0
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.25097656
+      y: 0.50097656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices: []
+      type: 0
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
+      x: 0.37597656
+      y: 0.50097656
       width: 0.123046875
       height: 0.123046875
     collData:
@@ -146,65 +637,33 @@ MonoBehaviour:
     autilingGroup: 0
   - uv:
       serializedVersion: 2
+      x: 0.50097656
+      y: 0.50097656
+      width: 0.123046875
+      height: 0.123046875
+    collData:
+      vertices:
+      - {x: 0, y: 0}
+      - {x: 0, y: 0.63492066}
+      - {x: 0.37301588, y: 0.63492066}
+      - {x: 0.37301588, y: 1}
+      - {x: 1, y: 1}
+      - {x: 1, y: 0}
+      type: 2
+    paramContainer:
+      m_paramList: []
+    prefabData:
+      prefab: {fileID: 0}
+      offset: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      offsetMode: 0
+      showTileWithPrefab: 0
+      showPrefabPreviewInTilePalette: 0
+    autilingGroup: 0
+  - uv:
+      serializedVersion: 2
       x: 0.62597656
-      y: 0.87597656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices: []
-      type: 0
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.75097656
-      y: 0.87597656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices: []
-      type: 1
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.87597656
-      y: 0.87597656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices: []
-      type: 0
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.0009765625
-      y: 0.75097656
+      y: 0.50097656
       width: 0.123046875
       height: 0.123046875
     collData:
@@ -226,31 +685,8 @@ MonoBehaviour:
     autilingGroup: 0
   - uv:
       serializedVersion: 2
-      x: 0.12597656
-      y: 0.75097656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices:
-      - {x: 0, y: 0}
-      - {x: 0, y: 1}
-      - {x: 1, y: 1}
-      - {x: 1, y: 0}
-      type: 1
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.25097656
-      y: 0.75097656
+      x: 0.75097656
+      y: 0.50097656
       width: 0.123046875
       height: 0.123046875
     collData:
@@ -272,138 +708,8 @@ MonoBehaviour:
     autilingGroup: 0
   - uv:
       serializedVersion: 2
-      x: 0.37597656
-      y: 0.75097656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices:
-      - {x: 0.6031746, y: 0.14285715}
-      - {x: 0.37301588, y: 0.6031746}
-      - {x: 1, y: 0.6031746}
-      - {x: 1, y: 0.14285715}
-      type: 2
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.50097656
-      y: 0.75097656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices:
-      - {x: 0, y: 0.14285715}
-      - {x: 0, y: 0.6031746}
-      - {x: 1, y: 0.6031746}
-      - {x: 1, y: 0.14285715}
-      type: 2
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.62597656
-      y: 0.75097656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices:
-      - {x: 0, y: 0.14285715}
-      - {x: 0, y: 0.6031746}
-      - {x: 0.5952381, y: 0.6031746}
-      - {x: 0.41269842, y: 0.14285715}
-      type: 2
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.75097656
-      y: 0.75097656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices: []
-      type: 0
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
       x: 0.87597656
-      y: 0.75097656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices: []
-      type: 0
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.0009765625
-      y: 0.62597656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices:
-      - {x: 0.37301588, y: 0.37301588}
-      - {x: 0.37301588, y: 1}
-      - {x: 1, y: 1}
-      - {x: 1, y: 0.37301588}
-      type: 2
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.12597656
-      y: 0.62597656
+      y: 0.50097656
       width: 0.123046875
       height: 0.123046875
     collData:
@@ -425,288 +731,6 @@ MonoBehaviour:
     autilingGroup: 0
   - uv:
       serializedVersion: 2
-      x: 0.25097656
-      y: 0.62597656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices:
-      - {x: 0, y: 1}
-      - {x: 0.6269841, y: 1}
-      - {x: 0.6269841, y: 0.37301588}
-      - {x: 0, y: 0.37301588}
-      type: 2
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.37597656
-      y: 0.62597656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices: []
-      type: 0
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.50097656
-      y: 0.62597656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices:
-      - {x: 0.37301588, y: 0.37301588}
-      - {x: 0, y: 0.37301588}
-      - {x: 0, y: 1}
-      - {x: 1, y: 1}
-      - {x: 1, y: 0}
-      - {x: 0.37301588, y: 0}
-      type: 2
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.62597656
-      y: 0.62597656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices:
-      - {x: 0, y: 0}
-      - {x: 0, y: 1}
-      - {x: 1, y: 1}
-      - {x: 1, y: 0.37301588}
-      - {x: 0.6269841, y: 0.37301588}
-      - {x: 0.6269841, y: 0}
-      type: 2
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.75097656
-      y: 0.62597656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices: []
-      type: 0
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.87597656
-      y: 0.62597656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices: []
-      type: 0
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.0009765625
-      y: 0.50097656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices: []
-      type: 0
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.12597656
-      y: 0.50097656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices: []
-      type: 0
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.25097656
-      y: 0.50097656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices: []
-      type: 0
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.37597656
-      y: 0.50097656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices: []
-      type: 0
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.50097656
-      y: 0.50097656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices: []
-      type: 0
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.62597656
-      y: 0.50097656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices: []
-      type: 0
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.75097656
-      y: 0.50097656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices: []
-      type: 0
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
-      x: 0.87597656
-      y: 0.50097656
-      width: 0.123046875
-      height: 0.123046875
-    collData:
-      vertices: []
-      type: 0
-    paramContainer:
-      m_paramList: []
-    prefabData:
-      prefab: {fileID: 0}
-      offset: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-      offsetMode: 0
-      showTileWithPrefab: 0
-      showPrefabPreviewInTilePalette: 0
-    autilingGroup: 0
-  - uv:
-      serializedVersion: 2
       x: 0.0009765625
       y: 0.37597656
       width: 0.123046875
@@ -731,12 +755,8 @@ MonoBehaviour:
       width: 0.123046875
       height: 0.123046875
     collData:
-      vertices:
-      - {x: 0.1328125, y: 0}
-      - {x: 0.1328125, y: 1}
-      - {x: 0.8515625, y: 1}
-      - {x: 0.8515625, y: 0}
-      type: 2
+      vertices: []
+      type: 0
     paramContainer:
       m_paramList: []
     prefabData:
@@ -773,15 +793,8 @@ MonoBehaviour:
       width: 0.123046875
       height: 0.123046875
     collData:
-      vertices:
-      - {x: 0, y: 0}
-      - {x: 0, y: 1}
-      - {x: 1, y: 1}
-      - {x: 1, y: 0.77952754}
-      - {x: 0.71653545, y: 0.7401575}
-      - {x: 0.48818898, y: 0.62204725}
-      - {x: 0.48818898, y: 0}
-      type: 2
+      vertices: []
+      type: 0
     paramContainer:
       m_paramList: []
     prefabData:
@@ -799,12 +812,8 @@ MonoBehaviour:
       width: 0.123046875
       height: 0.123046875
     collData:
-      vertices:
-      - {x: 0, y: 0.77165353}
-      - {x: 0, y: 1}
-      - {x: 1, y: 1}
-      - {x: 1, y: 0.77165353}
-      type: 2
+      vertices: []
+      type: 0
     paramContainer:
       m_paramList: []
     prefabData:
@@ -822,15 +831,8 @@ MonoBehaviour:
       width: 0.123046875
       height: 0.123046875
     collData:
-      vertices:
-      - {x: 0.51968503, y: 0.61417323}
-      - {x: 0.2913386, y: 0.7401575}
-      - {x: 0, y: 0.77165353}
-      - {x: 0, y: 1}
-      - {x: 1, y: 1}
-      - {x: 1, y: 0}
-      - {x: 0.51968503, y: 0}
-      type: 2
+      vertices: []
+      type: 0
     paramContainer:
       m_paramList: []
     prefabData:
@@ -867,8 +869,12 @@ MonoBehaviour:
       width: 0.123046875
       height: 0.123046875
     collData:
-      vertices: []
-      type: 0
+      vertices:
+      - {x: 0, y: 0}
+      - {x: 0, y: 0.63492066}
+      - {x: 1, y: 0.63492066}
+      - {x: 1, y: 0}
+      type: 2
     paramContainer:
       m_paramList: []
     prefabData:
@@ -905,12 +911,8 @@ MonoBehaviour:
       width: 0.123046875
       height: 0.123046875
     collData:
-      vertices:
-      - {x: 1, y: 0.56692916}
-      - {x: 0.51968503, y: 0.56692916}
-      - {x: 0.51968503, y: 1}
-      - {x: 1, y: 1}
-      type: 2
+      vertices: []
+      type: 0
     paramContainer:
       m_paramList: []
     prefabData:
@@ -947,12 +949,8 @@ MonoBehaviour:
       width: 0.123046875
       height: 0.123046875
     collData:
-      vertices:
-      - {x: 0.48818898, y: 0}
-      - {x: 0.48818898, y: 1}
-      - {x: 0, y: 1}
-      - {x: 0, y: 0}
-      type: 2
+      vertices: []
+      type: 0
     paramContainer:
       m_paramList: []
     prefabData:
@@ -989,12 +987,8 @@ MonoBehaviour:
       width: 0.123046875
       height: 0.123046875
     collData:
-      vertices:
-      - {x: 0.51968503, y: 0}
-      - {x: 0.51968503, y: 1}
-      - {x: 1, y: 1}
-      - {x: 1, y: 0}
-      type: 2
+      vertices: []
+      type: 0
     paramContainer:
       m_paramList: []
     prefabData:
@@ -1013,7 +1007,7 @@ MonoBehaviour:
       height: 0.123046875
     collData:
       vertices: []
-      type: 1
+      type: 0
     paramContainer:
       m_paramList: []
     prefabData:
@@ -1089,7 +1083,7 @@ MonoBehaviour:
       height: 0.123046875
     collData:
       vertices: []
-      type: 1
+      type: 0
     paramContainer:
       m_paramList: []
     prefabData:
@@ -1107,14 +1101,8 @@ MonoBehaviour:
       width: 0.123046875
       height: 0.123046875
     collData:
-      vertices:
-      - {x: 0, y: 0}
-      - {x: 0, y: 1}
-      - {x: 0.48818898, y: 1}
-      - {x: 0.48818898, y: 0.63779527}
-      - {x: 1, y: 0.63779527}
-      - {x: 1, y: 0}
-      type: 2
+      vertices: []
+      type: 0
     paramContainer:
       m_paramList: []
     prefabData:
@@ -1132,12 +1120,8 @@ MonoBehaviour:
       width: 0.123046875
       height: 0.123046875
     collData:
-      vertices:
-      - {x: 0, y: 0}
-      - {x: 0, y: 0.63779527}
-      - {x: 1, y: 0.63779527}
-      - {x: 1, y: 0}
-      type: 2
+      vertices: []
+      type: 0
     paramContainer:
       m_paramList: []
     prefabData:

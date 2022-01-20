@@ -124,7 +124,7 @@ public class Oddish : Enemy
 
     public IEnumerator PoisonPowder()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         StopCoroutine(co);
         AdjustAnim("attacking");
         movingLeft = false;
