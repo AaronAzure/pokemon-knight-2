@@ -203,7 +203,7 @@ public class PlayerControls : MonoBehaviour
         if (PlayerPrefsElite.VerifyVector3("checkpointPos"))
             this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos");
         else 
-            PlayerPrefsElite.SetVector3("checkpointPos", this.transform.position);
+            PlayerPrefsElite.SetVector3("checkpointPos", this.transform.position + new Vector3(0,0.25f));
         
         if (transitionAnim != null)
         {
@@ -590,7 +590,7 @@ public class PlayerControls : MonoBehaviour
         drinking = false;
         hp += moomooMilkRecovery;
         nMoomooMilkLeft--;
-        
+
         if (healSound != null)
             healSound.Play();
 
@@ -1094,7 +1094,7 @@ public class PlayerControls : MonoBehaviour
     public void SaveState()
     {
         PlayerPrefsElite.SetString("checkpointScene", SceneManager.GetActiveScene().name);
-        PlayerPrefsElite.SetVector3("checkpointPos", this.transform.position);
+        PlayerPrefsElite.SetVector3("checkpointPos", this.transform.position + new Vector3(0,0.25f));
         PlayerPrefsElite.SetInt("playerExp", exp);
         PlayerPrefsElite.SetInt("playerLevel", lv);
         PlayerPrefsElite.SetBoolean("canDoubleJump", canDoubleJump);

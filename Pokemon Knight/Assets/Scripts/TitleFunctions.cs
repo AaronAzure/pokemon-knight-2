@@ -10,6 +10,14 @@ public class TitleFunctions : MonoBehaviour
     [SerializeField] private GameObject[] toDestroy;
     private bool starting;
 
+    void Start() 
+    {
+        if (!PlayerPrefsElite.VerifyArray("waveRooms"))
+        {
+            string[] waveRooms = new string[100];
+            PlayerPrefsElite.SetStringArray("waveRooms", waveRooms);
+        }
+    }
 
     public void StartGame()
     {
@@ -41,6 +49,15 @@ public class TitleFunctions : MonoBehaviour
         
         if (PlayerPrefsElite.VerifyVector3("checkpointPos"))
             PlayerPrefsElite.DeleteKey("checkpointPos");
+
+
+        // Non-player related (Wave)
+        if (PlayerPrefsElite.VerifyArray("waveRooms"))
+        {
+            string[] waveRooms = new string[100];
+            // Clear
+            PlayerPrefsElite.SetStringArray("waveRooms", waveRooms);    
+        }
 
         StartCoroutine( FadeToGame() );
     }

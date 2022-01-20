@@ -290,6 +290,7 @@ MonoBehaviour:
   expPossess: 8
   extraExp: 2
   lvBreak: 50
+  col: {fileID: 5850416406816429714}
   body: {fileID: 5850416406816429715}
   model: {fileID: 8959013983781483716}
   cannotRecieveKb: 0
@@ -316,10 +317,12 @@ MonoBehaviour:
   contactKb: 10
   renderers:
   - {fileID: 8959013983781483722}
+  defeatedMat: {fileID: 0}
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
-  defeatedMat: {fileID: 0}
   bossRoom: {fileID: 0}
+  isSmart: 0
+  spawner: {fileID: 0}
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64

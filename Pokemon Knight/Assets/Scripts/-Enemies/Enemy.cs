@@ -25,6 +25,7 @@ public abstract class Enemy : MonoBehaviour
     //// [SerializeField] private GameObject emptyHolder;
     //// [SerializeField] private TextMeshPro dmgText;
 
+    [Space] public Collider2D col;
     public Rigidbody2D body;
     public GameObject model;    // sprites holder
     protected bool receivingKnockback;
@@ -69,10 +70,28 @@ public abstract class Enemy : MonoBehaviour
     private bool canCatch;
     public bool isSmart;    // Turns if attacked from behind;
 
+    [Space]
+    [Header("Waves Related")]
+    [HideInInspector] public WaveSpawner spawner;
 
-    protected void Awake()
+
+    // protected void Awake()
+    // {
+    //     // Bonus Hp per level greater
+    // }
+
+    public virtual void Start() 
     {
-        // Bonus Hp per level greater
+        if (statusBar != null)
+            statusBar.SetActive(false);
+        if (GameObject.Find("PLAYER") != null)
+            playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
+
+        if (!isBoss)
+            this.gameObject.transform.localScale *= Random.Range(0.95f, 1.05f);
+
+        Setup();
+
         if (lv > defaultLv)
             maxHp += (lv - defaultLv) * extraHp;
         if (lv > lvBreak)
@@ -81,18 +100,6 @@ public abstract class Enemy : MonoBehaviour
         hp = maxHp;   
         if (lvText != null)
             lvText.text = "Lv. " + lv; 
-    }
-
-    public virtual void Start() 
-    {
-        if (statusBar != null)
-            statusBar.SetActive(false);
-        playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
-
-        if (!isBoss)
-            this.gameObject.transform.localScale *= Random.Range(0.95f, 1.05f);
-
-        Setup();
     }
 
     public virtual void Setup() {}
@@ -167,11 +174,15 @@ public abstract class Enemy : MonoBehaviour
             // Player Gains exp
             if (hp <= 0)
             {
+                if (spawner != null)
+                    spawner.SpawnedDefeated();
+
                 if (playerControls != null)
                     playerControls.GainExp(expPossess + (extraDmg * Mathf.Max(1, lv - defaultLv)), lv);
 
                 if (!isBoss)
                     Destroy(this.gameObject);
+                    // StartCoroutine( Fainted() );
                 else if (playerControls != null)
                     playerControls.BossBattleOver();
             }
@@ -271,7 +282,7 @@ public abstract class Enemy : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         rageChargeObj.SetActive(true);
         yield return new WaitForSeconds(3.75f);
-        rageAuraObj.SetActive(true);
+        // rageAuraObj.SetActive(true);
         yield return new WaitForSeconds(0.75f);
         inCutscene = false;
         inRageCutscene = false;
@@ -307,4 +318,27 @@ public abstract class Enemy : MonoBehaviour
         if (lvText != null)
             lvText.text = "Lv. " + lv; 
     }
+
+    protected IEnumerator Fainted()
+    {
+        if (body != null) body.gravityScale = 0;
+        if (col != null) col.enabled = false;
+
+        int times = 40;
+        float x = model.transform.localScale.x / times;
+        foreach (SpriteRenderer renderer in renderers)
+        {
+            if (flashMat != null)
+                renderer.material = flashMat;
+        }
+        for (int i=0 ; i<times ; i++)
+        {
+            model.transform.localScale -= new Vector3(x,x);
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield return new WaitForEndOfFrame();
+        Destroy(this.gameObject);
+    }
+
 }

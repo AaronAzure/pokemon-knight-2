@@ -45,7 +45,7 @@ public class Oddish : Enemy
         if (canSeePlayer && canAtk)
         {
             canAtk = false;
-            StartCoroutine(PoisonPowder());
+            StartCoroutine(Attack());
         }
         RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsGround);
         RaycastHit2D frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
@@ -122,7 +122,7 @@ public class Oddish : Enemy
         canFlip = true;
     }
 
-    public IEnumerator PoisonPowder()
+    public IEnumerator Attack()
     {
         yield return new WaitForSeconds(0.2f);
         StopCoroutine(co);
@@ -130,12 +130,16 @@ public class Oddish : Enemy
         movingLeft = false;
         movingRight = false;
         canAtk = false;
-        var obj = Instantiate(stunSpore, stunSporePos.position, stunSporePos.transform.rotation);
-        obj.atkDmg = stunSporeDmg;
-        Destroy(obj, 4.5f);
 
         yield return new WaitForSeconds(1f);
         co = StartCoroutine( DoSomething() );
+    }
+
+    public void POISON_POWDER()
+    {
+        var obj = Instantiate(stunSpore, stunSporePos.position, stunSporePos.transform.rotation);
+        obj.atkDmg = stunSporeDmg;
+        Destroy(obj, 4.5f);
     }
 
     private void OnDrawGizmosSelected() 

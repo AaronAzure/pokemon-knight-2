@@ -97,5 +97,4 @@ public abstract class Ally : MonoBehaviour
         yield return new WaitForEndOfFrame();
         Destroy(this.gameObject);
     }
-    // protected IEnumerator 
 }
