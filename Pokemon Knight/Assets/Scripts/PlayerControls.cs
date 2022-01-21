@@ -24,22 +24,34 @@ public class PlayerControls : MonoBehaviour
     public TextMeshProUGUI lvText;
     [SerializeField] private float effectSpeed = 0.005f;
     public Animator transitionAnim;
+    public Sprite emptySprite;
     
     [Space] 
     public Image pokeballY1;
     public Image pokeballX1;
     public Image pokeballA1;
-    public Image pokemonY1;
-    public Image pokemonX1;
-    public Image pokemonA1;
-
-    [Space] 
     public Image pokeballY2;
     public Image pokeballX2;
     public Image pokeballA2;
+
+    [Space] 
+    public Image pokemonY1;
+    public Image pokemonX1;
+    public Image pokemonA1;
     public Image pokemonY2;
     public Image pokemonX2;
     public Image pokemonA2;
+
+    [Space] [SerializeField] private Animator settings;
+    [Space] [SerializeField] private Animator equimentSettings;
+    [Space] [SerializeField] private Animator pokemonSets;
+
+    [Space] [SerializeField] private Canvas pokemonSet1;
+    [SerializeField] private Canvas pokemonSet2;
+
+    [Space] [SerializeField] private Button partyPokemonFirstSelected;
+    [SerializeField] private Button boxPokemonFirstSelected;
+    [SerializeField] private string oldButtonSymbol;
 
     
     [Space]
@@ -104,7 +116,6 @@ public class PlayerControls : MonoBehaviour
     [Space] [SerializeField] private GameObject holder;
     [SerializeField] private Animator anim;
     public bool inCutscene;
-    [Space] [SerializeField] private Animator settings;
     private bool returningToTitle;
 
 
@@ -142,12 +153,14 @@ public class PlayerControls : MonoBehaviour
     [Space][SerializeField] private GameObject bulbasaur;
     [Space][SerializeField] private GameObject squirtle;
     [Space][SerializeField] private GameObject charmander;
-    [Space] public Ally allyX1;
-    [Space] public Ally allyY2;
-    [Space] public Ally allyZ1;
-    [Space] public Ally allyX2;
+
+    [Space] public bool isSet1=true; // true = first set, false = second set
     [Space] public Ally allyY1;
-    [Space] public Ally allyZ2;
+    [Space] public Ally allyX1;
+    [Space] public Ally allyA1;
+    [Space] public Ally allyY2;
+    [Space] public Ally allyX2;
+    [Space] public Ally allyA2;
 
     [Space][SerializeField] private GameObject doubleJumpObj;   //Butterfree
     
@@ -203,6 +216,7 @@ public class PlayerControls : MonoBehaviour
             IncreaseMaxPokemonOut();
 
         hp = maxHp;
+
         if (PlayerPrefsElite.VerifyString("checkpointScene"))
             SceneManager.LoadScene(PlayerPrefsElite.GetString("checkpointScene"));
         else 
@@ -224,13 +238,17 @@ public class PlayerControls : MonoBehaviour
         rightWallDetect = Physics2D.OverlapBox(rightWallPos.position, wallDetectBox, 0, whatIsGround);
         
         
-        if (player.GetButtonDown("START") && !settings.gameObject.activeSelf && !returningToTitle)
+        if (player.GetButtonDown("START") && !settings.gameObject.activeSelf && 
+            !equimentSettings.gameObject.activeSelf && !returningToTitle)
         {
             Time.timeScale = 0;
             inCutscene = true;
-            settings.gameObject.SetActive(true);
+            if (!resting)
+                settings.gameObject.SetActive(true);
+            else
+                equimentSettings.gameObject.SetActive(true);
         }
-        else if (player.GetButtonDown("START") && settings.gameObject.activeSelf)
+        else if (player.GetButtonDown("START") && (settings.gameObject.activeSelf || equimentSettings.gameObject.activeSelf))
         {
             Resume();
         }
@@ -263,6 +281,12 @@ public class PlayerControls : MonoBehaviour
 
             if (canEnter && Interact())
                 StartCoroutine( EnteringDoor() );
+
+            if (player.GetButtonDown("R"))
+            {
+                pokemonSets.SetTrigger("switch");
+                isSet1 = !isSet1;
+            }
 
 
             grounded = Physics2D.OverlapBox(feetPos.position, feetBox, 0, whatIsGround);
@@ -332,67 +356,118 @@ public class PlayerControls : MonoBehaviour
             //* Summon Pokemon
             if (nPokemonOut < maxPokemonOut)
             {
-                if (canPressButtonWest && player.GetButtonDown("Y"))
+                if (isSet1)
                 {
-                    if (bulbasaur != null)
+                    if      (canPressButtonWest && player.GetButtonDown("Y"))
                     {
-                        nPokemonOut++;
-                        var pokemon = Instantiate(bulbasaur, spawnPos.position, bulbasaur.transform.rotation);
-                        Ally ally = pokemon.GetComponent<Ally>();
-                        ally.atkDmg = (int) (dmgMultiplier * ally.atkDmg);
-                        // ally.body.velocity = Vector2.up * this.rb.velocity.y;
-                        ally.body.velocity = this.rb.velocity;
-                        ally.trainer = this;
-                        ally.button = "Y";
+                        if (allyY1 != null)
+                        {
+                            nPokemonOut++;
+                            var pokemon = Instantiate(allyY1, spawnPos.position, allyY1.transform.rotation);
+                            pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
+                            pokemon.body.velocity = this.rb.velocity;
+                            pokemon.trainer = this;
+                            pokemon.button = "Y";
 
-                        PokemonSummoned("Y");
-                        // StartCoroutine( PokemonYCooldown(ally.outTime, ally.resummonTime) );
-                        
-                        //* Looking left
-                        if (holder.transform.eulerAngles.y > 0)
-                            pokemon.transform.eulerAngles = new Vector3(0,-180);
+                            PokemonSummoned("Y");
+                            
+                            //* Looking left
+                            if (holder.transform.eulerAngles.y > 0)
+                                pokemon.transform.eulerAngles = new Vector3(0,-180);
+                        }
+                    }
+                    else if (canPressButtonEast && player.GetButtonDown("A"))
+                    {
+                        if (allyA1 != null)
+                        {
+                            nPokemonOut++;
+                            var pokemon = Instantiate(allyA1, spawnPos.position, allyA1.transform.rotation);
+                            pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
+                            pokemon.body.velocity = this.rb.velocity;
+                            pokemon.trainer = this;
+                            pokemon.button = "A";
+
+                            PokemonSummoned("A");
+                            
+                            //* Looking left
+                            if (holder.transform.eulerAngles.y > 0)
+                                pokemon.transform.eulerAngles = new Vector3(0,-180);
+                        }
+                    }
+                    else if (canPressButtonNorth && player.GetButtonDown("X"))
+                    {
+                        if (allyX1 != null)
+                        {
+                            nPokemonOut++;
+                            var pokemon = Instantiate(allyX1, spawnPos.position, allyX1.transform.rotation);
+                            pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
+                            pokemon.body.velocity = this.rb.velocity;
+                            pokemon.trainer = this;
+                            pokemon.button = "X";
+
+                            PokemonSummoned("X");
+                            
+                            //* Looking left
+                            if (holder.transform.eulerAngles.y > 0)
+                                pokemon.transform.eulerAngles = new Vector3(0,-180);
+                        }
                     }
                 }
-                else if (canPressButtonEast && player.GetButtonDown("A"))
+                else
                 {
-                    if (squirtle != null)
+                    if      (canPressButtonWest2 && player.GetButtonDown("Y"))
                     {
-                        nPokemonOut++;
-                        var pokemon = Instantiate(squirtle, spawnPos.position, squirtle.transform.rotation);
-                        Ally ally = pokemon.GetComponent<Ally>();
-                        ally.atkDmg = (int) (dmgMultiplier * ally.atkDmg);
-                        // ally.body.velocity = Vector2.up * this.rb.velocity.y;
-                        ally.body.velocity = this.rb.velocity;
-                        ally.trainer = this;
-                        ally.button = "A";
+                        if (allyY2 != null)
+                        {
+                            nPokemonOut++;
+                            var pokemon = Instantiate(allyY2, spawnPos.position, allyY2.transform.rotation);
+                            pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
+                            pokemon.body.velocity = this.rb.velocity;
+                            pokemon.trainer = this;
+                            pokemon.button = "Y2";
 
-                        PokemonSummoned("A");
-                        // StartCoroutine( PokemonACooldown(ally.outTime, ally.resummonTime) );
-                        
-                        //* Looking left
-                        if (holder.transform.eulerAngles.y > 0)
-                            pokemon.transform.eulerAngles = new Vector3(0,-180);
+                            PokemonSummoned("Y2");
+                            
+                            //* Looking left
+                            if (holder.transform.eulerAngles.y > 0)
+                                pokemon.transform.eulerAngles = new Vector3(0,-180);
+                        }
                     }
-                }
-                else if (canPressButtonNorth && player.GetButtonDown("X"))
-                {
-                    if (charmander != null)
+                    else if (canPressButtonEast2 && player.GetButtonDown("A"))
                     {
-                        nPokemonOut++;
-                        var pokemon = Instantiate(charmander, spawnPos.position, charmander.transform.rotation);
-                        Ally ally = pokemon.GetComponent<Ally>();
-                        ally.atkDmg = (int) (dmgMultiplier * ally.atkDmg);
-                        // ally.body.velocity = Vector2.up * this.rb.velocity.y;
-                        ally.body.velocity = this.rb.velocity;
-                        ally.trainer = this;
-                        ally.button = "X";
+                        if (allyA2 != null)
+                        {
+                            nPokemonOut++;
+                            var pokemon = Instantiate(allyA2, spawnPos.position, allyA2.transform.rotation);
+                            pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
+                            pokemon.body.velocity = this.rb.velocity;
+                            pokemon.trainer = this;
+                            pokemon.button = "A2";
 
-                        PokemonSummoned("X");
-                        // StartCoroutine( PokemonXCooldown(ally.outTime, ally.resummonTime) );
-                        
-                        //* Looking left
-                        if (holder.transform.eulerAngles.y > 0)
-                            pokemon.transform.eulerAngles = new Vector3(0,-180);
+                            PokemonSummoned("A2");
+                            
+                            //* Looking left
+                            if (holder.transform.eulerAngles.y > 0)
+                                pokemon.transform.eulerAngles = new Vector3(0,-180);
+                        }
+                    }
+                    else if (canPressButtonNorth2 && player.GetButtonDown("X"))
+                    {
+                        if (allyX2 != null)
+                        {
+                            nPokemonOut++;
+                            var pokemon = Instantiate(allyX2, spawnPos.position, allyX2.transform.rotation);
+                            pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
+                            pokemon.body.velocity = this.rb.velocity;
+                            pokemon.trainer = this;
+                            pokemon.button = "X2";
+
+                            PokemonSummoned("X2");
+                            
+                            //* Looking left
+                            if (holder.transform.eulerAngles.y > 0)
+                                pokemon.transform.eulerAngles = new Vector3(0,-180);
+                        }
                     }
                 }
             }
@@ -611,6 +686,19 @@ public class PlayerControls : MonoBehaviour
         hp = maxHp;
     }
 
+    // private void ChangingToSet1(bool toSet1=true)
+    // {
+    //     if (toSet1)
+    //     {
+    //         if (pokemonSet1 != null)   pokemonSet1.sortingOrder++;
+    //         if (pokemonSet2 != null)   pokemonSet2.sortingOrder--;
+    //     }
+    //     else
+    //     {
+    //         if (pokemonSet1 != null)   pokemonSet1.sortingOrder--;
+    //         if (pokemonSet2 != null)   pokemonSet2.sortingOrder++;
+    //     }
+    // }
 
     // todo -----------------  D A M A G E  ------------------------------------------------
     public void TakeDamage(int dmg=0, Transform opponent=null, float force=0)
@@ -1005,6 +1093,40 @@ public class PlayerControls : MonoBehaviour
 
     // todo ------------------------------------------------------------------------------------
 
+    public void SelectAllyToReplace(string buttonSymbol)
+    {
+        oldButtonSymbol = buttonSymbol;
+        if (boxPokemonFirstSelected != null)
+            boxPokemonFirstSelected.Select();
+    }
+
+    public void SetNewAlly(Ally newAlly, Sprite newSprite)
+    {
+        //* If the pokemon is already assigned in another pokemon, then remove assigned
+        if      (allyX1 == newAlly)   { allyX1 = null; pokemonX1.sprite = emptySprite; }
+        else if (allyX2 == newAlly)   { allyX2 = null; pokemonX2.sprite = emptySprite; }
+
+        else if (allyY1 == newAlly)   { allyY1 = null; pokemonY1.sprite = emptySprite; }
+        else if (allyY2 == newAlly)   { allyY2 = null; pokemonY2.sprite = emptySprite; }
+
+        else if (allyA1 == newAlly)   { allyA1 = null; pokemonA1.sprite = emptySprite; }
+        else if (allyA2 == newAlly)   { allyA2 = null; pokemonA2.sprite = emptySprite; }
+
+        switch (oldButtonSymbol.ToUpper())
+        {
+            case "X1" :   allyX1 = newAlly;   pokemonX1.sprite = newSprite;   break;
+            case "X2" :   allyX2 = newAlly;   pokemonX2.sprite = newSprite;   break;
+
+            case "Y1" :   allyY1 = newAlly;   pokemonY1.sprite = newSprite;   break;
+            case "Y2" :   allyY2 = newAlly;   pokemonY2.sprite = newSprite;   break;
+
+            case "A1" :   allyA1 = newAlly;   pokemonA1.sprite = newSprite;   break;
+            case "A2" :   allyA2 = newAlly;   pokemonA2.sprite = newSprite;   break;
+        }
+        if (partyPokemonFirstSelected != null)
+            partyPokemonFirstSelected.Select();
+    }
+
     public void GainPowerup(string powerupName)
     {
         switch (powerupName)
@@ -1031,6 +1153,7 @@ public class PlayerControls : MonoBehaviour
     public void Resume()
     {
         settings.gameObject.SetActive(false);
+        equimentSettings.gameObject.SetActive(false);
         Time.timeScale = 1;
         StartCoroutine( CanPressButtonsagain() );
     }
@@ -1236,5 +1359,33 @@ public class PlayerControls : MonoBehaviour
 
     }
 
+    public void SetPokemon(string button, Ally ally)
+    {
+        switch (button.ToUpper())
+        {
+            case "Y":
+                allyY1 = ally;
+                break;
+            case "X":
+                allyX1 = ally;
+                break;
+            case "A":
+                allyA1 = ally;
+                break;
+            case "Y2":
+                allyY2 = ally;
+                break;
+            case "X2":
+                allyX2 = ally;
+                break;
+            case "A2":
+                allyA2 = ally;
+                break;
+
+            default:
+                Debug.LogError("Not a registered (Wrong) Button");
+                break;
+        }
+    }
 
 }
