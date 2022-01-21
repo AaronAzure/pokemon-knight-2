@@ -139,10 +139,17 @@ public class PlayerControls : MonoBehaviour
 
     [Header("Pokemon (Allies)")]
     [SerializeField] private Transform spawnPos;    // Place to Summon Pokemon
-    [SerializeField] private GameObject bulbasaur;
+    [Space][SerializeField] private GameObject bulbasaur;
     [Space][SerializeField] private GameObject squirtle;
     [Space][SerializeField] private GameObject charmander;
-    [Space][SerializeField] private GameObject doubleJumpObj;
+    [Space] public Ally allyX1;
+    [Space] public Ally allyY2;
+    [Space] public Ally allyZ1;
+    [Space] public Ally allyX2;
+    [Space] public Ally allyY1;
+    [Space] public Ally allyZ2;
+
+    [Space][SerializeField] private GameObject doubleJumpObj;   //Butterfree
     
     
     [Header("CHEATS")]

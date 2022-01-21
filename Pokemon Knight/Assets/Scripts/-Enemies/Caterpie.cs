@@ -17,7 +17,12 @@ public class Caterpie : Enemy
     void FixedUpdate() 
     {
         if (!receivingKnockback)
-            body.velocity = new Vector2(-moveSpeed, body.velocity.y);
+        {
+            if (model.transform.eulerAngles.y != 0)
+                body.velocity = new Vector2( moveSpeed, body.velocity.y);
+            else
+                body.velocity = new Vector2(-moveSpeed, body.velocity.y);
+        }
         RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsGround);
         RaycastHit2D frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
         // RaycastHit2D treeInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsTree);
@@ -35,7 +40,7 @@ public class Caterpie : Enemy
             model.transform.eulerAngles = new Vector3(0, 0);
         else
             model.transform.eulerAngles = new Vector3(0, 180);
-        moveSpeed *= -1;
+        // moveSpeed *= -1;
         StartCoroutine( ResetFlipTimer() );
     }
 

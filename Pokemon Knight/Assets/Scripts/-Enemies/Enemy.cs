@@ -4,6 +4,11 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
+#if UNITY_EDITOR
+
+using UnityEditor;
+
+#endif
 
 public abstract class Enemy : MonoBehaviour
 {
@@ -12,6 +17,7 @@ public abstract class Enemy : MonoBehaviour
     [Space] public int maxHp=100;
     public int hp;
     protected PlayerControls playerControls;
+    [SerializeField] protected Animator mainAnim;
     
 
     [Space]
@@ -40,21 +46,21 @@ public abstract class Enemy : MonoBehaviour
     public TextMeshProUGUI lvText;
     [SerializeField] private float effectSpeed = 0.005f;
 
-    [Space]
-    [Header("Boss")]
-    [SerializeField] protected bool isBoss;
-    [SerializeField] protected GameObject possessedAura;
-    [SerializeField] protected GameObject battleRoarObj;
-    [SerializeField] protected GameObject rageChargeObj;
-    [SerializeField] protected GameObject rageAuraObj;
-    protected bool inRage;
-    public bool inCutscene; // Can't move
-    public bool inRageCutscene; // Can't move
-    protected bool startingBossFight; // Can't move
-    protected bool isDefeated;
-    [Space] [SerializeField] private string powerupName;
-    [Space] [SerializeField] private GameObject pokeball;
-    [Space] [SerializeField] private GameObject canCatchEffect;
+    // [Space]
+    // [Header("Boss")]
+    [HideInInspector] public bool isBoss;
+    [HideInInspector] public bool isMiniBoss;
+    [HideInInspector] public GameObject possessedAura;
+    [HideInInspector] public GameObject battleRoarObj;
+    [HideInInspector] public GameObject rageChargeObj;
+    [HideInInspector] public bool inRage;
+    [HideInInspector] public bool inCutscene; // Can't move
+    [HideInInspector] public bool inRageCutscene; // Can't move
+    [HideInInspector] public bool startingBossFight; // Can't move
+    [HideInInspector] public bool isDefeated;
+    [Space] [HideInInspector] public string powerupName;
+    [Space] [HideInInspector] public GameObject pokeball;
+    [Space] [HideInInspector] public GameObject canCatchEffect;
 
 
     [Space]
@@ -75,10 +81,52 @@ public abstract class Enemy : MonoBehaviour
     [HideInInspector] public WaveSpawner spawner;
 
 
-    // protected void Awake()
-    // {
-    //     // Bonus Hp per level greater
-    // }
+    #region Editor
+#if UNITY_EDITOR
+[CustomEditor(typeof(Enemy), true)]
+[CanEditMultipleObjects]
+public class EnemyEditor : Editor 
+{
+    public override void OnInspectorGUI() 
+    {
+        DrawDefaultInspector();
+        // base.OnInspectorGUI();
+        // serializedObject.Update();
+
+        
+        Enemy enemy = (Enemy) target;
+
+        // EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Boss Related", EditorStyles.boldLabel);  
+
+        enemy.isBoss = EditorGUILayout.Toggle("Is Boss", enemy.isBoss);
+        if (enemy.isBoss)
+        {
+            EditorGUI.indentLevel++;
+            enemy.isMiniBoss = EditorGUILayout.Toggle("Is Mini Boss", enemy.isMiniBoss);
+            EditorGUI.indentLevel--;
+
+            enemy.possessedAura = EditorGUILayout.ObjectField("Possessed Aura", 
+                enemy.possessedAura, typeof(GameObject), true) as GameObject;
+            enemy.battleRoarObj = EditorGUILayout.ObjectField("Battle Roar", 
+                enemy.battleRoarObj, typeof(GameObject), true) as GameObject;
+            enemy.rageChargeObj = EditorGUILayout.ObjectField("Rage Charge", 
+                enemy.rageChargeObj, typeof(GameObject), true) as GameObject;
+            enemy.powerupName = EditorGUILayout.TextField("Powerup Name", enemy.powerupName);
+            enemy.pokeball = EditorGUILayout.ObjectField("Pokeball", 
+                enemy.pokeball, typeof(GameObject), true) as GameObject;
+            enemy.canCatchEffect = EditorGUILayout.ObjectField("Can Catch Effect", 
+                enemy.canCatchEffect, typeof(GameObject), true) as GameObject;
+
+        }
+
+        // EditorGUILayout.EndHorizontal();
+        // serializedObject.ApplyModifiedProperties();
+    }
+}
+#endif
+#endregion
 
     public virtual void Start() 
     {
@@ -89,6 +137,8 @@ public abstract class Enemy : MonoBehaviour
 
         if (!isBoss)
             this.gameObject.transform.localScale *= Random.Range(0.95f, 1.05f);
+        if (isMiniBoss)
+            maxHp *= 3;
 
         Setup();
 
@@ -100,9 +150,12 @@ public abstract class Enemy : MonoBehaviour
         hp = maxHp;   
         if (lvText != null)
             lvText.text = "Lv. " + lv; 
+
     }
 
     public virtual void Setup() {}
+    public virtual void CallChild() {}
+    public virtual void CallChild2() {}
 
     protected void LateUpdate() 
     {
@@ -162,6 +215,9 @@ public abstract class Enemy : MonoBehaviour
                     }
                 }
                 isDefeated = true;
+                if (mainAnim != null)
+                    mainAnim.speed = 0.3f;
+                CallChild2();
 
                 StartCoroutine(DramaticSlowmo());
                 if (possessedAura != null)
@@ -187,7 +243,7 @@ public abstract class Enemy : MonoBehaviour
                     playerControls.BossBattleOver();
             }
             // Boss half health
-            else if (isBoss && !inRage && (float)hp/(float)maxHp < 0.5f)
+            else if (isBoss && !isMiniBoss && !inRage && (float)hp/(float)maxHp < 0.5f)
             {
                 inRage = true;  
                 StartCoroutine( ActivateRageMode() );
@@ -200,7 +256,8 @@ public abstract class Enemy : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         Time.timeScale = 1;
         yield return new WaitForSeconds(0.5f);
-        rageAuraObj.SetActive(false);
+        if (rageChargeObj != null) rageChargeObj.SetActive(false);
+        
         if (canCatchEffect != null) 
             canCatchEffect.SetActive(true);
         canCatch = true;
@@ -212,10 +269,10 @@ public abstract class Enemy : MonoBehaviour
         direction *= new Vector2(1,0);
         body.AddForce(-direction * force * kbDefense, ForceMode2D.Impulse);
         
-        if (!isBoss)
+        // if (!isBoss)
             yield return new WaitForSeconds(0.1f);
-        else
-            yield return new WaitForSeconds(0.02f);
+        // else
+        //     yield return new WaitForSeconds(0.02f);
         body.velocity = Vector2.zero;
         receivingKnockback = false;
     }
@@ -256,22 +313,23 @@ public abstract class Enemy : MonoBehaviour
 
     // todo  (BOSS)  ------------------------------------------------------------
 
-    public void StartBossBattle()
+    public void StartBossBattle(float delay=0.5f)
     {
-        StartCoroutine( BossIntro() );
+        StartCoroutine( BossIntro(delay) );
     }
-    protected IEnumerator BossIntro()
+    protected IEnumerator BossIntro(float delay)
     {
-        body.velocity = Vector2.zero;
         inCutscene = true;
+        body.velocity = Vector2.zero;
 
-        yield return new WaitForSeconds(1);
-        battleRoarObj.SetActive(true);
+        yield return new WaitForSeconds(delay);
+        if (battleRoarObj != null) battleRoarObj.SetActive(true);
         
         yield return new WaitForSeconds(3);
         startingBossFight = true;
-        battleRoarObj.SetActive(false);
+        if (battleRoarObj != null) battleRoarObj.SetActive(false);
         inCutscene = false;
+        CallChild();
     }
     IEnumerator ActivateRageMode()
     {
@@ -280,10 +338,8 @@ public abstract class Enemy : MonoBehaviour
         inRageCutscene = true;
 
         yield return new WaitForSeconds(0.5f);
-        rageChargeObj.SetActive(true);
-        yield return new WaitForSeconds(3.75f);
-        // rageAuraObj.SetActive(true);
-        yield return new WaitForSeconds(0.75f);
+        if (rageChargeObj != null) rageChargeObj.SetActive(true);
+        yield return new WaitForSeconds(4.5f);
         inCutscene = false;
         inRageCutscene = false;
     }
@@ -307,17 +363,19 @@ public abstract class Enemy : MonoBehaviour
         }
         if (bossRoom != null)
             bossRoom.Walls(false);
+        if (spawner != null)
+            spawner.SpawnedDefeated();
 
         // yield return new WaitForSeconds(0.01f);
         yield return new WaitForEndOfFrame();
         Destroy(this.gameObject);
     }
 
-    void OnInspectorUpdate()
-    {
-        if (lvText != null)
-            lvText.text = "Lv. " + lv; 
-    }
+    // void OnInspectorUpdate()
+    // {
+    //     if (lvText != null)
+    //         lvText.text = "Lv. " + lv; 
+    // }
 
     protected IEnumerator Fainted()
     {

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6543823460546405717}
   - component: {fileID: 6543823460546405722}
   - component: {fileID: -5905073095885153275}
+  - component: {fileID: -2863605086126999711}
   m_Layer: 0
   m_Name: Poison Powder
   m_TagString: Untagged
@@ -104,6 +105,19 @@ SortingGroup:
   m_SortingLayerID: -1344374445
   m_SortingLayer: 2
   m_SortingOrder: 0
+--- !u!114 &-2863605086126999711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6543823460546405721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98ad6b04ce2ae4f3cbbe6cbf098d305d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 6
 --- !u!1 &8187695703869764920
 GameObject:
   m_ObjectHideFlags: 0

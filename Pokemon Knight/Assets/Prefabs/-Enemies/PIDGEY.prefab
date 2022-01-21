@@ -260,9 +260,11 @@ MonoBehaviour:
   possessedAura: {fileID: 0}
   battleRoarObj: {fileID: 0}
   rageChargeObj: {fileID: 0}
-  rageAuraObj: {fileID: 0}
+  inRage: 0
   inCutscene: 0
   inRageCutscene: 0
+  startingBossFight: 0
+  isDefeated: 0
   powerupName: 
   pokeball: {fileID: 0}
   canCatchEffect: {fileID: 0}
@@ -811,7 +813,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 16, y: 6}
+  m_Size: {x: 18, y: 10}
   m_EdgeRadius: 0
 --- !u!114 &5060693949066246384
 MonoBehaviour:
@@ -1104,7 +1106,7 @@ Transform:
   - {fileID: 7553216793287676650}
   - {fileID: 7553216794599542808}
   - {fileID: 7553216793219986959}
-  - {fileID: 8809439544095289649}
+  - {fileID: 8846627965244536921}
   m_Father: {fileID: 1322604523721071374}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1395,7 +1397,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 895878953975697454, guid: dacb470f1ab3243d89ef03011e5f3c61, type: 3}
   m_PrefabInstance: {fileID: 2545343176750152569}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &7932670061064125521
+--- !u!1001 &7967539199603750201
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1412,15 +1414,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.06
+      value: -0.75
       objectReference: {fileID: 0}
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.14
+      value: 2.12
       objectReference: {fileID: 0}
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1432,11 +1434,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1452,8 +1454,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
---- !u!4 &8809439544095289649 stripped
+--- !u!4 &8846627965244536921 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
-  m_PrefabInstance: {fileID: 7932670061064125521}
+  m_PrefabInstance: {fileID: 7967539199603750201}
   m_PrefabAsset: {fileID: 0}

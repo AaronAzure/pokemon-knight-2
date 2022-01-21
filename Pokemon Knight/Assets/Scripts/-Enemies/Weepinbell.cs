@@ -34,15 +34,6 @@ public class Weepinbell : Enemy
 
     void FixedUpdate() 
     {
-        // if (!receivingKnockback)
-        // if (target != null)
-        // {
-        //     Vector3 dir = (target.position + new Vector3(0,1) - this.transform.position).normalized;
-        //     //* If at edge, then turn around
-        //     // body.AddForce(dir * 5 * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
-        //     // CapVelocity();
-        // }
-
         
         bool detection = Physics2D.OverlapBox(this.transform.position + offset, fieldOfVision, 0, whatIsPlayer);
         if (target != null && detection)

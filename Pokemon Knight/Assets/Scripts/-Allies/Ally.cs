@@ -31,6 +31,7 @@ public abstract class Ally : MonoBehaviour
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private float feetRadius=0.01f;
     private bool once;
+    private bool shrinking;
     
 
 
@@ -50,7 +51,7 @@ public abstract class Ally : MonoBehaviour
         StartCoroutine( BackToBall() );
     }
 
-    void Update() 
+    void LateUpdate() 
     {
         if (!once)
         {
@@ -63,19 +64,19 @@ public abstract class Ally : MonoBehaviour
     protected IEnumerator BackToBall()
     {
         yield return new WaitForSeconds(outTime);
-        int times = 40;
-        float x = model.transform.localScale.x / times;
-        foreach (SpriteRenderer renderer in renderers)
-        {
-            if (flashMat != null)
-                renderer.material = flashMat;
-        }
-        for (int i=0 ; i<times ; i++)
-        {
-            model.transform.localScale -= new Vector3(x,x);
-            // yield return new WaitForSeconds(0.01f);
-            yield return new WaitForEndOfFrame();
-        }
+        // int times = 30;
+        // float x = model.transform.localScale.x / times;
+        // foreach (SpriteRenderer renderer in renderers)
+        // {
+        //     if (flashMat != null)
+        //         renderer.material = flashMat;
+        // }
+        // for (int i=0 ; i<times ; i++)
+        // {
+        //     model.transform.localScale -= new Vector3(x,x);
+        //     yield return new WaitForSeconds(0.01f);
+        //     // yield return new WaitForEndOfFrame();
+        // }
         if (trailObj != null)
         {
             var returnObj = Instantiate(trailObj, this.transform.position, Quaternion.identity, null);

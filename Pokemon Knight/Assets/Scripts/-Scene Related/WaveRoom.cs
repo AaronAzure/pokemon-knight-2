@@ -14,9 +14,10 @@ public class WaveRoom : MonoBehaviour
 
 
     [Space] public int waveNumber = 0;
-    public int nWaves = 3;
+    public int totalWaves = 3;
     public WaveSpawner[] waveSpawners;
     private int spawnersDefeated;
+    public Enemy miniBoss;
 
     void Start() 
     {
@@ -62,10 +63,14 @@ public class WaveRoom : MonoBehaviour
     IEnumerator StartWave(float delay=0.5f)
     {
         Debug.Log("Starting wave " + waveNumber);
+        float spawnDelay = 1;
+        if (waveNumber == totalWaves - 1)
+            spawnDelay = 2;
+
         yield return new WaitForSeconds(delay);
         foreach (WaveSpawner ws in waveSpawners)
         {
-            ws.SpawnWaves(waveNumber);
+            StartCoroutine( ws.SpawnWaves(waveNumber, spawnDelay) );
         }
     }
 
@@ -73,15 +78,18 @@ public class WaveRoom : MonoBehaviour
     {
         spawnersDefeated++;
 
-        if (spawnersDefeated >= waveSpawners.Length && waveNumber < nWaves - 1)
+        if (spawnersDefeated >= waveSpawners.Length)
         {
-            spawnersDefeated = 0;
-            waveNumber++;
-            StartCoroutine( StartWave(1) );
-        }
-        else if (waveNumber >= nWaves)
-        {
-            RoomBeaten();
+            if (waveNumber < totalWaves - 1)
+            {
+                spawnersDefeated = 0;
+                waveNumber++;
+                StartCoroutine( StartWave(1) );
+            }
+            else
+            {
+                RoomBeaten();
+            }
         }
     }
 
