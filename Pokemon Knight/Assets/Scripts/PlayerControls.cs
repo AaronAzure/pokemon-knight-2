@@ -42,6 +42,32 @@ public class PlayerControls : MonoBehaviour
     public Image pokemonX2;
     public Image pokemonA2;
 
+    [Space] 
+    public Image pokemonY1Settings;
+    public Image pokemonX1Settings;
+    public Image pokemonA1Settings;
+    public Image pokemonY2Settings;
+    public Image pokemonX2Settings;
+    public Image pokemonA2Settings;
+
+    [Header("Pokemon (Allies)")]
+    [SerializeField] private Transform spawnPos;    // Place to Summon Pokemon
+    [Space][SerializeField] private GameObject bulbasaur;
+    [Space][SerializeField] private GameObject squirtle;
+    [Space][SerializeField] private GameObject charmander;
+
+    [Space] public bool isSet1=true; // true = first set, false = second set
+    [Space] public Ally allyY1;
+    [Space] public Ally allyX1;
+    [Space] public Ally allyA1;
+    [Space] public Ally allyY2;
+    [Space] public Ally allyX2;
+    [Space] public Ally allyA2;
+
+    [Space][SerializeField] private GameObject doubleJumpObj;   //Butterfree
+
+    [Space] [Header("Settings UI")]
+
     [Space] [SerializeField] private Animator settings;
     [Space] [SerializeField] private Animator equimentSettings;
     [Space] [SerializeField] private Animator pokemonSets;
@@ -71,6 +97,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private GameObject levelUpObj;
     [SerializeField] private AudioSource levelUpSound;
     [SerializeField] private GameObject playerUi;
+    [Space] [SerializeField] private string[] roomsBeaten;
 
 
     [Space] [Header("Platformer Mechanics")]
@@ -146,23 +173,6 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private Transform doubleJumpSpawnPos;
     [Space] public bool canDash;
     private MusicManager musicManager;
-
-
-    [Header("Pokemon (Allies)")]
-    [SerializeField] private Transform spawnPos;    // Place to Summon Pokemon
-    [Space][SerializeField] private GameObject bulbasaur;
-    [Space][SerializeField] private GameObject squirtle;
-    [Space][SerializeField] private GameObject charmander;
-
-    [Space] public bool isSet1=true; // true = first set, false = second set
-    [Space] public Ally allyY1;
-    [Space] public Ally allyX1;
-    [Space] public Ally allyA1;
-    [Space] public Ally allyY2;
-    [Space] public Ally allyX2;
-    [Space] public Ally allyA2;
-
-    [Space][SerializeField] private GameObject doubleJumpObj;   //Butterfree
     
     
     [Header("CHEATS")]
@@ -231,6 +241,14 @@ public class PlayerControls : MonoBehaviour
             transitionAnim.gameObject.SetActive(true);
             transitionAnim.SetTrigger("fromBlack");
         }
+
+        // Hide settings UI
+        if (settings != null)
+            settings.gameObject.SetActive(false);
+        if (equimentSettings != null)
+            equimentSettings.gameObject.SetActive(false);
+        // if (pokemonSets != null)
+        //     pokemonSets.gameObject.SetActive(false);
     }
     void Update()
     {
@@ -253,7 +271,7 @@ public class PlayerControls : MonoBehaviour
             Resume();
         }
         //* Paused
-        if (settings.gameObject.activeSelf) {}
+        if (settings.gameObject.activeSelf || equimentSettings.gameObject.activeSelf) {}
         else if (drinking)
         {
             if (player.GetButtonUp("L"))
@@ -686,19 +704,6 @@ public class PlayerControls : MonoBehaviour
         hp = maxHp;
     }
 
-    // private void ChangingToSet1(bool toSet1=true)
-    // {
-    //     if (toSet1)
-    //     {
-    //         if (pokemonSet1 != null)   pokemonSet1.sortingOrder++;
-    //         if (pokemonSet2 != null)   pokemonSet2.sortingOrder--;
-    //     }
-    //     else
-    //     {
-    //         if (pokemonSet1 != null)   pokemonSet1.sortingOrder--;
-    //         if (pokemonSet2 != null)   pokemonSet2.sortingOrder++;
-    //     }
-    // }
 
     // todo -----------------  D A M A G E  ------------------------------------------------
     public void TakeDamage(int dmg=0, Transform opponent=null, float force=0)
@@ -1103,25 +1108,23 @@ public class PlayerControls : MonoBehaviour
     public void SetNewAlly(Ally newAlly, Sprite newSprite)
     {
         //* If the pokemon is already assigned in another pokemon, then remove assigned
-        if      (allyX1 == newAlly)   { allyX1 = null; pokemonX1.sprite = emptySprite; }
-        else if (allyX2 == newAlly)   { allyX2 = null; pokemonX2.sprite = emptySprite; }
-
-        else if (allyY1 == newAlly)   { allyY1 = null; pokemonY1.sprite = emptySprite; }
-        else if (allyY2 == newAlly)   { allyY2 = null; pokemonY2.sprite = emptySprite; }
-
-        else if (allyA1 == newAlly)   { allyA1 = null; pokemonA1.sprite = emptySprite; }
-        else if (allyA2 == newAlly)   { allyA2 = null; pokemonA2.sprite = emptySprite; }
+        if      (allyX1 == newAlly)   { allyX1 = null; pokemonX1.sprite = emptySprite; pokemonX1Settings.sprite = emptySprite; }
+        else if (allyX2 == newAlly)   { allyX2 = null; pokemonX2.sprite = emptySprite; pokemonX2Settings.sprite = emptySprite; }
+        else if (allyY1 == newAlly)   { allyY1 = null; pokemonY1.sprite = emptySprite; pokemonY1Settings.sprite = emptySprite; }
+        else if (allyY2 == newAlly)   { allyY2 = null; pokemonY2.sprite = emptySprite; pokemonY2Settings.sprite = emptySprite; }
+        else if (allyA1 == newAlly)   { allyA1 = null; pokemonA1.sprite = emptySprite; pokemonA1Settings.sprite = emptySprite; }
+        else if (allyA2 == newAlly)   { allyA2 = null; pokemonA2.sprite = emptySprite; pokemonA2Settings.sprite = emptySprite; }
+        
+        Debug.Log(oldButtonSymbol);
 
         switch (oldButtonSymbol.ToUpper())
         {
-            case "X1" :   allyX1 = newAlly;   pokemonX1.sprite = newSprite;   break;
-            case "X2" :   allyX2 = newAlly;   pokemonX2.sprite = newSprite;   break;
-
-            case "Y1" :   allyY1 = newAlly;   pokemonY1.sprite = newSprite;   break;
-            case "Y2" :   allyY2 = newAlly;   pokemonY2.sprite = newSprite;   break;
-
-            case "A1" :   allyA1 = newAlly;   pokemonA1.sprite = newSprite;   break;
-            case "A2" :   allyA2 = newAlly;   pokemonA2.sprite = newSprite;   break;
+            case "X1" :   allyX1 = newAlly;   pokemonX1.sprite = newSprite;   pokemonX1Settings.sprite = newSprite;   break;
+            case "X2" :   allyX2 = newAlly;   pokemonX2.sprite = newSprite;   pokemonX2Settings.sprite = newSprite;   break;
+            case "Y1" :   allyY1 = newAlly;   pokemonY1.sprite = newSprite;   pokemonY1Settings.sprite = newSprite;   break;
+            case "Y2" :   allyY2 = newAlly;   pokemonY2.sprite = newSprite;   pokemonY2Settings.sprite = newSprite;   break;
+            case "A1" :   allyA1 = newAlly;   pokemonA1.sprite = newSprite;   pokemonA1Settings.sprite = newSprite;   break;
+            case "A2" :   allyA2 = newAlly;   pokemonA2.sprite = newSprite;   pokemonA2Settings.sprite = newSprite;   break;
         }
         if (partyPokemonFirstSelected != null)
             partyPokemonFirstSelected.Select();
@@ -1144,6 +1147,20 @@ public class PlayerControls : MonoBehaviour
         rb.velocity = Vector2.zero;
         // musicManager.StartMusic(musicManager.previousMusic);
     }
+
+    public void AddRoomBeaten(string roomName)
+    {
+        roomsBeaten = PlayerPrefsElite.GetStringArray("waveRooms");
+        for (int i=0 ; i < roomsBeaten.Length ; i++)
+        {
+            if (roomsBeaten[i] == "")
+            {
+                roomsBeaten[i] = roomName;
+                break;
+            }
+        }
+    }
+
 
     public void IncreaseMaxPokemonOut()
     {
@@ -1185,6 +1202,16 @@ public class PlayerControls : MonoBehaviour
 
         SaveState();
     }
+
+    public void LeaveBench()
+    {
+        resting = false;
+        anim.SetBool("isResting", false);
+    }
+
+    // todo ------------------------------------------------------------------------------------
+    // todo -----------------  P R E F S  ------------------------------------------------------
+
     public void ReloadState()
     {
         nMoomooMilkLeft = nMoomooMilk;
@@ -1229,13 +1256,10 @@ public class PlayerControls : MonoBehaviour
         PlayerPrefsElite.SetInt("playerLevel", lv);
         PlayerPrefsElite.SetBoolean("canDoubleJump", canDoubleJump);
         PlayerPrefsElite.SetBoolean("canDash", canDash);
+        PlayerPrefsElite.SetStringArray("waveRooms", roomsBeaten);
     }
 
-    public void LeaveBench()
-    {
-        resting = false;
-        anim.SetBool("isResting", false);
-    }
+    // todo ------------------------------------------------------------------------------------
 
 
     void PokemonSummoned(string button)

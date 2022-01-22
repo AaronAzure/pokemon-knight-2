@@ -154,8 +154,8 @@ public class EnemyEditor : Editor
     }
 
     public virtual void Setup() {}
-    public virtual void CallChild() {}
-    public virtual void CallChild2() {}
+    public virtual void CallChildOnIntro() {}
+    public virtual void CallChildOnDeath() {}
 
     protected void LateUpdate() 
     {
@@ -217,7 +217,7 @@ public class EnemyEditor : Editor
                 isDefeated = true;
                 if (mainAnim != null)
                     mainAnim.speed = 0.3f;
-                CallChild2();
+                CallChildOnDeath();
 
                 StartCoroutine(DramaticSlowmo());
                 if (possessedAura != null)
@@ -230,7 +230,7 @@ public class EnemyEditor : Editor
             // Player Gains exp
             if (hp <= 0)
             {
-                if (spawner != null)
+                if (spawner != null && !isBoss)
                     spawner.SpawnedDefeated();
 
                 if (playerControls != null)
@@ -329,7 +329,7 @@ public class EnemyEditor : Editor
         startingBossFight = true;
         if (battleRoarObj != null) battleRoarObj.SetActive(false);
         inCutscene = false;
-        CallChild();
+        CallChildOnIntro();
     }
     IEnumerator ActivateRageMode()
     {

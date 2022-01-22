@@ -100,7 +100,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.29803923}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 3256560681271563073}
   - component: {fileID: 8167640903599285167}
   m_Layer: 6
-  m_Name: pokemon (X1)
+  m_Name: pokemon (X2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -560,7 +560,7 @@ GameObject:
   - component: {fileID: 1411004160361285452}
   - component: {fileID: 9021143996325470788}
   m_Layer: 5
-  m_Name: X (red)
+  m_Name: X2 (red)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1499,7 +1499,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1430903819114257691
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1949,7 +1949,7 @@ GameObject:
   - component: {fileID: 3508939821129375032}
   - component: {fileID: 9056962698268215727}
   m_Layer: 5
-  m_Name: A (pokemon)
+  m_Name: A2 (pokemon)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2245,7 +2245,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.29803923}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -2299,7 +2299,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3411282546141511209
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2403,7 +2403,7 @@ GameObject:
   - component: {fileID: 3517070746622084352}
   - component: {fileID: 4286152052987686922}
   m_Layer: 6
-  m_Name: pokemon (Y1)
+  m_Name: pokemon (Y2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2669,7 +2669,7 @@ GameObject:
   - component: {fileID: 4923168561603583887}
   - component: {fileID: 1772224769753351387}
   m_Layer: 5
-  m_Name: X (pokemon)
+  m_Name: X2 (pokemon)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3926,15 +3926,33 @@ MonoBehaviour:
   pokeballY1: {fileID: 2241457488626149797}
   pokeballX1: {fileID: 2241457488150587508}
   pokeballA1: {fileID: 2241457488246170024}
-  pokeballY2: {fileID: 0}
-  pokeballX2: {fileID: 0}
-  pokeballA2: {fileID: 0}
+  pokeballY2: {fileID: 5185709677613154709}
+  pokeballX2: {fileID: 9021143996325470788}
+  pokeballA2: {fileID: 6959523311460320782}
   pokemonY1: {fileID: 2241457489221976787}
   pokemonX1: {fileID: 2241457488284562533}
   pokemonA1: {fileID: 2241457488260132674}
-  pokemonY2: {fileID: 0}
-  pokemonX2: {fileID: 0}
-  pokemonA2: {fileID: 0}
+  pokemonY2: {fileID: 6248447391129122063}
+  pokemonX2: {fileID: 1772224769753351387}
+  pokemonA2: {fileID: 9056962698268215727}
+  pokemonY1Settings: {fileID: 278024225129318523}
+  pokemonX1Settings: {fileID: 7268044354469352597}
+  pokemonA1Settings: {fileID: 1516046635839501044}
+  pokemonY2Settings: {fileID: 4286152052987686922}
+  pokemonX2Settings: {fileID: 8167640903599285167}
+  pokemonA2Settings: {fileID: 4726424841688308290}
+  spawnPos: {fileID: 1493877325839604882}
+  bulbasaur: {fileID: 4319595063331818081, guid: f2cb314ade18e492bb01e4df565dbc97, type: 3}
+  squirtle: {fileID: 4788065970336141049, guid: 8d15321b644fc4993992042acc128948, type: 3}
+  charmander: {fileID: 4788065970336141049, guid: 120468cbd4da942eea0e441046c7988d, type: 3}
+  isSet1: 1
+  allyY1: {fileID: 4319595063331818109, guid: f2cb314ade18e492bb01e4df565dbc97, type: 3}
+  allyX1: {fileID: 2288569022475342914, guid: 120468cbd4da942eea0e441046c7988d, type: 3}
+  allyA1: {fileID: 4788065970336141048, guid: 8d15321b644fc4993992042acc128948, type: 3}
+  allyY2: {fileID: 0}
+  allyX2: {fileID: 0}
+  allyA2: {fileID: 0}
+  doubleJumpObj: {fileID: 6347547860042096051, guid: eaaac853802bb4456a53c1644be37652, type: 3}
   settings: {fileID: 5425500440987824872}
   equimentSettings: {fileID: 4589250036364155335}
   pokemonSets: {fileID: 5748541716276692155}
@@ -3965,6 +3983,7 @@ MonoBehaviour:
   levelUpObj: {fileID: 8074765572664269522}
   levelUpSound: {fileID: 7473495797322846443}
   playerUi: {fileID: 2241457487965682772}
+  roomsBeaten: []
   rb: {fileID: 2241457488112191041}
   col: {fileID: 2241457488112191042}
   moveSpeed: 5
@@ -4006,18 +4025,6 @@ MonoBehaviour:
   canDoubleJump: 0
   doubleJumpSpawnPos: {fileID: 7704759842374701749}
   canDash: 0
-  spawnPos: {fileID: 1493877325839604882}
-  bulbasaur: {fileID: 4319595063331818081, guid: f2cb314ade18e492bb01e4df565dbc97, type: 3}
-  squirtle: {fileID: 4788065970336141049, guid: 8d15321b644fc4993992042acc128948, type: 3}
-  charmander: {fileID: 4788065970336141049, guid: 120468cbd4da942eea0e441046c7988d, type: 3}
-  isSet1: 1
-  allyY1: {fileID: 4319595063331818109, guid: f2cb314ade18e492bb01e4df565dbc97, type: 3}
-  allyX1: {fileID: 2288569022475342914, guid: 120468cbd4da942eea0e441046c7988d, type: 3}
-  allyA1: {fileID: 4788065970336141048, guid: 8d15321b644fc4993992042acc128948, type: 3}
-  allyY2: {fileID: 0}
-  allyX2: {fileID: 0}
-  allyA2: {fileID: 0}
-  doubleJumpObj: {fileID: 6347547860042096051, guid: eaaac853802bb4456a53c1644be37652, type: 3}
   dmgMultiplier: 1
   expMultiplier: 1
 --- !u!81 &2241457487757242226
@@ -5798,7 +5805,7 @@ GameObject:
   - component: {fileID: 2710649126468228715}
   - component: {fileID: 6248447391129122063}
   m_Layer: 5
-  m_Name: Y (pokemon)
+  m_Name: Y2 (pokemon)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5961,7 +5968,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.29803923}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -6145,7 +6152,7 @@ GameObject:
   - component: {fileID: 687978968291906034}
   - component: {fileID: 4726424841688308290}
   m_Layer: 6
-  m_Name: pokemon (A1)
+  m_Name: pokemon (A2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6382,7 +6389,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 1035882327387654241}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.29803923}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -6416,7 +6423,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 0
 --- !u!114 &8056976584951290573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6430,8 +6437,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerControls: {fileID: 2241457488112191053}
-  ally: {fileID: 0}
-  sprite: {fileID: 21300000, guid: c70af58672a8e48d08a6f85382660dbd, type: 3}
+  ally: {fileID: 2288569022475342914, guid: 120468cbd4da942eea0e441046c7988d, type: 3}
+  sprite: {fileID: 21300000, guid: 4661e33b4989d42aebf88ab21ce99f54, type: 3}
 --- !u!1 &3965216228472759001
 GameObject:
   m_ObjectHideFlags: 0
@@ -6532,7 +6539,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.29803923}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -7151,7 +7158,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 5088259210750460731}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.29803923}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -7174,7 +7181,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8056976584951290573}
+      - m_Target: {fileID: 2041078570340625774}
         m_TargetAssemblyTypeName: BoxPokemonButton, Assembly-CSharp
         m_MethodName: SetNewAlly
         m_Mode: 1
@@ -8148,7 +8155,7 @@ GameObject:
   - component: {fileID: 3045474359083865606}
   - component: {fileID: 6959523311460320782}
   m_Layer: 5
-  m_Name: A (red)
+  m_Name: A2 (red)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8312,7 +8319,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.29803923}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -8613,7 +8620,7 @@ GameObject:
   - component: {fileID: 6111055566763972595}
   - component: {fileID: 5185709677613154709}
   m_Layer: 5
-  m_Name: Y (red)
+  m_Name: Y2 (red)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8805,7 +8812,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 3294539081257093970}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.29803923}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -8828,7 +8835,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8056976584951290573}
+      - m_Target: {fileID: 994887171115907305}
         m_TargetAssemblyTypeName: BoxPokemonButton, Assembly-CSharp
         m_MethodName: SetNewAlly
         m_Mode: 1
@@ -11539,7 +11546,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.29803923}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -11562,9 +11569,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8056976584951290573}
+      - m_Target: {fileID: 8409872568096234978}
         m_TargetAssemblyTypeName: BoxPokemonButton, Assembly-CSharp
-        m_MethodName: SetNewAlly
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11687,7 +11694,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 6760505474524727998}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.29803923}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -11710,9 +11717,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8056976584951290573}
+      - m_Target: {fileID: 6123375453194879054}
         m_TargetAssemblyTypeName: BoxPokemonButton, Assembly-CSharp
-        m_MethodName: SetNewAlly
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11910,7 +11917,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 8481166383431501876}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.29803923}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -11933,7 +11940,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8056976584951290573}
+      - m_Target: {fileID: 1187637440933069687}
         m_TargetAssemblyTypeName: BoxPokemonButton, Assembly-CSharp
         m_MethodName: SetNewAlly
         m_Mode: 1
@@ -12194,7 +12201,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.29803923}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}

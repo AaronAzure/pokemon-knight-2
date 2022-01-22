@@ -26,9 +26,12 @@ public class WaveRoom : MonoBehaviour
         if (PlayerPrefsElite.VerifyArray("waveRooms"))
         {
             string[] roomsBeaten = PlayerPrefsElite.GetStringArray("waveRooms");
-            foreach (string roomBeaten in roomsBeaten)
-                if (roomBeaten == roomName)
+            var set = new HashSet<string>(roomsBeaten);
+            if (set.Contains(roomName))
                     Destroy(this.gameObject);
+            // foreach (string roomBeaten in roomsBeaten)
+            //     if (roomBeaten == roomName)
+                    // Destroy(this.gameObject);
 
         }
         foreach (WaveSpawner ws in waveSpawners)
@@ -95,16 +98,9 @@ public class WaveRoom : MonoBehaviour
 
     public void RoomBeaten()
     {
-        string[] roomsBeaten = PlayerPrefsElite.GetStringArray("waveRooms");
-        for (int i=0 ; i < roomsBeaten.Length ; i++)
-        {
-            if (roomsBeaten[i] == "")
-            {
-                roomsBeaten[i] = roomName;
-                PlayerPrefsElite.SetStringArray("waveRooms", roomsBeaten);
-                break;
-            }
-        }
+        PlayerControls playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
+        playerControls.AddRoomBeaten(roomName);
+
         Walls(false);
     }
 }

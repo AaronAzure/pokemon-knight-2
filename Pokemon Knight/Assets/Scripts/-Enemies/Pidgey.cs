@@ -25,6 +25,7 @@ public class Pidgey : Enemy
     public Vector3 lineOfSight;
     [SerializeField] private AIDestinationSetter aiDest;
     [SerializeField] private AIPath aiPath;
+    [SerializeField] private GameObject spawnedHolder;
     private Coroutine co;
 
 
@@ -32,11 +33,13 @@ public class Pidgey : Enemy
     {
         finalMask = (whatIsPlayer | whatIsGround);
         if (alert != null) alert.gameObject.SetActive(false);
+        if (spawnedHolder != null) 
+            spawnedHolder.transform.parent = null;
             
         if (isMiniBoss)
         {
             target = playerControls.gameObject.transform;
-            co = StartCoroutine( Gust(5) );
+            co = StartCoroutine( Attack(7.5f) );
             chasing = true;
             anim.speed = chaseSpeed;
             if (aiDest != null)
@@ -50,17 +53,18 @@ public class Pidgey : Enemy
         }
     }
 
-    public override void CallChild()
+    public override void CallChildOnIntro()
     {
         if (aiPath != null)
             aiPath.canMove = true;
     }
-    public override void CallChild2()
+    public override void CallChildOnDeath()
     {
         StopCoroutine(co);
         if (aiPath != null)
             aiPath.canMove = false;
         body.gravityScale = 3;
+        Destroy(spawnedHolder);
     }
 
 
@@ -158,24 +162,28 @@ public class Pidgey : Enemy
     }
 
 
-    IEnumerator Gust(float delay=2.5f)
+    IEnumerator Attack(float delay=5f)
     {
         yield return new WaitForSeconds(delay);
         if (glint != null) {
             glint.SetActive(false); 
             glint.SetActive(true);
         }
-
-        yield return new WaitForSeconds(0.5f);
+        anim.speed = 1;
+        anim.SetTrigger("attack");
+        aiPath.canMove = false;
+    }
+    
+    public void Gust()
+    {
         if (gust != null)
-        {
-            lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position);
-            var obj = Instantiate(gust, this.transform.position, gust.transform.rotation);
-            obj.direction = lineOfSight.normalized;
-        }
+            Instantiate(gust, this.transform.position, gust.transform.rotation, spawnedHolder.transform);
+    }
 
-        yield return new WaitForSeconds(0.5f);
-        
-        co = StartCoroutine( Gust() );
+    public void ResumeMovement()
+    {
+        aiPath.canMove = true;
+        anim.speed = chaseSpeed;
+        co = StartCoroutine( Attack() );
     }
 }

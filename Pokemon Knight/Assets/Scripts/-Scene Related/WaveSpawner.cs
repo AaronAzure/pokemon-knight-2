@@ -39,6 +39,7 @@ using UnityEngine;
                 if (obj.isMiniBoss)
                 {
                     waveManager.miniBoss = obj;
+                    obj.lv = miniBossLevel;
                     obj.StartBossBattle(0);
                 }
                 obj.body.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
