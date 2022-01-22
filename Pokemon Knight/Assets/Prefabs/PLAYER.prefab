@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8686582261482121700}
   - component: {fileID: 7140590203386076507}
   - component: {fileID: 27512627822322103}
+  - component: {fileID: 8285237749041396924}
   m_Layer: 6
   m_Name: X2
   m_TagString: Untagged
@@ -123,10 +124,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2241457488112191053}
-        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
-        m_MethodName: SelectAllyToReplace
-        m_Mode: 5
+      - m_Target: {fileID: 8285237749041396924}
+        m_TargetAssemblyTypeName: PartyPokemonButton, Assembly-CSharp
+        m_MethodName: SendAllyToReplace
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -135,6 +136,21 @@ MonoBehaviour:
           m_StringArgument: X2
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8285237749041396924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183260854317792338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4a188fdb2c545f68bafe0aa8e74c2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControls: {fileID: 2241457488112191053}
+  button: {fileID: 27512627822322103}
+  buttonSymbol: X2
 --- !u!1 &215465468793470164
 GameObject:
   m_ObjectHideFlags: 0
@@ -2157,6 +2173,7 @@ GameObject:
   - component: {fileID: 4548664436861576552}
   - component: {fileID: 2207449501998071819}
   - component: {fileID: 6772015000751887473}
+  - component: {fileID: 1457224446532476785}
   m_Layer: 6
   m_Name: A2
   m_TagString: Untagged
@@ -2268,10 +2285,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2241457488112191053}
-        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
-        m_MethodName: SelectAllyToReplace
-        m_Mode: 5
+      - m_Target: {fileID: 1457224446532476785}
+        m_TargetAssemblyTypeName: PartyPokemonButton, Assembly-CSharp
+        m_MethodName: SendAllyToReplace
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2280,6 +2297,21 @@ MonoBehaviour:
           m_StringArgument: A2
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1457224446532476785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686766453288904848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4a188fdb2c545f68bafe0aa8e74c2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControls: {fileID: 2241457488112191053}
+  button: {fileID: 6772015000751887473}
+  buttonSymbol: A2
 --- !u!1 &1785550110677600978
 GameObject:
   m_ObjectHideFlags: 0
@@ -3946,6 +3978,7 @@ MonoBehaviour:
   squirtle: {fileID: 4788065970336141049, guid: 8d15321b644fc4993992042acc128948, type: 3}
   charmander: {fileID: 4788065970336141049, guid: 120468cbd4da942eea0e441046c7988d, type: 3}
   isSet1: 1
+  canSwitchSets: 1
   allyY1: {fileID: 4319595063331818109, guid: f2cb314ade18e492bb01e4df565dbc97, type: 3}
   allyX1: {fileID: 2288569022475342914, guid: 120468cbd4da942eea0e441046c7988d, type: 3}
   allyA1: {fileID: 4788065970336141048, guid: 8d15321b644fc4993992042acc128948, type: 3}
@@ -3960,6 +3993,8 @@ MonoBehaviour:
   pokemonSet2: {fileID: 4042173584388548785}
   partyPokemonFirstSelected: {fileID: 7149133274698804269}
   boxPokemonFirstSelected: {fileID: 82195362895211997}
+  partyPokemonLastSelected: {fileID: 0}
+  boxPokemonLastSelected: {fileID: 0}
   oldButtonSymbol: 
   renderers:
   - {fileID: 2132627197288534363}
@@ -5880,6 +5915,7 @@ GameObject:
   - component: {fileID: 6634424244166882328}
   - component: {fileID: 3678422156405326021}
   - component: {fileID: 253709101825163721}
+  - component: {fileID: 6644188526883670438}
   m_Layer: 6
   m_Name: Y2
   m_TagString: Untagged
@@ -5991,10 +6027,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2241457488112191053}
-        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
-        m_MethodName: SelectAllyToReplace
-        m_Mode: 5
+      - m_Target: {fileID: 6644188526883670438}
+        m_TargetAssemblyTypeName: PartyPokemonButton, Assembly-CSharp
+        m_MethodName: SendAllyToReplace
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6003,6 +6039,21 @@ MonoBehaviour:
           m_StringArgument: Y2
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6644188526883670438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2943275961661626489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4a188fdb2c545f68bafe0aa8e74c2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControls: {fileID: 2241457488112191053}
+  button: {fileID: 253709101825163721}
+  buttonSymbol: Y2
 --- !u!1 &3081966538455008457
 GameObject:
   m_ObjectHideFlags: 0
@@ -6310,7 +6361,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5505483169573112007
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6423,7 +6474,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 0
+        m_CallState: 2
 --- !u!114 &8056976584951290573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6437,8 +6488,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerControls: {fileID: 2241457488112191053}
-  ally: {fileID: 2288569022475342914, guid: 120468cbd4da942eea0e441046c7988d, type: 3}
-  sprite: {fileID: 21300000, guid: 4661e33b4989d42aebf88ab21ce99f54, type: 3}
+  ally: {fileID: 7683898162395236407, guid: 63c2669db52b14df891ec1a2830cf8c9, type: 3}
+  sprite: {fileID: 21300000, guid: c70af58672a8e48d08a6f85382660dbd, type: 3}
 --- !u!1 &3965216228472759001
 GameObject:
   m_ObjectHideFlags: 0
@@ -6451,6 +6502,7 @@ GameObject:
   - component: {fileID: 5348250795525210935}
   - component: {fileID: 8211710582471436573}
   - component: {fileID: 7375813561962095132}
+  - component: {fileID: 6835679429847247861}
   m_Layer: 6
   m_Name: A1
   m_TagString: Untagged
@@ -6562,10 +6614,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2241457488112191053}
-        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
-        m_MethodName: SelectAllyToReplace
-        m_Mode: 5
+      - m_Target: {fileID: 6835679429847247861}
+        m_TargetAssemblyTypeName: PartyPokemonButton, Assembly-CSharp
+        m_MethodName: SendAllyToReplace
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6574,6 +6626,21 @@ MonoBehaviour:
           m_StringArgument: A1
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6835679429847247861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3965216228472759001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4a188fdb2c545f68bafe0aa8e74c2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControls: {fileID: 2241457488112191053}
+  button: {fileID: 7375813561962095132}
+  buttonSymbol: A1
 --- !u!1 &3982083883306163587
 GameObject:
   m_ObjectHideFlags: 0
@@ -8231,6 +8298,7 @@ GameObject:
   - component: {fileID: 6782991334526701414}
   - component: {fileID: 3162145577278198435}
   - component: {fileID: 6621472105070869161}
+  - component: {fileID: 4009232921641986330}
   m_Layer: 6
   m_Name: X1
   m_TagString: Untagged
@@ -8342,10 +8410,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2241457488112191053}
-        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
-        m_MethodName: SelectAllyToReplace
-        m_Mode: 5
+      - m_Target: {fileID: 4009232921641986330}
+        m_TargetAssemblyTypeName: PartyPokemonButton, Assembly-CSharp
+        m_MethodName: SendAllyToReplace
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8354,6 +8422,21 @@ MonoBehaviour:
           m_StringArgument: X1
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4009232921641986330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6365240263730942823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4a188fdb2c545f68bafe0aa8e74c2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControls: {fileID: 2241457488112191053}
+  button: {fileID: 6621472105070869161}
+  buttonSymbol: X1
 --- !u!1 &6485764299763548662
 GameObject:
   m_ObjectHideFlags: 0
@@ -8502,6 +8585,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonSet1: {fileID: 317339791377480306}
   pokemonSet2: {fileID: 4042173584388548785}
+  pc: {fileID: 2241457488112191053}
 --- !u!1 &6597385542730688893
 GameObject:
   m_ObjectHideFlags: 0
@@ -11580,7 +11664,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 0
+        m_CallState: 2
 --- !u!114 &8409872568096234978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11728,7 +11812,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 0
+        m_CallState: 2
 --- !u!114 &6123375453194879054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12113,6 +12197,7 @@ GameObject:
   - component: {fileID: 4463367299780943323}
   - component: {fileID: 7856887569134773930}
   - component: {fileID: 7149133274698804269}
+  - component: {fileID: 949410494324311641}
   m_Layer: 6
   m_Name: Y1
   m_TagString: Untagged
@@ -12224,10 +12309,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2241457488112191053}
-        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
-        m_MethodName: SelectAllyToReplace
-        m_Mode: 5
+      - m_Target: {fileID: 949410494324311641}
+        m_TargetAssemblyTypeName: PartyPokemonButton, Assembly-CSharp
+        m_MethodName: SendAllyToReplace
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -12236,6 +12321,21 @@ MonoBehaviour:
           m_StringArgument: Y1
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &949410494324311641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9176002440394484374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4a188fdb2c545f68bafe0aa8e74c2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControls: {fileID: 2241457488112191053}
+  button: {fileID: 7149133274698804269}
+  buttonSymbol: Y1
 --- !u!1001 &8073230378520667748
 PrefabInstance:
   m_ObjectHideFlags: 0

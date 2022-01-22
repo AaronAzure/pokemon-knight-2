@@ -799,7 +799,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 13
+      scalar: 26
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -852,7 +852,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4806,7 +4806,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1982109146318214}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -4880,8 +4880,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delayOn: 0.5
-  delayOff: 0.5
-  col: {fileID: 3757481485504771578}
+  delayOff: 10
+  cols:
+  - {fileID: 3757481485504771578}
 --- !u!114 &6392934560943224875
 MonoBehaviour:
   m_ObjectHideFlags: 0

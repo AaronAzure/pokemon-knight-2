@@ -285,6 +285,7 @@ MonoBehaviour:
   defaultLv: 4
   maxHp: 100
   hp: 0
+  mainAnim: {fileID: 0}
   extraHp: 5
   extraDmg: 4
   expPossess: 8
@@ -294,7 +295,7 @@ MonoBehaviour:
   body: {fileID: 5850416406816429715}
   model: {fileID: 8959013983781483716}
   cannotRecieveKb: 0
-  kbDefense: 0.1
+  kbDefense: 0.25
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
@@ -304,12 +305,15 @@ MonoBehaviour:
   lvText: {fileID: 5850416407615454019}
   effectSpeed: 0.005
   isBoss: 0
+  isMiniBoss: 0
   possessedAura: {fileID: 0}
   battleRoarObj: {fileID: 0}
   rageChargeObj: {fileID: 0}
-  rageAuraObj: {fileID: 0}
+  inRage: 0
   inCutscene: 0
   inRageCutscene: 0
+  startingBossFight: 0
+  isDefeated: 0
   powerupName: 
   pokeball: {fileID: 0}
   canCatchEffect: {fileID: 0}

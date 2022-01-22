@@ -57,6 +57,8 @@ public class PlayerControls : MonoBehaviour
     [Space][SerializeField] private GameObject charmander;
 
     [Space] public bool isSet1=true; // true = first set, false = second set
+    public bool canSwitchSets=true;
+    
     [Space] public Ally allyY1;
     [Space] public Ally allyX1;
     [Space] public Ally allyA1;
@@ -77,7 +79,9 @@ public class PlayerControls : MonoBehaviour
 
     [Space] [SerializeField] private Button partyPokemonFirstSelected;
     [SerializeField] private Button boxPokemonFirstSelected;
-    [SerializeField] private string oldButtonSymbol;
+    [Space] [SerializeField] private Button partyPokemonLastSelected;
+    [SerializeField] private Button boxPokemonLastSelected;
+    [Space] [SerializeField] private string oldButtonSymbol;
 
     
     [Space]
@@ -266,7 +270,7 @@ public class PlayerControls : MonoBehaviour
             else
                 equimentSettings.gameObject.SetActive(true);
         }
-        else if (player.GetButtonDown("START") && (settings.gameObject.activeSelf || equimentSettings.gameObject.activeSelf))
+        else if ((player.GetButtonDown("START") || player.GetButtonDown("B")) && (settings.gameObject.activeSelf || equimentSettings.gameObject.activeSelf))
         {
             Resume();
         }
@@ -302,8 +306,7 @@ public class PlayerControls : MonoBehaviour
 
             if (player.GetButtonDown("R"))
             {
-                pokemonSets.SetTrigger("switch");
-                isSet1 = !isSet1;
+                SwitchPokemonSet();
             }
 
 
@@ -498,6 +501,21 @@ public class PlayerControls : MonoBehaviour
                 doubleJumpScreen.SetTrigger("confirm");
         }
     }
+
+    private void SwitchPokemonSet()
+    {
+        if (canSwitchSets)
+        {
+            canSwitchSets = false;
+            pokemonSets.SetTrigger("switch");
+            isSet1 = !isSet1;
+        }
+    }
+    public void CanSwitchSetsAgain()
+    {
+        canSwitchSets = true;
+    }
+
     void FixedUpdate()
     {
         //* Paused
@@ -1098,11 +1116,12 @@ public class PlayerControls : MonoBehaviour
 
     // todo ------------------------------------------------------------------------------------
 
-    public void SelectAllyToReplace(string buttonSymbol)
+    public void SelectAllyToReplace(string buttonSymbol, Button lastButton)
     {
         oldButtonSymbol = buttonSymbol;
         if (boxPokemonFirstSelected != null)
             boxPokemonFirstSelected.Select();
+        partyPokemonLastSelected = lastButton;
     }
 
     public void SetNewAlly(Ally newAlly, Sprite newSprite)
@@ -1115,7 +1134,6 @@ public class PlayerControls : MonoBehaviour
         else if (allyA1 == newAlly)   { allyA1 = null; pokemonA1.sprite = emptySprite; pokemonA1Settings.sprite = emptySprite; }
         else if (allyA2 == newAlly)   { allyA2 = null; pokemonA2.sprite = emptySprite; pokemonA2Settings.sprite = emptySprite; }
         
-        Debug.Log(oldButtonSymbol);
 
         switch (oldButtonSymbol.ToUpper())
         {
@@ -1126,7 +1144,10 @@ public class PlayerControls : MonoBehaviour
             case "A1" :   allyA1 = newAlly;   pokemonA1.sprite = newSprite;   pokemonA1Settings.sprite = newSprite;   break;
             case "A2" :   allyA2 = newAlly;   pokemonA2.sprite = newSprite;   pokemonA2Settings.sprite = newSprite;   break;
         }
-        if (partyPokemonFirstSelected != null)
+
+        if (partyPokemonLastSelected != null)
+            partyPokemonLastSelected.Select();
+        else if (partyPokemonFirstSelected != null)
             partyPokemonFirstSelected.Select();
     }
 
@@ -1412,4 +1433,11 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
+}
+
+
+public class NewAlly
+{
+    public string buttonSymbol;
+    public Button lastButton;
 }

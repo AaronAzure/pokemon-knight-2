@@ -4,6 +4,13 @@ public class PokemonSets : MonoBehaviour
 {
     [SerializeField] private Canvas pokemonSet1;
     [SerializeField] private Canvas pokemonSet2;
+    [SerializeField] private PlayerControls pc;
+
+    public void CAN_CHANGE_SETS()
+    {
+        if (pc != null)
+            pc.CanSwitchSetsAgain();
+    }
     
     public void ChangeToSet1()
     {

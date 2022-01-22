@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Ally : MonoBehaviour
 {
     [Space] [SerializeField] protected GameObject model;
-    [Space] public AllyAttack hitbox;  // Separate gameobject with collider
+    [Space] [Tooltip("Collider within obj, not spawned")] public AllyAttack hitbox;  // Separate gameobject with collider
     public int atkDmg;
     public int atkForce;
     [Space] public int extraDmg;
@@ -66,11 +66,12 @@ public abstract class Ally : MonoBehaviour
         yield return new WaitForSeconds(outTime);
         // int times = 30;
         // float x = model.transform.localScale.x / times;
-        // foreach (SpriteRenderer renderer in renderers)
-        // {
-        //     if (flashMat != null)
-        //         renderer.material = flashMat;
-        // }
+        foreach (SpriteRenderer renderer in renderers)
+        {
+            if (flashMat != null)
+                renderer.material = flashMat;
+        }
+        yield return new WaitForEndOfFrame();
         // for (int i=0 ; i<times ; i++)
         // {
         //     model.transform.localScale -= new Vector3(x,x);

@@ -9,6 +9,7 @@ public class AllyProjectile : MonoBehaviour
 
     [SerializeField] private GameObject trailObj;
     [SerializeField] private GameObject explosionObj;
+    [SerializeField] private bool destoryOnCollision=true;
 
     public float velocity=0;
     public Rigidbody2D body;
@@ -16,7 +17,8 @@ public class AllyProjectile : MonoBehaviour
 
     private void Start() 
     {
-        StartCoroutine(UnparentTrail());
+        if (trailObj != null)
+            StartCoroutine(UnparentTrail());
         if (body != null && velocity != 0)
             body.velocity = Vector2.right * velocity;
     }
@@ -42,19 +44,15 @@ public class AllyProjectile : MonoBehaviour
                 foreach (var script in scripts)
                 {
                     script.GetComponent<Enemy>().TakeDamage(atkDmg, this.transform, atkForce);
-                    // if (explosionObj != null)
-                    // {
-                    //     var obj = Instantiate(explosionObj, script.gameObject.transform.position, Quaternion.identity);
-                    //     Destroy(obj.gameObject, 0.5f);
-                    // }
                 }
             }
-            if (explosionObj != null)
+            if (destoryOnCollision && explosionObj != null)
             {
                 var obj = Instantiate(explosionObj, this.transform.position, Quaternion.identity);
                 Destroy(obj.gameObject, 0.5f);
             }
-            Destroy(this.gameObject);
+            if (destoryOnCollision)
+                Destroy(this.gameObject);
         }
     }
 
