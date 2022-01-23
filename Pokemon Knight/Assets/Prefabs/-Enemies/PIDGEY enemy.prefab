@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 5232327576601908253}
   - component: {fileID: 1150939272780168618}
   m_Layer: 8
-  m_Name: PIDGEY
+  m_Name: PIDGEY enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -238,6 +238,7 @@ MonoBehaviour:
   defaultLv: 6
   maxHp: 125
   hp: 0
+  mainAnim: {fileID: 0}
   extraHp: 5
   extraDmg: 5
   expPossess: 15
@@ -257,6 +258,7 @@ MonoBehaviour:
   lvText: {fileID: 1322604525143644414}
   effectSpeed: 0.005
   isBoss: 0
+  isMiniBoss: 0
   possessedAura: {fileID: 0}
   battleRoarObj: {fileID: 0}
   rageChargeObj: {fileID: 0}
@@ -294,6 +296,12 @@ MonoBehaviour:
   chasing: 0
   playerInRange: 0
   alert: {fileID: 2335059610090457758}
+  gust: {fileID: 0}
+  glint: {fileID: 0}
+  lineOfSight: {x: 0, y: 0, z: 0}
+  aiDest: {fileID: 0}
+  aiPath: {fileID: 0}
+  spawnedHolder: {fileID: 0}
 --- !u!1 &1322604524243495442
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,7 +821,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 18, y: 10}
+  m_Size: {x: 18, y: 12}
   m_EdgeRadius: 0
 --- !u!114 &5060693949066246384
 MonoBehaviour:

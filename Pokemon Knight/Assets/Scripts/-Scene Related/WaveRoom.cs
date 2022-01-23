@@ -18,20 +18,23 @@ public class WaveRoom : MonoBehaviour
     public WaveSpawner[] waveSpawners;
     private int spawnersDefeated;
     public Enemy miniBoss;
+    public string[] roomsBeaten;
 
     void Start() 
     {
         roomName = SceneManager.GetActiveScene().name + " " + this.name;
+        roomsBeaten = new string[100];
 
-        if (PlayerPrefsElite.VerifyArray("waveRooms"))
+        if (PlayerPrefsElite.VerifyArray("roomsBeaten"))
         {
-            string[] roomsBeaten = PlayerPrefsElite.GetStringArray("waveRooms");
+            roomsBeaten = PlayerPrefsElite.GetStringArray("roomsBeaten");
             var set = new HashSet<string>(roomsBeaten);
+            Debug.Log(roomsBeaten.Length + " " + set.Count);
             if (set.Contains(roomName))
                     Destroy(this.gameObject);
             // foreach (string roomBeaten in roomsBeaten)
             //     if (roomBeaten == roomName)
-                    // Destroy(this.gameObject);
+            //         Destroy(this.gameObject);
 
         }
         foreach (WaveSpawner ws in waveSpawners)
@@ -65,7 +68,7 @@ public class WaveRoom : MonoBehaviour
 
     IEnumerator StartWave(float delay=0.5f)
     {
-        Debug.Log("Starting wave " + waveNumber);
+        // Debug.Log("Starting wave " + waveNumber);
         float spawnDelay = 1;
         if (waveNumber == totalWaves - 1)
             spawnDelay = 2;
@@ -98,9 +101,23 @@ public class WaveRoom : MonoBehaviour
 
     public void RoomBeaten()
     {
-        PlayerControls playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
-        playerControls.AddRoomBeaten(roomName);
-
         Walls(false);
+
+        PlayerControls playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
+        // playerControls.AddRoomBeaten(roomName);
+        string[] roomsBeaten = PlayerPrefsElite.GetStringArray("roomsBeaten");
+        for (int i=0 ; i < roomsBeaten.Length ; i++)
+        {
+            if (roomsBeaten[i] == "")
+            {
+                roomsBeaten[i] = roomName;
+                Debug.LogError("Added room " + roomName + " at " + i);
+                break;
+            }
+        }
+        PlayerPrefsElite.SetStringArray("roomsBeaten", roomsBeaten);
+        for (int i=0 ; i<roomsBeaten.Length ; i++)
+            Debug.Log("~" + roomsBeaten[i] + "~");
+
     }
 }

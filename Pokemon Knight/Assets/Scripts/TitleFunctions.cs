@@ -12,10 +12,9 @@ public class TitleFunctions : MonoBehaviour
 
     void Start() 
     {
-        if (!PlayerPrefsElite.VerifyArray("waveRooms"))
+        if (!PlayerPrefsElite.VerifyArray("roomsBeaten"))
         {
-            string[] waveRooms = new string[100];
-            PlayerPrefsElite.SetStringArray("waveRooms", waveRooms);
+            PlayerPrefsElite.SetStringArray("roomsBeaten", new string[100]);
         }
     }
 
@@ -51,12 +50,19 @@ public class TitleFunctions : MonoBehaviour
             PlayerPrefsElite.DeleteKey("checkpointPos");
 
 
+        if (PlayerPrefsElite.VerifyArray("buttonAllocatedPokemons"))
+            PlayerPrefsElite.DeleteKey("buttonAllocatedPokemons");
+
         // Non-player related (Wave)
-        if (PlayerPrefsElite.VerifyArray("waveRooms"))
+        if (PlayerPrefsElite.VerifyArray("roomsBeaten"))
         {
-            string[] waveRooms = new string[100];
             // Clear
-            PlayerPrefsElite.SetStringArray("waveRooms", waveRooms);    
+            PlayerPrefsElite.SetStringArray("roomsBeaten", new string[100]);    
+        }
+        if (PlayerPrefsElite.VerifyArray("roomsBeaten"))
+        {
+            // Clear
+            PlayerPrefsElite.SetStringArray("pokemonsCaught", new string[100]);    
         }
 
         StartCoroutine( FadeToGame() );

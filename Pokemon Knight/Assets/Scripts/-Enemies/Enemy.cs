@@ -46,21 +46,27 @@ public abstract class Enemy : MonoBehaviour
     public TextMeshProUGUI lvText;
     [SerializeField] private float effectSpeed = 0.005f;
 
-    // [Space]
-    // [Header("Boss")]
-    [HideInInspector] public bool isBoss;
-    [HideInInspector] public bool isMiniBoss;
-    [HideInInspector] public GameObject possessedAura;
-    [HideInInspector] public GameObject battleRoarObj;
-    [HideInInspector] public GameObject rageChargeObj;
+
+    [Header("size")]
+    public Vector3 origSize;
+    public float ShrinkDuration = 0.5f;
+    public float t = 0;
+
+    [Space]
+    [Header("Boss")]
+    public bool isBoss;
+    public bool isMiniBoss;
+    public GameObject possessedAura;
+    public GameObject battleRoarObj;
+    public GameObject rageChargeObj;
     [HideInInspector] public bool inRage;
     [HideInInspector] public bool inCutscene; // Can't move
     [HideInInspector] public bool inRageCutscene; // Can't move
     [HideInInspector] public bool startingBossFight; // Can't move
     [HideInInspector] public bool isDefeated;
-    [Space] [HideInInspector] public string powerupName;
-    [Space] [HideInInspector] public GameObject pokeball;
-    [Space] [HideInInspector] public GameObject canCatchEffect;
+    [Space] [Space] public string powerupName;
+    public GameObject pokeball;
+    public GameObject canCatchEffect;
 
 
     [Space]
@@ -81,52 +87,52 @@ public abstract class Enemy : MonoBehaviour
     [HideInInspector] public WaveSpawner spawner;
 
 
-    #region Editor
-#if UNITY_EDITOR
-[CustomEditor(typeof(Enemy), true)]
-[CanEditMultipleObjects]
-public class EnemyEditor : Editor 
-{
-    public override void OnInspectorGUI() 
-    {
-        DrawDefaultInspector();
-        // base.OnInspectorGUI();
-        // serializedObject.Update();
+//     #region Editor
+// #if UNITY_EDITOR
+// [CustomEditor(typeof(Enemy), true)]
+// [CanEditMultipleObjects]
+// public class EnemyEditor : Editor 
+// {
+//     public override void OnInspectorGUI() 
+//     {
+//         DrawDefaultInspector();
+//         // base.OnInspectorGUI();
+//         serializedObject.Update();
 
         
-        Enemy enemy = (Enemy) target;
+//         Enemy enemy = (Enemy) target;
 
-        // EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Boss Related", EditorStyles.boldLabel);  
+//         // EditorGUILayout.BeginHorizontal();
+//         EditorGUILayout.Space();
+//         EditorGUILayout.LabelField("Boss Related", EditorStyles.boldLabel);  
 
-        enemy.isBoss = EditorGUILayout.Toggle("Is Boss", enemy.isBoss);
-        if (enemy.isBoss)
-        {
-            EditorGUI.indentLevel++;
-            enemy.isMiniBoss = EditorGUILayout.Toggle("Is Mini Boss", enemy.isMiniBoss);
-            EditorGUI.indentLevel--;
+//         enemy.isBoss = EditorGUILayout.Toggle("Is Boss", enemy.isBoss);
+//         if (enemy.isBoss)
+//         {
+//             EditorGUI.indentLevel++;
+//             enemy.isMiniBoss = EditorGUILayout.Toggle("Is Mini Boss", enemy.isMiniBoss);
+//             EditorGUI.indentLevel--;
 
-            enemy.possessedAura = EditorGUILayout.ObjectField("Possessed Aura", 
-                enemy.possessedAura, typeof(GameObject), true) as GameObject;
-            enemy.battleRoarObj = EditorGUILayout.ObjectField("Battle Roar", 
-                enemy.battleRoarObj, typeof(GameObject), true) as GameObject;
-            enemy.rageChargeObj = EditorGUILayout.ObjectField("Rage Charge", 
-                enemy.rageChargeObj, typeof(GameObject), true) as GameObject;
-            enemy.powerupName = EditorGUILayout.TextField("Powerup Name", enemy.powerupName);
-            enemy.pokeball = EditorGUILayout.ObjectField("Pokeball", 
-                enemy.pokeball, typeof(GameObject), true) as GameObject;
-            enemy.canCatchEffect = EditorGUILayout.ObjectField("Can Catch Effect", 
-                enemy.canCatchEffect, typeof(GameObject), true) as GameObject;
+//             enemy.possessedAura = EditorGUILayout.ObjectField("Possessed Aura", 
+//                 enemy.possessedAura, typeof(GameObject), true) as GameObject;
+//             enemy.battleRoarObj = EditorGUILayout.ObjectField("Battle Roar", 
+//                 enemy.battleRoarObj, typeof(GameObject), true) as GameObject;
+//             enemy.rageChargeObj = EditorGUILayout.ObjectField("Rage Charge", 
+//                 enemy.rageChargeObj, typeof(GameObject), true) as GameObject;
+//             enemy.powerupName = EditorGUILayout.TextField("Powerup Name", enemy.powerupName);
+//             enemy.pokeball = EditorGUILayout.ObjectField("Pokeball", 
+//                 enemy.pokeball, typeof(GameObject), true) as GameObject;
+//             enemy.canCatchEffect = EditorGUILayout.ObjectField("Can Catch Effect", 
+//                 enemy.canCatchEffect, typeof(GameObject), true) as GameObject;
 
-        }
+//         }
 
-        // EditorGUILayout.EndHorizontal();
-        // serializedObject.ApplyModifiedProperties();
-    }
-}
-#endif
-#endregion
+//         // EditorGUILayout.EndHorizontal();
+//         serializedObject.ApplyModifiedProperties();
+//     }
+// }
+// #endif
+// #endregion
 
     public virtual void Start() 
     {
@@ -151,6 +157,7 @@ public class EnemyEditor : Editor
         if (lvText != null)
             lvText.text = "Lv. " + lv; 
 
+        origSize = model.transform.localScale;
     }
 
     public virtual void Setup() {}
@@ -176,6 +183,19 @@ public class EnemyEditor : Editor
                 hpImg.color = new Color(1f, 0.65f, 0f);
             else
                 hpImg.color = new Color(0f, 0.85f, 0f);
+        }
+        if (hp <= 0 && !isBoss)
+        {
+            t += Time.deltaTime / ShrinkDuration;
+
+            // Lerp wants the third parameter to go from 0 to 1 over time. 't' will do that for us.
+            Vector3 newScale = Vector3.Lerp(origSize, Vector3.zero, t);
+            model.transform.localScale = newScale;
+
+            // We're done! We can disable this component to save resources.
+            if (model.transform.localScale.x <= 0) {
+                Destroy(this.gameObject);
+            }
         }
     }
 
@@ -237,8 +257,15 @@ public class EnemyEditor : Editor
                     playerControls.GainExp(expPossess + (extraDmg * Mathf.Max(1, lv - defaultLv)), lv);
 
                 if (!isBoss)
-                    Destroy(this.gameObject);
+                {
+                    if (body != null) body.gravityScale = 0;
+                    if (col != null) col.enabled = false;
+                    foreach (SpriteRenderer renderer in renderers)
+                        if (flashMat != null)
+                            renderer.material = flashMat;
+                    // Destroy(this.gameObject);
                     // StartCoroutine( Fainted() );
+                }
                 else if (playerControls != null)
                     playerControls.BossBattleOver();
             }
@@ -267,10 +294,18 @@ public class EnemyEditor : Editor
         receivingKnockback = true;
         Vector2 direction = (opponent.position - this.transform.position).normalized;
         direction *= new Vector2(1,0);
-        body.AddForce(-direction * force * kbDefense, ForceMode2D.Impulse);
+        if (force > 20)
+        {
+            body.AddForce(-direction * (force/2) * kbDefense, ForceMode2D.Impulse);
+            yield return new WaitForSeconds(0.2f);
+        }
+        else
+        {
+            body.AddForce(-direction * force * kbDefense, ForceMode2D.Impulse);
+            yield return new WaitForSeconds(0.1f);
+        }
         
         // if (!isBoss)
-            yield return new WaitForSeconds(0.1f);
         // else
         //     yield return new WaitForSeconds(0.02f);
         body.velocity = Vector2.zero;
@@ -307,6 +342,8 @@ public class EnemyEditor : Editor
             StartCoroutine( BackToBall() );
             Pokeball obj = Instantiate( pokeball, this.transform.position, Quaternion.identity).GetComponent<Pokeball>();
             obj.powerup = this.powerupName;
+            if (spawner != null)
+                obj.spawner = this.spawner;
         }    
     }
 
@@ -323,11 +360,14 @@ public class EnemyEditor : Editor
         body.velocity = Vector2.zero;
 
         yield return new WaitForSeconds(delay);
-        if (battleRoarObj != null) battleRoarObj.SetActive(true);
+        if (battleRoarObj != null) 
+            battleRoarObj.SetActive(true);
         
         yield return new WaitForSeconds(3);
         startingBossFight = true;
-        if (battleRoarObj != null) battleRoarObj.SetActive(false);
+        if (battleRoarObj != null) 
+            battleRoarObj.SetActive(false);
+
         inCutscene = false;
         CallChildOnIntro();
     }
@@ -363,8 +403,6 @@ public class EnemyEditor : Editor
         }
         if (bossRoom != null)
             bossRoom.Walls(false);
-        if (spawner != null)
-            spawner.SpawnedDefeated();
 
         // yield return new WaitForSeconds(0.01f);
         yield return new WaitForEndOfFrame();
@@ -382,20 +420,21 @@ public class EnemyEditor : Editor
         if (body != null) body.gravityScale = 0;
         if (col != null) col.enabled = false;
 
-        int times = 40;
-        float x = model.transform.localScale.x / times;
-        foreach (SpriteRenderer renderer in renderers)
-        {
-            if (flashMat != null)
-                renderer.material = flashMat;
-        }
-        for (int i=0 ; i<times ; i++)
-        {
-            model.transform.localScale -= new Vector3(x,x);
-            yield return new WaitForEndOfFrame();
-        }
+        // int times = 40;
+        // float x = model.transform.localScale.x / times;
+        // foreach (SpriteRenderer renderer in renderers)
+        // {
+        //     if (flashMat != null)
+        //         renderer.material = flashMat;
+        // }
+        // for (int i=0 ; i<times ; i++)
+        // {
+        //     model.transform.localScale -= new Vector3(x,x);
+        //     yield return new WaitForEndOfFrame();
+        // }
 
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(1);
+        // yield return new WaitForEndOfFrame();
         Destroy(this.gameObject);
     }
 

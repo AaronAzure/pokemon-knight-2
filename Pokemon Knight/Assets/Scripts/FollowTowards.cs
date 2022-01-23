@@ -19,6 +19,7 @@ public class FollowTowards : MonoBehaviour
     public bool justForShow=false;
     public float cooldownTime=0.5f;
     [SerializeField] private GameObject powerupAcquired;
+    public WaveSpawner spawner;
 
 
     // Start is called before the first frame update
@@ -65,6 +66,9 @@ public class FollowTowards : MonoBehaviour
                      powerupAcquired.transform.rotation, player.transform);
                 player.GainPowerup(powerupName);
             }
+
+            if (spawner != null)
+                spawner.SpawnedDefeated();
 
             yield return new WaitForSeconds(0.25f);
             Destroy(this.gameObject);

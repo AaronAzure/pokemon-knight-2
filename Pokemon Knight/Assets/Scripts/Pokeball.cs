@@ -10,6 +10,7 @@ public class Pokeball : MonoBehaviour
     [SerializeField] protected SpriteRenderer[] renderers;
     [SerializeField] protected Material flashMat;
     public string powerup;
+    public WaveSpawner spawner;
 
 
     // Start is called before the first frame update
@@ -46,12 +47,16 @@ public class Pokeball : MonoBehaviour
                 returnObj.target = trainer.transform;
                 returnObj.powerupName = this.powerup;
                 returnObj.justForShow = true;
+                if (spawner != null)
+                    returnObj.spawner = spawner;
             }
             else
             {
                 Debug.LogError(" PlayerControls not assigned to Ally.trainer");
             }
         }
+        // if (spawner != null)
+        //     spawner.SpawnedDefeated();
 
         // yield return new WaitForSeconds(0.01f);
         yield return new WaitForEndOfFrame();

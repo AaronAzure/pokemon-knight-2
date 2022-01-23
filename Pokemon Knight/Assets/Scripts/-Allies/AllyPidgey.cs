@@ -12,10 +12,10 @@ public class AllyPidgey : Ally
         if (trainer != null)
             atkDmg += ( extraDmg * (int) ((trainer.lv - 1) / perLevel) );
 
-        if (hitbox != null)
+        if (gust != null)
         {
-            hitbox.atkDmg = this.atkDmg;
-            hitbox.atkForce = this.atkForce;
+            gust.atkDmg = this.atkDmg;
+            gust.atkForce = this.atkForce;
         }
 
         body.velocity *= 0.5f;

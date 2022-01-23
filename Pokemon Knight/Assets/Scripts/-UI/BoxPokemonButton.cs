@@ -5,6 +5,7 @@ public class BoxPokemonButton : MonoBehaviour
 
     public PlayerControls playerControls;
     public Ally ally;
+    public string pokemonName = "N/A";
     public Sprite sprite;
 
 

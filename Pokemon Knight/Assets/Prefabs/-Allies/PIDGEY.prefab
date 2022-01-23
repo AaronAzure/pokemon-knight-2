@@ -540,11 +540,10 @@ GameObject:
   - component: {fileID: 7683898162395236406}
   - component: {fileID: 7683898162395236402}
   - component: {fileID: 7683898162395236403}
-  - component: {fileID: 8575012362847846583}
   - component: {fileID: 7683898162395236361}
   - component: {fileID: 7683898162395236407}
   m_Layer: 9
-  m_Name: PIDGEY_ALLY
+  m_Name: PIDGEY
   m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -623,86 +622,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &8575012362847846583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7683898162395236404}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bc9c442e5700459981571f0916bbb68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lv: 6
-  defaultLv: 6
-  maxHp: 125
-  hp: 0
-  mainAnim: {fileID: 0}
-  extraHp: 5
-  extraDmg: 5
-  expPossess: 15
-  extraExp: 8
-  lvBreak: 50
-  col: {fileID: 7683898162395236402}
-  body: {fileID: 7683898162395236403}
-  model: {fileID: 7683898162574173712}
-  cannotRecieveKb: 0
-  kbDefense: 1
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 128
-  statusBar: {fileID: 0}
-  hpEffectImg: {fileID: 0}
-  hpImg: {fileID: 0}
-  lvText: {fileID: 0}
-  effectSpeed: 0.005
-  isBoss: 0
-  isMiniBoss: 0
-  possessedAura: {fileID: 0}
-  battleRoarObj: {fileID: 0}
-  rageChargeObj: {fileID: 0}
-  inRage: 0
-  inCutscene: 0
-  inRageCutscene: 0
-  startingBossFight: 0
-  isDefeated: 0
-  powerupName: 
-  pokeball: {fileID: 0}
-  canCatchEffect: {fileID: 0}
-  contactDmg: 5
-  contactKb: 10
-  renderers:
-  - {fileID: 1164760787333844449}
-  - {fileID: 1164760787501707254}
-  - {fileID: 1164760786130988292}
-  - {fileID: 1164760786415879770}
-  - {fileID: 1164760787703483157}
-  - {fileID: 1164760787979525325}
-  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
-  flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
-  origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
-  bossRoom: {fileID: 0}
-  isSmart: 0
-  spawner: {fileID: 0}
-  anim: {fileID: 0}
-  moveSpeed: 1
-  chaseSpeed: 2
-  maxSpeed: 3
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 64
-  target: {fileID: 0}
-  chasing: 0
-  playerInRange: 0
-  alert: {fileID: 0}
-  gust: {fileID: 0}
-  glint: {fileID: 0}
-  lineOfSight: {x: 0, y: 0, z: 0}
-  aiDest: {fileID: 0}
-  aiPath: {fileID: 0}
-  spawnedHolder: {fileID: 0}
 --- !u!95 &7683898162395236361
 Animator:
   serializedVersion: 3
@@ -736,12 +655,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 7683898162574173712}
   hitbox: {fileID: 0}
-  atkDmg: 40
+  atkDmg: 30
   atkForce: 40
   extraDmg: 7
   perLevel: 1
   outTime: 1.5
-  resummonTime: 2
+  resummonTime: 1.5
   body: {fileID: 7683898162395236403}
   trailObj: {fileID: 1133196975338173599, guid: 68d6e6c0a5773413db7e478ab4425d98, type: 3}
   trainer: {fileID: 0}

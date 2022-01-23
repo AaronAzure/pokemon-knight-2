@@ -23,7 +23,7 @@ using UnityEngine;
 
     public IEnumerator SpawnWaves(int waveNumber, float delay=1)
     {
-        Debug.Log(this.name + " is spawning");
+        // Debug.Log(this.name + " is spawning");
         if (waveNumber < waves.Length)
         {
             if (waves[ waveNumber ] != null)
@@ -56,7 +56,7 @@ using UnityEngine;
 
     public void SpawnedDefeated()
     {
-        Debug.Log(this.name + " defeated");
+        // Debug.Log(this.name + " defeated");
         waveManager.ASpawnerLost();
     }
 }
