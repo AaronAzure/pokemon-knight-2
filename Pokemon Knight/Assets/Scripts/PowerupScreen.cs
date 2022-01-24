@@ -9,9 +9,11 @@ public class PowerupScreen : MonoBehaviour
         player.FinishedCutscene();
         this.gameObject.SetActive(false);
     }
-    public void Unpause()
+    public void UNPAUSE()
     {
         Time.timeScale = 1;
         this.gameObject.SetActive(false);
+        if (player != null)
+            player.Resume();
     }
 }

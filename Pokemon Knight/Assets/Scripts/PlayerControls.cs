@@ -141,6 +141,8 @@ public class PlayerControls : MonoBehaviour
     private bool dodgingThruScene;
     private float dodgeSpeed = 7.5f;
 
+    [SerializeField] private bool inWater;
+
 
     private bool canPressButtonNorth = true;   // (X)
     private bool canPressButtonWest = true;    // (Y)
@@ -351,10 +353,16 @@ public class PlayerControls : MonoBehaviour
         }
         else if ((player.GetButtonDown("START") || player.GetButtonDown("B")) && (settings.gameObject.activeSelf || equimentSettings.gameObject.activeSelf))
         {
-            Resume();
+            // Equipment menu
+            if (resting)
+                EXIT_EQUIPMENT_MENU();
+            else
+                EXIT_PAUSE_MENU();
+
         }
         //* Paused
         if (settings.gameObject.activeSelf || equimentSettings.gameObject.activeSelf) {}
+        //* STOP MOOMOO MILK
         else if (drinking)
         {
             if (player.GetButtonUp("L"))
@@ -365,10 +373,12 @@ public class PlayerControls : MonoBehaviour
                 drinking = false;
             }
         }
+        //* DRINKING MOOMOO MILK
         else if (nMoomooMilkLeft > 0 && hp != maxHp && player.GetButtonDown("L"))
         {
             DrinkingMoomooMilk();
         }
+        //* RESTING
         else if (resting)
         {
             if (PressedStandardButton())
@@ -460,7 +470,7 @@ public class PlayerControls : MonoBehaviour
                 {
                     if      (canPressButtonWest && player.GetButtonDown("Y"))
                     {
-                        if (allies[0] != null)
+                        if (allies[0] != null && (!inWater || allies[0].aquatic))
                         {
                             nPokemonOut++;
                             var pokemon = Instantiate(allies[0], spawnPos.position, allies[0].transform.rotation);
@@ -478,7 +488,7 @@ public class PlayerControls : MonoBehaviour
                     }
                     else if (canPressButtonNorth && player.GetButtonDown("X"))
                     {
-                        if (allies[1] != null)
+                        if (allies[1] != null && (!inWater || allies[1].aquatic))
                         {
                             nPokemonOut++;
                             var pokemon = Instantiate(allies[1], spawnPos.position, allies[1].transform.rotation);
@@ -496,7 +506,7 @@ public class PlayerControls : MonoBehaviour
                     }
                     else if (canPressButtonEast && player.GetButtonDown("A"))
                     {
-                        if (allies[2] != null)
+                        if (allies[2] != null && (!inWater || allies[2].aquatic))
                         {
                             nPokemonOut++;
                             var pokemon = Instantiate(allies[2], spawnPos.position, allies[2].transform.rotation);
@@ -517,7 +527,7 @@ public class PlayerControls : MonoBehaviour
                 {
                     if      (canPressButtonWest2 && player.GetButtonDown("Y"))
                     {
-                        if (allies[3] != null)
+                        if (allies[3] != null && (!inWater || allies[3].aquatic))
                         {
                             nPokemonOut++;
                             var pokemon = Instantiate(allies[3], spawnPos.position, allies[3].transform.rotation);
@@ -535,7 +545,7 @@ public class PlayerControls : MonoBehaviour
                     }
                     else if (canPressButtonNorth2 && player.GetButtonDown("X"))
                     {
-                        if (allies[4] != null)
+                        if (allies[4] != null && (!inWater || allies[4].aquatic))
                         {
                             nPokemonOut++;
                             var pokemon = Instantiate(allies[4], spawnPos.position, allies[4].transform.rotation);
@@ -553,7 +563,7 @@ public class PlayerControls : MonoBehaviour
                     }
                     else if (canPressButtonEast2 && player.GetButtonDown("A"))
                     {
-                        if (allies[5] != null)
+                        if (allies[5] != null && (!inWater || allies[5].aquatic))
                         {
                             nPokemonOut++;
                             var pokemon = Instantiate(allies[5], spawnPos.position, allies[5].transform.rotation);
@@ -600,7 +610,14 @@ public class PlayerControls : MonoBehaviour
         //* Paused
         if (settings.gameObject.activeSelf) {}
         else if (resting) {}
-        else if (hp > 0 && !inCutscene && !dodging && !drinking)
+        else if (hp > 0 && !inCutscene && !dodging && !drinking && inWater)
+        {
+            float xValue = player.GetAxis("Move Horizontal");
+            float yValue = player.GetAxis("Move Vertical");
+            rb.velocity = new Vector2(xValue, yValue) * moveSpeed;
+            playerDirection(xValue);
+        }
+        else if (hp > 0 && !inCutscene && !dodging && !drinking && !inWater)
         {
             float xValue = player.GetAxis("Move Horizontal");
             Walk(xValue);
@@ -831,7 +848,8 @@ public class PlayerControls : MonoBehaviour
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
         
         yield return new WaitForSeconds(0.75f);
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        if (!dodging)
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
     }
     IEnumerator Flash()
     {
@@ -1137,6 +1155,8 @@ public class PlayerControls : MonoBehaviour
     // todo -----------------  T R I G G E R S  ------------------------------------------------
     private void OnTriggerEnter2D(Collider2D other) 
     {
+        if (other.CompareTag("Underwater"))
+            inWater = true;
         // if (other.CompareTag("Roar"))
         //     EngagedBossRoar();
         if (other.CompareTag("Rage") && musicManager != null)
@@ -1144,6 +1164,11 @@ public class PlayerControls : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D other) 
     {
+        if (other.CompareTag("Underwater"))
+        {
+            inWater = false;
+            nExtraJumpsLeft = nExtraJumps;
+        }
         if (other.CompareTag("Roar"))
             RoarOver();
     }
@@ -1264,10 +1289,19 @@ public class PlayerControls : MonoBehaviour
         maxPokemonOut++;
     }
 
+    public void EXIT_EQUIPMENT_MENU()
+    {
+        equimentSettings.SetTrigger("close");
+    }
+    public void EXIT_PAUSE_MENU()
+    {
+        settings.SetTrigger("confirm");
+    }
     public void Resume()
     {
         settings.gameObject.SetActive(false);
         equimentSettings.gameObject.SetActive(false);
+        equimentSettings.SetTrigger("close");
         Time.timeScale = 1;
         StartCoroutine( CanPressButtonsagain() );
     }

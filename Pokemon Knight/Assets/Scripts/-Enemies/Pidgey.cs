@@ -28,6 +28,10 @@ public class Pidgey : Enemy
     [SerializeField] private GameObject spawnedHolder;
     private Coroutine co;
 
+    [Space] [Header("Debug")]
+    [SerializeField] private string rayCast;
+
+
 
     public override void Setup()
     {
@@ -91,6 +95,7 @@ public class Pidgey : Enemy
                         lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position);
                         RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position,
                             this.transform.position + new Vector3(0, 1) + lineOfSight, finalMask);
+                        rayCast = playerInfo.collider.name;
                         if (playerInfo.collider != null && playerInfo.collider.gameObject.CompareTag("Player"))
                         {
                             chasing = true;

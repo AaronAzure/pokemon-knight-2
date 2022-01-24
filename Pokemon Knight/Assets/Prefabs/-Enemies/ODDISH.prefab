@@ -575,7 +575,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 5249119507078783117}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 4635c528ab87143a28474f897496146b, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -608,6 +608,7 @@ MonoBehaviour:
   defaultLv: 5
   maxHp: 150
   hp: 0
+  mainAnim: {fileID: 0}
   extraHp: 10
   extraDmg: 5
   expPossess: 10
@@ -626,13 +627,19 @@ MonoBehaviour:
   hpImg: {fileID: 7908789846407830107}
   lvText: {fileID: 172641025672617191}
   effectSpeed: 0.005
+  origSize: {x: 0, y: 0, z: 0}
+  ShrinkDuration: 0.5
+  t: 0
   isBoss: 0
+  isMiniBoss: 0
   possessedAura: {fileID: 0}
   battleRoarObj: {fileID: 0}
   rageChargeObj: {fileID: 0}
-  rageAuraObj: {fileID: 0}
+  inRage: 0
   inCutscene: 0
   inRageCutscene: 0
+  startingBossFight: 0
+  isDefeated: 0
   powerupName: 
   pokeball: {fileID: 0}
   canCatchEffect: {fileID: 0}

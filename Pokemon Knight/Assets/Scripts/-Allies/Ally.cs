@@ -28,7 +28,8 @@ public abstract class Ally : MonoBehaviour
 
 
     [Header("Physics")] 
-    [SerializeField] private LayerMask whatIsGround;
+    public bool aquatic=false;
+    [Space] [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private float feetRadius=0.01f;
     private bool once;
     private bool shrinking;
