@@ -65,6 +65,9 @@ public class TitleFunctions : MonoBehaviour
             PlayerPrefsElite.SetStringArray("pokemonsCaught", new string[100]);    
         }
 
+        if (PlayerPrefsElite.VerifyArray("itemsObtained"))
+            PlayerPrefsElite.SetStringArray("itemsObtained", new string[50]);
+
         StartCoroutine( FadeToGame() );
     }
     public void QuitGame()

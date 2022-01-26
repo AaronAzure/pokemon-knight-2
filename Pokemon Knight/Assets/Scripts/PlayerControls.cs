@@ -80,7 +80,8 @@ public class PlayerControls : MonoBehaviour
     [Space] [SerializeField] private Canvas pokemonSet1;
     [SerializeField] private Canvas pokemonSet2;
     
-    [Space] [SerializeField] private BoxPokemonButton[] boxPokemons;
+    [Space] [SerializeField] private BoxPokemonButton[] boxPokemonsToActivate;
+    [Space] [SerializeField] private ItemUi[] itemsToActivate;
 
     [Space] [SerializeField] private Button partyPokemonFirstSelected;
     [SerializeField] private Button boxPokemonFirstSelected;
@@ -109,6 +110,8 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private GameObject playerUi;
     [Space] [SerializeField] private string[] roomsBeaten;
     [Space] [SerializeField] private string[] pokemonsCaught;
+    [Space] [SerializeField] private string[] itemsObtained;
+    public Item currentItem;
 
 
     [Space] [Header("Platformer Mechanics")]
@@ -152,7 +155,6 @@ public class PlayerControls : MonoBehaviour
     private bool canPressButtonEast2 = true;    // (A)
     private int nPokemonOut;
     private int maxPokemonOut = 1;
-    private float localX;
     [Space] [SerializeField] private GameObject holder;
     [SerializeField] private Animator anim;
     public bool inCutscene;
@@ -174,6 +176,17 @@ public class PlayerControls : MonoBehaviour
     public string newSceneName;
     public Vector2 newScenePos;
     [Tooltip("true = moving left\nfalse = moving right")] public bool moveLeftFromDoor; 
+
+
+    [Space][Header("Items")] 
+    public EquipmentUi equipmentUi;
+    public Button[] itemButtons;
+    public Image[] equippedItems;
+    public int nEquipped;
+    public int maxWeight=3; 
+    public bool canNavigate=true;
+    [Space] public bool speedScarf;
+    public bool amberNecklace;
     
 
     //* Powerups
@@ -184,6 +197,7 @@ public class PlayerControls : MonoBehaviour
     private int nExtraJumpsLeft = 1;
     [SerializeField] private Transform doubleJumpSpawnPos;
     [Space] public bool canDash;
+    public bool canSwim;
     private MusicManager musicManager;
     
     
@@ -205,7 +219,6 @@ public class PlayerControls : MonoBehaviour
         if (rb == null)
             rb = GetComponent<Rigidbody2D>();
         
-        localX = holder.transform.localScale.x;
     }
 
     void Start()
@@ -334,6 +347,7 @@ public class PlayerControls : MonoBehaviour
         }
     
         CheckEquippablePokemon();
+        CheckObtainedItems();
     }
     void Update()
     {
@@ -346,18 +360,58 @@ public class PlayerControls : MonoBehaviour
         {
             Time.timeScale = 0;
             inCutscene = true;
+            canNavigate = true;
             if (!resting)
                 settings.gameObject.SetActive(true);
             else
                 equimentSettings.gameObject.SetActive(true);
         }
-        else if ((player.GetButtonDown("START") || player.GetButtonDown("B")) && (settings.gameObject.activeSelf || equimentSettings.gameObject.activeSelf))
-        {
-            // Equipment menu
+        //* EXTRA NAVIGATION IN UI SETTINGS MENU
+        else if ((settings.gameObject.activeSelf || equimentSettings.gameObject.activeSelf))
+        {   
+            // EQUIMENT MENU
             if (resting)
-                EXIT_EQUIPMENT_MENU();
+            {
+                // EXIT MENU
+                if (player.GetButtonDown("START") || player.GetButtonDown("B"))
+                    EXIT_EQUIPMENT_MENU();
+                else if (player.GetButtonDown("L") && canNavigate)
+                {
+                    equipmentUi.ChangeTabs(false);
+                    partyPokemonFirstSelected.Select();
+                    // foreach (ItemUi iu in itemsToActivate)
+                    // {
+                    //     if (iu.gameObject.activeSelf)
+                    //     {
+                    //         Debug.Log("**" + iu.button.name);
+                    //         iu.button.Select();
+                    //         break;
+                    //     }
+                    // }
+                }
+                // Items
+                else if (player.GetButtonDown("R") && canNavigate)
+                {
+                    equipmentUi.ChangeTabs(true);
+                    foreach (ItemUi iu in itemsToActivate)
+                    {
+                        if (iu.gameObject.activeSelf)
+                        {
+                            Debug.Log("**" + iu.button.name);
+                            iu.button.Select();
+                            break;
+                        }
+                    }
+                }
+            }
+            // SETTINGS MENU
             else
-                EXIT_PAUSE_MENU();
+            {
+                // EXIT MENU
+                if (player.GetButtonDown("START") || player.GetButtonDown("B"))
+                    EXIT_PAUSE_MENU();
+
+            }
 
         }
         //* Paused
@@ -394,8 +448,19 @@ public class PlayerControls : MonoBehaviour
                 StartCoroutine( EnteringDoor() );
 
             if (player.GetButtonDown("R"))
-            {
                 SwitchPokemonSet();
+
+            if (currentItem != null && Interact())
+            {
+                inCutscene = true;
+                currentItem.PickupItem();
+                anim.SetTrigger("pickup");
+                currentItem = null;
+            }
+            else if (grounded && canDodge && player.GetButtonDown("ZR") && !canRest && !canEnter && currentItem == null)
+            {
+                canDodge = false;
+                StartCoroutine( Dodge() );
             }
 
 
@@ -412,12 +477,6 @@ public class PlayerControls : MonoBehaviour
             {
                 anim.SetTrigger("fall");
                 anim.SetBool("isFalling", true);
-            }
-
-            if (grounded && canDodge && player.GetButtonDown("ZR") && !canRest && !canEnter)
-            {
-                canDodge = false;
-                StartCoroutine( Dodge() );
             }
 
             //* Walking & jumping
@@ -610,29 +669,32 @@ public class PlayerControls : MonoBehaviour
         //* Paused
         if (settings.gameObject.activeSelf) {}
         else if (resting) {}
-        else if (hp > 0 && !inCutscene && !dodging && !drinking && inWater)
+        else if (hp > 0 && !inCutscene && !dodging && !drinking)
         {
             float xValue = player.GetAxis("Move Horizontal");
-            float yValue = player.GetAxis("Move Vertical");
-            rb.velocity = new Vector2(xValue, yValue) * moveSpeed;
-            playerDirection(xValue);
-        }
-        else if (hp > 0 && !inCutscene && !dodging && !drinking && !inWater)
-        {
-            float xValue = player.GetAxis("Move Horizontal");
-            Walk(xValue);
-
-            if (Mathf.Abs(xValue) > 0)
+            if (inWater && canSwim)
             {
-                anim.SetBool("isWalking", true);
-                anim.speed = Mathf.Min(Mathf.Abs(xValue) * moveSpeed, 3);
+                float yValue = player.GetAxis("Move Vertical");
+                rb.velocity = new Vector2(xValue, yValue) * moveSpeed;
             }
-            // Not moving (idle)
             else
             {
-                anim.SetBool("isWalking", false);
-                anim.speed = 1;
+                Walk(xValue);
+
+                // Walking animation
+                if (Mathf.Abs(xValue) > 0)
+                {
+                    anim.SetBool("isWalking", true);
+                    anim.speed = Mathf.Min(Mathf.Abs(xValue) * moveSpeed, 3);
+                }
+                // Not moving (idle)
+                else
+                {
+                    anim.SetBool("isWalking", false);
+                    anim.speed = 1;
+                }
             }
+
             //* Flip character
             playerDirection(xValue);
         }
@@ -834,7 +896,7 @@ public class PlayerControls : MonoBehaviour
             if (force > 0 && opponent != null)
             {
                 if (hp > 0) StartCoroutine( IgnoreEnemyCollision() );
-                StartCoroutine( ApplyKnockback(opponent, force) );
+                StartCoroutine( ApplyKnockback(opponent, force/2) );
             }
 
             if (hp <= 0)
@@ -887,7 +949,7 @@ public class PlayerControls : MonoBehaviour
             rb.AddForce(-direction * force, ForceMode2D.Impulse);
         }
         
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         rb.velocity = Vector2.zero;
         receivingKnockback = false;
     }
@@ -1116,7 +1178,14 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
-
+    public void CUTSCENE_EVENT_ON()
+    {
+        inCutscene = true;
+    }
+    public void CUTSCENE_EVENT_OFF()
+    {
+        inCutscene = false;
+    }
 
     public void ReturnToTitle()
     {
@@ -1283,6 +1352,50 @@ public class PlayerControls : MonoBehaviour
         rb.velocity = Vector2.zero;
     }
 
+    public void GainItem(string itemTypeName)
+    {
+        if (PlayerPrefsElite.VerifyArray("itemsObtained"))
+            itemsObtained = PlayerPrefsElite.GetStringArray("itemsObtained");
+        else
+        {
+            PlayerPrefsElite.SetStringArray("itemsObtained", new string[50]);
+            itemsObtained = PlayerPrefsElite.GetStringArray("itemsObtained");
+        }
+
+        for (int i=0 ; i<itemsObtained.Length ; i++)
+        {
+            if (itemsObtained[i] == "")
+            {
+                Debug.Log("item slot " + i + " is set to " + itemTypeName);
+                itemsObtained[i] = itemTypeName;
+                break;
+            }
+        }
+        PlayerPrefsElite.SetStringArray("itemsObtained", itemsObtained);
+        CheckObtainedItems();
+    }
+    
+    public void EquipItem(Sprite itemSprite)
+    {
+        equippedItems[nEquipped].sprite = itemSprite;
+        nEquipped++;
+    }
+    public void UnequipItem(Sprite itemSprite)
+    {
+        bool unequipped = false;
+        for (int i=0 ; i<equippedItems.Length ; i++)
+        {
+            if (equippedItems[i].sprite == itemSprite || unequipped)
+            {
+                unequipped = true;
+                equippedItems[i].sprite = emptySprite;
+                if (i < equippedItems.Length - 1)
+                    equippedItems[i].sprite = equippedItems[i+1].sprite;
+            }
+        }
+        // equippedItems[nEquipped].sprite = itemSprite;
+        nEquipped--;
+    }
 
     public void IncreaseMaxPokemonOut()
     {
@@ -1291,6 +1404,7 @@ public class PlayerControls : MonoBehaviour
 
     public void EXIT_EQUIPMENT_MENU()
     {
+        //
         equimentSettings.SetTrigger("close");
     }
     public void EXIT_PAUSE_MENU()
@@ -1323,13 +1437,13 @@ public class PlayerControls : MonoBehaviour
         anim.speed = 1;
         anim.SetTrigger("rest");
         anim.SetBool("isResting", true);
-        nMoomooMilkLeft = nMoomooMilk;
-        // UI indication
         if (moomooUi != null)
         {
-            foreach (Animator ui in moomooUi)
-                ui.SetTrigger("restored");
+            for (int i=nMoomooMilkLeft ; i<nMoomooMilk ; i++)
+                moomooUi[i].SetTrigger("restored");
         }
+        nMoomooMilkLeft = nMoomooMilk;
+        // UI indication
 
         SaveState();
     }
@@ -1419,7 +1533,7 @@ public class PlayerControls : MonoBehaviour
             }
             PlayerPrefsElite.SetStringArray("pokemonsCaught", pokemonsCaught);
             var set = new HashSet<string>(pokemonsCaught);
-            foreach (BoxPokemonButton boxPokemon in boxPokemons)
+            foreach (BoxPokemonButton boxPokemon in boxPokemonsToActivate)
             {
                 if (set.Contains(boxPokemon.pokemonName))
                     boxPokemon.gameObject.SetActive(true);
@@ -1433,7 +1547,7 @@ public class PlayerControls : MonoBehaviour
         {
             pokemonsCaught = PlayerPrefsElite.GetStringArray("pokemonsCaught");
             var set = new HashSet<string>(pokemonsCaught);
-            foreach (BoxPokemonButton boxPokemon in boxPokemons)
+            foreach (BoxPokemonButton boxPokemon in boxPokemonsToActivate)
             {
                 if (set.Contains(boxPokemon.pokemonName))
                     boxPokemon.gameObject.SetActive(true);
@@ -1442,6 +1556,26 @@ public class PlayerControls : MonoBehaviour
         else
         {
             PlayerPrefsElite.SetStringArray("pokemonsCaught", new string[100]);
+        }
+    }
+    
+    //* Set all obtained items gameObject (buttons) active - Start(), GainItem()
+    public void CheckObtainedItems()
+    {
+        if (PlayerPrefsElite.VerifyArray("itemsObtained"))
+        {
+            itemsObtained = PlayerPrefsElite.GetStringArray("itemsObtained");
+            var set = new HashSet<string>(itemsObtained);
+            foreach (ItemUi heldItem in itemsToActivate)
+            {
+                if (set.Contains(heldItem.itemName))
+                    heldItem.gameObject.SetActive(true);
+            }
+
+        }
+        else
+        {
+            PlayerPrefsElite.SetStringArray("itemsObtained", new string[50]);
         }
     }
 

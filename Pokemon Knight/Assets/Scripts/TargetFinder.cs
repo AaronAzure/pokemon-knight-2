@@ -5,7 +5,7 @@ using Cinemachine;
 public class TargetFinder : MonoBehaviour
 {
     [SerializeField] private ProCamera2D proCam;
-    [SerializeField] private CinemachineVirtualCamera cm;
+    [SerializeField] private CinemachineVirtualCamera[] cm;
     [SerializeField] private CameraManualFollow manualFollow;
 
     // Start is called before the first frame update
@@ -15,7 +15,10 @@ public class TargetFinder : MonoBehaviour
         {
             GameObject target = GameObject.Find("PLAYER");
             if (proCam != null) proCam.AddCameraTarget(target.transform);
-            if (cm != null) cm.Follow = target.transform;
+            if (cm != null) {
+                foreach (CinemachineVirtualCamera c in cm)
+                    c.Follow = target.transform;
+            }
             if (manualFollow != null) manualFollow.target = target.transform;
         }
     }

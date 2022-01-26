@@ -17,11 +17,5 @@ public class BoxPokemonButton : MonoBehaviour
             Debug.LogError(this.gameObject.name +  "  -  sprite is not serialised", this.gameObject);
         // Debug.Log(this.ally.gameObject.name + "  _  " + this.sprite.name);
         playerControls.SetNewAlly(this.ally, this.sprite);
-        // if (playerControls != null && this.ally != null)
-        // else
-        // {
-        //     playerControls.SetNewAlly(this.ally, this.sprite);
-        //     Debug.LogError("either (playerControls) or (ally) is not assigned", this.gameObject);
-        // }
     }
 }

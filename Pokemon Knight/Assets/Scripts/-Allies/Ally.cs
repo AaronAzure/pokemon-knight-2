@@ -48,9 +48,15 @@ public abstract class Ally : MonoBehaviour
             hitbox.atkDmg = this.atkDmg;
             hitbox.atkForce = this.atkForce;
         }
+        if (trainer != null && trainer.speedScarf)
+            resummonTime *= 0.7f;
 
         StartCoroutine( BackToBall() );
+        Setup();
     }
+
+    protected virtual void Setup() { }
+
 
     void LateUpdate() 
     {

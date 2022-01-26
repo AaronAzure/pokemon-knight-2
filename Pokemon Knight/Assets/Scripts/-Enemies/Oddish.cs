@@ -137,9 +137,12 @@ public class Oddish : Enemy
 
     public void POISON_POWDER()
     {
-        var obj = Instantiate(stunSpore, stunSporePos.position, stunSporePos.transform.rotation);
-        obj.atkDmg = stunSporeDmg;
-        Destroy(obj, 4.5f);
+        if (hp > 0)
+        {
+            var obj = Instantiate(stunSpore, stunSporePos.position, stunSporePos.transform.rotation);
+            obj.atkDmg = stunSporeDmg;
+            Destroy(obj, 4.5f);
+        }
     }
 
     private void OnDrawGizmosSelected() 

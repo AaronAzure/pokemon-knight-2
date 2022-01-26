@@ -7,19 +7,14 @@ public class AllyPidgey : Ally
     [SerializeField] private Transform atkPos;
     [SerializeField] private AllyProjectile gust;
 
-    protected override void Start() 
+    protected override void Setup() 
     {
-        if (trainer != null)
-            atkDmg += ( extraDmg * (int) ((trainer.lv - 1) / perLevel) );
-
         if (gust != null)
         {
             gust.atkDmg = this.atkDmg;
             gust.atkForce = this.atkForce;
         }
-
         body.velocity *= 0.5f;
-        StartCoroutine( BackToBall() );
     }   
 
     public void Gust()

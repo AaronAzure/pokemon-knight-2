@@ -82,10 +82,12 @@ public abstract class Enemy : MonoBehaviour
     private bool canCatch;
     public bool isSmart;    // Turns if attacked from behind;
 
-    [Space]
-    [Header("Waves Related")]
+    [Space] [Header("Waves Related")]
     [HideInInspector] public WaveSpawner spawner;
 
+    
+    [Space] [Header("Support")]
+    public bool playerInSight;
 
 //     #region Editor
 // #if UNITY_EDITOR

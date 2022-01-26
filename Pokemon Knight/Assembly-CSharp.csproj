@@ -121,6 +121,7 @@
      <Compile Include="Assets/Rewired/Examples/CustomControllersTilt/Scripts/CustomControllersTiltDemo.cs" />
      <Compile Include="Assets/Scripts/testing.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/KDTree.cs" />
+     <Compile Include="Assets/Scripts/-UI/PartyPokemonButton.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/Utils/PrefsData.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DRepeater.cs" />
      <Compile Include="Assets/Rewired/Integration/UnityUI/RewiredEventSystem.cs" />
@@ -148,9 +149,11 @@
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DContentFitter.cs" />
      <Compile Include="Assets/Rewired/Examples/GamepadTemplateUI/Scripts/GamepadTemplateUI.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Triggers/ProCamera2DTriggerBoundaries.cs" />
+     <Compile Include="Assets/Scripts/ColliderOnAfter.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DGeometryBoundaries.cs" />
      <Compile Include="Assets/Rewired/Examples/CustomControllersTouch/Scripts/CustomControllerDemo.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIImageHelper.cs" />
+     <Compile Include="Assets/Scripts/-UI/BoxPokemonButton.cs" />
      <Compile Include="Assets/Scripts/PowerupScreen.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/Brush/RandomBrush.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/STETilemap.cs" />
@@ -158,6 +161,7 @@
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor - Extra/Importers/Pyxel Edit/Scripts/PyxelEdit Component/PyxelEdit.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/Brush/A2X2Brush.cs" />
      <Compile Include="Assets/Scripts/-Allies/Ally.cs" />
+     <Compile Include="Assets/Scripts/-Allies/AllyPidgey.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DSpeedBasedZoom.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/Brush/RoadBrush.cs" />
      <Compile Include="Assets/Scripts/NewArea.cs" />
@@ -165,6 +169,7 @@
      <Compile Include="Assets/Scripts/PlayerControls.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/BaseTrigger.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ThemeSettings.cs" />
+     <Compile Include="Assets/Scripts/PokemonSets.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/MapPathFinding/PathfindingBehaviour.cs" />
      <Compile Include="Assets/Scripts/Pokeball.cs" />
      <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/ToggleCinematics.cs" />
@@ -176,6 +181,7 @@
      <Compile Include="Assets/ProCamera2D/Code/Core/EnumMovementAxis.cs" />
      <Compile Include="Assets/PlayerPrefsElite/Standard Assets/PlayerPrefsElite.cs" />
      <Compile Include="Assets/PlayerPrefsElite/Examples/CSharp/BuildInArrays.cs" />
+     <Compile Include="Assets/Scripts/Roar.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/EnumUpdateType.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/MapPathFinding/PathFinding.cs" />
      <Compile Include="Assets/Scripts/FollowTowards.cs" />
@@ -270,12 +276,10 @@
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ScrollbarVisibilityHelper.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIGroup.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/IPostMover.cs" />
-     <Compile Include="Assets/Scripts/ColliderOnAfter.cs" />
-     <Compile Include="Assets/Scripts/-UI/BoxPokemonButton.cs" />
-     <Compile Include="Assets/Scripts/PokemonSets.cs" />
-     <Compile Include="Assets/Scripts/-Allies/AllyPidgey.cs" />
-     <Compile Include="Assets/Scripts/-UI/PartyPokemonButton.cs" />
-     <Compile Include="Assets/Scripts/Roar.cs" />
+     <Compile Include="Assets/Scripts/Water.cs" />
+     <Compile Include="Assets/Scripts/-Scene Related/TriggerBounds.cs" />
+     <Compile Include="Assets/Scripts/-UI/ItemUi.cs" />
+     <Compile Include="Assets/Scripts/-UI/EquipmentUi.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Epic Toon FX/Prefabs/Environment/Environment FX.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />

@@ -357,6 +357,7 @@ MonoBehaviour:
   defaultLv: 12
   maxHp: 250
   hp: 0
+  mainAnim: {fileID: 0}
   extraHp: 10
   extraDmg: 5
   expPossess: 5
@@ -375,13 +376,19 @@ MonoBehaviour:
   hpImg: {fileID: 5190738569914999724}
   lvText: {fileID: 5190738570806720511}
   effectSpeed: 0.005
+  origSize: {x: 0, y: 0, z: 0}
+  ShrinkDuration: 0.5
+  t: 0
   isBoss: 0
+  isMiniBoss: 0
   possessedAura: {fileID: 0}
   battleRoarObj: {fileID: 0}
   rageChargeObj: {fileID: 0}
-  rageAuraObj: {fileID: 0}
+  inRage: 0
   inCutscene: 0
   inRageCutscene: 0
+  startingBossFight: 0
+  isDefeated: 0
   powerupName: 
   pokeball: {fileID: 0}
   canCatchEffect: {fileID: 0}
@@ -397,6 +404,7 @@ MonoBehaviour:
   bossRoom: {fileID: 0}
   isSmart: 0
   spawner: {fileID: 0}
+  playerInSight: 0
   anim: {fileID: 2136142339847862491}
   moveSpeed: 2
   jumpForce: 12
@@ -407,8 +415,8 @@ MonoBehaviour:
   razorLeaf: {fileID: 2919362440723818951, guid: 6697d454920314c3e98bb884553496bc, type: 3}
   razorLeafSpawn: {fileID: 7715421911178464689}
   attacked: 0
-  fieldOfVision: {x: 12, y: 8}
-  offset: {x: -5, y: 0, z: 0}
+  fieldOfVision: {x: 8, y: 8}
+  offset: {x: -3, y: 0, z: 0}
   lineOfSight: {x: 0, y: 0, z: 0}
   alert: {fileID: 3803489936706705490}
 --- !u!1 &5190738569146184716

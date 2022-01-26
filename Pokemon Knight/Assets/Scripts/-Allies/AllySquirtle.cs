@@ -5,19 +5,9 @@ public class AllySquirtle : Ally
 {
     [Space] [Header("Squirtle")] [SerializeField] private AllyProjectile watergunObj;
     [SerializeField] private Transform atkPos;
-    protected override void Start() 
+    protected override void Setup() 
     {
-        if (trainer != null)
-            atkDmg += ( extraDmg * (int) ((trainer.lv - 1) / perLevel) );
-
-        if (hitbox != null)
-        {
-            hitbox.atkDmg = this.atkDmg;
-            hitbox.atkForce = this.atkForce;
-        }
-
         StartCoroutine( Watergun() );
-        StartCoroutine( BackToBall() );
     }
     IEnumerator Watergun()
     {

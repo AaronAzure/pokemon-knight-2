@@ -811,10 +811,10 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: 0, y: 1.6062992}
-  - {x: 1.5984251, y: 1.6062992}
-  - {x: 1.4094489, y: 1.1417323}
-  - {x: 0, y: 1.1417323}
+  - {x: 0, y: 1.6031747}
+  - {x: 1.5952381, y: 1.6031747}
+  - {x: 1.4126984, y: 1.1428572}
+  - {x: 0, y: 1.1428572}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -1175,10 +1175,10 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: 60, y: 1.1417323}
-  - {x: 59.6063, y: 1.1417323}
-  - {x: 59.37008, y: 1.6062992}
-  - {x: 60, y: 1.6062992}
+  - {x: 60, y: 1.1428572}
+  - {x: 59.603176, y: 1.1428572}
+  - {x: 59.373016, y: 1.6031747}
+  - {x: 60, y: 1.6031747}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -1808,8 +1808,23 @@ PrefabInstance:
       propertyPath: m_UpdateMethod
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2625058270864084360, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
+      propertyPath: cm.Array.data[0]
+      value: 
+      objectReference: {fileID: 1976175702614551428}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
+--- !u!114 &1976175702614551428 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1976175702109154766, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
+  m_PrefabInstance: {fileID: 1976175702614551427}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2241457488112191047
 PrefabInstance:
   m_ObjectHideFlags: 0
