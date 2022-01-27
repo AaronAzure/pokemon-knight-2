@@ -21,13 +21,19 @@ public abstract class Ally : MonoBehaviour
     [HideInInspector] public PlayerControls trainer;    // player who summoned
     [HideInInspector] public string button;
 
+    
+    [Space] [Header("Move Description")]
+    [Tooltip("e.g. Vine whip")] public string moveName;
+    public int multiHit=1;
+    [TextArea(15,20)] public string moveDesc;
 
-    [Header("Flash")]
+
+    [Space] [Header("Flash")]
     [SerializeField] protected SpriteRenderer[] renderers;
     [SerializeField] protected Material flashMat;
 
 
-    [Header("Physics")] 
+    [Space] [Header("Physics")] 
     public bool aquatic=false;
     [Space] [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private float feetRadius=0.01f;

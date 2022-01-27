@@ -88,6 +88,7 @@ public class PlayerControls : MonoBehaviour
     [Space] [SerializeField] private Button partyPokemonLastSelected;
     [SerializeField] private Button boxPokemonLastSelected;
     [Space] [SerializeField] private string oldButtonSymbol;
+    private bool isClosing=false;
 
     
     [Space]
@@ -361,6 +362,7 @@ public class PlayerControls : MonoBehaviour
             Time.timeScale = 0;
             inCutscene = true;
             canNavigate = true;
+            isClosing = false;
             if (!resting)
                 settings.gameObject.SetActive(true);
             else
@@ -435,7 +437,7 @@ public class PlayerControls : MonoBehaviour
         //* RESTING
         else if (resting)
         {
-            if (PressedStandardButton())
+            if (player.GetButtonDown("B"))
                 LeaveBench();
         }
         //* Walking, Dashing, Summoning, jumping, Interacting
@@ -1404,8 +1406,11 @@ public class PlayerControls : MonoBehaviour
 
     public void EXIT_EQUIPMENT_MENU()
     {
-        //
-        equimentSettings.SetTrigger("close");
+        if (!isClosing)
+        {
+            isClosing = true;
+            equimentSettings.SetTrigger("close");
+        }
     }
     public void EXIT_PAUSE_MENU()
     {
@@ -1549,7 +1554,7 @@ public class PlayerControls : MonoBehaviour
             var set = new HashSet<string>(pokemonsCaught);
             foreach (BoxPokemonButton boxPokemon in boxPokemonsToActivate)
             {
-                if (set.Contains(boxPokemon.pokemonName))
+                if (boxPokemon.pokemonName != null && set.Contains(boxPokemon.pokemonName))
                     boxPokemon.gameObject.SetActive(true);
             }
         }

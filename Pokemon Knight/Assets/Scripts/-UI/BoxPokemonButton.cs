@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BoxPokemonButton : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class BoxPokemonButton : MonoBehaviour
     public PlayerControls playerControls;
     public Ally ally;
     public string pokemonName = "N/A";
+    public Image img;
     public Sprite sprite;
 
 
