@@ -35,7 +35,7 @@ public class PlayerControls : MonoBehaviour
     public Image pokeballA2;
 
     [Space] 
-    public Image[] partyPokemonsUI;
+    [Tooltip("In game = cooldown")] public Image[] partyPokemonsUI;
     // public Image pokemonY1;
     // public Image pokemonX1;
     // public Image pokemonA1;
@@ -44,7 +44,8 @@ public class PlayerControls : MonoBehaviour
     // public Image pokemonA2;
 
     [Space] 
-    public Image[] partyPokemonSettings;
+    // [Tooltip("Paused settings = equipped")] public Image[] partyPokemonSettings;
+    [Tooltip("Paused settings = equipped")] public BoxPokemonButton[] pokemonInTeamBenchSettings;
     // public Image pokemonY1Settings;
     // public Image pokemonX1Settings;
     // public Image pokemonA1Settings;
@@ -184,10 +185,13 @@ public class PlayerControls : MonoBehaviour
     public Button[] itemButtons;
     public Image[] equippedItems;
     public int nEquipped;
+    public int currentWeight=0; 
     public int maxWeight=3; 
     public bool canNavigate=true;
     [Space] public bool speedScarf;
     public bool amberNecklace;
+    public bool furyBracelet;
+    public TextMeshProUGUI weightText;
     
 
     //* Powerups
@@ -205,6 +209,7 @@ public class PlayerControls : MonoBehaviour
     [Header("CHEATS")]
     [SerializeField] private float dmgMultiplier = 1;
     [SerializeField] private float expMultiplier = 1;
+    [SerializeField] private bool noCoolDown;
 
     private static PlayerControls playerInstance;   // There can only be one
 
@@ -286,44 +291,50 @@ public class PlayerControls : MonoBehaviour
             allies = new Ally[6];
 
             string[] buttonAllocatedPokemons = PlayerPrefsElite.GetStringArray("buttonAllocatedPokemons");
-            foreach (string bap in buttonAllocatedPokemons)
-                Debug.Log(bap);
+            // foreach (string bap in buttonAllocatedPokemons)
+            //     Debug.Log(bap);
 
             for (int i=0 ; i<buttonAllocatedPokemons.Length ; i++)
             {
-                Debug.Log(buttonAllocatedPokemons[i].ToLower());
+                // Debug.Log(buttonAllocatedPokemons[i].ToLower());
                 switch (buttonAllocatedPokemons[i].ToLower())
                 {
                     case "bulbasaur":
                         allies[i] = bulbasaur.summonable;
-                        partyPokemonSettings[i].sprite = bulbasaur.sprite;
+                        pokemonInTeamBenchSettings[i].img.sprite = bulbasaur.sprite;
+                        pokemonInTeamBenchSettings[i].ally = bulbasaur.summonable;
                         partyPokemonsUI[i].sprite = bulbasaur.sprite;
                         break;
                     case "charmander":
                         allies[i] = charmander.summonable;
-                        partyPokemonSettings[i].sprite = charmander.sprite;
+                        pokemonInTeamBenchSettings[i].img.sprite = charmander.sprite;
+                        pokemonInTeamBenchSettings[i].ally = charmander.summonable;
                         partyPokemonsUI[i].sprite = charmander.sprite;
                         break;
                     case "squirtle":
                         allies[i] = squirtle.summonable;
-                        partyPokemonSettings[i].sprite = squirtle.sprite;
+                        pokemonInTeamBenchSettings[i].img.sprite = squirtle.sprite;
+                        pokemonInTeamBenchSettings[i].ally = squirtle.summonable;
                         partyPokemonsUI[i].sprite = squirtle.sprite;
                         break;
                     case "pidgey":
                         allies[i] = pidgey.summonable;
-                        partyPokemonSettings[i].sprite = pidgey.sprite;
+                        pokemonInTeamBenchSettings[i].img.sprite = pidgey.sprite;
+                        pokemonInTeamBenchSettings[i].ally = pidgey.summonable;
                         partyPokemonsUI[i].sprite = pidgey.sprite;
                         break;
-                    case "butterfree":
-                        allies[i] = butterfree.summonable;
-                        partyPokemonSettings[i].sprite = butterfree.sprite;
-                        partyPokemonsUI[i].sprite = butterfree.sprite;
-                        break;
+                    // case "butterfree":
+                    //     allies[i] = butterfree.summonable;
+                    //     pokemonInTeamBenchSettings[i].img.sprite = butterfree.sprite;
+                    //     partyPokemonsUI[i].sprite = butterfree.sprite;
+                    //     break;
                     case "":
-                        partyPokemonSettings[i].sprite = emptySprite;
+                        pokemonInTeamBenchSettings[i].img.sprite = emptySprite;
+                        pokemonInTeamBenchSettings[i].ally = null;
                         partyPokemonsUI[i].sprite = emptySprite;
                         break;
                     default:
+                        Debug.LogError(buttonAllocatedPokemons[i] + " has not been added", this.gameObject);
                         break;
                 }
             }
@@ -349,6 +360,8 @@ public class PlayerControls : MonoBehaviour
     
         CheckEquippablePokemon();
         CheckObtainedItems();
+
+        weightText.text = currentWeight + "/" + maxWeight;
     }
     void Update()
     {
@@ -381,15 +394,6 @@ public class PlayerControls : MonoBehaviour
                 {
                     equipmentUi.ChangeTabs(false);
                     partyPokemonFirstSelected.Select();
-                    // foreach (ItemUi iu in itemsToActivate)
-                    // {
-                    //     if (iu.gameObject.activeSelf)
-                    //     {
-                    //         Debug.Log("**" + iu.button.name);
-                    //         iu.button.Select();
-                    //         break;
-                    //     }
-                    // }
                 }
                 // Items
                 else if (player.GetButtonDown("R") && canNavigate)
@@ -397,7 +401,7 @@ public class PlayerControls : MonoBehaviour
                     equipmentUi.ChangeTabs(true);
                     foreach (ItemUi iu in itemsToActivate)
                     {
-                        if (iu.gameObject.activeSelf)
+                        if (iu.gameObject.activeSelf && iu.transform.parent.gameObject.activeSelf)
                         {
                             Debug.Log("**" + iu.button.name);
                             iu.button.Select();
@@ -430,7 +434,7 @@ public class PlayerControls : MonoBehaviour
             }
         }
         //* DRINKING MOOMOO MILK
-        else if (nMoomooMilkLeft > 0 && hp != maxHp && player.GetButtonDown("L"))
+        else if (nMoomooMilkLeft > 0 && hp != maxHp && hp > 0 && player.GetButtonDown("L"))
         {
             DrinkingMoomooMilk();
         }
@@ -533,7 +537,7 @@ public class PlayerControls : MonoBehaviour
                     {
                         if (allies[0] != null && (!inWater || allies[0].aquatic))
                         {
-                            nPokemonOut++;
+                            if (!noCoolDown) nPokemonOut++;
                             var pokemon = Instantiate(allies[0], spawnPos.position, allies[0].transform.rotation);
                             pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
                             pokemon.body.velocity = this.rb.velocity;
@@ -551,7 +555,7 @@ public class PlayerControls : MonoBehaviour
                     {
                         if (allies[1] != null && (!inWater || allies[1].aquatic))
                         {
-                            nPokemonOut++;
+                            if (!noCoolDown) nPokemonOut++;
                             var pokemon = Instantiate(allies[1], spawnPos.position, allies[1].transform.rotation);
                             pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
                             pokemon.body.velocity = this.rb.velocity;
@@ -569,7 +573,7 @@ public class PlayerControls : MonoBehaviour
                     {
                         if (allies[2] != null && (!inWater || allies[2].aquatic))
                         {
-                            nPokemonOut++;
+                            if (!noCoolDown) nPokemonOut++;
                             var pokemon = Instantiate(allies[2], spawnPos.position, allies[2].transform.rotation);
                             pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
                             pokemon.body.velocity = this.rb.velocity;
@@ -590,7 +594,7 @@ public class PlayerControls : MonoBehaviour
                     {
                         if (allies[3] != null && (!inWater || allies[3].aquatic))
                         {
-                            nPokemonOut++;
+                            if (!noCoolDown) nPokemonOut++;
                             var pokemon = Instantiate(allies[3], spawnPos.position, allies[3].transform.rotation);
                             pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
                             pokemon.body.velocity = this.rb.velocity;
@@ -608,7 +612,7 @@ public class PlayerControls : MonoBehaviour
                     {
                         if (allies[4] != null && (!inWater || allies[4].aquatic))
                         {
-                            nPokemonOut++;
+                            if (!noCoolDown) nPokemonOut++;
                             var pokemon = Instantiate(allies[4], spawnPos.position, allies[4].transform.rotation);
                             pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
                             pokemon.body.velocity = this.rb.velocity;
@@ -626,7 +630,7 @@ public class PlayerControls : MonoBehaviour
                     {
                         if (allies[5] != null && (!inWater || allies[5].aquatic))
                         {
-                            nPokemonOut++;
+                            if (!noCoolDown) nPokemonOut++;
                             var pokemon = Instantiate(allies[5], spawnPos.position, allies[5].transform.rotation);
                             pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
                             pokemon.body.velocity = this.rb.velocity;
@@ -860,6 +864,8 @@ public class PlayerControls : MonoBehaviour
         drinking = true;
         rb.velocity = Vector2.zero;
         anim.speed = 1;
+        if (amberNecklace)
+            anim.speed = 2;
         anim.SetBool("isDrinking", true);
         anim.SetTrigger("drink");
     }
@@ -1305,22 +1311,52 @@ public class PlayerControls : MonoBehaviour
     public void SetNewAlly(Ally newAlly, Sprite newSprite)
     {
         //* If the pokemon is already assigned in another pokemon, then remove assigned
-        if      (allies[0] == newAlly) { allies[0] = null; partyPokemonsUI[0].sprite = emptySprite; partyPokemonSettings[0].sprite = emptySprite; }
-        else if (allies[1] == newAlly) { allies[1] = null; partyPokemonsUI[1].sprite = emptySprite; partyPokemonSettings[1].sprite = emptySprite; }
-        else if (allies[2] == newAlly) { allies[2] = null; partyPokemonsUI[2].sprite = emptySprite; partyPokemonSettings[2].sprite = emptySprite; }
-        else if (allies[3] == newAlly) { allies[3] = null; partyPokemonsUI[3].sprite = emptySprite; partyPokemonSettings[3].sprite = emptySprite; }
-        else if (allies[4] == newAlly) { allies[4] = null; partyPokemonsUI[4].sprite = emptySprite; partyPokemonSettings[4].sprite = emptySprite; }
-        else if (allies[5] == newAlly) { allies[5] = null; partyPokemonsUI[5].sprite = emptySprite; partyPokemonSettings[5].sprite = emptySprite; }
+        if      (allies[0] == newAlly) { allies[0] = null; partyPokemonsUI[0].sprite = emptySprite; 
+            pokemonInTeamBenchSettings[0].img.sprite = emptySprite; pokemonInTeamBenchSettings[0].ally = null;}
+        else if (allies[1] == newAlly) { allies[1] = null; partyPokemonsUI[1].sprite = emptySprite; 
+            pokemonInTeamBenchSettings[1].img.sprite = emptySprite; pokemonInTeamBenchSettings[1].ally = null;}
+        else if (allies[2] == newAlly) { allies[2] = null; partyPokemonsUI[2].sprite = emptySprite; 
+            pokemonInTeamBenchSettings[2].img.sprite = emptySprite; pokemonInTeamBenchSettings[2].ally = null;}
+        else if (allies[3] == newAlly) { allies[3] = null; partyPokemonsUI[3].sprite = emptySprite; 
+            pokemonInTeamBenchSettings[3].img.sprite = emptySprite; pokemonInTeamBenchSettings[3].ally = null;}
+        else if (allies[4] == newAlly) { allies[4] = null; partyPokemonsUI[4].sprite = emptySprite; 
+            pokemonInTeamBenchSettings[4].img.sprite = emptySprite; pokemonInTeamBenchSettings[4].ally = null;}
+        else if (allies[5] == newAlly) { allies[5] = null; partyPokemonsUI[5].sprite = emptySprite; 
+            pokemonInTeamBenchSettings[5].img.sprite = emptySprite; pokemonInTeamBenchSettings[5].ally = null;}
 
 
         switch (oldButtonSymbol.ToUpper())
         {
-            case "Y1": allies[0] = newAlly; partyPokemonsUI[0].sprite = newSprite; partyPokemonSettings[0].sprite = newSprite; break;
-            case "X1": allies[1] = newAlly; partyPokemonsUI[1].sprite = newSprite; partyPokemonSettings[1].sprite = newSprite; break;
-            case "A1": allies[2] = newAlly; partyPokemonsUI[2].sprite = newSprite; partyPokemonSettings[2].sprite = newSprite; break;
-            case "Y2": allies[3] = newAlly; partyPokemonsUI[3].sprite = newSprite; partyPokemonSettings[3].sprite = newSprite; break;
-            case "X2": allies[4] = newAlly; partyPokemonsUI[4].sprite = newSprite; partyPokemonSettings[4].sprite = newSprite; break;
-            case "A2": allies[5] = newAlly; partyPokemonsUI[5].sprite = newSprite; partyPokemonSettings[5].sprite = newSprite; break;
+            case "Y1": 
+                allies[0] = newAlly; partyPokemonsUI[0].sprite = newSprite; 
+                pokemonInTeamBenchSettings[0].img.sprite = newSprite; 
+                pokemonInTeamBenchSettings[0].ally = newAlly;
+                break;
+            case "X1": 
+                allies[1] = newAlly; partyPokemonsUI[1].sprite = newSprite; 
+                pokemonInTeamBenchSettings[1].img.sprite = newSprite; 
+                pokemonInTeamBenchSettings[1].ally = newAlly;
+                break;
+            case "A1": 
+                allies[2] = newAlly; partyPokemonsUI[2].sprite = newSprite; 
+                pokemonInTeamBenchSettings[2].img.sprite = newSprite; 
+                pokemonInTeamBenchSettings[2].ally = newAlly;
+                break;
+            case "Y2": 
+                allies[3] = newAlly; partyPokemonsUI[3].sprite = newSprite; 
+                pokemonInTeamBenchSettings[3].img.sprite = newSprite; 
+                pokemonInTeamBenchSettings[3].ally = newAlly;
+                break;
+            case "X2": 
+                allies[4] = newAlly; partyPokemonsUI[4].sprite = newSprite; 
+                pokemonInTeamBenchSettings[4].img.sprite = newSprite; 
+                pokemonInTeamBenchSettings[4].ally = newAlly;
+                break;
+            case "A2": 
+                allies[5] = newAlly; partyPokemonsUI[5].sprite = newSprite; 
+                pokemonInTeamBenchSettings[5].img.sprite = newSprite; 
+                pokemonInTeamBenchSettings[5].ally = newAlly;
+                break;
         }
 
         if (partyPokemonLastSelected != null)
@@ -1381,6 +1417,7 @@ public class PlayerControls : MonoBehaviour
     {
         equippedItems[nEquipped].sprite = itemSprite;
         nEquipped++;
+        weightText.text = currentWeight + "/" + maxWeight;
     }
     public void UnequipItem(Sprite itemSprite)
     {
@@ -1538,10 +1575,24 @@ public class PlayerControls : MonoBehaviour
             }
             PlayerPrefsElite.SetStringArray("pokemonsCaught", pokemonsCaught);
             var set = new HashSet<string>(pokemonsCaught);
+            // Debug.LogError(boxPokemonsToActivate[i].pokemonName);
+            // for (int i=0 ; i<boxPokemonsToActivate.Length ; i++)
+            // {
+            //     Debug.LogError(boxPokemonsToActivate[i].pokemonName);
+            //     if (boxPokemonsToActivate[i].pokemonName == "")
+            //     {
+            //         boxPokemonsToActivate[i].gameObject.SetActive(true);
+            //         break;
+            //     }
+            // }
+            Debug.Log("pokemons caught set = "+set.Count);
             foreach (BoxPokemonButton boxPokemon in boxPokemonsToActivate)
             {
                 if (set.Contains(boxPokemon.pokemonName))
+                {
+                    boxPokemon.transform.parent.gameObject.SetActive(true);
                     boxPokemon.gameObject.SetActive(true);
+                }
             }
             CheckEquippablePokemon();
         }
@@ -1574,7 +1625,10 @@ public class PlayerControls : MonoBehaviour
             foreach (ItemUi heldItem in itemsToActivate)
             {
                 if (set.Contains(heldItem.itemName))
+                {
+                    heldItem.transform.parent.gameObject.SetActive(true);
                     heldItem.gameObject.SetActive(true);
+                }
             }
 
         }
@@ -1606,6 +1660,8 @@ public class PlayerControls : MonoBehaviour
 
     void PokemonSummoned(string button)
     {
+        if (noCoolDown)
+            return;
         switch (button.ToUpper())
         {
             case "Y":

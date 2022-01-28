@@ -7,11 +7,17 @@ public class PartyPokemonButton : MonoBehaviour
     public PlayerControls playerControls;
     public Button button;
     public string buttonSymbol;
+    [Space] public Ally ally;
 
     private void Start() 
     {
         if (button == null)
             button = this.GetComponent<Button>();
+    }
+
+    public void SET_ALLY(Ally newAlly)
+    {
+        ally = newAlly;
     }
 
     public void SendAllyToReplace()

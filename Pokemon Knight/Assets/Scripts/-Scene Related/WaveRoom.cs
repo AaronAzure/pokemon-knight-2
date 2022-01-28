@@ -111,7 +111,7 @@ public class WaveRoom : MonoBehaviour
             if (roomsBeaten[i] == "")
             {
                 roomsBeaten[i] = roomName;
-                Debug.LogError("Added room " + roomName + " at " + i);
+                // Debug.LogError("Added room " + roomName + " at " + i);
                 break;
             }
         }

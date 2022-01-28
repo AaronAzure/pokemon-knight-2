@@ -188,6 +188,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6ebd23d3aee842df990729402fe7492, type: 3}
+--- !u!1001 &128357064
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3091697107756361056, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091697107756361056, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091697107756361056, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091697107756361056, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091697107756361056, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091697107756361056, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091697107756361056, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091697107756361056, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091697107756361056, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091697107756361056, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091697107756361056, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091697107756361057, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: itemName
+      value: amberNecklace
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091697107756361058, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: m_Name
+      value: pokeball-item (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091697108379744360, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c47135298e30a4219bb70a1e631fa7ff, type: 3}
+    - target: {fileID: 3091697108849011791, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: m_text
+      value: Amber Necklace
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1e20b51377baa405198110b3c168560b, type: 3}
 --- !u!1 &194265433
 GameObject:
   m_ObjectHideFlags: 1
@@ -598,8 +667,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1083825773}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: 15, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalPosition: {x: 3.26, y: 1.5, z: 0}
+  m_LocalScale: {x: -3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -702,7 +771,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e45b07600af1d4565a4bc3edde0aa05f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  increaseMaxPokemonOut: 1
+  itemName: 
+  anim: {fileID: 0}
 --- !u!58 &1131457516
 CircleCollider2D:
   m_ObjectHideFlags: 0

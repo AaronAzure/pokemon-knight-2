@@ -48,6 +48,8 @@ public abstract class Ally : MonoBehaviour
         // Strength grows per level
         if (trainer != null)
             atkDmg += ( extraDmg * Mathf.CeilToInt(((trainer.lv - 1) / perLevel)) );
+        if (trainer != null && trainer.furyBracelet && trainer.hpImg.fillAmount <= 0.25f)
+            atkDmg *= 2;
 
         if (hitbox != null)
         {

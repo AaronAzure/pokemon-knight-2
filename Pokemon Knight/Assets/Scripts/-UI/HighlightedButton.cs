@@ -14,14 +14,19 @@ public class HighlightedButton : MonoBehaviour
     [Space] [Header("Pokemon Menu")]
     public bool pokemonMenu;
     [SerializeField] private BoxPokemonButton[] pokemons;
-    [SerializeField] private TextMeshProUGUI header;
     [SerializeField] private TextMeshProUGUI atkpower;
     [SerializeField] private TextMeshProUGUI coolDown;
-    [SerializeField] private TextMeshProUGUI desc;
     
     
     [Space] [Header("Pokemon Menu")]
     public bool itemMenu;
+    [SerializeField] private ItemUi[] items;
+
+
+    [Space] [Header("UI (tmpro)")]
+    [SerializeField] private TextMeshProUGUI header;
+    [SerializeField] private TextMeshProUGUI weight;
+    [SerializeField] private TextMeshProUGUI desc;
 
     private void LateUpdate() 
     {
@@ -32,39 +37,74 @@ public class HighlightedButton : MonoBehaviour
         {
             prevHighlighted = newlyHighlighted;
             bool found = false;
-            foreach (BoxPokemonButton pokemonButton in pokemons)
+            if (pokemonMenu)
             {
-                if (newlyHighlighted.name == pokemonButton.name)
+                if (pokemons != null)
                 {
-                    found = true;
-                    header.text = pokemonButton.ally.moveName;
-
-                    float atkDmg = pokemonButton.ally.atkDmg;
-                    atkDmg += ( pokemonButton.ally.extraDmg * Mathf.CeilToInt(((player.lv - 1) / pokemonButton.ally.perLevel)) );
-                    atkpower.text = atkDmg.ToString();
-                    if (pokemonButton.ally.multiHit > 1)
+                    foreach (BoxPokemonButton pokemonButton in pokemons)
                     {
-                        float temp = atkDmg;
-                        atkDmg *= pokemonButton.ally.multiHit;
-                        atkpower.text = atkDmg.ToString() + " (" + temp + "×" + pokemonButton.ally.multiHit + ")";
+                        if (pokemonButton != null && pokemonButton.ally != null 
+                            && newlyHighlighted.name == pokemonButton.name)
+                        {
+                            found = true;
+                            header.text = pokemonButton.ally.moveName;
+
+                            float atkDmg = pokemonButton.ally.atkDmg;
+                            atkDmg += ( pokemonButton.ally.extraDmg * Mathf.CeilToInt(((player.lv - 1) / pokemonButton.ally.perLevel)) );
+                            atkpower.text = atkDmg.ToString();
+                            if (pokemonButton.ally.multiHit > 1)
+                            {
+                                float temp = atkDmg;
+                                atkDmg *= pokemonButton.ally.multiHit;
+                                atkpower.text = atkDmg.ToString() + " (" + temp + "×" + pokemonButton.ally.multiHit + ")";
+                            }
+
+                            float resummonTime = pokemonButton.ally.resummonTime;
+                            if (player != null && player.speedScarf)
+                                resummonTime *= 0.7f;
+                            coolDown.text = resummonTime.ToString() + "s";
+
+                            desc.text = pokemonButton.ally.moveDesc;
+
+                            break;
+                        }
                     }
 
-                    float resummonTime = pokemonButton.ally.resummonTime;
-                    if (player != null && player.speedScarf)
-                        resummonTime *= 0.7f;
-                    coolDown.text = resummonTime.ToString();
-
-                    desc.text = pokemonButton.ally.moveDesc;
-
-                    break;
+                }
+                if (!found)
+                {
+                    header.text = "";
+                    atkpower.text = "0";
+                    coolDown.text = "0";
+                    desc.text = "";
                 }
             }
-            if (!found)
+            else if (itemMenu)
             {
-                header.text = "";
-                atkpower.text = "0";
-                coolDown.text = "0";
-                desc.text = "";
+                if (items != null)
+                {
+                    foreach (ItemUi itemButton in items)
+                    {
+                        if (itemButton != null && newlyHighlighted.name == itemButton.name)
+                        {
+                            found = true;
+                            header.text = itemButton.itemName;
+
+                            weight.text = itemButton.weight.ToString();
+
+                            desc.text = itemButton.itemDesc;
+
+                            break;
+                        }
+                    }
+
+                }
+                if (!found)
+                {
+                    header.text = "";
+                    weight.text = "0";
+                    desc.text = "";
+                }
             }
         }
     }

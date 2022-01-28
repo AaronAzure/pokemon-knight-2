@@ -82,7 +82,7 @@ public class Weepinbell : Enemy
 
     public void RAZOR_LEAF()
     {
-        if (razorLeafSpawn != null)
+        if (razorLeafSpawn != null && hp > 0)
         {
             var obj = Instantiate(razorLeaf, razorLeafSpawn.position, razorLeaf.transform.rotation);
             obj.direction = lineOfSight.normalized;

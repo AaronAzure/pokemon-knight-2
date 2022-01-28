@@ -139,6 +139,7 @@ public class Oddish : Enemy
     {
         if (hp > 0)
         {
+            body.velocity = Vector2.zero;
             var obj = Instantiate(stunSpore, stunSporePos.position, stunSporePos.transform.rotation);
             obj.atkDmg = stunSporeDmg;
             Destroy(obj, 4.5f);

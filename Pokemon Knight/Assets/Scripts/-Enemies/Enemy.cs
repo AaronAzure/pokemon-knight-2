@@ -260,7 +260,11 @@ public abstract class Enemy : MonoBehaviour
 
                 if (!isBoss)
                 {
-                    if (body != null) body.gravityScale = 0;
+                    if (body != null) 
+                    {
+                        body.gravityScale = 0;
+                        body.bodyType = RigidbodyType2D.Static;
+                    }
                     if (col != null) col.enabled = false;
                     foreach (SpriteRenderer renderer in renderers)
                         if (flashMat != null)
@@ -293,25 +297,28 @@ public abstract class Enemy : MonoBehaviour
     }
     public IEnumerator ApplyKnockback(Transform opponent, float force)
     {
-        receivingKnockback = true;
-        Vector2 direction = (opponent.position - this.transform.position).normalized;
-        direction *= new Vector2(1,0);
-        if (force > 20)
+        if (hp > 0)
         {
-            body.AddForce(-direction * (force/2) * kbDefense, ForceMode2D.Impulse);
-            yield return new WaitForSeconds(0.2f);
+            receivingKnockback = true;
+            Vector2 direction = (opponent.position - this.transform.position).normalized;
+            direction *= new Vector2(1,0);
+            if (force > 20)
+            {
+                body.AddForce(-direction * (force/2) * kbDefense, ForceMode2D.Impulse);
+                yield return new WaitForSeconds(0.2f);
+            }
+            else
+            {
+                body.AddForce(-direction * force * kbDefense, ForceMode2D.Impulse);
+                yield return new WaitForSeconds(0.1f);
+            }
+            
+            // if (!isBoss)
+            // else
+            //     yield return new WaitForSeconds(0.02f);
+            body.velocity = Vector2.zero;
+            receivingKnockback = false;
         }
-        else
-        {
-            body.AddForce(-direction * force * kbDefense, ForceMode2D.Impulse);
-            yield return new WaitForSeconds(0.1f);
-        }
-        
-        // if (!isBoss)
-        // else
-        //     yield return new WaitForSeconds(0.02f);
-        body.velocity = Vector2.zero;
-        receivingKnockback = false;
     }
     IEnumerator Flash()
     {
