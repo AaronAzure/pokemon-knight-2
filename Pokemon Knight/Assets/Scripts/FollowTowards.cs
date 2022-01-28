@@ -20,6 +20,7 @@ public class FollowTowards : MonoBehaviour
     public float cooldownTime=0.5f;
     [SerializeField] private GameObject powerupAcquired;
     public WaveSpawner spawner;
+    public BossRoom bossRoom;
 
 
     // Start is called before the first frame update
@@ -69,6 +70,8 @@ public class FollowTowards : MonoBehaviour
 
             if (spawner != null)
                 spawner.SpawnedDefeated();
+            if (bossRoom != null)
+                bossRoom.Walls(false);
 
             yield return new WaitForSeconds(0.25f);
             Destroy(this.gameObject);

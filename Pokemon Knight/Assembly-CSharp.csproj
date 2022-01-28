@@ -131,6 +131,8 @@
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CalibrationWindow.cs" />
      <Compile Include="Assets/Rewired/Examples/DualShock4SpecialFeatures/Scripts/DualShock4SpecialFeaturesExample.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/IPositionOverrider.cs" />
+     <Compile Include="Assets/Scripts/-UI/ItemUi.cs" />
+     <Compile Include="Assets/Scripts/-UI/EquipmentUi.cs" />
      <Compile Include="Assets/Rewired/Examples/CustomControllersTouch/Scripts/CustomControllerDemo_Player.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DLimitDistance.cs" />
      <Compile Include="Assets/Scripts/-Allies/AllyProjectile.cs" />
@@ -139,6 +141,7 @@
      <Compile Include="Assets/Rewired/Integration/UnityUI/RewiredStandaloneInputModule.cs" />
      <Compile Include="Assets/Scripts/Feet.cs" />
      <Compile Include="Assets/Scripts/-Enemies/Metapod.cs" />
+     <Compile Include="Assets/Scripts/-Scene Related/TriggerBounds.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Helpers/Parallax/ProCamera2DParallaxObject.cs" />
      <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DApplyInfluencesTimed.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Triggers/ProCamera2DTriggerRails.cs" />
@@ -150,6 +153,7 @@
      <Compile Include="Assets/Rewired/Examples/GamepadTemplateUI/Scripts/GamepadTemplateUI.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Triggers/ProCamera2DTriggerBoundaries.cs" />
      <Compile Include="Assets/Scripts/ColliderOnAfter.cs" />
+     <Compile Include="Assets/Scripts/Water.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DGeometryBoundaries.cs" />
      <Compile Include="Assets/Rewired/Examples/CustomControllersTouch/Scripts/CustomControllerDemo.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIImageHelper.cs" />
@@ -209,6 +213,7 @@
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/Brush/CarpetBrush.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CustomButton.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Utils/TilemapDrawingUtils.cs" />
+     <Compile Include="Assets/Scripts/-UI/HighlightedButton.cs" />
      <Compile Include="Assets/Rewired/Internal/Scripts/Misc/ExternalTools.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Utils/EditorUtils.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DTransitionsFX.cs" />
@@ -276,11 +281,8 @@
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ScrollbarVisibilityHelper.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIGroup.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/IPostMover.cs" />
-     <Compile Include="Assets/Scripts/Water.cs" />
-     <Compile Include="Assets/Scripts/-Scene Related/TriggerBounds.cs" />
-     <Compile Include="Assets/Scripts/-UI/ItemUi.cs" />
-     <Compile Include="Assets/Scripts/-UI/EquipmentUi.cs" />
-     <Compile Include="Assets/Scripts/-UI/HighlightedButton.cs" />
+     <Compile Include="Assets/Scripts/-Enemies/Gloom.cs" />
+     <Compile Include="Assets/Scripts/-Enemies/EnemyFieldOfVision.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Epic Toon FX/Prefabs/Environment/Environment FX.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />

@@ -236,7 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lv: 6
   defaultLv: 6
-  maxHp: 125
+  maxHp: 110
   hp: 0
   mainAnim: {fileID: 0}
   extraHp: 5
@@ -257,6 +257,9 @@ MonoBehaviour:
   hpImg: {fileID: 1322604525033049261}
   lvText: {fileID: 1322604525143644414}
   effectSpeed: 0.005
+  origSize: {x: 0, y: 0, z: 0}
+  ShrinkDuration: 0.5
+  t: 0
   isBoss: 0
   isMiniBoss: 0
   possessedAura: {fileID: 0}
@@ -285,6 +288,7 @@ MonoBehaviour:
   bossRoom: {fileID: 0}
   isSmart: 0
   spawner: {fileID: 0}
+  playerInSight: 0
   anim: {fileID: 5232327576601908253}
   moveSpeed: 1
   chaseSpeed: 2
@@ -302,6 +306,7 @@ MonoBehaviour:
   aiDest: {fileID: 0}
   aiPath: {fileID: 0}
   spawnedHolder: {fileID: 0}
+  rayCast: 
 --- !u!1 &1322604524243495442
 GameObject:
   m_ObjectHideFlags: 0

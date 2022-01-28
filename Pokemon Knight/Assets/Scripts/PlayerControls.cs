@@ -125,6 +125,8 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float jumpHeight = 10;
     [SerializeField] private float jumpTimer = 0.35f;
     private float jumpTimerCounter = 0;
+    private float walkTimerCounter;
+    [SerializeField] private float walkTimer=1f;
 
     [Space]
     [SerializeField] private Transform feetPos; // To detect ground
@@ -149,7 +151,6 @@ public class PlayerControls : MonoBehaviour
 
     [SerializeField] private bool inWater;
     private bool greenBox, redBox;
-    [SerializeField] private Vector2 greenOffset, greenSize, redOffset, redSize;
     private bool wallCheck, ledgeCheck;
     [SerializeField] private Transform wallCheckOffset, ledgeCheckOffset;
     [SerializeField] private float checkDist=0.3f;
@@ -192,6 +193,7 @@ public class PlayerControls : MonoBehaviour
     public EquipmentUi equipmentUi;
     public Button[] itemButtons;
     public Image[] equippedItems;
+    [SerializeField] private AudioSource itemFoundlSound;
     public int nEquipped;
     public int currentWeight=0; 
     public int maxWeight=3; 
@@ -458,6 +460,14 @@ public class PlayerControls : MonoBehaviour
             if (player.GetButtonDown("B"))
                 LeaveBench();
         }
+        
+        else if (dodging)
+        {
+            if (holder.transform.eulerAngles.y < 180)   // right
+                body.velocity = new Vector2(dodgeSpeed, body.velocity.y);
+            else
+                body.velocity = new Vector2(-dodgeSpeed, body.velocity.y);
+        }
         //* Walking, Dashing, Summoning, jumping, Interacting
         else if (hp > 0 && !inCutscene && !dodging)
         {
@@ -475,10 +485,14 @@ public class PlayerControls : MonoBehaviour
 
             if (currentItem != null && Interact())
             {
+                body.velocity = Vector2.zero;
                 inCutscene = true;
                 currentItem.PickupItem();
+                anim.speed = 1;
                 anim.SetTrigger("pickup");
                 currentItem = null;
+                if (itemFoundlSound != null) 
+                    itemFoundlSound.Play();
             }
             else if (grounded && canDodge && player.GetButtonDown("ZR") && !canRest && !canEnter && currentItem == null)
             {
@@ -796,7 +810,16 @@ public class PlayerControls : MonoBehaviour
     private void Walk(float xValue)
     {
         if (Mathf.Abs(xValue) < 0.1f)
+        {
             xValue = 0;
+            // body.velocity = new Vector2(0, body.velocity.y);
+            // walkTimerCounter = 0;
+        }
+        // else
+        // {
+        //     walkTimerCounter += Time.fixedDeltaTime;
+        // }
+        // if (!receivingKnockback && walkTimerCounter > walkTimer)
         if (!receivingKnockback)
             body.velocity = new Vector2(xValue * moveSpeed, body.velocity.y);
     }
@@ -927,10 +950,12 @@ public class PlayerControls : MonoBehaviour
         anim.SetTrigger("dodge");
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
 
-        if (holder.transform.eulerAngles.y < 180)   // right
-            body.AddForce(Vector2.right * dodgeSpeed, ForceMode2D.Impulse);
-        else    // left
-            body.AddForce(Vector2.left * dodgeSpeed, ForceMode2D.Impulse);
+        // if (holder.transform.eulerAngles.y < 180)   // right
+        //     // body.velocity = new Vector2(dodgeSpeed, body.velocity.y);
+        //     body.AddForce(Vector2.right * dodgeSpeed, ForceMode2D.Impulse);
+        // else    // left
+        //     // body.velocity = new Vector2(-dodgeSpeed, body.velocity.y);
+        //     body.AddForce(Vector2.left * dodgeSpeed, ForceMode2D.Impulse);
 
         yield return new WaitForSeconds(0.5f);
         body.velocity = Vector2.zero;

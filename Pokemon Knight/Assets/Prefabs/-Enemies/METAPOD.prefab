@@ -283,7 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lv: 4
   defaultLv: 4
-  maxHp: 100
+  maxHp: 90
   hp: 0
   mainAnim: {fileID: 0}
   extraHp: 5
@@ -304,6 +304,9 @@ MonoBehaviour:
   hpImg: {fileID: 5850416408007061264}
   lvText: {fileID: 5850416407615454019}
   effectSpeed: 0.005
+  origSize: {x: 0, y: 0, z: 0}
+  ShrinkDuration: 0.5
+  t: 0
   isBoss: 0
   isMiniBoss: 0
   possessedAura: {fileID: 0}
@@ -327,6 +330,7 @@ MonoBehaviour:
   bossRoom: {fileID: 0}
   isSmart: 0
   spawner: {fileID: 0}
+  playerInSight: 0
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64

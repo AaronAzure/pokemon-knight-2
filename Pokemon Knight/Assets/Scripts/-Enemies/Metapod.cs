@@ -6,7 +6,6 @@ public class Metapod : Enemy
 {
     [Space] [Header("Metapod")]
     // public float distanceDetect=2f;
-    public LayerMask whatIsPlayer;
     private bool once;
     [SerializeField] private float distanceDetect = 10;
 

@@ -10,13 +10,11 @@ public class Pidgey : Enemy
     public float moveSpeed=2;
     public float chaseSpeed=4;
     public float maxSpeed=5f;
-    [SerializeField] private LayerMask whatIsPlayer;
     private LayerMask finalMask;
     public Transform target;
     public bool chasing;
     public bool playerInRange;
     
-    [Space] [SerializeField] private GameObject alert;
     private bool once;
 
     [Space] [Header("Miniboss attacks")]

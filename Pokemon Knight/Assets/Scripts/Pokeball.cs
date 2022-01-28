@@ -11,6 +11,7 @@ public class Pokeball : MonoBehaviour
     [SerializeField] protected Material flashMat;
     public string powerup;
     public WaveSpawner spawner;
+    public BossRoom bossRoom;
 
 
     // Start is called before the first frame update
@@ -49,6 +50,8 @@ public class Pokeball : MonoBehaviour
                 returnObj.justForShow = true;
                 if (spawner != null)
                     returnObj.spawner = spawner;
+                if (bossRoom != null)
+                    returnObj.bossRoom = bossRoom;
             }
             else
             {

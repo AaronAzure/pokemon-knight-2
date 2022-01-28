@@ -11,13 +11,9 @@ public class Bellsprout : Enemy
     public float maxSpeed=7.5f;
     public float distanceDetect=1f;
     public Transform groundDetection;
-    // [SerializeField] private LayerMask whatIsTree;
-    // public Transform face;
     private bool canFlip = true;
     private bool movingLeft;
     private bool movingRight;
-    [SerializeField] private LayerMask whatIsPlayer;
-    // [SerializeField] private LayerMask whatIsBounds;
 
 
     [Header("Attacks")]
@@ -27,7 +23,6 @@ public class Bellsprout : Enemy
     private Coroutine co;
     private LayerMask finalMask;    // detect Player, Ground, ignores Enemy, Bounds
 
-    [Space] [SerializeField] private GameObject alert;
 
 
     public override void Setup()

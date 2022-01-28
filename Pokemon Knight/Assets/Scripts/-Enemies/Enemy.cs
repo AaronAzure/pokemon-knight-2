@@ -38,6 +38,8 @@ public abstract class Enemy : MonoBehaviour
     public bool cannotRecieveKb;
     [Tooltip("1 = 100% kb, 0 = 0%")] [SerializeField] [Range(0,1f)] protected float kbDefense=1;
     [SerializeField] protected LayerMask whatIsGround;
+    [SerializeField] protected LayerMask whatIsPlayer;
+
 
     //* UI
     public GameObject statusBar;
@@ -87,7 +89,10 @@ public abstract class Enemy : MonoBehaviour
 
     
     [Space] [Header("Support")]
+    public GameObject alert;
+    public bool playerInField;
     public bool playerInSight;
+
 
 //     #region Editor
 // #if UNITY_EDITOR
@@ -353,6 +358,8 @@ public abstract class Enemy : MonoBehaviour
             obj.powerup = this.powerupName;
             if (spawner != null)
                 obj.spawner = this.spawner;
+            if (bossRoom != null)
+                obj.bossRoom = this.bossRoom;
         }    
     }
 
@@ -410,19 +417,11 @@ public abstract class Enemy : MonoBehaviour
             // yield return new WaitForSeconds(0.01f);
             yield return new WaitForEndOfFrame();
         }
-        if (bossRoom != null)
-            bossRoom.Walls(false);
 
         // yield return new WaitForSeconds(0.01f);
         yield return new WaitForEndOfFrame();
         Destroy(this.gameObject);
     }
-
-    // void OnInspectorUpdate()
-    // {
-    //     if (lvText != null)
-    //         lvText.text = "Lv. " + lv; 
-    // }
 
     protected IEnumerator Fainted()
     {
