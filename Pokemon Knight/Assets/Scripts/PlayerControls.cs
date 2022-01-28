@@ -117,7 +117,7 @@ public class PlayerControls : MonoBehaviour
 
 
     [Space] [Header("Platformer Mechanics")]
-    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Rigidbody2D body;
     [SerializeField] private Collider2D col;
     [SerializeField] private float moveSpeed = 10;
     [SerializeField] private float dashSpeed = 50;
@@ -133,6 +133,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] public bool grounded = true;
     [HideInInspector] public bool jumping = false;
+    [HideInInspector] public bool ledgeGrabbing = false;
     [Space] [SerializeField] private bool leftWallDetect = true;
     [SerializeField] private Transform leftWallPos;
     [SerializeField] private bool rightWallDetect = true;
@@ -147,6 +148,12 @@ public class PlayerControls : MonoBehaviour
     private float dodgeSpeed = 7.5f;
 
     [SerializeField] private bool inWater;
+    private bool greenBox, redBox;
+    [SerializeField] private Vector2 greenOffset, greenSize, redOffset, redSize;
+    private bool wallCheck, ledgeCheck;
+    [SerializeField] private Transform wallCheckOffset, ledgeCheckOffset;
+    [SerializeField] private float checkDist=0.3f;
+    private float origGrav;
 
 
     private bool canPressButtonNorth = true;   // (X)
@@ -174,6 +181,7 @@ public class PlayerControls : MonoBehaviour
 
     [Space] public bool canRest;
     public bool resting;
+    public Transform restBench;
     [Space] public bool canEnter;
     public string newSceneName;
     public Vector2 newScenePos;
@@ -222,8 +230,8 @@ public class PlayerControls : MonoBehaviour
         else 
             Destroy(this.gameObject);
         
-        if (rb == null)
-            rb = GetComponent<Rigidbody2D>();
+        if (body == null)
+            body = GetComponent<Rigidbody2D>();
         
     }
 
@@ -362,6 +370,7 @@ public class PlayerControls : MonoBehaviour
         CheckObtainedItems();
 
         weightText.text = currentWeight + "/" + maxWeight;
+        origGrav = body.gravityScale;
     }
     void Update()
     {
@@ -422,13 +431,18 @@ public class PlayerControls : MonoBehaviour
         }
         //* Paused
         if (settings.gameObject.activeSelf || equimentSettings.gameObject.activeSelf) {}
+        
+        else if (ledgeGrabbing)
+        {
+
+        }
         //* STOP MOOMOO MILK
         else if (drinking)
         {
             if (player.GetButtonUp("L"))
             {
                 anim.speed = 1;
-                rb.velocity = Vector2.zero;
+                body.velocity = Vector2.zero;
                 anim.SetBool("isDrinking", false);
                 drinking = false;
             }
@@ -447,6 +461,9 @@ public class PlayerControls : MonoBehaviour
         //* Walking, Dashing, Summoning, jumping, Interacting
         else if (hp > 0 && !inCutscene && !dodging)
         {
+            if (!ledgeGrabbing)
+                ledgeGrabbing = CheckLedgeGrab();
+
             if (canRest && Interact())
                 RestOnBench();
 
@@ -472,14 +489,14 @@ public class PlayerControls : MonoBehaviour
 
             grounded = Physics2D.OverlapBox(feetPos.position, feetBox, 0, whatIsGround);
             // Touched floor
-            if (rb.velocity.y == 0 && grounded)
+            if (body.velocity.y == 0 && grounded)
             {
                 anim.SetBool("isGrounded", true);
                 anim.SetBool("isFalling", false);
                 nExtraJumpsLeft = nExtraJumps;
             }
             
-            if (rb.velocity.y < -0.1f && !grounded)
+            if (body.velocity.y < -0.1f && !grounded)
             {
                 anim.SetTrigger("fall");
                 anim.SetBool("isFalling", true);
@@ -504,7 +521,7 @@ public class PlayerControls : MonoBehaviour
                     {
                         if (jumpTimerCounter > 0)
                         {
-                            rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
+                            body.velocity = new Vector2(body.velocity.x, jumpHeight);
                             jumpTimerCounter -= Time.deltaTime;
                         } 
                         else
@@ -522,9 +539,9 @@ public class PlayerControls : MonoBehaviour
             else
             {
                 if (holder.transform.eulerAngles.y < 180)
-                    rb.velocity = Vector2.right * dashSpeed;
+                    body.velocity = Vector2.right * dashSpeed;
                 else
-                    rb.velocity = Vector2.left * dashSpeed;
+                    body.velocity = Vector2.left * dashSpeed;
             }
 
 
@@ -540,7 +557,7 @@ public class PlayerControls : MonoBehaviour
                             if (!noCoolDown) nPokemonOut++;
                             var pokemon = Instantiate(allies[0], spawnPos.position, allies[0].transform.rotation);
                             pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
-                            pokemon.body.velocity = this.rb.velocity;
+                            pokemon.body.velocity = this.body.velocity;
                             pokemon.trainer = this;
                             pokemon.button = "Y";
 
@@ -558,7 +575,7 @@ public class PlayerControls : MonoBehaviour
                             if (!noCoolDown) nPokemonOut++;
                             var pokemon = Instantiate(allies[1], spawnPos.position, allies[1].transform.rotation);
                             pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
-                            pokemon.body.velocity = this.rb.velocity;
+                            pokemon.body.velocity = this.body.velocity;
                             pokemon.trainer = this;
                             pokemon.button = "X";
 
@@ -576,7 +593,7 @@ public class PlayerControls : MonoBehaviour
                             if (!noCoolDown) nPokemonOut++;
                             var pokemon = Instantiate(allies[2], spawnPos.position, allies[2].transform.rotation);
                             pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
-                            pokemon.body.velocity = this.rb.velocity;
+                            pokemon.body.velocity = this.body.velocity;
                             pokemon.trainer = this;
                             pokemon.button = "A";
 
@@ -597,7 +614,7 @@ public class PlayerControls : MonoBehaviour
                             if (!noCoolDown) nPokemonOut++;
                             var pokemon = Instantiate(allies[3], spawnPos.position, allies[3].transform.rotation);
                             pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
-                            pokemon.body.velocity = this.rb.velocity;
+                            pokemon.body.velocity = this.body.velocity;
                             pokemon.trainer = this;
                             pokemon.button = "Y2";
 
@@ -615,7 +632,7 @@ public class PlayerControls : MonoBehaviour
                             if (!noCoolDown) nPokemonOut++;
                             var pokemon = Instantiate(allies[4], spawnPos.position, allies[4].transform.rotation);
                             pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
-                            pokemon.body.velocity = this.rb.velocity;
+                            pokemon.body.velocity = this.body.velocity;
                             pokemon.trainer = this;
                             pokemon.button = "X2";
 
@@ -633,7 +650,7 @@ public class PlayerControls : MonoBehaviour
                             if (!noCoolDown) nPokemonOut++;
                             var pokemon = Instantiate(allies[5], spawnPos.position, allies[5].transform.rotation);
                             pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
-                            pokemon.body.velocity = this.rb.velocity;
+                            pokemon.body.velocity = this.body.velocity;
                             pokemon.trainer = this;
                             pokemon.button = "A2";
 
@@ -674,6 +691,7 @@ public class PlayerControls : MonoBehaviour
     {
         //* Paused
         if (settings.gameObject.activeSelf) {}
+        else if (ledgeGrabbing) {}
         else if (resting) {}
         else if (hp > 0 && !inCutscene && !dodging && !drinking)
         {
@@ -681,7 +699,7 @@ public class PlayerControls : MonoBehaviour
             if (inWater && canSwim)
             {
                 float yValue = player.GetAxis("Move Vertical");
-                rb.velocity = new Vector2(xValue, yValue) * moveSpeed;
+                body.velocity = new Vector2(xValue, yValue) * moveSpeed;
             }
             else
             {
@@ -741,12 +759,28 @@ public class PlayerControls : MonoBehaviour
                 hpImg.color = new Color(0f, 0.85f, 0f);
         }
     }
-        private void OnDrawGizmosSelected() 
+        private void OnDrawGizmosSelected() //! ------- I M P O R T A N T -------
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(feetPos.position, feetBox);
         Gizmos.DrawWireCube(leftWallPos.position, wallDetectBox);
         Gizmos.DrawWireCube(rightWallPos.position, wallDetectBox);
+
+        if (holder.transform.eulerAngles.y > 0)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(ledgeCheckOffset.position, ledgeCheckOffset.position + new Vector3(-checkDist,0));
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(wallCheckOffset.position, wallCheckOffset.position + new Vector3(-checkDist,0));
+        }
+        // Right
+        else
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(ledgeCheckOffset.position, ledgeCheckOffset.position + new Vector3(checkDist,0));
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(wallCheckOffset.position, wallCheckOffset.position + new Vector3(checkDist,0));
+        }
     }
 
 
@@ -764,7 +798,7 @@ public class PlayerControls : MonoBehaviour
         if (Mathf.Abs(xValue) < 0.1f)
             xValue = 0;
         if (!receivingKnockback)
-            rb.velocity = new Vector2(xValue * moveSpeed, rb.velocity.y);
+            body.velocity = new Vector2(xValue * moveSpeed, body.velocity.y);
     }
     private void playerDirection(float xValue=0)
     {
@@ -781,7 +815,7 @@ public class PlayerControls : MonoBehaviour
         anim.speed = 1;
         jumping = true;
         jumpTimerCounter = jumpTimer;
-        rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
+        body.velocity = new Vector2(body.velocity.x, jumpHeight);
     }
     private void MidairJump()
     {
@@ -791,7 +825,7 @@ public class PlayerControls : MonoBehaviour
         anim.speed = 1;
         jumping = true;
         jumpTimerCounter = jumpTimer;
-        rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
+        body.velocity = new Vector2(body.velocity.x, jumpHeight);
 
         // Butterfree jump
         if (doubleJumpObj != null)
@@ -809,6 +843,55 @@ public class PlayerControls : MonoBehaviour
 
     }
 
+    private bool CheckLedgeGrab()
+    {
+        // Left
+        if (holder.transform.eulerAngles.y > 0)
+        {
+            wallCheck = Physics2D.Raycast(wallCheckOffset.position, Vector2.left, checkDist, whatIsGround);
+            ledgeCheck = Physics2D.Raycast(ledgeCheckOffset.position, Vector2.left, checkDist, whatIsGround);
+        }
+        // Right
+        else
+        {
+            wallCheck = Physics2D.Raycast(wallCheckOffset.position, Vector2.right, checkDist, whatIsGround);
+            ledgeCheck = Physics2D.Raycast(ledgeCheckOffset.position, Vector2.right, checkDist, whatIsGround);
+        }
+
+        if (wallCheck && !ledgeCheck && !grounded && player.GetAxis("Move Vertical") >= -0.3f)
+        {
+            body.gravityScale = 0;
+            body.velocity = Vector2.zero;
+            anim.speed = 1;
+            if (holder.transform.eulerAngles.y > 0)
+                anim.SetTrigger("ledgeGrabLeft");
+            else
+                anim.SetTrigger("ledgeGrab");
+            ledgeGrabbing = true;
+            jumping = false;
+            return true;
+        }
+        return false;
+    }
+
+    public void NO_VELOCITY()
+    {
+        body.gravityScale = 0;
+        body.velocity = Vector2.zero;
+    }
+
+    public void CLIMB_LEDGE()
+    {
+        if (holder.transform.eulerAngles.y > 0)
+            transform.position += new Vector3(-1.5f * holder.transform.localScale.x, 4 * holder.transform.localScale.y);
+        else
+            transform.position += new Vector3(1.5f * holder.transform.localScale.x, 4 * holder.transform.localScale.y);
+
+        body.gravityScale = origGrav;
+        ledgeGrabbing = false;
+    }
+
+
     private void Dash()
     {
         dashes = 0;
@@ -818,13 +901,13 @@ public class PlayerControls : MonoBehaviour
     {
         dashing = true;
         if (holder.transform.eulerAngles.y > 0)
-            rb.velocity = Vector2.left * dashSpeed;
+            body.velocity = Vector2.left * dashSpeed;
         else
-            rb.velocity = Vector2.right * dashSpeed;
+            body.velocity = Vector2.right * dashSpeed;
 
         yield return new WaitForSeconds(0.1f);
         dashing = false;
-        rb.velocity = Vector2.zero;
+        body.velocity = Vector2.zero;
 
         yield return new WaitForSeconds(0.3f);
         dashes = 1;
@@ -838,19 +921,19 @@ public class PlayerControls : MonoBehaviour
     IEnumerator Dodge()
     {
         anim.speed = 1;
-        rb.velocity = Vector2.zero;
+        body.velocity = Vector2.zero;
         dodging = true;
         canDodge = false;
         anim.SetTrigger("dodge");
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
 
         if (holder.transform.eulerAngles.y < 180)   // right
-            rb.AddForce(Vector2.right * dodgeSpeed, ForceMode2D.Impulse);
+            body.AddForce(Vector2.right * dodgeSpeed, ForceMode2D.Impulse);
         else    // left
-            rb.AddForce(Vector2.left * dodgeSpeed, ForceMode2D.Impulse);
+            body.AddForce(Vector2.left * dodgeSpeed, ForceMode2D.Impulse);
 
         yield return new WaitForSeconds(0.5f);
-        rb.velocity = Vector2.zero;
+        body.velocity = Vector2.zero;
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
         dodging = false;
         
@@ -862,7 +945,7 @@ public class PlayerControls : MonoBehaviour
     public void DrinkingMoomooMilk()
     {
         drinking = true;
-        rb.velocity = Vector2.zero;
+        body.velocity = Vector2.zero;
         anim.speed = 1;
         if (amberNecklace)
             anim.speed = 2;
@@ -943,22 +1026,22 @@ public class PlayerControls : MonoBehaviour
         if (leftWallDetect)
         {
             Vector2 direction = new Vector2(1,1);
-            rb.AddForce(direction * force, ForceMode2D.Impulse);
+            body.AddForce(direction * force, ForceMode2D.Impulse);
         }
         else if (rightWallDetect)
         {
             Vector2 direction = new Vector2(-1,1);
-            rb.AddForce(direction * force, ForceMode2D.Impulse);
+            body.AddForce(direction * force, ForceMode2D.Impulse);
         }
         else if (!leftWallDetect && !rightWallDetect)
         {
             Vector2 direction = (opponent.position - this.transform.position).normalized;
             direction = new Vector2(direction.x,-1);
-            rb.AddForce(-direction * force, ForceMode2D.Impulse);
+            body.AddForce(-direction * force, ForceMode2D.Impulse);
         }
         
         yield return new WaitForSeconds(0.2f);
-        rb.velocity = Vector2.zero;
+        body.velocity = Vector2.zero;
         receivingKnockback = false;
     }
 
@@ -1005,7 +1088,7 @@ public class PlayerControls : MonoBehaviour
     // todo -----------------  C U T S C E N E  ------------------------------------------------
     IEnumerator Died()
     {
-        rb.velocity = Vector2.zero;
+        body.velocity = Vector2.zero;
         anim.SetTrigger("died");
         
         // if (musicManager != null)
@@ -1013,8 +1096,8 @@ public class PlayerControls : MonoBehaviour
         
         
         // Time.timeScale = 0.25f;
-        float origGravity = rb.gravityScale;
-        rb.gravityScale = 0;
+        float origGravity = body.gravityScale;
+        body.gravityScale = 0;
         if (col != null)
             col.enabled = false;
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
@@ -1028,7 +1111,7 @@ public class PlayerControls : MonoBehaviour
         
         yield return new WaitForSeconds(1f);
         StartCoroutine( Respawn() );
-        rb.gravityScale = origGravity;
+        body.gravityScale = origGravity;
         if (col != null)
             col.enabled = true;
         // Time.timeScale = 1;
@@ -1074,11 +1157,11 @@ public class PlayerControls : MonoBehaviour
         if (!inCutscene)
         {
             inCutscene = true;
-            bool walkingRight = (rb.velocity.x > 0);
+            bool walkingRight = (body.velocity.x > 0);
 
             yield return new WaitForSeconds(1);
             SceneManager.LoadScene(nextArea);
-            rb.velocity = Vector2.zero;
+            body.velocity = Vector2.zero;
 
             yield return new WaitForEndOfFrame();
             this.transform.position = newPos;
@@ -1112,12 +1195,12 @@ public class PlayerControls : MonoBehaviour
         if (dodgingThruScene)
             anim.SetTrigger("dodge");
 
-        rb.AddForce(Vector2.right * moveSpeed, ForceMode2D.Impulse);
+        body.AddForce(Vector2.right * moveSpeed, ForceMode2D.Impulse);
         
         yield return new WaitForSeconds(0.5f);
         inCutscene = false;
         canEnter = false;
-        rb.velocity = Vector2.zero;
+        body.velocity = Vector2.zero;
     }
     IEnumerator WalkingLeft()  // Moving left
     {
@@ -1129,12 +1212,12 @@ public class PlayerControls : MonoBehaviour
         if (dodgingThruScene)
             anim.SetTrigger("dodge");
 
-        rb.AddForce(Vector2.left * moveSpeed, ForceMode2D.Impulse);
+        body.AddForce(Vector2.left * moveSpeed, ForceMode2D.Impulse);
         
         yield return new WaitForSeconds(0.5f);
         inCutscene = false;
         canEnter = false;
-        rb.velocity = Vector2.zero;
+        body.velocity = Vector2.zero;
     }
     IEnumerator ExitingDoor()  // Moving left
     {
@@ -1147,14 +1230,14 @@ public class PlayerControls : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         inCutscene = false;
         canEnter = false;
-        rb.velocity = Vector2.zero;
+        body.velocity = Vector2.zero;
     }
 
     public IEnumerator EnteringDoor()
     {
         if (!inCutscene)
         {
-            rb.velocity = Vector2.zero;
+            body.velocity = Vector2.zero;
             inCutscene = true;
 
             if (transitionAnim != null)
@@ -1162,7 +1245,7 @@ public class PlayerControls : MonoBehaviour
 
             yield return new WaitForSeconds(1);
             SceneManager.LoadScene(newSceneName);
-            rb.velocity = Vector2.zero;
+            body.velocity = Vector2.zero;
 
             yield return new WaitForEndOfFrame();
             this.transform.position = newScenePos;
@@ -1285,7 +1368,7 @@ public class PlayerControls : MonoBehaviour
         anim.speed = 1;
         anim.SetBool("inBossFight", true);
         anim.SetTrigger("engaged");
-        rb.velocity = Vector2.zero;
+        body.velocity = Vector2.zero;
 
         if (musicManager != null && musicName.ToLower() == "rosary")
             StartCoroutine( musicManager.TransitionMusic(musicManager.bossIntroMusic, true) );
@@ -1295,7 +1378,7 @@ public class PlayerControls : MonoBehaviour
     {
         anim.SetBool("inBossFight", false);
         inCutscene = false;
-        rb.velocity = Vector2.zero;
+        body.velocity = Vector2.zero;
     }
 
     // todo ------------------------------------------------------------------------------------
@@ -1387,7 +1470,7 @@ public class PlayerControls : MonoBehaviour
                 Debug.LogError("PlayerControls.GainPowerup - unregistered powerup (ADD TO SWITCH CASE)");
                 break;
         }
-        rb.velocity = Vector2.zero;
+        body.velocity = Vector2.zero;
     }
 
     public void GainItem(string itemTypeName)
@@ -1473,7 +1556,7 @@ public class PlayerControls : MonoBehaviour
 
     public void RestOnBench()
     {
-        rb.velocity = Vector2.zero;
+        body.velocity = Vector2.zero;
         resting = true;
         FullRestore();
         anim.speed = 1;

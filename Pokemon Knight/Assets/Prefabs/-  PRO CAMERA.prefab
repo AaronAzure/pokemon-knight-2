@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 5
+    OrthographicSize: 7.5
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -292,7 +292,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   proCam: {fileID: 0}
-  cm: {fileID: 1976175702109154766}
+  cm:
+  - {fileID: 0}
+  manualFollow: {fileID: 0}
 --- !u!1 &1976175703200949031
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,7 +354,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7.5
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2

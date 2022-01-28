@@ -13,7 +13,7 @@ public class TargetFinder : MonoBehaviour
     {
         if (GameObject.Find("PLAYER") != null)
         {
-            GameObject target = GameObject.Find("PLAYER");
+            GameObject target = GameObject.Find("PLAYER/MODEL");
             if (proCam != null) proCam.AddCameraTarget(target.transform);
             if (cm != null) {
                 foreach (CinemachineVirtualCamera c in cm)
