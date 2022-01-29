@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3657740597436733188}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.55, y: 0.24, z: 0}
+  m_LocalPosition: {x: -1.3, y: 0.5, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 920394277680074613}
@@ -991,6 +991,9 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 64
   statusBar: {fileID: 7784875283598828338}
   hpEffectImg: {fileID: 3862723587657172616}
   hpImg: {fileID: 8672535142926172231}
@@ -1031,10 +1034,12 @@ MonoBehaviour:
   bossRoom: {fileID: 0}
   isSmart: 0
   spawner: {fileID: 0}
+  alert: {fileID: 2996076087178614816}
+  playerInField: 0
   playerInSight: 0
   moveSpeed: 2
   distanceDetect: 1
-  groundDetection: {fileID: 0}
+  groundDetection: {fileID: 7005814167754721486}
   whatIsTree:
     serializedVersion: 2
     m_Bits: 2048
@@ -1043,11 +1048,7 @@ MonoBehaviour:
   sludgeBomb: {fileID: 3066352489987038474, guid: c7115e7712d964158a11fb06aa26d091, type: 3}
   sludgeBombPos: {fileID: 5244226065140975443}
   target: {fileID: 0}
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 64
   multiplier: -1
-  alert: {fileID: 2996076087178614816}
 --- !u!210 &9176231504721097512
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -1184,6 +1185,14 @@ PrefabInstance:
       propertyPath: enemy
       value: 
       objectReference: {fileID: 270095424}
+    - target: {fileID: 6921896803643534708, guid: 518c9c745c5ae4cb3b2ba46f6c890536, type: 3}
+      propertyPath: m_Size.x
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6921896803643534708, guid: 518c9c745c5ae4cb3b2ba46f6c890536, type: 3}
+      propertyPath: m_Offset.x
+      value: -6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 518c9c745c5ae4cb3b2ba46f6c890536, type: 3}
 --- !u!4 &5354528043065331178 stripped

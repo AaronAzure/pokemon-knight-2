@@ -90,6 +90,7 @@ public abstract class Enemy : MonoBehaviour
     
     [Space] [Header("Support")]
     public GameObject alert;
+    [HideInInspector] protected bool canFlip=true ;
     public bool playerInField;
     public bool playerInSight;
 
@@ -204,6 +205,24 @@ public abstract class Enemy : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
+    }
+
+
+    protected void WalkTheOtherWay()
+    {
+        //* LOOKING RIGHT
+        if (model.transform.eulerAngles.y > 0)
+            model.transform.eulerAngles = new Vector3(0, 0);
+        else
+            model.transform.eulerAngles = new Vector3(0, 180);
+        body.velocity = new Vector2(-body.velocity.x, body.velocity.y);
+    }
+
+    public IEnumerator ResetFlipTimer()
+    {
+        canFlip = false;
+        yield return new WaitForSeconds(0.5f);
+        canFlip = true;
     }
 
     public void TakeDamage(int dmg=0, Transform opponent=null, float force=0)

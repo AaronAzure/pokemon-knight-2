@@ -234,8 +234,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc9c442e5700459981571f0916bbb68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lv: 6
-  defaultLv: 6
+  lv: 5
+  defaultLv: 5
   maxHp: 110
   hp: 0
   mainAnim: {fileID: 0}
@@ -252,6 +252,9 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 64
   statusBar: {fileID: 1322604524243495442}
   hpEffectImg: {fileID: 1322604523495775472}
   hpImg: {fileID: 1322604525033049261}
@@ -288,18 +291,16 @@ MonoBehaviour:
   bossRoom: {fileID: 0}
   isSmart: 0
   spawner: {fileID: 0}
+  alert: {fileID: 2335059610090457758}
+  playerInField: 0
   playerInSight: 0
   anim: {fileID: 5232327576601908253}
   moveSpeed: 1
   chaseSpeed: 2
   maxSpeed: 3
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 64
   target: {fileID: 0}
   chasing: 0
   playerInRange: 0
-  alert: {fileID: 2335059610090457758}
   gust: {fileID: 0}
   glint: {fileID: 0}
   lineOfSight: {x: 0, y: 0, z: 0}

@@ -10,7 +10,6 @@ public class Gloom : Enemy
     [SerializeField] private LayerMask whatIsTree;
     public float forwardDetect=1f;
     public Transform face;
-    private bool canFlip = true;
     private bool movingLeft;
     private bool movingRight;
     [SerializeField] private EnemyProjectile sludgeBomb;
@@ -42,6 +41,14 @@ public class Gloom : Enemy
 
     private void FixedUpdate() 
     {
+        RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsGround);
+        if (!groundInfo && canFlip)
+        {
+            canFlip = false;
+            WalkTheOtherWay();
+            StartCoroutine( ResetFlipTimer() );
+        }
+
         if (playerInField && target != null)
         {
             Vector3 lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));

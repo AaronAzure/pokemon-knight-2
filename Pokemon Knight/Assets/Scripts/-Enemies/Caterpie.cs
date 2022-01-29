@@ -10,7 +10,6 @@ public class Caterpie : Enemy
     [SerializeField] private LayerMask whatIsTree;
     public float forwardDetect=2f;
     public Transform face;
-    private bool canFlip = true;
 
     
 
@@ -42,13 +41,6 @@ public class Caterpie : Enemy
             model.transform.eulerAngles = new Vector3(0, 180);
         // moveSpeed *= -1;
         StartCoroutine( ResetFlipTimer() );
-    }
-
-    IEnumerator ResetFlipTimer()
-    {
-        canFlip = false;
-        yield return new WaitForSeconds(0.5f);
-        canFlip = true;
     }
 
 

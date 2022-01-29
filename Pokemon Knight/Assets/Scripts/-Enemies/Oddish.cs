@@ -10,7 +10,6 @@ public class Oddish : Enemy
     [SerializeField] private LayerMask whatIsTree;
     public float forwardDetect=1f;
     public Transform face;
-    private bool canFlip = true;
     private bool movingLeft;
     private bool movingRight;
     // [Space] private EnemyAttack stunSporeDmg;
@@ -114,14 +113,6 @@ public class Oddish : Enemy
         }
         StartCoroutine( ResetFlipTimer() );
     }
-
-    IEnumerator ResetFlipTimer()
-    {
-        canFlip = false;
-        yield return new WaitForSeconds(0.5f);
-        canFlip = true;
-    }
-
     public IEnumerator Attack()
     {
         yield return new WaitForSeconds(0.2f);

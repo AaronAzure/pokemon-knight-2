@@ -11,7 +11,6 @@ public class Bellsprout : Enemy
     public float maxSpeed=7.5f;
     public float distanceDetect=1f;
     public Transform groundDetection;
-    private bool canFlip = true;
     private bool movingLeft;
     private bool movingRight;
 
@@ -132,12 +131,6 @@ public class Bellsprout : Enemy
             movingRight = true;
         }
         StartCoroutine( ResetFlipTimer() );
-    }
-    IEnumerator ResetFlipTimer()
-    {
-        canFlip = false;
-        yield return new WaitForSeconds(0.5f);
-        canFlip = true;
     }
 
     void AdjustAnim(string triggerName)
