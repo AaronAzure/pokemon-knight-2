@@ -109,7 +109,7 @@ public class Pidgey : Enemy
                 else if (alert != null) alert.gameObject.SetActive(false);
             // }
         }
-        if (isMiniBoss)
+        if (isMiniBoss && hp > 0)
             LookAtTarget();
     }
 

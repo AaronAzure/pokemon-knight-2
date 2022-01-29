@@ -15,6 +15,7 @@ using UnityEngine;
     public int enemiesLevel=3;
     public int miniBossLevel=5;
     public bool flipEnemies;
+    public bool alwaysAttackPlayer;
     [Space] public float jumpForce=5;
     // public int waveNumber=0;
     [Space] public WaveRoom waveManager;
@@ -36,6 +37,8 @@ using UnityEngine;
                 obj.spawner = this;
                 if (flipEnemies)
                     obj.model.transform.eulerAngles = new Vector3(0, 180);
+                if (alwaysAttackPlayer)
+                    obj.alwaysAttackPlayer = true;
                 if (obj.isMiniBoss)
                 {
                     waveManager.miniBoss = obj;

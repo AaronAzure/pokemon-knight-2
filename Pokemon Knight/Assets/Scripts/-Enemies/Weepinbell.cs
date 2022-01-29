@@ -28,37 +28,47 @@ public class Weepinbell : Enemy
         
         if (GameObject.Find("PLAYER") != null && target == null)
             target = GameObject.Find("PLAYER").gameObject.transform;
+
+        if (alwaysAttackPlayer)
+        {
+            if (alert != null)
+                alert.gameObject.SetActive(true);
+            LookAtTarget();
+            anim.SetTrigger("attack");
+            Jump(true);
+        }
     }
 
     void FixedUpdate() 
     {
-        
-        bool detection = Physics2D.OverlapBox(this.transform.position + offset, fieldOfVision, 0, whatIsPlayer);
-        if (target != null && detection)
+        if (!alwaysAttackPlayer)
         {
-
-            lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));
-            RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position,
-                this.transform.position + new Vector3(0, 1) + lineOfSight, finalMask);
-
-            if (playerInfo.collider != null && playerInfo.collider.gameObject.CompareTag("Player"))
+            bool detection = Physics2D.OverlapBox(this.transform.position + offset, fieldOfVision, 0, whatIsPlayer);
+            if (target != null && detection)
             {
-                if (alert != null) alert.gameObject.SetActive(true);
-                LookAtTarget();
-                if (!attacked)
+
+                lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));
+                RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position,
+                    this.transform.position + new Vector3(0, 1) + lineOfSight, finalMask);
+
+                if (playerInfo.collider != null && playerInfo.collider.gameObject.CompareTag("Player"))
                 {
-                    attacked = true;
-                    anim.SetTrigger("attack");
-                    Jump();
+                    if (alert != null) alert.gameObject.SetActive(true);
+                    LookAtTarget();
+                    if (!attacked)
+                    {
+                        attacked = true;
+                        anim.SetTrigger("attack");
+                        Jump();
+                    }
                 }
-            }
-            else
-            {
-                if (alert != null) alert.gameObject.SetActive(false);
-            }
+                else
+                {
+                    if (alert != null) alert.gameObject.SetActive(false);
+                }
 
+            }
         }
-        
     }
 
     private void OnDrawGizmosSelected() 
@@ -72,14 +82,16 @@ public class Weepinbell : Enemy
         Gizmos.DrawWireCube(this.transform.position + offset, fieldOfVision);
     }
 
-    public void Jump()
+    public void Jump(bool guaranteed=false)
     {
-        if (Random.Range(0, 3) == 0)
+        if (guaranteed || Random.Range(0, 3) == 0)
             body.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
 
     public void RAZOR_LEAF()
     {
+        if (alwaysAttackPlayer)
+            lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));
         if (razorLeafSpawn != null && hp > 0)
         {
             var obj = Instantiate(razorLeaf, razorLeafSpawn.position, razorLeaf.transform.rotation);
@@ -87,6 +99,19 @@ public class Weepinbell : Enemy
         }
     }
 
+    public void NEXT_ACTION()
+    {
+        if (alwaysAttackPlayer)
+            StartCoroutine( RestBeforeNextAttack() );
+    }
+
+
+    IEnumerator RestBeforeNextAttack()
+    {
+        yield return new WaitForSeconds(2);
+        anim.SetTrigger("attack");
+        Jump(true);
+    }
 
     private void LookAtTarget()
     {

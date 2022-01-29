@@ -15,7 +15,7 @@ public class Caterpie : Enemy
 
     void FixedUpdate() 
     {
-        if (!receivingKnockback)
+        if (!receivingKnockback && hp > 0)
         {
             if (model.transform.eulerAngles.y != 0)
                 body.velocity = new Vector2( moveSpeed, body.velocity.y);

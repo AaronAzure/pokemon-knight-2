@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2649434013841007418}
   - component: {fileID: 2744506823777931808}
   - component: {fileID: 2743119253886243102}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FireGlowTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,11 +25,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2652822244967669748}
-  m_LocalRotation: {x: 1, y: 0, z: 0, w: -0.00000016292068}
+  m_LocalRotation: {x: 0.7071067, y: -0, z: -0, w: -0.70710695}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2655610368745330796}
+  m_Father: {fileID: 3066352489987038583}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: -180}
 --- !u!198 &2744506823777931808
@@ -4755,7 +4755,7 @@ GameObject:
   - component: {fileID: 2655613688625324292}
   - component: {fileID: 2743898338332086046}
   - component: {fileID: 2742752025681419752}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SparkTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4769,11 +4769,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2652911281818828988}
-  m_LocalRotation: {x: 1, y: 0, z: 0, w: -0.00000016292068}
+  m_LocalRotation: {x: 0.7071067, y: -0, z: -0, w: -0.70710695}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2655610368745330796}
+  m_Father: {fileID: 3066352489987038583}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
 --- !u!198 &2743898338332086046
@@ -9535,7 +9535,8 @@ GameObject:
   - component: {fileID: 2655610368745330796}
   - component: {fileID: 2744316467188318844}
   - component: {fileID: 2742708212801351108}
-  m_Layer: 0
+  - component: {fileID: 4996589478424169224}
+  m_Layer: 8
   m_Name: Sludge Bomb (effect)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9549,16 +9550,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2652941394930695584}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2655482644209447626}
-  - {fileID: 2655613688625324292}
-  - {fileID: 2649434013841007418}
+  m_Children: []
   m_Father: {fileID: 3066352489987038583}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!198 &2744316467188318844
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -14298,6 +14296,17 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!210 &4996589478424169224
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652941394930695584}
+  m_Enabled: 1
+  m_SortingLayerID: 480402825
+  m_SortingLayer: 1
+  m_SortingOrder: -1
 --- !u!1 &2653202426511200132
 GameObject:
   m_ObjectHideFlags: 0
@@ -14309,7 +14318,7 @@ GameObject:
   - component: {fileID: 2655482644209447626}
   - component: {fileID: 2744048464339430198}
   - component: {fileID: 2742718917557973228}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SmokeTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14323,11 +14332,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2653202426511200132}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2655610368745330796}
+  m_Father: {fileID: 3066352489987038583}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &2744048464339430198
@@ -19037,7 +19046,7 @@ GameObject:
   - component: {fileID: 3066352489987038581}
   - component: {fileID: 3066352489987038474}
   - component: {fileID: 3231427932129561716}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sludge Bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19055,6 +19064,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
+  - {fileID: 2655482644209447626}
+  - {fileID: 2655613688625324292}
+  - {fileID: 2649434013841007418}
   - {fileID: 2655610368745330796}
   m_Father: {fileID: 0}
   m_RootOrder: 0

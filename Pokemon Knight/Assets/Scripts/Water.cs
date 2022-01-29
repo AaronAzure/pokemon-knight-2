@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Water : MonoBehaviour
 {
-    [SerializeField] private BuoyancyEffector2D buo;
+    [SerializeField] private BuoyancyEffector2D[] buo;
     private PlayerControls pc;
 
     private void OnTriggerEnter2D(Collider2D other) 
@@ -12,10 +12,14 @@ public class Water : MonoBehaviour
             if (pc == null)
                 pc = other.GetComponent<PlayerControls>();
             
+
             if (pc.canSwim)
-                buo.density = 1;
+                foreach (BuoyancyEffector2D b in buo)
+                    b.density = 1;
             else 
-                buo.density = 2;
+                foreach (BuoyancyEffector2D b in buo)
+                    b.density = 1.5f;
+
 
             this.enabled = false;
         }

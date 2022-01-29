@@ -93,6 +93,8 @@ public abstract class Enemy : MonoBehaviour
     [HideInInspector] protected bool canFlip=true ;
     public bool playerInField;
     public bool playerInSight;
+    protected bool trigger;
+    public bool alwaysAttackPlayer;
 
 
 //     #region Editor

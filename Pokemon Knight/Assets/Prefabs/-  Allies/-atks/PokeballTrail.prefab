@@ -58,6 +58,8 @@ MonoBehaviour:
   justForShow: 0
   cooldownTime: 0.5
   powerupAcquired: {fileID: 182714, guid: f4645b758a8ad41d0b2ca8ea1cc48431, type: 3}
+  spawner: {fileID: 0}
+  bossRoom: {fileID: 0}
 --- !u!210 &361934810294491225
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -4879,18 +4881,6 @@ PrefabInstance:
     - target: {fileID: 453826, guid: 97f68c71661fa47cfa46567cdb2cac97, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 19875994, guid: 97f68c71661fa47cfa46567cdb2cac97, type: 3}
-      propertyPath: InitialModule.startLifetime.scalar
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 19894294, guid: 97f68c71661fa47cfa46567cdb2cac97, type: 3}
-      propertyPath: InitialModule.startLifetime.scalar
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 19894294, guid: 97f68c71661fa47cfa46567cdb2cac97, type: 3}
-      propertyPath: EmissionModule.rateOverDistance.scalar
-      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97f68c71661fa47cfa46567cdb2cac97, type: 3}

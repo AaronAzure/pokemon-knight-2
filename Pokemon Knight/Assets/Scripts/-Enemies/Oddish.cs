@@ -24,37 +24,78 @@ public class Oddish : Enemy
     public bool canAtk = true;
     private Coroutine co;
 
+    [Space] [Header("Miniboss attacks")]
+    // [SerializeField] private GameObject glint;
+    [SerializeField] private GameObject spawnedHolder;
+    [SerializeField] private EnemyProjectile sludgeBomb;
+    [SerializeField] private Transform sludgeBombPos;
+    [Space] [SerializeField] private Transform target;
+    private float trajectory;
+    private int attackCount;
+
 
     public override void Setup()
     {
-        co = StartCoroutine( DoSomething() );
+        if (spawnedHolder != null) 
+            spawnedHolder.transform.parent = null;
+            
+        if (isMiniBoss)
+        {
+            if (target == null)
+                target = GameObject.Find("PLAYER").transform;
+            // co = StartCoroutine( Attack(7.5f) );
+        }
+        else
+        {
+            co = StartCoroutine( DoSomething() );
+
+        }
+    }
+
+    public override void CallChildOnIntro()
+    {
+        anim.SetTrigger("sludgeBomb");
+    }
+
+    public override void CallChildOnDeath()
+    {
+        StopCoroutine(co);
+        body.gravityScale = 3;
+        Destroy(spawnedHolder);
     }
 
     void FixedUpdate() 
     {
-        if (!receivingKnockback)
+        if (!inCutscene && !isMiniBoss)
         {
-            if (movingLeft)
-                body.velocity = new Vector2(-moveSpeed, body.velocity.y);
-            else if (movingRight)
-                body.velocity = new Vector2(moveSpeed, body.velocity.y);
+            if (!receivingKnockback && hp > 0)
+            {
+                if (movingLeft)
+                    body.velocity = new Vector2(-moveSpeed, body.velocity.y);
+                else if (movingRight)
+                    body.velocity = new Vector2(moveSpeed, body.velocity.y);
+
+            }
+
+            if (canSeePlayer && canAtk)
+            {
+                canAtk = false;
+                StartCoroutine(Attack());
+            }
+            RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsGround);
+            RaycastHit2D frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
+
+            if (movingRight)
+                frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
+            
+            //* If at edge, then turn around
+            if (body.velocity.y >= 0 && (!groundInfo || frontInfo))
+                Flip();
+        }
+        else
+        {
 
         }
-
-        if (canSeePlayer && canAtk)
-        {
-            canAtk = false;
-            StartCoroutine(Attack());
-        }
-        RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsGround);
-        RaycastHit2D frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
-
-        if (movingRight)
-            frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
-        
-        //* If at edge, then turn around
-        if (body.velocity.y >= 0 && (!groundInfo || frontInfo))
-            Flip();
     }
 
     void AdjustAnim(string triggerName)
@@ -126,16 +167,84 @@ public class Oddish : Enemy
         co = StartCoroutine( DoSomething() );
     }
 
+    public void STOP_MOVING()
+    {
+        if (hp > 0)
+            body.velocity = new Vector2(0, body.velocity.y);
+    }
+
     public void POISON_POWDER()
     {
         if (hp > 0)
         {
-            body.velocity = Vector2.zero;
+            body.velocity = new Vector2(0, body.velocity.y);
             var obj = Instantiate(stunSpore, stunSporePos.position, stunSporePos.transform.rotation);
             obj.atkDmg = stunSporeDmg;
             Destroy(obj, 4.5f);
         }
     }
+
+
+
+
+
+    // todo ---------- M I N I  B O S S ----------
+
+    public void SLUDGE_BOMB()
+    {
+        if (hp > 0)
+        {
+            if (sludgeBomb != null && sludgeBombPos != null)
+            {
+                var obj = Instantiate(sludgeBomb, sludgeBombPos.position, sludgeBomb.transform.rotation);
+                obj.body.gravityScale = 3;
+                obj.direction = new Vector2(-trajectory, Random.Range(14,18));
+                if (spawnedHolder != null)
+                    obj.transform.parent = spawnedHolder.transform;
+            }
+        }
+    }
+
+    public void FACE_TARGET()
+    {
+        if (this.transform.position.x > target.position.x)
+            model.transform.eulerAngles = new Vector3(0, 0);
+        else
+            model.transform.eulerAngles = new Vector3(0, 180);
+        
+        trajectory = CalculateTrajectory();
+    }
+
+    private float CalculateTrajectory()
+    {
+        if (attackCount == 1)
+            return (this.transform.position.x - target.position.x);
+        return (this.transform.position.x - target.position.x) + Random.Range(-1f,1f);
+    }
+
+    public void ATTACK_COUNT()
+    {
+        if (attackCount < 3)
+        {
+            attackCount++;
+        }
+        else 
+        {
+            // anim.Play("animState", -1, 0);
+            anim.SetTrigger("reset");
+            co = StartCoroutine( RestBeforeNextVolley() );
+        }
+    }
+
+    IEnumerator RestBeforeNextVolley()
+    {
+        yield return new WaitForSeconds(3);
+        if (hp > 0)
+            anim.SetTrigger("sludgeBomb");
+        attackCount = 0;
+    }
+
+
 
     private void OnDrawGizmosSelected() 
     {

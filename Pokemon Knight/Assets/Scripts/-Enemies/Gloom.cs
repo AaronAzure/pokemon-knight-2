@@ -31,18 +31,15 @@ public class Gloom : Enemy
         finalMask = (whatIsPlayer | whatIsGround);
     }
 
-    // IEnumerator Attack()
-    // {
-    //     yield return new WaitForSeconds(2.5f);
-    //     mainAnim.SetTrigger("attack");
-
-    //     StartCoroutine( Attack() );
-    // }
-
     private void FixedUpdate() 
     {
         RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsGround);
-        if (!groundInfo && canFlip)
+        RaycastHit2D frontInfo;
+        if (model.transform.eulerAngles.y > 0)    // right
+            frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
+        else    // left
+            frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
+        if ((!groundInfo || frontInfo) && canFlip && body.velocity.y >= 0)
         {
             canFlip = false;
             WalkTheOtherWay();
@@ -59,6 +56,11 @@ public class Gloom : Enemy
             {
                 playerInSight = true;
                 alert.SetActive(true);
+                if (!trigger)
+                {
+                    trigger = true;
+                    mainAnim.SetTrigger("attack");
+                }
             }
             else
             {
@@ -99,6 +101,7 @@ public class Gloom : Enemy
         }
         else if (Random.Range(0,2) == 0)
         {
+            trigger = false;
             mainAnim.SetTrigger("walk");
         }
 
@@ -108,18 +111,21 @@ public class Gloom : Enemy
     {
         if (Random.Range(0,2) == 0)
         {
-            body.velocity = new Vector2(-moveSpeed, body.velocity.y);
+            if (hp > 0)
+                body.velocity = new Vector2(-moveSpeed, body.velocity.y);
             model.transform.eulerAngles = new Vector3(0, 0);
         }
         else
         {
-            body.velocity = new Vector2(moveSpeed, body.velocity.y);
+            if (hp > 0)
+                body.velocity = new Vector2(moveSpeed, body.velocity.y);
             model.transform.eulerAngles = new Vector3(0, 180);
         }
     }
     public void STOP()
     {
-        body.velocity = new Vector2(0, body.velocity.y);
+        if (hp > 0)
+            body.velocity = new Vector2(0, body.velocity.y);
     }
 
     public void FACE_TARGET()

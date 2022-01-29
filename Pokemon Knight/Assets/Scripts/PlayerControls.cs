@@ -146,6 +146,7 @@ public class PlayerControls : MonoBehaviour
     private bool dashing;
     private bool dodging;
     private bool canDodge = true;
+    [SerializeField] private GameObject glint;
     private bool dodgingThruScene;
     private float dodgeSpeed = 7.5f;
 
@@ -943,12 +944,15 @@ public class PlayerControls : MonoBehaviour
 
     IEnumerator Dodge()
     {
+        if (glint != null)
+            glint.SetActive(false);
         anim.speed = 1;
         body.velocity = Vector2.zero;
         dodging = true;
         canDodge = false;
         anim.SetTrigger("dodge");
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
+
 
         // if (holder.transform.eulerAngles.y < 180)   // right
         //     // body.velocity = new Vector2(dodgeSpeed, body.velocity.y);
@@ -964,7 +968,8 @@ public class PlayerControls : MonoBehaviour
         
         yield return new WaitForSeconds(0.5f);
         canDodge = true;
-
+        if (glint != null)
+            glint.SetActive(true);
     }
 
     public void DrinkingMoomooMilk()
@@ -1389,6 +1394,11 @@ public class PlayerControls : MonoBehaviour
 
     public void EngagedBossRoar(string musicName)
     {
+        if (ledgeGrabbing)
+        {
+            body.gravityScale = origGrav;
+            ledgeGrabbing = false;
+        }
         inCutscene = true;
         anim.speed = 1;
         anim.SetBool("inBossFight", true);
