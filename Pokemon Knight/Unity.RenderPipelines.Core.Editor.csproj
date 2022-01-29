@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{a40ebfbb-52ed-cb5a-f958-ba482888250c}</ProjectGuid>
+    <ProjectGuid>{f2ecb0cb-7df4-935a-0939-78dc094578f8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>PsdPlugin</AssemblyName>
+    <AssemblyName>Unity.RenderPipelines.Core.Editor</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -36,53 +36,76 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Layers/LayerInfo/RawLayerInfo.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Util.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Layers/LayerInfo/LayerUnicodeName.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/PsdBinaryReader.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PhotoShopFileType/DocumentLoadContext.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PDNWrapper/Rectangle.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/RleReader.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PhotoShopFileType/ImageDecoderPdn.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/ImageResources/VersionInfo.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Layers/LayerInfo/LayerSectionInfo.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/LoadContext.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/ImageResources/AlphaChannelNames.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/PsdFile.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Compression/ZipPredict16Image.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PDNWrapper/PDNDecodeJob.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Compression/RleImage.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Layers/Mask.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PDNWrapper/Enums.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Compression/RawImage.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Compression/ImageDataFactory.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PDNWrapper/Document.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PhotoShopFileType/PsdLoad.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Layers/LayerInfo/LayerId.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PDNWrapper/BitmapLayer.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Layers/BlendingRanges.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Compression/ZipImage.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Layers/Channel.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/ImageResource.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/AssemblyInfo.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/RleRowLengths.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/ImageResources/ResolutionInfo.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PhotoShopFileType/BlendModeMapping.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Exceptions.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/ImageResources/Thumbnail.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Compression/EndianReverser.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/ImageResources/RawImageResource.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Compression/ZipPredict32Image.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/PsdBlendMode.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/ImageResources/UnicodeAlphaNames.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Layers/Layer.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PDNWrapper/Surface.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Compression/ImageData.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Layers/LayerInfo.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/Layers/LayerInfo/InfoLayers.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdFile/RleWriter.cs" />
-     <Compile Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PDNWrapper/Size.cs" />
-     <None Include="Library/PackageCache/com.unity.2d.psdimporter@4.1.2/Editor/PSDPlugin/PsdPlugin.asmdef" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Volume/VolumeComponentEditor.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Volume/VolumeComponentListEditor.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/Context.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/CameraState.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/InspectorCurveEditor.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Lighting/IESImporter.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Utilities/EditorMaterialQuality.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/DisplayWindow.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/QuaternionPropertyDrawer.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/DisplayWindow.EnvironmentLibrarySidePanel.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Debugging/DebugUIHandlerCanvasEditor.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/ShaderGenerator/ShaderTypeGeneration.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/EnvironmentLibrary.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Debugging/DebugUIDrawer.Builtins.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Debugging/DebugUIDrawer.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/LookDevRenderer.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Volume/VolumeProfileEditor.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/ToolbarRadio.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Volume/VolumeEditor.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/DisplayWindow.DebugSidePanel.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/Environment.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/SpeedTree8MaterialUpgrader.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/ExpandedState.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Debugging/DebugState.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Volume/SerializedDataParameter.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/LookDev.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/FilterWindow.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Debugging/UIFoldoutEditor.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Volume/Drawers/IntParameterDrawer.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/CoreEditorUtils.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/CoreEditorDrawers.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/ComparisonGizmoController.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Gizmo/HierarchicalBox.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Lighting/IESEngine.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Lighting/CoreLightEditorUtilities.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/MaterialUpgrader.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Debugging/DebugWindow.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Volume/Drawers/ColorParameterDrawer.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Utilities/SerializedBitArray.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/ShaderGenerator/ShaderGeneratorMenu.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Lighting/IESObject.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/DropArea.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Volume/VolumeProfileFactory.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/CameraController.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Lighting/IESReader.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Volume/VolumeMenuItems.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/ContextualMenuDispatcher.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Lighting/IESImporterEditor.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Volume/Drawers/FloatParameterDrawer.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/RenderGraph/RenderGraphViewer.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/ShaderGenerator/CSharpToHLSL.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Volume/VolumeParameterDrawer.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/PropertyFetcher.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Volume/Drawers/Vector4ParameterDrawer.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/EditorPrefBoolFlags.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/ComparisonGizmoState.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/Stage.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/CoreEditorStyles.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Volume/VolumeComponentProvider.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/ProjectorEditor.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Gizmo/HierarchicalSphere.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/Compositor.cs" />
+     <Compile Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/CameraEditorUtils.cs" />
+     <None Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/CubeToLatlong.shader" />
+     <None Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/Compositor.shader" />
+     <None Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/DisplayWindow.uss" />
+     <None Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/DisplayWindow-PersonalSkin.uss" />
+     <None Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/LookDev/Inspectors.uss" />
+     <None Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Gizmo/UnlitGizmo.shader" />
+     <None Include="Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/Unity.RenderPipelines.Core.Editor.asmdef" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/Hub/Editor/2020.3.23f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -694,6 +717,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Unity.RenderPipelines.Core.Runtime.csproj">
+      <Project>{a0da603b-b785-0350-0d60-47318eada3c7}</Project>
+      <Name>Unity.RenderPipelines.Core.Runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="UnityEditor.UI.csproj">
       <Project>{a36d6521-5001-ed1d-1d8f-4486242797b0}</Project>
       <Name>UnityEditor.UI</Name>
