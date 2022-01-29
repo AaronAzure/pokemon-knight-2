@@ -10,7 +10,6 @@ public class Weepinbell : Enemy
     public float jumpForce=10;
     // public float chaseSpeed=4;
     // public float maxSpeed=5f;
-    [SerializeField] private LayerMask whatIsPlayer;
     private LayerMask finalMask;
     public Transform target;
     // public bool canAtk;
@@ -21,7 +20,6 @@ public class Weepinbell : Enemy
     public Vector3 offset;
     public Vector3 lineOfSight;
     
-    [Space] [SerializeField] private GameObject alert;
 
     public override void Setup()
     {
