@@ -327,17 +327,19 @@ public abstract class Enemy : MonoBehaviour
         {
             receivingKnockback = true;
             Vector2 direction = (opponent.position - this.transform.position).normalized;
-            direction *= new Vector2(1,0);
-            if (force > 20)
-            {
-                body.AddForce(-direction * (force/2) * kbDefense, ForceMode2D.Impulse);
-                yield return new WaitForSeconds(0.2f);
-            }
-            else
-            {
-                body.AddForce(-direction * force * kbDefense, ForceMode2D.Impulse);
-                yield return new WaitForSeconds(0.1f);
-            }
+            // direction *= new Vector2(1,0);
+            // if (force > 20)
+            // {
+            //     body.AddForce(-direction * (force/2) * kbDefense, ForceMode2D.Impulse);
+            //     yield return new WaitForSeconds(0.2f);
+            // }
+            // else
+            // {
+            //     body.AddForce(-direction * force * kbDefense, ForceMode2D.Impulse);
+            //     yield return new WaitForSeconds(0.1f);
+            // }
+            body.velocity = -direction * force * kbDefense;
+            yield return new WaitForSeconds(0.1f);
             
             // if (!isBoss)
             // else

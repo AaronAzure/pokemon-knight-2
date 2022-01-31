@@ -62,6 +62,7 @@ public class WaveRoom : MonoBehaviour
             once = true;
             
             StartCoroutine( StartWave(2) );
+            other.GetComponent<PlayerControls>().EnteredWaveRoom();
             Walls(true);
         }
     }

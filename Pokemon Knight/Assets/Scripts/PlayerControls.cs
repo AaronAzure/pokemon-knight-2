@@ -68,7 +68,7 @@ public class PlayerControls : MonoBehaviour
     [Space] [SerializeField] private AllyTeamUI charmander;
     [Space] [SerializeField] private AllyTeamUI squirtle;
     [Space] [SerializeField] private AllyTeamUI pidgey;
-    [Space] [SerializeField] private AllyTeamUI butterfree;
+    [Space] [SerializeField] private AllyTeamUI oddish;
 
 
 
@@ -104,9 +104,9 @@ public class PlayerControls : MonoBehaviour
     public int maxHp;
     public int hp;  // current hp
     public int lv=1;
-    private int expNeeded=100;
-    private int exp;  // current exp
-    [SerializeField] private GameObject levelUpEffect;
+    [Space] [SerializeField] private int expNeeded=100;
+    [SerializeField] private int exp;  // current exp
+    [Space] [SerializeField] private GameObject levelUpEffect;
     [SerializeField] private GameObject levelUpObj;
     [SerializeField] private AudioSource levelUpSound;
     [SerializeField] private GameObject playerUi;
@@ -146,6 +146,7 @@ public class PlayerControls : MonoBehaviour
     private bool dashing;
     private bool dodging;
     private bool canDodge = true;
+    [SerializeField] private bool isInvincible;
     [SerializeField] private GameObject glint;
     private bool dodgingThruScene;
     private float dodgeSpeed = 7.5f;
@@ -333,6 +334,12 @@ public class PlayerControls : MonoBehaviour
                         pokemonInTeamBenchSettings[i].img.sprite = pidgey.sprite;
                         pokemonInTeamBenchSettings[i].ally = pidgey.summonable;
                         partyPokemonsUI[i].sprite = pidgey.sprite;
+                        break;
+                    case "oddish":
+                        allies[i] = oddish.summonable;
+                        pokemonInTeamBenchSettings[i].img.sprite = oddish.sprite;
+                        pokemonInTeamBenchSettings[i].ally = oddish.summonable;
+                        partyPokemonsUI[i].sprite = oddish.sprite;
                         break;
                     // case "butterfree":
                     //     allies[i] = butterfree.summonable;
@@ -951,7 +958,8 @@ public class PlayerControls : MonoBehaviour
         dodging = true;
         canDodge = false;
         anim.SetTrigger("dodge");
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
+        isInvincible = true;
+        // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
 
 
         // if (holder.transform.eulerAngles.y < 180)   // right
@@ -963,7 +971,9 @@ public class PlayerControls : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
         body.velocity = Vector2.zero;
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        isInvincible = false;
+
         dodging = false;
         
         yield return new WaitForSeconds(0.5f);
@@ -1016,8 +1026,8 @@ public class PlayerControls : MonoBehaviour
 
             if (force > 0 && opponent != null)
             {
-                if (hp > 0) StartCoroutine( IgnoreEnemyCollision() );
-                StartCoroutine( ApplyKnockback(opponent, force/2) );
+                // if (hp > 0) StartCoroutine( IgnoreEnemyCollision() );
+                StartCoroutine( ApplyKnockback(opponent, force) );
             }
 
             if (hp <= 0)
@@ -1028,11 +1038,13 @@ public class PlayerControls : MonoBehaviour
     }
     IEnumerator IgnoreEnemyCollision()
     {
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
+        // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
+        isInvincible = true;
         
         yield return new WaitForSeconds(0.75f);
         if (!dodging)
-            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+            isInvincible = false;
+            // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
     }
     IEnumerator Flash()
     {
@@ -1053,24 +1065,27 @@ public class PlayerControls : MonoBehaviour
     {
 
         receivingKnockback = true;
-        if (leftWallDetect)
-        {
-            Vector2 direction = new Vector2(1,1);
-            body.AddForce(direction * force, ForceMode2D.Impulse);
-        }
-        else if (rightWallDetect)
-        {
-            Vector2 direction = new Vector2(-1,1);
-            body.AddForce(direction * force, ForceMode2D.Impulse);
-        }
-        else if (!leftWallDetect && !rightWallDetect)
-        {
-            Vector2 direction = (opponent.position - this.transform.position).normalized;
-            direction = new Vector2(direction.x,-1);
-            body.AddForce(-direction * force, ForceMode2D.Impulse);
-        }
+        // if (leftWallDetect)
+        // {
+        //     Vector2 direction = new Vector2(1,1);
+        //     body.AddForce(direction * force, ForceMode2D.Impulse);
+        // }
+        // else if (rightWallDetect)
+        // {
+        //     Vector2 direction = new Vector2(-1,1);
+        //     body.AddForce(direction * force, ForceMode2D.Impulse);
+        // }
+        // else if (!leftWallDetect && !rightWallDetect)
+        // {
+        //     Vector2 direction = (opponent.position - this.transform.position).normalized;
+        //     direction = new Vector2(direction.x,-1);
+        //     body.AddForce(-direction * force, ForceMode2D.Impulse);
+        // }
+        Vector2 direction = (opponent.position - this.transform.position).normalized;
+        body.velocity = -direction * force;
+        // body..MovePosition(-direction * force);
         
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         body.velocity = Vector2.zero;
         receivingKnockback = false;
     }
@@ -1111,7 +1126,9 @@ public class PlayerControls : MonoBehaviour
         
         if (lv >= 100)
             exp = 0;
-        
+
+        if (exp < 0)
+            exp = 0;
     }
 
     // todo ------------------------------------------------------------------------------------
@@ -1121,16 +1138,14 @@ public class PlayerControls : MonoBehaviour
         body.velocity = Vector2.zero;
         anim.SetTrigger("died");
         
-        // if (musicManager != null)
-        //     StartCoroutine( musicManager.LowerMusic(musicManager.currentMusic, 0.75f) );
-        
         
         // Time.timeScale = 0.25f;
         float origGravity = body.gravityScale;
         body.gravityScale = 0;
         if (col != null)
             col.enabled = false;
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        isInvincible = false;
 
 
         yield return new WaitForSeconds(2f);
@@ -1159,8 +1174,8 @@ public class PlayerControls : MonoBehaviour
             
         ReloadState();
 
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        isInvincible = false;
         hp = maxHp;
         anim.SetTrigger("reset");
 
@@ -1196,7 +1211,7 @@ public class PlayerControls : MonoBehaviour
             yield return new WaitForEndOfFrame();
             this.transform.position = newPos;
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.5f);
             if (transitionAnim != null)
                 transitionAnim.SetTrigger("fromBlack");
             
@@ -1329,7 +1344,8 @@ public class PlayerControls : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("0Title");
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        isInvincible = false;
         
         if (musicManager != null)
             musicManager.BackToTitle();
@@ -1407,7 +1423,17 @@ public class PlayerControls : MonoBehaviour
 
         if (musicManager != null && musicName.ToLower() == "rosary")
             StartCoroutine( musicManager.TransitionMusic(musicManager.bossIntroMusic, true) );
+        if (musicManager != null && musicName.ToLower() == "accolade")
+            StartCoroutine( musicManager.TransitionMusic(musicManager.accoladeOutroMusic) );
     }
+
+    public void EnteredWaveRoom()
+    {
+        if (musicManager != null)
+            StartCoroutine( musicManager.TransitionMusic(musicManager.accoladeIntroMusic, true) );
+    }
+
+
     
     public void RoarOver()
     {
@@ -1498,10 +1524,12 @@ public class PlayerControls : MonoBehaviour
                 break;
             case "pidgey": 
                 CaughtAPokemon("pidgey");
-                // inCutscene = true;
-                // doubleJumpScreen.gameObject.SetActive(true);
+                break;
+            case "oddish": 
+                CaughtAPokemon("oddish");
                 break;
             default:
+                CaughtAPokemon(powerupName);
                 Debug.LogError("PlayerControls.GainPowerup - unregistered powerup (ADD TO SWITCH CASE)");
                 break;
         }
@@ -1693,25 +1721,22 @@ public class PlayerControls : MonoBehaviour
             }
             PlayerPrefsElite.SetStringArray("pokemonsCaught", pokemonsCaught);
             var set = new HashSet<string>(pokemonsCaught);
-            // Debug.LogError(boxPokemonsToActivate[i].pokemonName);
-            // for (int i=0 ; i<boxPokemonsToActivate.Length ; i++)
-            // {
-            //     Debug.LogError(boxPokemonsToActivate[i].pokemonName);
-            //     if (boxPokemonsToActivate[i].pokemonName == "")
-            //     {
-            //         boxPokemonsToActivate[i].gameObject.SetActive(true);
-            //         break;
-            //     }
-            // }
-            Debug.Log("pokemons caught set = "+set.Count);
+
+            Debug.Log("pokemons caught set = " + set.Count);
+            bool foundMatch = false;
             foreach (BoxPokemonButton boxPokemon in boxPokemonsToActivate)
             {
                 if (set.Contains(boxPokemon.pokemonName))
                 {
+                    foundMatch = true;
                     boxPokemon.transform.parent.gameObject.SetActive(true);
                     boxPokemon.gameObject.SetActive(true);
                 }
             }
+            if (!foundMatch)
+                Debug.LogError("PlayerControls.CaughtAPokemon - unregistered pokemon (ADD TO boxPokemonsToActivate)");
+
+
             CheckEquippablePokemon();
         }
     }
@@ -1721,16 +1746,24 @@ public class PlayerControls : MonoBehaviour
         {
             pokemonsCaught = PlayerPrefsElite.GetStringArray("pokemonsCaught");
             var set = new HashSet<string>(pokemonsCaught);
+            
+            Debug.Log("pokemons caught set = " + set.Count);
+            
             foreach (BoxPokemonButton boxPokemon in boxPokemonsToActivate)
             {
+                Debug.Log(" " + boxPokemon.pokemonName);
+
                 if (boxPokemon.pokemonName != null && set.Contains(boxPokemon.pokemonName))
+                {
+                    boxPokemon.transform.parent.gameObject.SetActive(true);
                     boxPokemon.gameObject.SetActive(true);
+                }
             }
         }
-        else
-        {
-            PlayerPrefsElite.SetStringArray("pokemonsCaught", new string[100]);
-        }
+        // else
+        // {
+        //     PlayerPrefsElite.SetStringArray("pokemonsCaught", new string[100]);
+        // }
     }
     
     //* Set all obtained items gameObject (buttons) active - Start(), GainItem()

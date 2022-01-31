@@ -59,7 +59,8 @@ public class Oddish : Enemy
 
     public override void CallChildOnDeath()
     {
-        StopCoroutine(co);
+        if (co != null)
+            StopCoroutine(co);
         body.gravityScale = 3;
         Destroy(spawnedHolder);
     }
@@ -198,7 +199,7 @@ public class Oddish : Enemy
             {
                 var obj = Instantiate(sludgeBomb, sludgeBombPos.position, sludgeBomb.transform.rotation);
                 obj.body.gravityScale = 3;
-                obj.direction = new Vector2(-trajectory, Random.Range(14,18));
+                obj.direction = new Vector2(-trajectory, Random.Range(14,21));
                 if (spawnedHolder != null)
                     obj.transform.parent = spawnedHolder.transform;
             }

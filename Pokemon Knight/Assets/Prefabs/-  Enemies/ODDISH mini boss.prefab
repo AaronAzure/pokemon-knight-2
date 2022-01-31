@@ -10136,6 +10136,7 @@ GameObject:
   - component: {fileID: 6059486759220388701}
   - component: {fileID: 7907085212256002918}
   - component: {fileID: 5798675815866953818}
+  - component: {fileID: 3828433975160120042}
   m_Layer: 8
   m_Name: ODDISH mini boss
   m_TagString: Enemy
@@ -10234,7 +10235,7 @@ MonoBehaviour:
   body: {fileID: 5798675815866953818}
   model: {fileID: 8315939532998918946}
   cannotRecieveKb: 0
-  kbDefense: 1
+  kbDefense: 0.4
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
@@ -10262,9 +10263,17 @@ MonoBehaviour:
   powerupName: oddish
   pokeball: {fileID: 5440643809216196248, guid: 0eb4cb200322c4a548e62b8c3661399b, type: 3}
   canCatchEffect: {fileID: 1744615918095040419}
-  contactDmg: 25
+  contactDmg: 5
   contactKb: 10
-  renderers: []
+  renderers:
+  - {fileID: 5478942814163688623}
+  - {fileID: 2335878881091891655}
+  - {fileID: 7268308278520208116}
+  - {fileID: 4792069771240763185}
+  - {fileID: 4184624923440520074}
+  - {fileID: 1720472758345791981}
+  - {fileID: 3659830457379585843}
+  - {fileID: 5523439291125198772}
   defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
@@ -10314,6 +10323,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!210 &3828433975160120042
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5249119507078783117}
+  m_Enabled: 1
+  m_SortingLayerID: 480402825
+  m_SortingLayer: 1
+  m_SortingOrder: 0
 --- !u!1 &5545332425521020352
 GameObject:
   m_ObjectHideFlags: 0
@@ -24756,7 +24776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b0e6ecbf58444adc950d82d86483813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicName: 
+  musicName: Accolade
 --- !u!1 &6834304160540669383
 GameObject:
   m_ObjectHideFlags: 0
@@ -34556,7 +34576,7 @@ Transform:
   m_GameObject: {fileID: 8315939532998918946}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_Children:
   - {fileID: 8452553695541995158}
   - {fileID: 8404566178504463058}
@@ -34756,7 +34776,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8181078561444662038, guid: d20f75ad4b74e41c68f2c521dcb67ad9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.458
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 8181078561444662038, guid: d20f75ad4b74e41c68f2c521dcb67ad9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

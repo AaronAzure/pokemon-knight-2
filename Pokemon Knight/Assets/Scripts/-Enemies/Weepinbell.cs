@@ -34,8 +34,7 @@ public class Weepinbell : Enemy
             if (alert != null)
                 alert.gameObject.SetActive(true);
             LookAtTarget();
-            anim.SetTrigger("attack");
-            Jump(true);
+            StartCoroutine( RestBeforeNextAttack() );
         }
     }
 

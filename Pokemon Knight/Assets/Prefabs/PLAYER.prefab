@@ -4830,9 +4830,9 @@ MonoBehaviour:
   pidgey:
     summonable: {fileID: 7683898162395236407, guid: 63c2669db52b14df891ec1a2830cf8c9, type: 3}
     sprite: {fileID: 21300000, guid: c70af58672a8e48d08a6f85382660dbd, type: 3}
-  butterfree:
-    summonable: {fileID: 0}
-    sprite: {fileID: 0}
+  oddish:
+    summonable: {fileID: 3774924213788328330, guid: 62eb1d27d7bc541b3baa8ff8e0d88fa1, type: 3}
+    sprite: {fileID: 21300000, guid: 81c09344af2d84c9faabcbd6b0086715, type: 3}
   settings: {fileID: 5425500440987824872}
   equimentSettings: {fileID: 7770779914071458236}
   pokemonSets: {fileID: 5748541716276692155}
@@ -4840,6 +4840,7 @@ MonoBehaviour:
   pokemonSet2: {fileID: 4042173584388548785}
   boxPokemonsToActivate:
   - {fileID: 947227073336756055}
+  - {fileID: 8268547953409915916}
   itemsToActivate:
   - {fileID: 4399412493689888763}
   - {fileID: 8696348199077421297}
@@ -14250,6 +14251,7 @@ MonoBehaviour:
   - {fileID: 2041078570340625774}
   - {fileID: 994887171115907305}
   - {fileID: 947227073336756055}
+  - {fileID: 8268547953409915916}
   atkpower: {fileID: 1514299011837051685}
   coolDown: {fileID: 4862186933371582921}
   itemMenu: 0
@@ -17930,7 +17932,7 @@ MonoBehaviour:
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnLeft: {fileID: 3294539081257093970}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -17957,7 +17959,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8268547953409915916}
         m_TargetAssemblyTypeName: BoxPokemonButton, Assembly-CSharp
         m_MethodName: SetNewAlly
         m_Mode: 1
@@ -17982,10 +17984,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerControls: {fileID: 2241457488112191053}
-  ally: {fileID: 0}
+  ally: {fileID: 3774924213788328330, guid: 62eb1d27d7bc541b3baa8ff8e0d88fa1, type: 3}
   img: {fileID: 0}
   pokemonName: oddish
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 81c09344af2d84c9faabcbd6b0086715, type: 3}
 --- !u!1 &8785963519808036024
 GameObject:
   m_ObjectHideFlags: 0

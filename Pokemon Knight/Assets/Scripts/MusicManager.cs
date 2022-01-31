@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    public AudioSource titleMusic, forestMusic, bossIntroMusic, bossOutroMusic;
+    public AudioSource titleMusic, forestMusic, bossIntroMusic, bossOutroMusic, 
+        accoladeIntroMusic, accoladeOutroMusic;
     public AudioSource currentMusic;
     public AudioSource previousMusic;
 
@@ -29,7 +30,8 @@ public class MusicManager : MonoBehaviour
         float fraction = currentMusic.volume / times;
         for (int i=0 ; i<times ; i++)
         {
-            yield return new WaitForEndOfFrame();
+            // yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(0.05f);
             currentMusic.volume -= fraction;
         }
         yield return new WaitForEndOfFrame();

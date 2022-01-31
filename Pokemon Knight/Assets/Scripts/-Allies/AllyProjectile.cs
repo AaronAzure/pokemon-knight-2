@@ -12,14 +12,15 @@ public class AllyProjectile : MonoBehaviour
     [SerializeField] private bool destoryOnCollision=true;
 
     public float velocity=0;
+    [SerializeField] private bool customTrajectory;
     public Rigidbody2D body;
 
 
     private void Start() 
     {
-        if (trailObj != null)
+        if (trailObj != null && !customTrajectory)
             StartCoroutine(UnparentTrail());
-        if (body != null && velocity != 0)
+        if (body != null && velocity != 0 && !customTrajectory)
             body.velocity = Vector2.right * velocity;
     }
     public IEnumerator UnparentTrail()
