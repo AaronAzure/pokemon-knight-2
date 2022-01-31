@@ -367,13 +367,33 @@ public abstract class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Player") && hp > 0 && !inCutscene)
+        // if (other.gameObject.CompareTag("Player") && hp > 0 && !inCutscene)
+        // {
+        //     PlayerControls player = other.gameObject.GetComponent<PlayerControls>();
+        //     player.TakeDamage(contactDmg + (extraDmg * Mathf.Max(1, lv - defaultLv)), this.transform, contactKb);
+        //     body.velocity = Vector2.zero;
+        // }    
+        // else if (other.gameObject.CompareTag("Player") && canCatch)
+        // {
+        //     canCatch = false;
+        //     StartCoroutine( BackToBall() );
+        //     Pokeball obj = Instantiate( pokeball, this.transform.position, Quaternion.identity).GetComponent<Pokeball>();
+        //     obj.powerup = this.powerupName;
+        //     if (spawner != null)
+        //         obj.spawner = this.spawner;
+        //     if (bossRoom != null)
+        //         obj.bossRoom = this.bossRoom;
+        // }    
+    }
+
+    public void PlayerCollision()
+    {
+        if (hp > 0 && !inCutscene)
         {
-            PlayerControls player = other.gameObject.GetComponent<PlayerControls>();
-            player.TakeDamage(contactDmg + (extraDmg * Mathf.Max(1, lv - defaultLv)), this.transform, contactKb);
+            playerControls.TakeDamage(contactDmg + (extraDmg * Mathf.Max(1, lv - defaultLv)), this.transform, contactKb);
             body.velocity = Vector2.zero;
         }    
-        else if (other.gameObject.CompareTag("Player") && canCatch)
+        else if (canCatch)
         {
             canCatch = false;
             StartCoroutine( BackToBall() );

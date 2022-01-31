@@ -136,10 +136,6 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] public bool grounded = true;
     [HideInInspector] public bool jumping = false;
     [HideInInspector] public bool ledgeGrabbing = false;
-    [Space] [SerializeField] private bool leftWallDetect = true;
-    [SerializeField] private Transform leftWallPos;
-    [SerializeField] private bool rightWallDetect = true;
-    [SerializeField] private Transform rightWallPos;
     [SerializeField] private Vector2 wallDetectBox;
     private bool receivingKnockback;
     private int dashes = 1;
@@ -384,10 +380,6 @@ public class PlayerControls : MonoBehaviour
     }
     void Update()
     {
-        leftWallDetect = Physics2D.OverlapBox(leftWallPos.position, wallDetectBox, 0, whatIsGround);
-        rightWallDetect = Physics2D.OverlapBox(rightWallPos.position, wallDetectBox, 0, whatIsGround);
-        
-        
         if (player.GetButtonDown("START") && !settings.gameObject.activeSelf && 
             !equimentSettings.gameObject.activeSelf && !returningToTitle)
         {
@@ -785,8 +777,6 @@ public class PlayerControls : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(feetPos.position, feetBox);
-        Gizmos.DrawWireCube(leftWallPos.position, wallDetectBox);
-        Gizmos.DrawWireCube(rightWallPos.position, wallDetectBox);
 
         if (holder.transform.eulerAngles.y > 0)
         {
@@ -959,21 +949,10 @@ public class PlayerControls : MonoBehaviour
         canDodge = false;
         anim.SetTrigger("dodge");
         isInvincible = true;
-        // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
-
-
-        // if (holder.transform.eulerAngles.y < 180)   // right
-        //     // body.velocity = new Vector2(dodgeSpeed, body.velocity.y);
-        //     body.AddForce(Vector2.right * dodgeSpeed, ForceMode2D.Impulse);
-        // else    // left
-        //     // body.velocity = new Vector2(-dodgeSpeed, body.velocity.y);
-        //     body.AddForce(Vector2.left * dodgeSpeed, ForceMode2D.Impulse);
 
         yield return new WaitForSeconds(0.5f);
         body.velocity = Vector2.zero;
-        // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
         isInvincible = false;
-
         dodging = false;
         
         yield return new WaitForSeconds(0.5f);
@@ -1017,7 +996,7 @@ public class PlayerControls : MonoBehaviour
     // todo -----------------  D A M A G E  ------------------------------------------------
     public void TakeDamage(int dmg=0, Transform opponent=null, float force=0)
     {
-        if (hp > 0 && !inCutscene)
+        if (hp > 0 && !inCutscene && !isInvincible)
         {
             anim.SetBool("isDrinking", false);
             hp -= dmg;
@@ -1026,7 +1005,7 @@ public class PlayerControls : MonoBehaviour
 
             if (force > 0 && opponent != null)
             {
-                // if (hp > 0) StartCoroutine( IgnoreEnemyCollision() );
+                if (hp > 0) StartCoroutine( Invincibility() );
                 StartCoroutine( ApplyKnockback(opponent, force) );
             }
 
@@ -1036,15 +1015,13 @@ public class PlayerControls : MonoBehaviour
             }
         }
     }
-    IEnumerator IgnoreEnemyCollision()
+    IEnumerator Invincibility()
     {
-        // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
         isInvincible = true;
         
         yield return new WaitForSeconds(0.75f);
         if (!dodging)
             isInvincible = false;
-            // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
     }
     IEnumerator Flash()
     {
@@ -1065,23 +1042,8 @@ public class PlayerControls : MonoBehaviour
     {
 
         receivingKnockback = true;
-        // if (leftWallDetect)
-        // {
-        //     Vector2 direction = new Vector2(1,1);
-        //     body.AddForce(direction * force, ForceMode2D.Impulse);
-        // }
-        // else if (rightWallDetect)
-        // {
-        //     Vector2 direction = new Vector2(-1,1);
-        //     body.AddForce(direction * force, ForceMode2D.Impulse);
-        // }
-        // else if (!leftWallDetect && !rightWallDetect)
-        // {
-        //     Vector2 direction = (opponent.position - this.transform.position).normalized;
-        //     direction = new Vector2(direction.x,-1);
-        //     body.AddForce(-direction * force, ForceMode2D.Impulse);
-        // }
         Vector2 direction = (opponent.position - this.transform.position).normalized;
+        direction = new Vector2(direction.x,-1);
         body.velocity = -direction * force;
         // body..MovePosition(-direction * force);
         
@@ -1144,7 +1106,6 @@ public class PlayerControls : MonoBehaviour
         body.gravityScale = 0;
         if (col != null)
             col.enabled = false;
-        // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
         isInvincible = false;
 
 
@@ -1174,7 +1135,6 @@ public class PlayerControls : MonoBehaviour
             
         ReloadState();
 
-        // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
         isInvincible = false;
         hp = maxHp;
         anim.SetTrigger("reset");
@@ -1344,7 +1304,6 @@ public class PlayerControls : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("0Title");
-        // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
         isInvincible = false;
         
         if (musicManager != null)
