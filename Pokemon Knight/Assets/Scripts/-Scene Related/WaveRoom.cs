@@ -12,6 +12,8 @@ public class WaveRoom : MonoBehaviour
     private bool once;
     [SerializeField] private CinemachineVirtualCamera cm;
 
+    private PlayerControls player;
+
 
     [Space] public int waveNumber = 0;
     public int totalWaves = 3;
@@ -31,10 +33,7 @@ public class WaveRoom : MonoBehaviour
             var set = new HashSet<string>(roomsBeaten);
             Debug.Log(roomsBeaten.Length + " " + set.Count);
             if (set.Contains(roomName))
-                    Destroy(this.gameObject);
-            // foreach (string roomBeaten in roomsBeaten)
-            //     if (roomBeaten == roomName)
-            //         Destroy(this.gameObject);
+                Destroy(this.gameObject);
 
         }
         foreach (WaveSpawner ws in waveSpawners)
@@ -60,6 +59,9 @@ public class WaveRoom : MonoBehaviour
             //     return;
             cm.Priority = 100;
             once = true;
+
+            if (player == null)
+                player = other.GetComponent<PlayerControls>(); 
             
             StartCoroutine( StartWave(2) );
             other.GetComponent<PlayerControls>().EnteredWaveRoom();
@@ -104,21 +106,20 @@ public class WaveRoom : MonoBehaviour
     {
         Walls(false);
 
-        PlayerControls playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
-        // playerControls.AddRoomBeaten(roomName);
-        string[] roomsBeaten = PlayerPrefsElite.GetStringArray("roomsBeaten");
-        for (int i=0 ; i < roomsBeaten.Length ; i++)
-        {
-            if (roomsBeaten[i] == "")
-            {
-                roomsBeaten[i] = roomName;
-                // Debug.LogError("Added room " + roomName + " at " + i);
-                break;
-            }
-        }
-        PlayerPrefsElite.SetStringArray("roomsBeaten", roomsBeaten);
-        for (int i=0 ; i<roomsBeaten.Length ; i++)
-            Debug.Log("~" + roomsBeaten[i] + "~");
+        player.AddRoomBeaten(roomName);
+        // string[] roomsBeaten = PlayerPrefsElite.GetStringArray("roomsBeaten");
+        // for (int i=0 ; i < roomsBeaten.Length ; i++)
+        // {
+        //     if (roomsBeaten[i] == "")
+        //     {
+        //         roomsBeaten[i] = roomName;
+        //         // Debug.LogError("Added room " + roomName + " at " + i);
+        //         break;
+        //     }
+        // }
+        // PlayerPrefsElite.SetStringArray("roomsBeaten", roomsBeaten);
+        // for (int i=0 ; i<roomsBeaten.Length ; i++)
+        //     Debug.Log("~" + roomsBeaten[i] + "~");
 
     }
 }

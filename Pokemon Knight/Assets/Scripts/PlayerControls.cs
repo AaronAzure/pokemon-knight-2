@@ -173,6 +173,7 @@ public class PlayerControls : MonoBehaviour
     public int nMoomooMilk = 1;
     public int nMoomooMilkLeft = 1;
     public int moomooMilkRecovery = 50;
+    public int nMoomooMilkUpgrade=0;
     public Animator[] moomooUi;
     public bool drinking;
     public GameObject healEffect;
@@ -976,7 +977,7 @@ public class PlayerControls : MonoBehaviour
         if (healEffect != null)
             Instantiate(healEffect, this.transform.position + new Vector3(0,1), Quaternion.identity, this.transform);
         drinking = false;
-        hp += moomooMilkRecovery;
+        hp += ((25 * nMoomooMilkUpgrade) + moomooMilkRecovery);
         nMoomooMilkLeft--;
 
         if (healSound != null)
@@ -1750,19 +1751,15 @@ public class PlayerControls : MonoBehaviour
 
     public void AddRoomBeaten(string roomName)
     {
-        // roomsBeaten = PlayerPrefsElite.GetStringArray("roomsBeaten");
-        // foreach(string r in roomsBeaten)
-        //     Debug.Log("~" + r + "~");
-        // for (int i=0 ; i < roomsBeaten.Length ; i++)
-        // {
-        //     if (roomsBeaten[i] == "")
-        //     {
-        //         roomsBeaten[i] = roomName;
-        //         Debug.LogError("Added room " + roomName + " at " + i);
-        //         break;
-        //     }
-        // }
-        // PlayerPrefsElite.SetStringArray("roomsBeaten", roomsBeaten);
+        for (int i=0 ; i < roomsBeaten.Length ; i++)
+        {
+            if (roomsBeaten[i] == "")
+            {
+                roomsBeaten[i] = roomName;
+                break;
+            }
+        }
+        PlayerPrefsElite.SetStringArray("roomsBeaten", roomsBeaten);
     }
 
     // todo ------------------------------------------------------------------------------------

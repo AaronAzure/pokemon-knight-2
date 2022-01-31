@@ -173,6 +173,7 @@ public abstract class Enemy : MonoBehaviour
     public virtual void Setup() {}
     public virtual void CallChildOnIntro() {}
     public virtual void CallChildOnDeath() {}
+    public virtual void CallChildOnRage() {}
 
     protected void LateUpdate() 
     {
@@ -305,6 +306,7 @@ public abstract class Enemy : MonoBehaviour
             else if (isBoss && !isMiniBoss && !inRage && (float)hp/(float)maxHp < 0.5f)
             {
                 inRage = true;  
+                CallChildOnRage();
                 StartCoroutine( ActivateRageMode() );
             }
         }

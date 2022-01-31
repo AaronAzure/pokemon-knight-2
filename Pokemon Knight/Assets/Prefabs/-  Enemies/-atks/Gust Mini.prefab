@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1841686853987615596}
   - component: {fileID: 5643547119797118130}
   - component: {fileID: 5971086380634845547}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Gust Mini
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4849,8 +4849,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atkDmg: 5
   kbForce: 5
+  destoryOnPlayerCollision: 0
+  destoryOnWallCollision: 0
   explosion: {fileID: 128324, guid: ee23b4011885e4da5a6637a2cbdc2284, type: 3}
-  extraProjectile: {fileID: 0}
   body: {fileID: 5341421016389988590}
   direction: {x: 0, y: 0}
   speed: 3
@@ -4877,5 +4878,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5deb33535ece949c2acca4cc69900497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 0.1
-  col: {fileID: 3757481485504771578}
+  delayOn: 0.5
+  delayOff: 0.5
+  cols: []
