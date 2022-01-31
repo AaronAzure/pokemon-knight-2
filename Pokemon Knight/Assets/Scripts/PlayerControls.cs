@@ -949,17 +949,23 @@ public class PlayerControls : MonoBehaviour
         dodging = true;
         canDodge = false;
         anim.SetTrigger("dodge");
-        isInvincible = true;
+        Invincible(true);
 
         yield return new WaitForSeconds(0.5f);
         body.velocity = Vector2.zero;
-        isInvincible = false;
+        Invincible(false);
         dodging = false;
         
         yield return new WaitForSeconds(0.5f);
         canDodge = true;
         if (glint != null)
             glint.SetActive(true);
+    }
+
+    void Invincible(bool active)
+    {
+        isInvincible = active;
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyProjectile"), active);
     }
 
     public void DrinkingMoomooMilk()
@@ -1018,11 +1024,11 @@ public class PlayerControls : MonoBehaviour
     }
     IEnumerator Invincibility()
     {
-        isInvincible = true;
+        Invincible(true);
         
         yield return new WaitForSeconds(0.75f);
         if (!dodging)
-            isInvincible = false;
+            Invincible(false);
     }
     IEnumerator Flash()
     {
@@ -1107,7 +1113,7 @@ public class PlayerControls : MonoBehaviour
         body.gravityScale = 0;
         if (col != null)
             col.enabled = false;
-        isInvincible = false;
+        Invincible(false);
 
 
         yield return new WaitForSeconds(2f);
@@ -1136,7 +1142,7 @@ public class PlayerControls : MonoBehaviour
             
         ReloadState();
 
-        isInvincible = false;
+        Invincible(false);
         hp = maxHp;
         anim.SetTrigger("reset");
 
@@ -1305,7 +1311,7 @@ public class PlayerControls : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("0Title");
-        isInvincible = false;
+        Invincible(false);
         
         if (musicManager != null)
             musicManager.BackToTitle();

@@ -26,7 +26,7 @@ public class MusicManager : MonoBehaviour
     {
         if (rememberLastMusic)
             previousMusic = currentMusic;
-        int times = 30;
+        int times = 20;
         float fraction = currentMusic.volume / times;
         for (int i=0 ; i<times ; i++)
         {

@@ -38,6 +38,7 @@ public abstract class Ally : MonoBehaviour
     [Space] [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private float feetRadius=0.01f;
     private bool once;
+    private bool returning;
     private bool shrinking;
     
 
@@ -76,8 +77,21 @@ public abstract class Ally : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if (!aquatic && other.CompareTag("Underwater"))    
+        {
+            StartCoroutine( BackToBall() );
+        }
+    }
+
     protected IEnumerator BackToBall()
     {
+        // CALL ONCE
+        if (returning)
+            yield break;
+        returning = true;
+
         yield return new WaitForSeconds(outTime);
         // int times = 30;
         // float x = model.transform.localScale.x / times;

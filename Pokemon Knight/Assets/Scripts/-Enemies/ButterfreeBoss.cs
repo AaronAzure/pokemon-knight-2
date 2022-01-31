@@ -48,15 +48,16 @@ public class ButterfreeBoss : Enemy
                 //Check if we need to follow object then do so 
                 // if (!receivingKnockback)
                 if (Vector3.Distance(target, body.transform.position) > 0.5f)
+                    body.AddForce(dir * moveSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
                     // if (inRage)
                     //     body.MovePosition(body.transform.position + dir * moveSpeed * Time.fixedDeltaTime);
                     // else
-                    body.AddForce(dir * moveSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
                 else {
                     LocatePlayer();
                 }
             }
         }
+    }
 
     public override void CallChildOnRage() 
     {
