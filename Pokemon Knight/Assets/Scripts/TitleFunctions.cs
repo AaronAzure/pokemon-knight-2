@@ -1,73 +1,134 @@
 using System.Collections;
-using System.Collections.Generic;
+// using System.Collections.Generic;
 using Com.LuisPedroFonseca.ProCamera2D;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+
+using Rewired;
+using TMPro;
 
 public class TitleFunctions : MonoBehaviour
 {
+    private Player player;
+
     [SerializeField] private ProCamera2DTransitionsFX transitionCam;
     [SerializeField] private GameObject[] toDestroy;
     private bool starting;
+    private bool canCancel=false;
+
+    [Space] [SerializeField] private Animator anim;
+    [SerializeField] private Button firstSaveGameButton;
+    [SerializeField] private Button firstStartMenuButton;
+    [Space] [SerializeField] private Button[] newGameButtons;
+    [SerializeField] private TextMeshProUGUI[] fileNames;
 
     void Start() 
     {
-        if (!PlayerPrefsElite.VerifyArray("roomsBeaten"))
+        player = ReInput.players.GetPlayer(0);
+
+        for (int i=0 ; i<4 ; i++)
         {
-            PlayerPrefsElite.SetStringArray("roomsBeaten", new string[100]);
+            // DOESN'T ALREADY EXIST
+            if (!PlayerPrefsElite.VerifyBoolean("game-file-" + i.ToString()))
+            {
+                PlayerPrefsElite.SetBoolean("game-file-" + i.ToString(), false);
+                if (newGameButtons != null && newGameButtons.Length > i)
+                    newGameButtons[i].gameObject.SetActive(false);
+            }
+            // ALREADY EXIST
+            else if (!PlayerPrefsElite.GetBoolean("game-file-" + i.ToString()))
+            {
+                if (newGameButtons != null && newGameButtons.Length > i)
+                    newGameButtons[i].gameObject.SetActive(false);
+            }
+        }
+
+        // GAME STARTED GETS NEW GAME BUTTON
+        for (int i=0 ; i<fileNames.Length ; i++)
+        {
+            if (PlayerPrefsElite.VerifyBoolean("game-file-" + i.ToString()) 
+                && PlayerPrefsElite.GetBoolean("game-file-" + i.ToString())
+                && PlayerPrefsElite.VerifyInt("playerLevel" + i.ToString()))
+                {
+                    fileNames[i].text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + i.ToString())) + " continue?";
+                    fileNames[i].fontSize = 45;
+                }
         }
     }
 
-    public void StartGame()
+    private void Update() 
     {
+        if ( canCancel && player.GetButtonDown("B") && anim.GetBool("toSavedGames"))    
+            BackToStartMenu();
+    }
+
+    public void CAN_EXIT() {canCancel = true;}
+    public void SELECT_NEW_GAME_BUTTON()
+    {
+        firstSaveGameButton.Select();
+    }
+
+    public void TO_SAVED_GAMES()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        canCancel = false;
+        anim.SetBool("toSavedGames", true);
+        firstSaveGameButton.Select();
+    }
+    public void BackToStartMenu()
+    {
+        anim.SetBool("toSavedGames", false);
+        firstStartMenuButton.Select();
+    }
+    public void START_GAME(int gameNumber)
+    {
+        // PlayerPrefsElite.GetInt("gameNumber");
+        PlayerPrefsElite.SetInt("gameNumber", gameNumber);
+        PlayerPrefsElite.SetBoolean("game-file-" + gameNumber, true);
         StartCoroutine( FadeToGame() );
     }
     public void DisplayOptions()
     {
 
     }
-    public void ResetPrefs()
+    public void NEW_GAME(int gameNumber)
     {
-        if (PlayerPrefsElite.VerifyBoolean("canDoubleJump"))
-            PlayerPrefsElite.SetBoolean("canDoubleJump", false);
+        PlayerPrefsElite.SetBoolean("game-file-" + gameNumber, true);
+
+        if (PlayerPrefsElite.VerifyBoolean("canDoubleJump" + gameNumber.ToString()))
+            PlayerPrefsElite.SetBoolean("canDoubleJump" + gameNumber.ToString(), false);
             
-        if (PlayerPrefsElite.VerifyBoolean("canDash"))
-            PlayerPrefsElite.SetBoolean("canDash", false);
+        if (PlayerPrefsElite.VerifyBoolean("canDash" + gameNumber.ToString()))
+            PlayerPrefsElite.SetBoolean("canDash" + gameNumber.ToString(), false);
             
-        if (PlayerPrefsElite.VerifyInt("playerLevel"))
-            PlayerPrefsElite.SetInt("playerLevel", 1);
+        if (PlayerPrefsElite.VerifyInt("playerLevel" + gameNumber.ToString()))
+            PlayerPrefsElite.SetInt("playerLevel" + gameNumber.ToString(), 1);
             
-        if (PlayerPrefsElite.VerifyInt("playerExp"))
-            PlayerPrefsElite.SetInt("playerExp", 0);
+        if (PlayerPrefsElite.VerifyInt("playerExp" + gameNumber.ToString()))
+            PlayerPrefsElite.SetInt("playerExp" + gameNumber.ToString(), 0);
+
+        if (PlayerPrefsElite.VerifyString("checkpointScene" + gameNumber.ToString()))
+            PlayerPrefsElite.DeleteKey("checkpointScene" + gameNumber.ToString());
         
-        if (PlayerPrefsElite.VerifyBoolean("item1"))
-            PlayerPrefsElite.SetBoolean("item1", false);
+        if (PlayerPrefsElite.VerifyVector3("checkpointPos" + gameNumber.ToString()))
+            PlayerPrefsElite.DeleteKey("checkpointPos" + gameNumber.ToString());
 
-        if (PlayerPrefsElite.VerifyString("checkpointScene"))
-            PlayerPrefsElite.DeleteKey("checkpointScene");
-        
-        if (PlayerPrefsElite.VerifyVector3("checkpointPos"))
-            PlayerPrefsElite.DeleteKey("checkpointPos");
-
-
-        if (PlayerPrefsElite.VerifyArray("buttonAllocatedPokemons"))
-            PlayerPrefsElite.DeleteKey("buttonAllocatedPokemons");
+        if (PlayerPrefsElite.VerifyArray("buttonAllocatedPokemons" + gameNumber.ToString()))
+            PlayerPrefsElite.DeleteKey("buttonAllocatedPokemons" + gameNumber.ToString());
 
         // Non-player related (Wave)
-        if (PlayerPrefsElite.VerifyArray("roomsBeaten"))
-        {
-            // Clear
-            PlayerPrefsElite.SetStringArray("roomsBeaten", new string[100]);    
-        }
-        if (PlayerPrefsElite.VerifyArray("roomsBeaten"))
-        {
-            // Clear
-            PlayerPrefsElite.SetStringArray("pokemonsCaught", new string[100]);    
-        }
+        if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber.ToString()))
+            PlayerPrefsElite.SetStringArray("roomsBeaten" + gameNumber.ToString(), new string[100]);    
 
-        if (PlayerPrefsElite.VerifyArray("itemsObtained"))
-            PlayerPrefsElite.SetStringArray("itemsObtained", new string[50]);
+        if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber.ToString()))
+            PlayerPrefsElite.SetStringArray("pokemonsCaught" + gameNumber.ToString(), new string[100]);    
 
+        if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber.ToString()))
+            PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber.ToString(), new string[50]);
+
+        PlayerPrefsElite.SetInt("gameNumber", gameNumber);
         StartCoroutine( FadeToGame() );
     }
     public void QuitGame()
@@ -76,9 +137,9 @@ public class TitleFunctions : MonoBehaviour
     }
     IEnumerator FadeToGame()
     {
-        if (toDestroy.Length > 0)
-            foreach (GameObject obj in toDestroy)
-                Destroy(obj);
+        // if (toDestroy.Length > 0)
+        //     foreach (GameObject obj in toDestroy)
+        //         Destroy(obj);
         // Can only press once
         if (starting)
             yield break;

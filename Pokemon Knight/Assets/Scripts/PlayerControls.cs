@@ -122,12 +122,10 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private Collider2D col;
     [SerializeField] private float moveSpeed = 10;
     [SerializeField] private float dashSpeed = 50;
-    [SerializeField] private float dashTime = 0.3f;
+    // [SerializeField] private float dashTime = 0.3f;
     [SerializeField] private float jumpHeight = 10;
     [SerializeField] private float jumpTimer = 0.35f;
     private float jumpTimerCounter = 0;
-    private float walkTimerCounter;
-    [SerializeField] private float walkTimer=1f;
 
     [Space]
     [SerializeField] private Transform feetPos; // To detect ground
