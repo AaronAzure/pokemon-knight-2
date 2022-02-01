@@ -14,7 +14,6 @@ public class Gloom : Enemy
     private bool movingRight;
     [SerializeField] private EnemyProjectile sludgeBomb;
     [SerializeField] private Transform sludgeBombPos;
-    [SerializeField] private int totalExtraDmg=0;
     
 
     [Space] [SerializeField] private Transform target;

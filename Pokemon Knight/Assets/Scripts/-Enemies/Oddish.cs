@@ -18,11 +18,14 @@ public class Oddish : Enemy
     [SerializeField] private Animator anim;
     [SerializeField] private EnemyAttack stunSpore;
     [SerializeField] private int stunSporeDmg=2;
-    [SerializeField] private int totalExtraDmg=0;
     [SerializeField] private Transform stunSporePos;
     public bool canSeePlayer;
     public bool canAtk = true;
     private Coroutine co;
+
+
+    // [Space] [Header("Buffs")]
+    private bool canUseGrowth=true;
 
     [Space] [Header("Miniboss attacks")]
     // [SerializeField] private GameObject glint;
@@ -165,10 +168,13 @@ public class Oddish : Enemy
     {
         yield return new WaitForSeconds(0.2f);
         StopCoroutine(co);
-        AdjustAnim("attacking");
         movingLeft = false;
         movingRight = false;
         canAtk = false;
+        if (canUseBuffs && canUseGrowth)
+            AdjustAnim("growth");
+        else
+            AdjustAnim("attacking");
 
         yield return new WaitForSeconds(1f);
         co = StartCoroutine( DoSomething() );
@@ -180,6 +186,26 @@ public class Oddish : Enemy
             body.velocity = new Vector2(0, body.velocity.y);
     }
 
+    public void GROWTH()
+    {
+        if (hp > 0 && canUseBuffs)
+        {
+            canUseBuffs = false;
+            StartCoroutine( GrowthTimer() );
+        }
+    }
+    IEnumerator GrowthTimer()
+    {
+        IncreaseAtk();
+        yield return new WaitForSeconds(1);
+        canAtk = true;
+
+        yield return new WaitForSeconds(4);
+        RevertAtk();
+
+        yield return new WaitForSeconds(5);
+        canUseBuffs = true;
+    }
     public void POISON_POWDER()
     {
         if (hp > 0)

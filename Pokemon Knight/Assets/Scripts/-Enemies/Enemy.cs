@@ -26,6 +26,12 @@ public abstract class Enemy : MonoBehaviour
     public int extraDmg=2;  // Bonus
     public int extraProjectileDmg=0;  // Bonus
     public int perLv=1;  // Bonus
+    [SerializeField] protected int totalExtraDmg=0;
+    
+    private int origContactDmg;
+    private float origContactKb;
+    private int origTotalExtraDmg;
+
     [Space] public int expPossess=5;
     public int extraExp=2;  // Additional bonus
     public int lvBreak=50;  // Additional bonus
@@ -98,53 +104,17 @@ public abstract class Enemy : MonoBehaviour
     protected bool trigger;
     public bool alwaysAttackPlayer;
 
+    [Space] [Header("Buffs / Debuffs")]
+    [SerializeField] protected bool canUseBuffs;
+    [SerializeField] protected Image[] statusConditions;
+    [SerializeField] protected int nCondition;
+    [Space] [SerializeField] protected Sprite empty;
+    [SerializeField] protected Sprite increaseAtk;
+    [SerializeField] protected Sprite increaseDef;
+    [SerializeField] protected Sprite increaseSpd;
+    private int defenseStage;
 
-//     #region Editor
-// #if UNITY_EDITOR
-// [CustomEditor(typeof(Enemy), true)]
-// [CanEditMultipleObjects]
-// public class EnemyEditor : Editor 
-// {
-//     public override void OnInspectorGUI() 
-//     {
-//         DrawDefaultInspector();
-//         // base.OnInspectorGUI();
-//         serializedObject.Update();
 
-        
-//         Enemy enemy = (Enemy) target;
-
-//         // EditorGUILayout.BeginHorizontal();
-//         EditorGUILayout.Space();
-//         EditorGUILayout.LabelField("Boss Related", EditorStyles.boldLabel);  
-
-//         enemy.isBoss = EditorGUILayout.Toggle("Is Boss", enemy.isBoss);
-//         if (enemy.isBoss)
-//         {
-//             EditorGUI.indentLevel++;
-//             enemy.isMiniBoss = EditorGUILayout.Toggle("Is Mini Boss", enemy.isMiniBoss);
-//             EditorGUI.indentLevel--;
-
-//             enemy.possessedAura = EditorGUILayout.ObjectField("Possessed Aura", 
-//                 enemy.possessedAura, typeof(GameObject), true) as GameObject;
-//             enemy.battleRoarObj = EditorGUILayout.ObjectField("Battle Roar", 
-//                 enemy.battleRoarObj, typeof(GameObject), true) as GameObject;
-//             enemy.rageChargeObj = EditorGUILayout.ObjectField("Rage Charge", 
-//                 enemy.rageChargeObj, typeof(GameObject), true) as GameObject;
-//             enemy.powerupName = EditorGUILayout.TextField("Powerup Name", enemy.powerupName);
-//             enemy.pokeball = EditorGUILayout.ObjectField("Pokeball", 
-//                 enemy.pokeball, typeof(GameObject), true) as GameObject;
-//             enemy.canCatchEffect = EditorGUILayout.ObjectField("Can Catch Effect", 
-//                 enemy.canCatchEffect, typeof(GameObject), true) as GameObject;
-
-//         }
-
-//         // EditorGUILayout.EndHorizontal();
-//         serializedObject.ApplyModifiedProperties();
-//     }
-// }
-// #endif
-// #endregion
 
     public virtual void Start() 
     {
@@ -238,7 +208,10 @@ public abstract class Enemy : MonoBehaviour
         {
             if (hp > 0)
             {
-                hp -= dmg;
+                if (defenseStage == 0)
+                    hp -= dmg;
+                else
+                    hp -= Mathf.FloorToInt( Mathf.Pow(0.7f, defenseStage) * dmg);
                 statusBar.SetActive(true);
             }
 
@@ -333,24 +306,11 @@ public abstract class Enemy : MonoBehaviour
         {
             receivingKnockback = true;
             Vector2 direction = (opponent.position - this.transform.position).normalized;
-            // direction *= new Vector2(1,0);
-            // if (force > 20)
-            // {
-            //     body.AddForce(-direction * (force/2) * kbDefense, ForceMode2D.Impulse);
-            //     yield return new WaitForSeconds(0.2f);
-            // }
-            // else
-            // {
-            //     body.AddForce(-direction * force * kbDefense, ForceMode2D.Impulse);
-            //     yield return new WaitForSeconds(0.1f);
-            // }
             body.velocity = -direction * force * kbDefense;
             yield return new WaitForSeconds(0.1f);
             
-            // if (!isBoss)
-            // else
-            //     yield return new WaitForSeconds(0.02f);
-            body.velocity = Vector2.zero;
+            if (hp > 0)
+                body.velocity = Vector2.zero;
             receivingKnockback = false;
         }
     }
@@ -371,26 +331,6 @@ public abstract class Enemy : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        // if (other.gameObject.CompareTag("Player") && hp > 0 && !inCutscene)
-        // {
-        //     PlayerControls player = other.gameObject.GetComponent<PlayerControls>();
-        //     player.TakeDamage(contactDmg + (extraDmg * Mathf.Max(1, lv - defaultLv)), this.transform, contactKb);
-        //     body.velocity = Vector2.zero;
-        // }    
-        // else if (other.gameObject.CompareTag("Player") && canCatch)
-        // {
-        //     canCatch = false;
-        //     StartCoroutine( BackToBall() );
-        //     Pokeball obj = Instantiate( pokeball, this.transform.position, Quaternion.identity).GetComponent<Pokeball>();
-        //     obj.powerup = this.powerupName;
-        //     if (spawner != null)
-        //         obj.spawner = this.spawner;
-        //     if (bossRoom != null)
-        //         obj.bossRoom = this.bossRoom;
-        // }    
-    }
 
     public void PlayerCollision()
     {
@@ -495,4 +435,52 @@ public abstract class Enemy : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    protected void IncreaseAtk()
+    {
+        origContactDmg = contactDmg;
+        origContactKb = contactKb;
+        origTotalExtraDmg = totalExtraDmg;
+        if (statusBar != null && !statusBar.activeSelf)
+            statusBar.SetActive(true);
+
+        contactDmg = Mathf.CeilToInt(1.3f * contactDmg);
+        contactKb = Mathf.CeilToInt(1.3f * contactKb);
+        totalExtraDmg = Mathf.CeilToInt(1.3f * totalExtraDmg);
+        if (nCondition < statusConditions.Length)
+            statusConditions[nCondition].sprite = increaseAtk;
+        nCondition++;
+        
+        // Debug.Log(origContactDmg + " -> " + contactDmg);
+        // Debug.Log(origTotalExtraDmg + " -> " + totalExtraDmg);
+    }
+    protected void IncreaseDef(int stages=1)
+    {
+        if (statusBar != null && !statusBar.activeSelf)
+            statusBar.SetActive(true);
+
+        defenseStage += stages;
+        if (nCondition < statusConditions.Length)
+            statusConditions[nCondition].sprite = increaseDef;
+        nCondition++;
+    }
+
+    protected void RevertAtk()
+    {
+        contactDmg = origContactDmg;
+        contactKb = origContactKb;
+        totalExtraDmg = origTotalExtraDmg;
+        nCondition--;
+        ConditionFinished();
+    }
+    protected void RevertDef(int stages=1)
+    {
+        defenseStage -= stages;
+        nCondition--;
+        ConditionFinished();
+    }
+    protected void ConditionFinished()
+    {
+        for (int i=0 ; i<statusConditions.Length - 1 ; i++)
+            statusConditions[i].sprite = statusConditions[i+1].sprite;
+    }
 }

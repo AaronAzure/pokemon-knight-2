@@ -33,9 +33,23 @@ public class Metapod : Enemy
             {
                 once = true;
                 body.gravityScale = 3;
+                if (canUseBuffs)
+                    StartCoroutine( Harden() );
             }
         }
+    }
 
+    IEnumerator Harden()
+    {
+        if (mainAnim != null)
+            mainAnim.SetTrigger("harden");
+        // IncreaseDef();
+        
+        yield return new WaitForSeconds(5);
+        RevertDef(2);
+
+        yield return new WaitForSeconds(5);
+        StartCoroutine( Harden() );
     }
 
     private void OnDrawGizmosSelected() 
