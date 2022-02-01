@@ -12,6 +12,7 @@ public class PlayerControls : MonoBehaviour
     private Player player;
     public int playerID = 0;
     [SerializeField] private GameObject rewiredInputSystem;
+    private int gameNumber;
     
 
     [Space] [Header("Ui")]
@@ -246,38 +247,38 @@ public class PlayerControls : MonoBehaviour
             StartingMusic();
         }
 
+        gameNumber = PlayerPrefsElite.GetInt("gameNumber");
+
         // Last save
-        if (PlayerPrefsElite.VerifyBoolean("canDoubleJump"))
-            canDoubleJump = PlayerPrefsElite.GetBoolean("canDoubleJump");
-        if (PlayerPrefsElite.VerifyBoolean("canDash"))
-            canDash = PlayerPrefsElite.GetBoolean("canDash");
-        if (PlayerPrefsElite.VerifyInt("playerLevel"))
+        if (PlayerPrefsElite.VerifyBoolean("canDoubleJump" + gameNumber))
+            canDoubleJump = PlayerPrefsElite.GetBoolean("canDoubleJump" + gameNumber);
+        if (PlayerPrefsElite.VerifyBoolean("canDash" + gameNumber))
+            canDash = PlayerPrefsElite.GetBoolean("canDash" + gameNumber);
+        if (PlayerPrefsElite.VerifyInt("playerLevel" + gameNumber))
         {
-            lv = PlayerPrefsElite.GetInt("playerLevel");
+            lv = PlayerPrefsElite.GetInt("playerLevel" + gameNumber);
             maxHp += (5 * (lv - 1));
             if (lvText != null)
                  lvText.text = "Lv. " + lv;
         }
         for (int i=1 ; i<lv ; i++)
             expNeeded = (int) (expNeeded * 1.2f);
-        if (PlayerPrefsElite.VerifyInt("playerExp"))
-            exp = PlayerPrefsElite.GetInt("playerExp");
-        if (PlayerPrefsElite.VerifyBoolean("item1") && PlayerPrefsElite.GetBoolean("item1"))
-            IncreaseMaxPokemonOut();
+        if (PlayerPrefsElite.VerifyInt("playerExp" + gameNumber))
+            exp = PlayerPrefsElite.GetInt("playerExp" + gameNumber);
 
         hp = maxHp;
 
-        if (PlayerPrefsElite.VerifyString("checkpointScene"))
-            SceneManager.LoadScene(PlayerPrefsElite.GetString("checkpointScene"));
+        if (PlayerPrefsElite.VerifyString("checkpointScene" + gameNumber))
+            SceneManager.LoadScene(PlayerPrefsElite.GetString("checkpointScene" + gameNumber));
         else 
-            PlayerPrefsElite.SetString("checkpointScene", SceneManager.GetActiveScene().name);
-        if (PlayerPrefsElite.VerifyVector3("checkpointPos"))
-            this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos");
+            PlayerPrefsElite.SetString("checkpointScene" + gameNumber, SceneManager.GetActiveScene().name);
+        if (PlayerPrefsElite.VerifyVector3("checkpointPos" + gameNumber))
+            this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos" + gameNumber);
         else 
-            PlayerPrefsElite.SetVector3("checkpointPos", this.transform.position + new Vector3(0,0.25f));
+            PlayerPrefsElite.SetVector3("checkpointPos" + gameNumber, this.transform.position + new Vector3(0,0.25f));
 
-        if (PlayerPrefsElite.VerifyArray("roomsBeaten"))
-            roomsBeaten = PlayerPrefsElite.GetStringArray("roomsBeaten");
+        if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber))
+            roomsBeaten = PlayerPrefsElite.GetStringArray("roomsBeaten" + gameNumber);
         else 
             roomsBeaten = new string[100];
 
@@ -295,11 +296,11 @@ public class PlayerControls : MonoBehaviour
             equimentSettings.gameObject.SetActive(false);
         
         // Last Pokemon team
-        if (PlayerPrefsElite.VerifyArray("buttonAllocatedPokemons"))
+        if (PlayerPrefsElite.VerifyArray("buttonAllocatedPokemons" + gameNumber))
         {
             allies = new Ally[6];
 
-            string[] buttonAllocatedPokemons = PlayerPrefsElite.GetStringArray("buttonAllocatedPokemons");
+            string[] buttonAllocatedPokemons = PlayerPrefsElite.GetStringArray("buttonAllocatedPokemons" + gameNumber);
             // foreach (string bap in buttonAllocatedPokemons)
             //     Debug.Log(bap);
 
@@ -1304,6 +1305,7 @@ public class PlayerControls : MonoBehaviour
     {
         if (transitionAnim != null)
             transitionAnim.SetTrigger("toBlack");
+            
 
         if (playerUi != null)
             playerUi.SetActive(false);
@@ -1484,7 +1486,7 @@ public class PlayerControls : MonoBehaviour
         {
             case "butterfree": 
                 canDoubleJump = true;
-                PlayerPrefsElite.SetBoolean("canDoubleJump", canDoubleJump);
+                PlayerPrefsElite.SetBoolean("canDoubleJump" + gameNumber, canDoubleJump);
                 inCutscene = true;
                 doubleJumpScreen.gameObject.SetActive(true);
                 break;
@@ -1504,12 +1506,12 @@ public class PlayerControls : MonoBehaviour
 
     public void GainItem(string itemTypeName)
     {
-        if (PlayerPrefsElite.VerifyArray("itemsObtained"))
-            itemsObtained = PlayerPrefsElite.GetStringArray("itemsObtained");
+        if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber))
+            itemsObtained = PlayerPrefsElite.GetStringArray("itemsObtained" + gameNumber);
         else
         {
-            PlayerPrefsElite.SetStringArray("itemsObtained", new string[50]);
-            itemsObtained = PlayerPrefsElite.GetStringArray("itemsObtained");
+            PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber, new string[50]);
+            itemsObtained = PlayerPrefsElite.GetStringArray("itemsObtained" + gameNumber);
         }
 
         for (int i=0 ; i<itemsObtained.Length ; i++)
@@ -1521,7 +1523,7 @@ public class PlayerControls : MonoBehaviour
                 break;
             }
         }
-        PlayerPrefsElite.SetStringArray("itemsObtained", itemsObtained);
+        PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber, itemsObtained);
         CheckObtainedItems();
     }
     
@@ -1624,40 +1626,38 @@ public class PlayerControls : MonoBehaviour
         }
 
 
-        if (PlayerPrefsElite.VerifyBoolean("canDoubleJump"))
-            canDoubleJump = PlayerPrefsElite.GetBoolean("canDoubleJump");
-        if (PlayerPrefsElite.VerifyBoolean("canDash"))
-            canDash = PlayerPrefsElite.GetBoolean("canDash");
-        if (PlayerPrefsElite.VerifyInt("playerLevel"))
+        if (PlayerPrefsElite.VerifyBoolean("canDoubleJump" + gameNumber))
+            canDoubleJump = PlayerPrefsElite.GetBoolean("canDoubleJump" + gameNumber);
+        if (PlayerPrefsElite.VerifyBoolean("canDash" + gameNumber))
+            canDash = PlayerPrefsElite.GetBoolean("canDash" + gameNumber);
+        if (PlayerPrefsElite.VerifyInt("playerLevel" + gameNumber))
         {
-            lv = PlayerPrefsElite.GetInt("playerLevel");
+            lv = PlayerPrefsElite.GetInt("playerLevel" + gameNumber);
             maxHp += (5 * (lv - 1));
             if (lvText != null)
                  lvText.text = "Lv. " + lv;
         }
         for (int i=1 ; i<lv ; i++)
             expNeeded = (int) (expNeeded * 1.2f);
-        if (PlayerPrefsElite.VerifyInt("playerExp"))
-            exp = PlayerPrefsElite.GetInt("playerExp");
-        if (PlayerPrefsElite.VerifyBoolean("item1") && PlayerPrefsElite.GetBoolean("item1"))
-            IncreaseMaxPokemonOut();
+        if (PlayerPrefsElite.VerifyInt("playerExp" + gameNumber))
+            exp = PlayerPrefsElite.GetInt("playerExp" + gameNumber);
 
         hp = maxHp;
-        if (PlayerPrefsElite.VerifyString("checkpointScene") && PlayerPrefsElite.VerifyVector3("checkpointPos"))
+        if (PlayerPrefsElite.VerifyString("checkpointScene" + gameNumber) && PlayerPrefsElite.VerifyVector3("checkpointPos" + gameNumber))
         {
-            SceneManager.LoadScene(PlayerPrefsElite.GetString("checkpointScene"));
-            this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos");
+            SceneManager.LoadScene(PlayerPrefsElite.GetString("checkpointScene" + gameNumber));
+            this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos" + gameNumber);
         }
     }
     public void SaveState()
     {
-        PlayerPrefsElite.SetString("checkpointScene", SceneManager.GetActiveScene().name);
-        PlayerPrefsElite.SetVector3("checkpointPos", this.transform.position + new Vector3(0,0.25f));
-        PlayerPrefsElite.SetInt("playerExp", exp);
-        PlayerPrefsElite.SetInt("playerLevel", lv);
-        PlayerPrefsElite.SetBoolean("canDoubleJump", canDoubleJump);
-        PlayerPrefsElite.SetBoolean("canDash", canDash);
-        PlayerPrefsElite.SetStringArray("roomsBeaten", roomsBeaten);
+        PlayerPrefsElite.SetString("checkpointScene" + gameNumber, SceneManager.GetActiveScene().name);
+        PlayerPrefsElite.SetVector3("checkpointPos" + gameNumber, this.transform.position + new Vector3(0,0.25f));
+        PlayerPrefsElite.SetInt("playerExp" + gameNumber, exp);
+        PlayerPrefsElite.SetInt("playerLevel" + gameNumber, lv);
+        PlayerPrefsElite.SetBoolean("canDoubleJump" + gameNumber, canDoubleJump);
+        PlayerPrefsElite.SetBoolean("canDash" + gameNumber, canDash);
+        PlayerPrefsElite.SetStringArray("roomsBeaten" + gameNumber, roomsBeaten);
     }
 
     private void SavePokemonTeam()
@@ -1669,14 +1669,14 @@ public class PlayerControls : MonoBehaviour
         if (allies[3] != null) buttonAllocatedPokemons[3] = allies[3].name;
         if (allies[4] != null) buttonAllocatedPokemons[4] = allies[4].name;
         if (allies[5] != null) buttonAllocatedPokemons[5] = allies[5].name;
-        PlayerPrefsElite.SetStringArray("buttonAllocatedPokemons", buttonAllocatedPokemons);
+        PlayerPrefsElite.SetStringArray("buttonAllocatedPokemons" + gameNumber, buttonAllocatedPokemons);
     }
 
     public void CaughtAPokemon(string pokemonName)
     {
-        if (PlayerPrefsElite.VerifyArray("pokemonsCaught"))
+        if (PlayerPrefsElite.VerifyArray("pokemonsCaught" + gameNumber))
         {
-            pokemonsCaught = PlayerPrefsElite.GetStringArray("pokemonsCaught");
+            pokemonsCaught = PlayerPrefsElite.GetStringArray("pokemonsCaught" + gameNumber);
             for (int i=0 ; i<pokemonsCaught.Length ; i++)
             {
                 if (pokemonsCaught[i] == "")
@@ -1685,7 +1685,7 @@ public class PlayerControls : MonoBehaviour
                     break;
                 }
             }
-            PlayerPrefsElite.SetStringArray("pokemonsCaught", pokemonsCaught);
+            PlayerPrefsElite.SetStringArray("pokemonsCaught" + gameNumber, pokemonsCaught);
             var set = new HashSet<string>(pokemonsCaught);
 
             Debug.Log("pokemons caught set = " + set.Count);
@@ -1708,9 +1708,9 @@ public class PlayerControls : MonoBehaviour
     }
     public void CheckEquippablePokemon()
     {
-        if (PlayerPrefsElite.VerifyArray("pokemonsCaught"))
+        if (PlayerPrefsElite.VerifyArray("pokemonsCaught" + gameNumber))
         {
-            pokemonsCaught = PlayerPrefsElite.GetStringArray("pokemonsCaught");
+            pokemonsCaught = PlayerPrefsElite.GetStringArray("pokemonsCaught" + gameNumber);
             var set = new HashSet<string>(pokemonsCaught);
             
             Debug.Log("pokemons caught set = " + set.Count);
@@ -1726,18 +1726,14 @@ public class PlayerControls : MonoBehaviour
                 }
             }
         }
-        // else
-        // {
-        //     PlayerPrefsElite.SetStringArray("pokemonsCaught", new string[100]);
-        // }
     }
     
     //* Set all obtained items gameObject (buttons) active - Start(), GainItem()
     public void CheckObtainedItems()
     {
-        if (PlayerPrefsElite.VerifyArray("itemsObtained"))
+        if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber))
         {
-            itemsObtained = PlayerPrefsElite.GetStringArray("itemsObtained");
+            itemsObtained = PlayerPrefsElite.GetStringArray("itemsObtained" + gameNumber);
             var set = new HashSet<string>(itemsObtained);
             foreach (ItemUi heldItem in itemsToActivate)
             {
@@ -1751,7 +1747,7 @@ public class PlayerControls : MonoBehaviour
         }
         else
         {
-            PlayerPrefsElite.SetStringArray("itemsObtained", new string[50]);
+            PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber, new string[50]);
         }
     }
 
@@ -1765,7 +1761,7 @@ public class PlayerControls : MonoBehaviour
                 break;
             }
         }
-        PlayerPrefsElite.SetStringArray("roomsBeaten", roomsBeaten);
+        PlayerPrefsElite.SetStringArray("roomsBeaten" + gameNumber, roomsBeaten);
     }
 
     // todo ------------------------------------------------------------------------------------

@@ -27,9 +27,9 @@ public class WaveRoom : MonoBehaviour
         roomName = SceneManager.GetActiveScene().name + " " + this.name;
         roomsBeaten = new string[100];
 
-        if (PlayerPrefsElite.VerifyArray("roomsBeaten"))
+        if (PlayerPrefsElite.VerifyArray("roomsBeaten" + PlayerPrefsElite.GetInt("gameNumber")))
         {
-            roomsBeaten = PlayerPrefsElite.GetStringArray("roomsBeaten");
+            roomsBeaten = PlayerPrefsElite.GetStringArray("roomsBeaten" + PlayerPrefsElite.GetInt("gameNumber"));
             var set = new HashSet<string>(roomsBeaten);
             Debug.Log(roomsBeaten.Length + " " + set.Count);
             if (set.Contains(roomName))
@@ -107,19 +107,5 @@ public class WaveRoom : MonoBehaviour
         Walls(false);
 
         player.AddRoomBeaten(roomName);
-        // string[] roomsBeaten = PlayerPrefsElite.GetStringArray("roomsBeaten");
-        // for (int i=0 ; i < roomsBeaten.Length ; i++)
-        // {
-        //     if (roomsBeaten[i] == "")
-        //     {
-        //         roomsBeaten[i] = roomName;
-        //         // Debug.LogError("Added room " + roomName + " at " + i);
-        //         break;
-        //     }
-        // }
-        // PlayerPrefsElite.SetStringArray("roomsBeaten", roomsBeaten);
-        // for (int i=0 ; i<roomsBeaten.Length ; i++)
-        //     Debug.Log("~" + roomsBeaten[i] + "~");
-
     }
 }

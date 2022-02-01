@@ -62,6 +62,7 @@
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DCinematics.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/TileObjMesh.cs" />
      <Compile Include="Assets/Scripts/Door.cs" />
+     <Compile Include="Assets/Scripts/-Enemies/Gloom.cs" />
      <Compile Include="Assets/Rewired/Examples/ControlRemapping1/Scripts/ControlRemappingDemo1.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Utils/Vector2Int.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/MoveInColliderBoundaries.cs" />
@@ -70,6 +71,7 @@
      <Compile Include="Assets/Scripts/-Enemies/Enemy.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/TileObjectBehaviour.cs" />
      <Compile Include="Assets/Scripts/-Allies/AllyCharmander.cs" />
+     <Compile Include="Assets/Scripts/-Enemies/Nidoran.cs" />
      <Compile Include="Assets/Scripts/-Scene Related/BossRoom.cs" />
      <Compile Include="Assets/Scripts/-Enemies/Oddish.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/BoundariesAnimator.cs" />
@@ -87,6 +89,7 @@
      <Compile Include="Assets/Scripts/-Enemies/EnemyAttack.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/Brush/AnimBrush.cs" />
      <Compile Include="Assets/Epic Toon FX/Scripts/ETFXRotation.cs" />
+     <Compile Include="Assets/Scripts/-Enemies/EnemyTriggerCollision.cs" />
      <Compile Include="Assets/Rewired/Examples/PressStartToJoin/Scripts/PressStartToJoinExample_Assigner.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DNumericBoundaries.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Data/ParameterContainer.cs" />
@@ -250,6 +253,7 @@
      <Compile Include="Assets/Scripts/-Enemies/PidgeySupport.cs" />
      <Compile Include="Assets/Rewired/Examples/PlayerMouseUnityUI/Scripts/UIPointer.cs" />
      <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DApplyInfluence.cs" />
+     <Compile Include="Assets/Scripts/-Enemies/EnemyFieldOfVision.cs" />
      <Compile Include="Assets/Rewired/Internal/Scripts/InputManager.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ControlMapper_WindowManager.cs" />
      <Compile Include="Assets/Rewired/Examples/CustomControllersTouch/Scripts/TouchButtonExample.cs" />
@@ -279,13 +283,10 @@
      <Compile Include="Assets/Rewired/Examples/Shared/Scripts/Bullet.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UISliderControl.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ScrollbarVisibilityHelper.cs" />
+     <Compile Include="Assets/Scripts/-Allies/AllyOddish.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIGroup.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/IPostMover.cs" />
-     <Compile Include="Assets/Scripts/-Enemies/Gloom.cs" />
-     <Compile Include="Assets/Scripts/-Enemies/EnemyFieldOfVision.cs" />
-     <Compile Include="Assets/Scripts/-Allies/AllyOddish.cs" />
-     <Compile Include="Assets/Scripts/-Enemies/EnemyTriggerCollision.cs" />
-     <Compile Include="Assets/Scripts/-Enemies/Nidoran.cs" />
+     <Compile Include="Assets/Scripts/-UI/ReturnToTitleScreen.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Epic Toon FX/Prefabs/Environment/Environment FX.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />

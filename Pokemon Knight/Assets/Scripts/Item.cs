@@ -13,9 +13,9 @@ public class Item : MonoBehaviour
    
     private void Start() 
     {
-        if (PlayerPrefsElite.VerifyArray("itemsObtained"))
+        if (PlayerPrefsElite.VerifyArray("itemsObtained" + PlayerPrefsElite.GetInt("gameNumber")))
         {
-            string[] itemsObtained = PlayerPrefsElite.GetStringArray("itemsObtained");
+            string[] itemsObtained = PlayerPrefsElite.GetStringArray("itemsObtained" + PlayerPrefsElite.GetInt("gameNumber"));
             var set = new HashSet<string>(itemsObtained);
             if (set.Contains(itemName))
                 Destroy(this.gameObject);
@@ -41,9 +41,6 @@ public class Item : MonoBehaviour
                 player = other.GetComponent<PlayerControls>();
 
             player.currentItem = this;
-            // if (player != null) 
-            //     player.IncreaseMaxPokemonOut();
-            // PlayerPrefsElite.SetBoolean("item1", true);
         }
     }
     private void OnTriggerExit2D(Collider2D other) 
@@ -54,8 +51,6 @@ public class Item : MonoBehaviour
                 player = other.GetComponent<PlayerControls>();
 
             player.currentItem = null;
-            // PlayerPrefsElite.SetBoolean("item1", true);
-            // Destroy(this.gameObject);
         }
     }
 }

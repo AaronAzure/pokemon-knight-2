@@ -23,7 +23,8 @@ public class ButterfreeBoss : Enemy
 
     public override void Setup()
     {
-        if (PlayerPrefsElite.VerifyBoolean("canDoubleJump") && PlayerPrefsElite.GetBoolean("canDoubleJump"))
+        int gameNumber = PlayerPrefsElite.GetInt("gameNumber");
+        if (PlayerPrefsElite.VerifyBoolean("canDoubleJump" + gameNumber) && PlayerPrefsElite.GetBoolean("canDoubleJump" + gameNumber))
             Destroy(this.gameObject);
         if (statusBar != null)
             statusBar.SetActive(false);
