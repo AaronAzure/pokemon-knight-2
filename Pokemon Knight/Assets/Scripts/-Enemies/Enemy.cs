@@ -24,6 +24,8 @@ public abstract class Enemy : MonoBehaviour
     [Header("Level Bonus")]
     public int extraHp=2;   // Bonus
     public int extraDmg=2;  // Bonus
+    public int extraProjectileDmg=0;  // Bonus
+    public int perLv=1;  // Bonus
     [Space] public int expPossess=5;
     public int extraExp=2;  // Additional bonus
     public int lvBreak=50;  // Additional bonus
@@ -152,7 +154,7 @@ public abstract class Enemy : MonoBehaviour
             playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
 
         if (!isBoss)
-            this.gameObject.transform.localScale *= Random.Range(0.95f, 1.05f);
+            model.transform.localScale *= Random.Range(0.9f, 1.1f);
         if (isMiniBoss)
             maxHp *= 3;
 
@@ -174,6 +176,8 @@ public abstract class Enemy : MonoBehaviour
     public virtual void CallChildOnIntro() {}
     public virtual void CallChildOnDeath() {}
     public virtual void CallChildOnRage() {}
+    public virtual void CallChildOnTargetLost() {}  // VIA EnemyFieldOfVision
+    public virtual void CallChildOnTargetFound() {}  // VIA EnemyFieldOfVision
 
     protected void LateUpdate() 
     {

@@ -12,13 +12,13 @@ public class Oddish : Enemy
     public Transform face;
     private bool movingLeft;
     private bool movingRight;
-    // [Space] private EnemyAttack stunSporeDmg;
 
 
     [Header("Attacks")]
     [SerializeField] private Animator anim;
     [SerializeField] private EnemyAttack stunSpore;
     [SerializeField] private int stunSporeDmg=2;
+    [SerializeField] private int totalExtraDmg=0;
     [SerializeField] private Transform stunSporePos;
     public bool canSeePlayer;
     public bool canAtk = true;
@@ -48,8 +48,9 @@ public class Oddish : Enemy
         else
         {
             co = StartCoroutine( DoSomething() );
-
         }
+
+        totalExtraDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
     }
 
     public override void CallChildOnIntro()
@@ -84,7 +85,11 @@ public class Oddish : Enemy
                 StartCoroutine(Attack());
             }
             RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsGround);
-            RaycastHit2D frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
+            RaycastHit2D frontInfo;
+            if (model.transform.eulerAngles.y > 0) // right
+                frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
+            else // left
+                frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
 
             if (movingRight)
                 frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
@@ -132,6 +137,7 @@ public class Oddish : Enemy
         AdjustAnim("idling");
         movingRight = false;
         movingLeft = false;
+        body.velocity = new Vector2(0, body.velocity.y);
 
         canAtk = true;
         co = StartCoroutine(DoSomething());
@@ -180,7 +186,7 @@ public class Oddish : Enemy
         {
             body.velocity = new Vector2(0, body.velocity.y);
             var obj = Instantiate(stunSpore, stunSporePos.position, stunSporePos.transform.rotation);
-            obj.atkDmg = stunSporeDmg;
+            obj.atkDmg = stunSporeDmg + totalExtraDmg;
             Destroy(obj, 4.5f);
         }
     }

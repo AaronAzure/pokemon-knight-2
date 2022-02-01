@@ -37,7 +37,7 @@ public class Bellsprout : Enemy
         // Wandering around
         if (!chasing)
         {
-            if (!receivingKnockback)
+            if (!receivingKnockback && hp > 0)
             {
                 if (movingLeft)
                     body.velocity = new Vector2(-moveSpeed, body.velocity.y);
@@ -45,7 +45,11 @@ public class Bellsprout : Enemy
                     body.velocity = new Vector2(moveSpeed, body.velocity.y);
             }
             RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsGround);
-            RaycastHit2D frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
+            RaycastHit2D frontInfo;
+            if (model.transform.eulerAngles.y > 0) // right
+                frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
+            else // left
+                frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
 
             if (movingRight)
                 frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
@@ -55,13 +59,12 @@ public class Bellsprout : Enemy
                 Flip();
         }
         // Chasing PLayer
-        else if (!receivingKnockback)
+        else if (!receivingKnockback && hp > 0)
         {
             //* If at edge, then turn around
             if (target.position.x > this.transform.position.x)  // player is to the right
             {
-                // body.velocity = new Vector2(chaseSpeed, body.velocity.y);
-                body.AddForce(Vector2.right * 5 * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
+                body.AddForce(Vector2.right * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
                 float cappedSpeed = Mathf.Min(body.velocity.x, maxSpeed);
 
                 body.velocity = new Vector2(cappedSpeed, body.velocity.y);
@@ -69,8 +72,7 @@ public class Bellsprout : Enemy
             }
             else
             {
-                // body.velocity = new Vector2(-chaseSpeed, body.velocity.y);
-                body.AddForce(Vector2.left * 5 * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
+                body.AddForce(Vector2.left * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
                 float cappedSpeed = Mathf.Max(body.velocity.x, -maxSpeed);
 
                 body.velocity = new Vector2(cappedSpeed, body.velocity.y);
@@ -173,6 +175,7 @@ public class Bellsprout : Enemy
             AdjustAnim("idling");
             movingRight = false;
             movingLeft = false;
+            body.velocity = new Vector2(0, body.velocity.y);
         }
 
         co = StartCoroutine(DoSomething());

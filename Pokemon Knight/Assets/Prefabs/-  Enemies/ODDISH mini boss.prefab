@@ -10229,6 +10229,8 @@ MonoBehaviour:
   mainAnim: {fileID: 0}
   extraHp: 10
   extraDmg: 5
+  extraProjectileDmg: 0
+  perLv: 1
   expPossess: 10
   extraExp: 5
   lvBreak: 50
@@ -10296,6 +10298,7 @@ MonoBehaviour:
   anim: {fileID: 8587678589928221810}
   stunSpore: {fileID: 6543823460546405717, guid: 7ed5b4a6b0d3346f59dd15bd8410872c, type: 3}
   stunSporeDmg: 2
+  totalExtraDmg: 0
   stunSporePos: {fileID: 0}
   canSeePlayer: 0
   canAtk: 1
@@ -10319,7 +10322,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 3
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 4635c528ab87143a28474f897496146b, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1

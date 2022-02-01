@@ -22,9 +22,9 @@ public class AllyOddish : Ally
         {
             var obj = Instantiate(sludgeBomb, atkPos.position, sludgeBomb.transform.rotation);
             if (this.transform.eulerAngles.y > 0) //left
-                obj.body.velocity = new Vector2(-15,10);
+                obj.body.velocity = new Vector2(-13,12);
             else //right
-                obj.body.velocity = new Vector2(15,10);
+                obj.body.velocity = new Vector2(13,12);
         }
     }
 }

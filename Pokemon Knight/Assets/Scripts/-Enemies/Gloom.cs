@@ -14,6 +14,8 @@ public class Gloom : Enemy
     private bool movingRight;
     [SerializeField] private EnemyProjectile sludgeBomb;
     [SerializeField] private Transform sludgeBombPos;
+    [SerializeField] private int totalExtraDmg=0;
+    
 
     [Space] [SerializeField] private Transform target;
 
@@ -29,6 +31,8 @@ public class Gloom : Enemy
             target = GameObject.Find("PLAYER").transform;
 
         finalMask = (whatIsPlayer | whatIsGround);
+
+        totalExtraDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
     }
 
     private void FixedUpdate() 
@@ -39,6 +43,7 @@ public class Gloom : Enemy
             frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
         else    // left
             frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
+            
         if ((!groundInfo || frontInfo) && canFlip && body.velocity.y >= 0)
         {
             canFlip = false;
@@ -88,6 +93,7 @@ public class Gloom : Enemy
             {
                 var obj = Instantiate(sludgeBomb, sludgeBombPos.position, sludgeBomb.transform.rotation);
                 obj.body.gravityScale = 3;
+                obj.atkDmg += totalExtraDmg;
                 obj.direction = new Vector2(multiplier * trajectory, Random.Range(12,16));
             }
         }

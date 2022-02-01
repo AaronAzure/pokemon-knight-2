@@ -23,7 +23,11 @@ public class Caterpie : Enemy
                 body.velocity = new Vector2(-moveSpeed, body.velocity.y);
         }
         RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsGround);
-        RaycastHit2D frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
+        RaycastHit2D frontInfo;
+        if (model.transform.eulerAngles.y > 0) // right
+            frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
+        else // left
+            frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
         // RaycastHit2D treeInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsTree);
 
         //* If at edge, then turn around
