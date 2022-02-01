@@ -877,7 +877,7 @@ Transform:
   - {fileID: 3381207118673507244}
   - {fileID: 1066391068269329470}
   m_Father: {fileID: 2132627198596253916}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &602105577583437013
 GameObject:
@@ -1601,8 +1601,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 2791706559510514810}
-  m_Father: {fileID: 4747641152471361978}
-  m_RootOrder: 3
+  m_Father: {fileID: 7316966171328216117}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1930,7 +1930,7 @@ RectTransform:
   m_Children:
   - {fileID: 3411282546141511209}
   m_Father: {fileID: 4747641152471361978}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4690,6 +4690,7 @@ Transform:
   - {fileID: 8077548649212217286}
   - {fileID: 2563343389579226296}
   - {fileID: 4747641152471361978}
+  - {fileID: 7316966171328216117}
   - {fileID: 3232321505521453479}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -4833,6 +4834,7 @@ MonoBehaviour:
   oddish:
     summonable: {fileID: 3774924213788328330, guid: 62eb1d27d7bc541b3baa8ff8e0d88fa1, type: 3}
     sprite: {fileID: 21300000, guid: 81c09344af2d84c9faabcbd6b0086715, type: 3}
+  titleScreenObj: {fileID: 6871939833612117213}
   settings: {fileID: 5425500440987824872}
   equimentSettings: {fileID: 7770779914071458236}
   pokemonSets: {fileID: 5748541716276692155}
@@ -4868,10 +4870,12 @@ MonoBehaviour:
   maxHp: 100
   hp: 100
   lv: 1
+  expNeeded: 100
+  exp: 0
   levelUpEffect: {fileID: 3551548688495287604, guid: 97c20f2055b044e5dab1c9526a4abf65, type: 3}
   levelUpObj: {fileID: 8074765572664269522}
   levelUpSound: {fileID: 7473495797322846443}
-  playerUi: {fileID: 2241457487965682772}
+  playerUi: {fileID: 6527588444086334518}
   roomsBeaten: []
   pokemonsCaught: []
   itemsObtained: []
@@ -4880,10 +4884,8 @@ MonoBehaviour:
   col: {fileID: 2241457488112191042}
   moveSpeed: 5
   dashSpeed: 50
-  dashTime: 0.3
   jumpHeight: 8
   jumpTimer: 0.35
-  walkTimer: 0.1
   feetPos: {fileID: 2241457487708238486}
   feetRadius: 0
   feetBox: {x: 0.4, y: 0.5}
@@ -4893,11 +4895,8 @@ MonoBehaviour:
   grounded: 1
   jumping: 0
   ledgeGrabbing: 0
-  leftWallDetect: 0
-  leftWallPos: {fileID: 7839294410436241735}
-  rightWallDetect: 0
-  rightWallPos: {fileID: 835112967950984922}
   wallDetectBox: {x: 0.5, y: 1}
+  isInvincible: 0
   glint: {fileID: 8562783821844657228}
   inWater: 0
   wallCheckOffset: {fileID: 4455756628797438083}
@@ -4909,6 +4908,7 @@ MonoBehaviour:
   nMoomooMilk: 3
   nMoomooMilkLeft: 3
   moomooMilkRecovery: 50
+  nMoomooMilkUpgrade: 0
   moomooUi:
   - {fileID: 6341788581484816230}
   - {fileID: 2303622045083937415}
@@ -9317,6 +9317,53 @@ Transform:
   m_Father: {fileID: 2132627197905515855}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4353243226323387120
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7316966171328216117}
+  - component: {fileID: 6871939833612117213}
+  m_Layer: 6
+  m_Name: TRANSITION
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7316966171328216117
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4353243226323387120}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 571598217990331424}
+  m_Father: {fileID: 2132627198596253916}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6871939833612117213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4353243226323387120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e272318959334429a82b0ca7c3dcb2d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionAnim: {fileID: 7993420327328253624}
+  musicManager: {fileID: 0}
+  toDestroy: {fileID: 0}
 --- !u!1 &4386723421024285625
 GameObject:
   m_ObjectHideFlags: 0
@@ -11865,7 +11912,7 @@ GameObject:
   - component: {fileID: 5820978734465868929}
   - component: {fileID: 1298953877617074216}
   m_Layer: 6
-  m_Name: Powerup Canvas
+  m_Name: Powerup/PAUSE Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11885,7 +11932,7 @@ RectTransform:
   - {fileID: 1795965718018947126}
   - {fileID: 1692564097508354405}
   m_Father: {fileID: 4747641152471361978}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -12954,7 +13001,6 @@ Transform:
   - {fileID: 4238953314536094918}
   - {fileID: 4553005813711089748}
   - {fileID: 2241457487965682773}
-  - {fileID: 571598217990331424}
   - {fileID: 84067630868558826}
   - {fileID: 1430903819114257691}
   m_Father: {fileID: 2132627198596253916}

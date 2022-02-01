@@ -75,6 +75,7 @@ public class PlayerControls : MonoBehaviour
 
     [Space] [Header("Settings UI")]
 
+    [SerializeField] private ReturnToTitleScreen titleScreenObj;
     [Space] [SerializeField] private Animator settings;
     [Space] [SerializeField] private Animator equimentSettings;
     [Space] [SerializeField] private Animator pokemonSets;
@@ -243,6 +244,8 @@ public class PlayerControls : MonoBehaviour
         {
             musicManager = GameObject.Find("Music Manager").GetComponent<MusicManager>();
             StartingMusic();
+            if (titleScreenObj != null)
+                titleScreenObj.musicManager = this.musicManager;
         }
 
         gameNumber = PlayerPrefsElite.GetInt("gameNumber");
@@ -1292,35 +1295,17 @@ public class PlayerControls : MonoBehaviour
     public void ReturnToTitle()
     {
         returningToTitle = true;
-        if (rewiredInputSystem != null)
-            Destroy(rewiredInputSystem);
+        EXIT_PAUSE_MENU();
+        if (titleScreenObj != null)
+        {
+            titleScreenObj.toDestroy = this.gameObject;
+            titleScreenObj.transform.parent = null;
+            titleScreenObj.ReturnToTitle();
+        }
+        playerInstance = null;
         
         Time.timeScale = 1;
-        settings.gameObject.SetActive(false);
-        StartCoroutine(ReturningToTitleScreen());
-    }
-    IEnumerator ReturningToTitleScreen()
-    {
-        if (transitionAnim != null)
-            transitionAnim.SetTrigger("toBlack");
-            
-
-        if (playerUi != null)
-            playerUi.SetActive(false);
-        playerInstance = null;
-
-        yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene("0Title");
-        Invincible(false);
-        
-        if (musicManager != null)
-            musicManager.BackToTitle();
-
-        yield return new WaitForSeconds(0.5f);
-        if (transitionAnim != null)
-            transitionAnim.SetTrigger("fromBlack");
-        yield return new WaitForSeconds(0.5f);
-        Destroy(this.gameObject);
+        this.enabled = false;
     }
 
     // todo ------------------------------------------------------------------------------------
