@@ -219,6 +219,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float dmgMultiplier = 1;
     [SerializeField] private float expMultiplier = 1;
     [SerializeField] private bool noCoolDown;
+    public bool extraRange;
 
     private static PlayerControls playerInstance;   // There can only be one
 
@@ -361,10 +362,13 @@ public class PlayerControls : MonoBehaviour
             allies = new Ally[6];
             //* Default pokemon team
             allies[0] = bulbasaur.summonable;
+            pokemonInTeamBenchSettings[0].ally = bulbasaur.summonable;
             partyPokemonsUI[0].sprite = bulbasaur.sprite;
             allies[1] = charmander.summonable;
+            pokemonInTeamBenchSettings[1].ally = charmander.summonable;
             partyPokemonsUI[1].sprite = charmander.sprite;
             allies[2] = squirtle.summonable;
+            pokemonInTeamBenchSettings[2].ally = squirtle.summonable;
             partyPokemonsUI[2].sprite = squirtle.sprite;
             allies[3] = null;
             partyPokemonsUI[3].sprite = emptySprite;
@@ -1052,8 +1056,8 @@ public class PlayerControls : MonoBehaviour
 
         receivingKnockback = true;
         Vector2 direction = (opponent.position - this.transform.position).normalized;
-        direction = new Vector2(direction.x,-1);
-        body.velocity = -direction * force;
+        // direction = new Vector2(direction.x, 0);
+        body.velocity = new Vector2(-direction.x * force, 1);
         // body..MovePosition(-direction * force);
         
         yield return new WaitForSeconds(0.1f);

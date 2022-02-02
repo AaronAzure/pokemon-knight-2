@@ -18,7 +18,6 @@ public class ButterfreeBoss : Enemy
     [SerializeField] private GameObject stunSpore;
     [SerializeField] private Transform stunSporePos;
     private int atkCount;
-    private bool once;
 
 
     public override void Setup()
@@ -31,15 +30,15 @@ public class ButterfreeBoss : Enemy
         playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
     }
 
+    public override void CallChildOnBossFightStart()
+    {
+        player = playerControls.gameObject;
+        count = 0;
+        StartCoroutine( TrackPlayer() );
+    }
+
     void FixedUpdate()
     {
-        if (!once && startingBossFight)
-        {
-            once = true;
-            player = playerControls.gameObject;
-            count = 0;
-            StartCoroutine( TrackPlayer() );
-        }
         if (!inCutscene && !inRageCutscene)
         {
             if (count < newAttackPattern)

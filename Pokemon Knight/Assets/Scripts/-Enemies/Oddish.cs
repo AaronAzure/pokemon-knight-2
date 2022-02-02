@@ -56,7 +56,7 @@ public class Oddish : Enemy
         totalExtraDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
     }
 
-    public override void CallChildOnIntro()
+    public override void CallChildOnBossFightStart()
     {
         anim.SetTrigger("sludgeBomb");
     }

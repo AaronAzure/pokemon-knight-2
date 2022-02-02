@@ -842,6 +842,7 @@ MonoBehaviour:
   extraDmg: 5
   extraProjectileDmg: 0
   perLv: 1
+  totalExtraDmg: 0
   expPossess: 25
   extraExp: 15
   lvBreak: 50
@@ -877,7 +878,7 @@ MonoBehaviour:
   powerupName: 
   pokeball: {fileID: 0}
   canCatchEffect: {fileID: 0}
-  contactDmg: 5
+  contactDmg: 25
   contactKb: 10
   renderers:
   - {fileID: 4828055844510435944}
@@ -898,6 +899,13 @@ MonoBehaviour:
   playerInField: 0
   playerInSight: 0
   alwaysAttackPlayer: 0
+  canUseBuffs: 0
+  statusConditions: []
+  nCondition: 0
+  empty: {fileID: 0}
+  increaseAtk: {fileID: 0}
+  increaseDef: {fileID: 0}
+  increaseSpd: {fileID: 0}
   anim: {fileID: 6280256033184505320}
   moveSpeed: 2
   chaseSpeed: 5

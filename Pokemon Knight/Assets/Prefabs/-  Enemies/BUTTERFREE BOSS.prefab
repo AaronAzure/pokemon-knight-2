@@ -629,7 +629,7 @@ Transform:
   m_GameObject: {fileID: 6347547858869078386}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children:
   - {fileID: 6284788807071692393}
   m_Father: {fileID: 6347547860042096048}
@@ -755,6 +755,7 @@ MonoBehaviour:
   extraDmg: 2
   extraProjectileDmg: 0
   perLv: 1
+  totalExtraDmg: 0
   expPossess: 200
   extraExp: 2
   lvBreak: 50
@@ -813,6 +814,13 @@ MonoBehaviour:
   playerInField: 0
   playerInSight: 0
   alwaysAttackPlayer: 0
+  canUseBuffs: 0
+  statusConditions: []
+  nCondition: 0
+  empty: {fileID: 0}
+  increaseAtk: {fileID: 0}
+  increaseDef: {fileID: 0}
+  increaseSpd: {fileID: 0}
   moveSpeed: 4
   dashSpeed: 25
   player: {fileID: 0}

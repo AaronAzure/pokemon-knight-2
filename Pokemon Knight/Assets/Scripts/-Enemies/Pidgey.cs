@@ -55,7 +55,7 @@ public class Pidgey : Enemy
         }
     }
 
-    public override void CallChildOnIntro()
+    public override void CallChildOnBossFightStart()
     {
         if (aiPath != null)
             aiPath.canMove = true;

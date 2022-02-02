@@ -52,7 +52,7 @@ public class TitleFunctions : MonoBehaviour
                 && PlayerPrefsElite.GetBoolean("game-file-" + i.ToString())
                 && PlayerPrefsElite.VerifyInt("playerLevel" + i.ToString()))
                 {
-                    fileNames[i].text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + i.ToString())) + " continue?";
+                    fileNames[i].text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + i.ToString())) + "";
                     fileNames[i].fontSize = 45;
                 }
         }
@@ -72,7 +72,7 @@ public class TitleFunctions : MonoBehaviour
 
     public void TO_SAVED_GAMES()
     {
-        EventSystem.current.SetSelectedGameObject(null);
+        // EventSystem.current.SetSelectedGameObject(null);
         canCancel = false;
         anim.SetBool("toSavedGames", true);
         firstSaveGameButton.Select();

@@ -51,6 +51,8 @@ public abstract class Ally : MonoBehaviour
             atkDmg += ( extraDmg * Mathf.CeilToInt(((trainer.lv - 1) / perLevel)) );
         if (trainer != null && trainer.furyBracelet && trainer.hpImg.fillAmount <= 0.25f)
             atkDmg *= 2;
+        if (trainer != null && hitbox != null && trainer.extraRange)
+            hitbox.gameObject.transform.localScale *= 1.5f;
 
         if (hitbox != null)
         {

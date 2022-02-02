@@ -72,11 +72,12 @@ public abstract class Enemy : MonoBehaviour
     [HideInInspector] public bool inRage;
     [HideInInspector] public bool inCutscene; // Can't move
     [HideInInspector] public bool inRageCutscene; // Can't move
-    [HideInInspector] public bool startingBossFight; // Can't move
     [HideInInspector] public bool isDefeated;
     [Space] [Space] public string powerupName;
     public GameObject pokeball;
     public GameObject canCatchEffect;
+    [HideInInspector] public bool mustDmgBeforeFight;
+    [HideInInspector] public bool bossBattleBegin;
 
 
     [Space]
@@ -143,7 +144,7 @@ public abstract class Enemy : MonoBehaviour
     }
 
     public virtual void Setup() {}
-    public virtual void CallChildOnIntro() {}
+    public virtual void CallChildOnBossFightStart() {}
     public virtual void CallChildOnDeath() {}
     public virtual void CallChildOnRage() {}
     public virtual void CallChildOnTargetLost() {}  // VIA EnemyFieldOfVision
@@ -202,6 +203,17 @@ public abstract class Enemy : MonoBehaviour
         canFlip = true;
     }
 
+    public void LookAtPlayer()
+    {
+        if (playerControls == null)
+            return;
+            
+        if (playerControls.transform.position.x - this.transform.position.x > 0)
+            model.transform.eulerAngles = new Vector3(0,180);
+        else if (playerControls.transform.position.x - this.transform.position.x < 0)
+            model.transform.eulerAngles = new Vector3(0,0);
+    }
+
     public void TakeDamage(int dmg=0, Transform opponent=null, float force=0)
     {
         if (!inCutscene)
@@ -219,10 +231,6 @@ public abstract class Enemy : MonoBehaviour
             //// Destroy(holder.gameObject, 0.5f);
             //// var obj = Instantiate(dmgText, new Vector3(transform.position.x, transform.position.y + 2), Quaternion.identity, holder.transform);
             //// obj.text = dmg.ToString();
-            // if (isSmart)
-            // {
-            //     Vector3 opponent
-            // }
 
             if (dmg > 0 && dmg < hp)
                 StartCoroutine( Flash() );
@@ -286,6 +294,10 @@ public abstract class Enemy : MonoBehaviour
                 CallChildOnRage();
                 StartCoroutine( ActivateRageMode() );
             }
+        }
+        if (mustDmgBeforeFight && !bossBattleBegin)
+        {
+            StartBossBattle();
         }
     }
     IEnumerator DramaticSlowmo()
@@ -357,7 +369,15 @@ public abstract class Enemy : MonoBehaviour
 
     public void StartBossBattle(float delay=0.5f)
     {
-        StartCoroutine( BossIntro(delay) );
+        if (!bossBattleBegin)
+        {
+            bossBattleBegin = true;
+            StartCoroutine( BossIntro(delay) );
+            if (bossRoom != null)
+            {
+                bossRoom.Walls(true);
+            }
+        }
     }
     protected IEnumerator BossIntro(float delay)
     {
@@ -369,12 +389,11 @@ public abstract class Enemy : MonoBehaviour
             battleRoarObj.SetActive(true);
         
         yield return new WaitForSeconds(3);
-        startingBossFight = true;
         if (battleRoarObj != null) 
             battleRoarObj.SetActive(false);
 
         inCutscene = false;
-        CallChildOnIntro();
+        CallChildOnBossFightStart();
     }
     IEnumerator ActivateRageMode()
     {
