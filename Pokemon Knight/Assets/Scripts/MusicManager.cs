@@ -1,13 +1,15 @@
 using System.Collections;
-// using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    public AudioSource titleMusic, forestMusic, swampMusic, bossIntroMusic, bossOutroMusic, 
+    public AudioSource 
+        titleMusic, forestMusic, swampMusic, bossIntroMusic, bossOutroMusic, 
         accoladeIntroMusic, accoladeOutroMusic;
     public AudioSource currentMusic;
     public AudioSource previousMusic;
+    private Dictionary<AudioSource, float> origVolumes = new Dictionary<AudioSource, float>();
 
     void Start() 
     {
@@ -16,6 +18,13 @@ public class MusicManager : MonoBehaviour
             titleMusic.Play();
             currentMusic = titleMusic;
         }
+        origVolumes.Add(titleMusic, titleMusic.volume);
+        origVolumes.Add(forestMusic, forestMusic.volume);
+        origVolumes.Add(swampMusic, swampMusic.volume);
+        origVolumes.Add(bossIntroMusic, bossIntroMusic.volume);
+        origVolumes.Add(bossOutroMusic, bossOutroMusic.volume);
+        origVolumes.Add(accoladeIntroMusic, accoladeIntroMusic.volume);
+        origVolumes.Add(accoladeOutroMusic, accoladeOutroMusic.volume);
     }
 
     public void BackToTitle()
@@ -39,13 +48,19 @@ public class MusicManager : MonoBehaviour
 
         if (nextMusic == null)
         {
-            currentMusic.volume = 0.25f;
+            if (origVolumes.ContainsKey(currentMusic))
+                currentMusic.volume = origVolumes[currentMusic];
+            else
+                currentMusic.volume = 0.25f;
             currentMusic.Play();
             currentMusic.loop = true;
         }
         else
         {
-            nextMusic.volume = 0.25f;
+            if (origVolumes.ContainsKey(nextMusic))
+                nextMusic.volume = origVolumes[nextMusic];
+            else
+                nextMusic.volume = 0.25f;
             nextMusic.Play();
             currentMusic = nextMusic;
             nextMusic.loop = true;
@@ -89,7 +104,10 @@ public class MusicManager : MonoBehaviour
     }
     public void StartMusic(AudioSource music)
     {
-        music.volume = 0.25f;
+        if (origVolumes.ContainsKey(music))
+            music.volume = origVolumes[music];
+        else
+            music.volume = 0.25f;
         music.Play();
         currentMusic = music;
         music.loop = true;
