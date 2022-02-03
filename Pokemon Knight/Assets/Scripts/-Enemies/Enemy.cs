@@ -144,9 +144,10 @@ public abstract class Enemy : MonoBehaviour
     }
 
     public virtual void Setup() {}
+    public virtual void CallChildOnRoar() {}
     public virtual void CallChildOnBossFightStart() {}
-    public virtual void CallChildOnDeath() {}
     public virtual void CallChildOnRage() {}
+    public virtual void CallChildOnDeath() {}
     public virtual void CallChildOnTargetLost() {}  // VIA EnemyFieldOfVision
     public virtual void CallChildOnTargetFound() {}  // VIA EnemyFieldOfVision
 
@@ -207,11 +208,18 @@ public abstract class Enemy : MonoBehaviour
     {
         if (playerControls == null)
             return;
-            
+
         if (playerControls.transform.position.x - this.transform.position.x > 0)
             model.transform.eulerAngles = new Vector3(0,180);
         else if (playerControls.transform.position.x - this.transform.position.x < 0)
             model.transform.eulerAngles = new Vector3(0,0);
+    }
+    public bool PlayerIsToTheLeft()
+    {
+        if (playerControls == null)
+            return false;
+
+        return(playerControls.transform.position.x - this.transform.position.x < 0);
     }
 
     public void TakeDamage(int dmg=0, Transform opponent=null, float force=0)
@@ -349,7 +357,8 @@ public abstract class Enemy : MonoBehaviour
         if (hp > 0 && !inCutscene)
         {
             playerControls.TakeDamage(contactDmg + (extraDmg * Mathf.Max(1, lv - defaultLv)), this.transform, contactKb);
-            body.velocity = Vector2.zero;
+            if (!cannotRecieveKb)
+                body.velocity = Vector2.zero;
         }    
         else if (canCatch)
         {
@@ -384,6 +393,7 @@ public abstract class Enemy : MonoBehaviour
         inCutscene = true;
         body.velocity = Vector2.zero;
 
+        CallChildOnRoar();
         yield return new WaitForSeconds(delay);
         if (battleRoarObj != null) 
             battleRoarObj.SetActive(true);

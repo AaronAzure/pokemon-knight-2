@@ -8,18 +8,22 @@ public class SnorlaxBoss : Enemy
     // public float dashSpeed=50;
     public float jumpHeight=20;
     private Transform target;
-    private int count;
-    private int newAttackPattern=5;
+    private int atkCount;
+    private int newAttackPattern=3;
     private bool performingNextAtk;
     private bool canAtk;
     [SerializeField] private Transform groundDetect;
+    [SerializeField] private ParticleSystem yawnEffect;
+    [SerializeField] private EnemyProjectile yawnAtk;
+    [SerializeField] private Transform yawnPos;
+
 
     [Header("Attacks")]
     private Coroutine co;
+    private int[] bodySlamOffset={-2,0,2};
     [SerializeField] private Animator anim;
     [SerializeField] private GameObject glint;
     [SerializeField] private GameObject bodySlamExplosion;
-    private int atkCount;
     private bool bodySlamming;
     private RaycastHit2D groundInfo;
 
@@ -34,9 +38,14 @@ public class SnorlaxBoss : Enemy
         target = playerControls.transform;
     }
 
+    public override void CallChildOnRoar()
+    {
+        if (yawnEffect != null)
+            yawnEffect.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+    }
     public override void CallChildOnBossFightStart()
     {
-        count = 0;
+        atkCount = 0;
         canAtk = true;
     }
     public override void CallChildOnRage()
@@ -81,7 +90,10 @@ public class SnorlaxBoss : Enemy
             else if (!performingNextAtk)
             {
                 performingNextAtk = true;
-                co = StartCoroutine( BodySlam() );
+                if (atkCount  != newAttackPattern)
+                    co = StartCoroutine( BodySlam() );
+                else
+                    anim.SetTrigger("yawn");
             }
         }
     }
@@ -96,7 +108,7 @@ public class SnorlaxBoss : Enemy
     {
         if (!inRage)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.75f);
             anim.speed = 1;
         }
         else
@@ -111,7 +123,7 @@ public class SnorlaxBoss : Enemy
     {
         body.velocity = Vector2.zero;
         if (!inRage)
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1f);
         else
         {
             yield return new WaitForSeconds(0.5f);
@@ -122,7 +134,7 @@ public class SnorlaxBoss : Enemy
         float xTargetPos = 0;
         if (playerControls != null)
             xTargetPos = (playerControls.transform.position.x - this.transform.position.x);
-        xTargetPos += Random.Range(-1,2);
+        xTargetPos += bodySlamOffset[ Random.Range(0, bodySlamOffset.Length) ];
 
         anim.SetTrigger("bodySlam");
         body.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
@@ -135,9 +147,24 @@ public class SnorlaxBoss : Enemy
         performingNextAtk = false;
         body.gravityScale = 3;
         anim.speed = 1;
+        atkCount++;
+        if (atkCount > newAttackPattern)
+            atkCount = 0;
     }
     public void BODY_SLAMMING()
     {
         bodySlamming = true;
+    }
+    public void YAWN()
+    {
+        var obj = Instantiate(yawnAtk, yawnPos.position, yawnAtk.transform.rotation);
+        LookAtPlayer();
+        Vector2 dir = (playerControls.transform.position + new Vector3(0,2f) - yawnPos.position).normalized;
+        obj.direction = dir;
+
+        if (inRage)
+        {
+
+        }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    public AudioSource titleMusic, forestMusic, bossIntroMusic, bossOutroMusic, 
+    public AudioSource titleMusic, forestMusic, swampMusic, bossIntroMusic, bossOutroMusic, 
         accoladeIntroMusic, accoladeOutroMusic;
     public AudioSource currentMusic;
     public AudioSource previousMusic;

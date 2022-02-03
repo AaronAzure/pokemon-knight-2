@@ -10,6 +10,8 @@ public class EnemyProjectile : MonoBehaviour
     public Rigidbody2D body;
     public Vector2 direction;
     public float speed;
+    [Space] public bool sleepEffect;
+    [Space] public float sleepDelay;
 
     void Start()
     {
@@ -21,9 +23,12 @@ public class EnemyProjectile : MonoBehaviour
     {
         if (destoryOnPlayerCollision && other.CompareTag("Player"))    
         {
-            other.GetComponent<PlayerControls>().TakeDamage(atkDmg, this.transform, kbForce);
+            PlayerControls player = other.GetComponent<PlayerControls>();
+            player.TakeDamage(atkDmg, this.transform, kbForce);
             if (explosion != null)
                 Instantiate(explosion, this.transform.position, Quaternion.identity);
+            if (sleepEffect)
+                player.PutToSleep(sleepDelay);
             Destroy(this.gameObject);
         }
         if (destoryOnWallCollision && other.CompareTag("Ground"))    

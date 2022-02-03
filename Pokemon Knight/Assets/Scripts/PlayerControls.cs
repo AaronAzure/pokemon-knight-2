@@ -214,6 +214,13 @@ public class PlayerControls : MonoBehaviour
     public bool canSwim;
     private MusicManager musicManager;
     
+
+    [Header("Status Conditions")]
+    public bool isSleeping;
+    [SerializeField] private ParticleSystem sleepingEffect;
+    [SerializeField] private SpriteRenderer face;
+    [SerializeField] private Sprite sleepFace;
+
     
     [Header("CHEATS")]
     [SerializeField] private float dmgMultiplier = 1;
@@ -240,14 +247,6 @@ public class PlayerControls : MonoBehaviour
     void Start()
     {
         player = ReInput.players.GetPlayer(playerID);
-        
-        if (musicManager == null && GameObject.Find("Music Manager") != null)
-        {
-            musicManager = GameObject.Find("Music Manager").GetComponent<MusicManager>();
-            StartingMusic();
-            if (titleScreenObj != null)
-                titleScreenObj.musicManager = this.musicManager;
-        }
 
         gameNumber = PlayerPrefsElite.GetInt("gameNumber");
 
@@ -382,6 +381,17 @@ public class PlayerControls : MonoBehaviour
         CheckEquippablePokemon();
         CheckObtainedItems();
 
+        string sceneFirstWord = SceneManager.GetActiveScene().name.Split(' ')[0];
+        PlayerPrefsElite.SetString("currentArea" + gameNumber, sceneFirstWord);
+        
+        if (musicManager == null && GameObject.Find("Music Manager") != null)
+        {
+            musicManager = GameObject.Find("Music Manager").GetComponent<MusicManager>();
+            StartingMusic(sceneFirstWord);
+            if (titleScreenObj != null)
+                titleScreenObj.musicManager = this.musicManager;
+        }
+
         weightText.text = currentWeight + "/" + maxWeight;
         origGrav = body.gravityScale;
     }
@@ -476,7 +486,7 @@ public class PlayerControls : MonoBehaviour
                 body.velocity = new Vector2(-dodgeSpeed, body.velocity.y);
         }
         //* Walking, Dashing, Summoning, jumping, Interacting
-        else if (hp > 0 && !inCutscene && !dodging)
+        else if (hp > 0 && !inCutscene && !dodging && !isSleeping)
         {
             if (!ledgeGrabbing)
                 ledgeGrabbing = CheckLedgeGrab();
@@ -714,7 +724,7 @@ public class PlayerControls : MonoBehaviour
         if (settings.gameObject.activeSelf) {}
         else if (ledgeGrabbing) {}
         else if (resting) {}
-        else if (hp > 0 && !inCutscene && !dodging && !drinking)
+        else if (hp > 0 && !inCutscene && !dodging && !drinking && !isSleeping)
         {
             float xValue = player.GetAxis("Move Horizontal");
             if (inWater && canSwim)
@@ -1064,6 +1074,42 @@ public class PlayerControls : MonoBehaviour
         body.velocity = Vector2.zero;
         receivingKnockback = false;
     }
+    public void PutToSleep(float delay=0)
+    {
+        StartCoroutine( Sleeping(delay, Random.Range(1,4)) );
+    }
+    IEnumerator Sleeping(float delay, float duration)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (isSleeping)
+            yield break;
+        isSleeping = true;
+
+        anim.SetBool("isWalking", false);
+        anim.SetBool("isGrounded", true);
+        anim.SetBool("isFalling", false);
+        anim.SetTrigger("reset");
+        if (sleepingEffect != null)
+        {
+            sleepingEffect.gameObject.SetActive(true);
+            sleepingEffect.Play();
+        }
+        body.velocity = Vector2.zero;
+        Sprite origFace = face.sprite;
+        if (face != null && sleepFace != null)
+            face.sprite = sleepFace;
+
+        yield return new WaitForSeconds(duration);
+        if (hp > 0 && face != null && sleepFace != null)
+            face.sprite = origFace;
+        if (sleepingEffect != null)
+            sleepingEffect.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        
+        yield return new WaitForSeconds(1);
+        isSleeping = false;
+    }
+
 
 
     public void GainExp(int expGained, int enemyLevel)
@@ -1113,8 +1159,6 @@ public class PlayerControls : MonoBehaviour
         body.velocity = Vector2.zero;
         anim.SetTrigger("died");
         
-        
-        // Time.timeScale = 0.25f;
         float origGravity = body.gravityScale;
         body.gravityScale = 0;
         if (col != null)
@@ -1133,9 +1177,6 @@ public class PlayerControls : MonoBehaviour
         body.gravityScale = origGravity;
         if (col != null)
             col.enabled = true;
-        // Time.timeScale = 1;
-        // ReturnToTitle();
-        // yield return new WaitForSeconds(1f);
     }
     IEnumerator Respawn()
     {
@@ -1185,6 +1226,13 @@ public class PlayerControls : MonoBehaviour
             this.transform.position = newPos;
 
             yield return new WaitForSeconds(0.5f);
+            string newSceneFirstWord = SceneManager.GetActiveScene().name.Split(' ')[0];
+            if (newSceneFirstWord != PlayerPrefsElite.GetString("currentArea" + gameNumber))
+            {
+                PlayerPrefsElite.SetString("currentArea" + gameNumber, newSceneFirstWord);
+                if (musicManager != null)
+                    StartingMusic(newSceneFirstWord);
+            }
             if (transitionAnim != null)
                 transitionAnim.SetTrigger("fromBlack");
             
@@ -1341,10 +1389,13 @@ public class PlayerControls : MonoBehaviour
     {
         if (musicManager != null)
         {
-            switch (location)
+            switch (location.ToLower())
             {
                 case "forest":
                     StartCoroutine( musicManager.TransitionMusic(musicManager.forestMusic) );
+                    break;
+                case "swamp":
+                    StartCoroutine( musicManager.TransitionMusic(musicManager.swampMusic) );
                     break;
                 default:
                     Debug.LogError("Location has not been register in switch PlayerControls.StartingMusic()");
