@@ -355,12 +355,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lv: 12
-  maxHp: 100
+  maxHp: 150
   hp: 0
   mainAnim: {fileID: 0}
+  contactDmg: 5
+  contactKb: 10
+  projectileDmg: 10
+  isSmart: 0
+  renderers:
+  - {fileID: 6410697866412512817}
+  - {fileID: 129171046759193507}
+  - {fileID: 4269989595253222945}
+  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
+  flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
+  origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
+  bossRoom: {fileID: 0}
   extraHp: 20
   extraDmg: 5
-  extraProjectileDmg: 15
+  extraProjectileDmg: 10
   perLv: 2
   totalExtraDmg: 0
   expPossess: 30
@@ -399,17 +411,6 @@ MonoBehaviour:
   canCatchEffect: {fileID: 0}
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
-  contactDmg: 5
-  contactKb: 10
-  renderers:
-  - {fileID: 6410697866412512817}
-  - {fileID: 129171046759193507}
-  - {fileID: 4269989595253222945}
-  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
-  flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
-  origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
-  bossRoom: {fileID: 0}
-  isSmart: 0
   spawner: {fileID: 0}
   alert: {fileID: 3803489936706705490}
   playerInField: 0

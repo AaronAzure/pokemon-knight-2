@@ -610,6 +610,23 @@ MonoBehaviour:
   maxHp: 75
   hp: 0
   mainAnim: {fileID: 0}
+  contactDmg: 5
+  contactKb: 10
+  projectileDmg: 2
+  isSmart: 1
+  renderers:
+  - {fileID: 5478942814163688623}
+  - {fileID: 2335878881091891655}
+  - {fileID: 7268308278520208116}
+  - {fileID: 4792069771240763185}
+  - {fileID: 4184624923440520074}
+  - {fileID: 1720472758345791981}
+  - {fileID: 3659830457379585843}
+  - {fileID: 5523439291125198772}
+  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
+  flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
+  origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
+  bossRoom: {fileID: 0}
   extraHp: 15
   extraDmg: 5
   extraProjectileDmg: 1
@@ -651,22 +668,6 @@ MonoBehaviour:
   canCatchEffect: {fileID: 0}
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
-  contactDmg: 5
-  contactKb: 10
-  renderers:
-  - {fileID: 5478942814163688623}
-  - {fileID: 2335878881091891655}
-  - {fileID: 7268308278520208116}
-  - {fileID: 4792069771240763185}
-  - {fileID: 4184624923440520074}
-  - {fileID: 1720472758345791981}
-  - {fileID: 3659830457379585843}
-  - {fileID: 5523439291125198772}
-  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
-  flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
-  origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
-  bossRoom: {fileID: 0}
-  isSmart: 1
   spawner: {fileID: 0}
   alert: {fileID: 0}
   playerInField: 0

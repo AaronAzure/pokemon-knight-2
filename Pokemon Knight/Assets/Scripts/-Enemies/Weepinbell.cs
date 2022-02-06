@@ -94,7 +94,7 @@ public class Weepinbell : Enemy
         if (razorLeafSpawn != null && hp > 0)
         {
             var obj = Instantiate(razorLeaf, razorLeafSpawn.position, razorLeaf.transform.rotation);
-            obj.atkDmg += totalExtraDmg;
+            obj.atkDmg = projectileDmg + totalExtraDmg;
             obj.direction = lineOfSight.normalized;
         }
     }

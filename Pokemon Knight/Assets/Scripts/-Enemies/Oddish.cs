@@ -17,7 +17,6 @@ public class Oddish : Enemy
     [Header("Attacks")]
     [SerializeField] private Animator anim;
     [SerializeField] private EnemyAttack stunSpore;
-    [SerializeField] private int stunSporeDmg=2;
     [SerializeField] private Transform stunSporePos;
     public bool canSeePlayer;
     public bool canAtk = true;
@@ -210,7 +209,7 @@ public class Oddish : Enemy
         {
             body.velocity = new Vector2(0, body.velocity.y);
             var obj = Instantiate(stunSpore, stunSporePos.position, stunSporePos.transform.rotation);
-            obj.atkDmg = stunSporeDmg + totalExtraDmg;
+            obj.atkDmg = projectileDmg + totalExtraDmg;
             Destroy(obj, 4.5f);
         }
     }
@@ -229,7 +228,7 @@ public class Oddish : Enemy
             {
                 var obj = Instantiate(sludgeBomb, sludgeBombPos.position, sludgeBomb.transform.rotation);
                 obj.body.gravityScale = 3;
-                obj.atkDmg += totalExtraDmg;
+                obj.atkDmg = projectileDmg + totalExtraDmg;
                 obj.direction = new Vector2(-trajectory, Random.Range(14,21));
                 if (spawnedHolder != null)
                     obj.transform.parent = spawnedHolder.transform;

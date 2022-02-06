@@ -20,8 +20,21 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected Animator mainAnim;
     
 
-    [Space]
-    [Header("Level Bonus")]
+    [Space] [Header("Damage Related")]
+    public int contactDmg=5;
+    public float contactKb=10;
+    public int projectileDmg=5;
+    [Space] public bool isSmart;    // Turns if attacked from behind;
+    
+    [Space] [SerializeField] private SpriteRenderer[] renderers;
+    [SerializeField] private Material defeatedMat;
+    [SerializeField] private Material flashMat;
+    [SerializeField] private Material origMat;
+    [HideInInspector] public BossRoom bossRoom;
+    private bool canCatch;
+
+
+    [Space] [Header("Level Bonus")]
     public int extraHp=2;   // Bonus
     public int extraDmg=2;  // Bonus
     public int extraProjectileDmg=0;  // Bonus
@@ -38,6 +51,7 @@ public abstract class Enemy : MonoBehaviour
     
     //// [SerializeField] private GameObject emptyHolder;
     //// [SerializeField] private TextMeshPro dmgText;
+
 
     [Space] public Collider2D col;
     public Rigidbody2D body;
@@ -62,6 +76,7 @@ public abstract class Enemy : MonoBehaviour
     public float ShrinkDuration = 0.5f;
     public float t = 0;
 
+
     [Space]
     [Header("Boss")]
     public bool isBoss;
@@ -80,18 +95,6 @@ public abstract class Enemy : MonoBehaviour
     [HideInInspector] public bool bossBattleBegin;
 
 
-    [Space]
-    [Header("Damage Related")]
-    public int contactDmg=5;
-    public float contactKb=10;
-    
-    [Space] [SerializeField] private SpriteRenderer[] renderers;
-    [SerializeField] private Material defeatedMat;
-    [SerializeField] private Material flashMat;
-    [SerializeField] private Material origMat;
-    [HideInInspector] public BossRoom bossRoom;
-    private bool canCatch;
-    public bool isSmart;    // Turns if attacked from behind;
 
     [Space] [Header("Waves Related")]
     [HideInInspector] public WaveSpawner spawner;
@@ -143,6 +146,8 @@ public abstract class Enemy : MonoBehaviour
             maxHp += Mathf.CeilToInt((extraHp * (lv - defaultLv))/2f);
         if (lv > defaultLv)
             extraDmg += Mathf.FloorToInt((extraDmg * lv - defaultLv)/2f);
+        if (lv > defaultLv)
+            extraExp += Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) );
 
         totalExtraDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
 
@@ -572,5 +577,35 @@ public abstract class Enemy : MonoBehaviour
     {
         for (int i=0 ; i<statusConditions.Length - 1 ; i++)
             statusConditions[i].sprite = statusConditions[i+1].sprite;
+    }
+
+    public void LogCurrentStatus()
+    {
+        string gap = "          ";
+        Debug.Log("  maxHP = " + (maxHp + Mathf.CeilToInt((extraHp * (lv - defaultLv))/2f) ) +  gap +
+            "contactDmg = " + (contactDmg + (Mathf.FloorToInt((extraDmg * lv - defaultLv)/2f))) + gap +
+            "projectileDmg = " + 
+            (projectileDmg + Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv))) + gap +
+            "expGained = " + (expPossess + Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) ))
+        );
+    }
+}
+
+
+[CustomEditor(typeof(Enemy), true)]
+public class EnemyEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+
+        Enemy enemyScript = (Enemy)target;
+
+        if (GUILayout.Button("Calculate Status"))
+        {
+            enemyScript.LogCurrentStatus();
+        }
+        EditorGUILayout.Space();
+
+        DrawDefaultInspector();
     }
 }

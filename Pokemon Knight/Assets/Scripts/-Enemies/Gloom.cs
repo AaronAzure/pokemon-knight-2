@@ -90,7 +90,7 @@ public class Gloom : Enemy
             {
                 var obj = Instantiate(sludgeBomb, sludgeBombPos.position, sludgeBomb.transform.rotation);
                 obj.body.gravityScale = 3;
-                obj.atkDmg += totalExtraDmg;
+                obj.atkDmg = projectileDmg + totalExtraDmg;
                 obj.direction = new Vector2(multiplier * trajectory, Random.Range(12,16));
             }
         }
