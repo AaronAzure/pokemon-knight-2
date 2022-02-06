@@ -48,6 +48,10 @@ public class ItemUi : MonoBehaviour
                 case "furyBracelet":
                     playerControls.furyBracelet = false;
                     break;
+                case "amethystCharm":
+                    playerControls.amethystCharm = false;
+                    playerControls.maxPokemonOut--;
+                    break;
                 default:
                     Debug.LogError("ItemUi.itemName is not yet registered to a matching item");
                     break;
@@ -73,6 +77,10 @@ public class ItemUi : MonoBehaviour
                     break;
                 case "furyBracelet":
                     playerControls.furyBracelet = true;
+                    break;
+                case "amethystCharm":
+                    playerControls.amethystCharm = true;
+                    playerControls.maxPokemonOut++;
                     break;
                 default:
                     Debug.LogError("ItemUi.itemName is not yet registered to a matching item");

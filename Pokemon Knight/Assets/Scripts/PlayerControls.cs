@@ -9,7 +9,7 @@ using Rewired;
 
 public class PlayerControls : MonoBehaviour
 {
-    private Player player;
+    private Rewired.Player player;
     public int playerID = 0;
     [SerializeField] private GameObject rewiredInputSystem;
     private int gameNumber;
@@ -127,6 +127,8 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float jumpHeight = 10;
     [SerializeField] private float jumpTimer = 0.35f;
     private float jumpTimerCounter = 0;
+    private Sprite origFace;
+
 
     [Space]
     [SerializeField] private Transform feetPos; // To detect ground
@@ -162,7 +164,7 @@ public class PlayerControls : MonoBehaviour
     private bool canPressButtonWest2 = true;    // (Y)
     private bool canPressButtonEast2 = true;    // (A)
     private int nPokemonOut;
-    private int maxPokemonOut = 1;
+    public int maxPokemonOut = 1;
     [Space] [SerializeField] private GameObject holder;
     [SerializeField] private Animator anim;
     public bool inCutscene;
@@ -200,6 +202,7 @@ public class PlayerControls : MonoBehaviour
     [Space] public bool speedScarf;
     public bool amberNecklace;
     public bool furyBracelet;
+    public bool amethystCharm;
     public TextMeshProUGUI weightText;
     
 
@@ -249,6 +252,7 @@ public class PlayerControls : MonoBehaviour
         player = ReInput.players.GetPlayer(playerID);
 
         gameNumber = PlayerPrefsElite.GetInt("gameNumber");
+        origFace = face.sprite;
 
         // Last save
         if (PlayerPrefsElite.VerifyBoolean("canDoubleJump" + gameNumber))
@@ -381,7 +385,7 @@ public class PlayerControls : MonoBehaviour
         CheckEquippablePokemon();
         CheckObtainedItems();
 
-        string sceneFirstWord = SceneManager.GetActiveScene().name.Split(' ')[0];
+        string sceneFirstWord = PlayerPrefsElite.GetString("checkpointScene" + gameNumber).Split(' ')[0];
         PlayerPrefsElite.SetString("currentArea" + gameNumber, sceneFirstWord);
         
         if (musicManager == null && GameObject.Find("Music Manager") != null)
@@ -1076,13 +1080,13 @@ public class PlayerControls : MonoBehaviour
     }
     public void PutToSleep(float delay=0)
     {
-        StartCoroutine( Sleeping(delay, Random.Range(1,4)) );
+        StartCoroutine( Sleeping(delay, Random.Range(1,4)) );   // sleep for 2 - 4 seconds
     }
     IEnumerator Sleeping(float delay, float duration)
     {
         yield return new WaitForSeconds(delay);
 
-        if (isSleeping)
+        if (isSleeping || hp <= 0)
             yield break;
         isSleeping = true;
 
@@ -1090,18 +1094,18 @@ public class PlayerControls : MonoBehaviour
         anim.SetBool("isGrounded", true);
         anim.SetBool("isFalling", false);
         anim.SetTrigger("reset");
+        anim.speed = 1;
         if (sleepingEffect != null)
         {
             sleepingEffect.gameObject.SetActive(true);
             sleepingEffect.Play();
         }
         body.velocity = Vector2.zero;
-        Sprite origFace = face.sprite;
         if (face != null && sleepFace != null)
             face.sprite = sleepFace;
 
         yield return new WaitForSeconds(duration);
-        if (hp > 0 && face != null && sleepFace != null)
+        if (face != null)
             face.sprite = origFace;
         if (sleepingEffect != null)
             sleepingEffect.Stop(true, ParticleSystemStopBehavior.StopEmitting);
@@ -1188,10 +1192,12 @@ public class PlayerControls : MonoBehaviour
         }
             
         ReloadState();
+        face.sprite = origFace;
 
         Invincible(false);
         hp = maxHp;
         anim.SetTrigger("reset");
+        isSleeping = false;
 
         if (transitionAnim != null)
             transitionAnim.SetTrigger("fromBlack");

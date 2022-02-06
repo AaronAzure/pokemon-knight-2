@@ -52,8 +52,6 @@ public class Oddish : Enemy
         {
             co = StartCoroutine( DoSomething() );
         }
-
-        totalExtraDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
     }
 
     public override void CallChildOnBossFightStart()
@@ -231,6 +229,7 @@ public class Oddish : Enemy
             {
                 var obj = Instantiate(sludgeBomb, sludgeBombPos.position, sludgeBomb.transform.rotation);
                 obj.body.gravityScale = 3;
+                obj.atkDmg += totalExtraDmg;
                 obj.direction = new Vector2(-trajectory, Random.Range(14,21));
                 if (spawnedHolder != null)
                     obj.transform.parent = spawnedHolder.transform;

@@ -1046,16 +1046,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lv: 10
-  defaultLv: 10
-  maxHp: 200
+  maxHp: 125
   hp: 0
   mainAnim: {fileID: 5262776919767863634}
-  extraHp: 5
+  extraHp: 20
   extraDmg: 5
-  extraProjectileDmg: 5
-  perLv: 1
-  expPossess: 20
-  extraExp: 5
+  extraProjectileDmg: 10
+  perLv: 2
+  totalExtraDmg: 0
+  expPossess: 50
+  extraExp: 20
   lvBreak: 50
   col: {fileID: 4723499407535618369}
   body: {fileID: 5036056118465129030}
@@ -1084,11 +1084,12 @@ MonoBehaviour:
   inRage: 0
   inCutscene: 0
   inRageCutscene: 0
-  startingBossFight: 0
   isDefeated: 0
   powerupName: 
   pokeball: {fileID: 0}
   canCatchEffect: {fileID: 0}
+  mustDmgBeforeFight: 0
+  bossBattleBegin: 0
   contactDmg: 5
   contactKb: 10
   renderers:
@@ -1106,12 +1107,19 @@ MonoBehaviour:
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
   bossRoom: {fileID: 0}
-  isSmart: 0
+  isSmart: 1
   spawner: {fileID: 0}
   alert: {fileID: 2996076087178614816}
   playerInField: 0
   playerInSight: 0
   alwaysAttackPlayer: 0
+  canUseBuffs: 0
+  statusConditions: []
+  nCondition: 0
+  empty: {fileID: 0}
+  increaseAtk: {fileID: 0}
+  increaseDef: {fileID: 0}
+  increaseSpd: {fileID: 0}
   moveSpeed: 2
   distanceDetect: 1
   groundDetection: {fileID: 7005814167754721486}
@@ -1122,7 +1130,6 @@ MonoBehaviour:
   face: {fileID: 0}
   sludgeBomb: {fileID: 3066352489987038474, guid: c7115e7712d964158a11fb06aa26d091, type: 3}
   sludgeBombPos: {fileID: 5244226065140975443}
-  totalExtraDmg: 0
   target: {fileID: 0}
   multiplier: -1
 --- !u!210 &9176231504721097512

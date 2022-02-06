@@ -146,7 +146,7 @@ public class Nidoran : Enemy
                     targetLostCo = null;
                 }
             }
-            else if (grounded)
+            else if (playerInfo.collider != null && !playerInfo.collider.gameObject.CompareTag("Player") && grounded)
             {
                 CallChildOnTargetLost();
             }
@@ -204,7 +204,7 @@ public class Nidoran : Enemy
     {
         if (grounded && hp > 0)
         {
-            Debug.Log(this.transform.position.y >= (target.transform.position.y + 1f));
+            // Debug.Log(this.transform.position.y >= (target.transform.position.y + 1f));
             StartCoroutine( ResetJumpCounter() );
             grounded = false;
             anim.SetTrigger("jump");

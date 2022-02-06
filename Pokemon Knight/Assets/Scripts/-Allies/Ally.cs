@@ -95,20 +95,21 @@ public abstract class Ally : MonoBehaviour
         returning = true;
 
         yield return new WaitForSeconds(outTime);
-        // int times = 30;
-        // float x = model.transform.localScale.x / times;
+        int times = 20;
+        float x = model.transform.localScale.x / times;
         foreach (SpriteRenderer renderer in renderers)
         {
             if (flashMat != null)
                 renderer.material = flashMat;
         }
         yield return new WaitForEndOfFrame();
-        // for (int i=0 ; i<times ; i++)
-        // {
-        //     model.transform.localScale -= new Vector3(x,x);
-        //     yield return new WaitForSeconds(0.01f);
-        //     // yield return new WaitForEndOfFrame();
-        // }
+        for (int i=0 ; i<times ; i++)
+        {
+            model.transform.localScale -= new Vector3(x,x);
+            // yield return new WaitForSeconds(0.01f);
+            yield return null;
+            // yield return new WaitForEndOfFrame();
+        }
         if (trailObj != null)
         {
             var returnObj = Instantiate(trailObj, this.transform.position, Quaternion.identity, null);

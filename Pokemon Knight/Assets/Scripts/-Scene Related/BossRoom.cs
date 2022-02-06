@@ -11,11 +11,13 @@ public class BossRoom : MonoBehaviour
 
     private void Start() 
     {
-        if (boss != null && !autoStartFight)
+        if (boss != null)
         {
-            boss.mustDmgBeforeFight = true;    
             boss.bossRoom = this;
+            if (!autoStartFight)
+                boss.mustDmgBeforeFight = true;    
         }
+        // BOSS ALREADY DEFEATED
         else if (boss == null)
         {
             Walls(false);
@@ -26,9 +28,18 @@ public class BossRoom : MonoBehaviour
 
     public void Walls(bool active)
     {
+        // BOSS FIGHT COMMENCES
+        if (active)
+            once = true;
+
         foreach (GameObject wall in walls)
             wall.SetActive(active);
-        if (!active)
+        ChangeCameraPriority(active);
+    }
+
+    private void ChangeCameraPriority(bool highPriority)
+    {
+        if (!highPriority)
             cm.Priority = -100;
         else
             cm.Priority = 100;
@@ -43,6 +54,17 @@ public class BossRoom : MonoBehaviour
                 return;
             boss.StartBossBattle();
             Walls(true);
+        }
+        else if (!once && !autoStartFight && other.CompareTag("Player"))
+        {
+            ChangeCameraPriority(true);
+        }
+    }
+    private void OnTriggerExit2D(Collider2D other) 
+    {
+        if (!once && !autoStartFight && other.CompareTag("Player"))
+        {
+            ChangeCameraPriority(false);
         }
     }
 }

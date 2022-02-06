@@ -13,7 +13,7 @@ using UnityEditor;
 public abstract class Enemy : MonoBehaviour
 {
     public int lv=2;
-    public int defaultLv=5; // Bonus
+    protected int defaultLv=1; // Bonus
     [Space] public int maxHp=100;
     public int hp;
     protected PlayerControls playerControls;
@@ -28,9 +28,9 @@ public abstract class Enemy : MonoBehaviour
     public int perLv=1;  // Bonus
     [SerializeField] protected int totalExtraDmg=0;
     
-    private int origContactDmg;
-    private float origContactKb;
-    private int origTotalExtraDmg;
+    protected int origContactDmg;
+    protected float origContactKb;
+    protected int origTotalExtraDmg;
 
     [Space] public int expPossess=5;
     public int extraExp=2;  // Additional bonus
@@ -105,6 +105,7 @@ public abstract class Enemy : MonoBehaviour
     protected bool trigger;
     public bool alwaysAttackPlayer;
 
+
     [Space] [Header("Buffs / Debuffs")]
     [SerializeField] protected bool canUseBuffs;
     [SerializeField] protected Image[] statusConditions;
@@ -114,6 +115,8 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected Sprite increaseDef;
     [SerializeField] protected Sprite increaseSpd;
     private int defenseStage;
+    protected enum Stat { atk, def, spd };
+    protected bool inAnimation;
 
 
 
@@ -127,14 +130,21 @@ public abstract class Enemy : MonoBehaviour
         if (!isBoss)
             model.transform.localScale *= Random.Range(0.9f, 1.1f);
         if (isMiniBoss)
+        {
             maxHp *= 3;
+            expPossess *= 3;
+        }
 
         Setup();
 
+        // if (lv > lvBreak)
+        //     maxHp += (lv - lvBreak) * extraHp;
         if (lv > defaultLv)
-            maxHp += (lv - defaultLv) * extraHp;
-        if (lv > lvBreak)
-            maxHp += (lv - lvBreak) * extraHp;
+            maxHp += Mathf.CeilToInt((extraHp * (lv - defaultLv))/2f);
+        if (lv > defaultLv)
+            extraDmg += Mathf.FloorToInt((extraDmg * lv - defaultLv)/2f);
+
+        totalExtraDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
 
         hp = maxHp;   
         if (lvText != null)
@@ -147,9 +157,15 @@ public abstract class Enemy : MonoBehaviour
     public virtual void CallChildOnRoar() {}
     public virtual void CallChildOnBossFightStart() {}
     public virtual void CallChildOnRage() {}
+    public virtual void CallChildOnRageCutsceneFinished() {}
     public virtual void CallChildOnDeath() {}
     public virtual void CallChildOnTargetLost() {}  // VIA EnemyFieldOfVision
     public virtual void CallChildOnTargetFound() {}  // VIA EnemyFieldOfVision
+    
+    public virtual void CallChildOnIncreaseSpd() {}  // VIA EnemyFieldOfVision
+    public virtual void CallChildOnRevertSpd() {}  // VIA EnemyFieldOfVision
+
+    // todo ----------------------------------------------------------------------------------------------------
 
     protected void LateUpdate() 
     {
@@ -246,6 +262,9 @@ public abstract class Enemy : MonoBehaviour
             if (force > 0 && opponent != null && !cannotRecieveKb)
                 StartCoroutine( ApplyKnockback(opponent, force) );
 
+            if (isSmart)
+                LookAtPlayer();
+
             // Dramatic Boss Finisher
             if (isBoss && hp <= 0 && !isDefeated)
             {
@@ -276,7 +295,7 @@ public abstract class Enemy : MonoBehaviour
                     spawner.SpawnedDefeated();
 
                 if (playerControls != null)
-                    playerControls.GainExp(expPossess + (extraDmg * Mathf.Max(1, lv - defaultLv)), lv);
+                    playerControls.GainExp(expPossess + (extraExp * Mathf.Max(1, lv - defaultLv)), lv);
 
                 if (!isBoss)
                 {
@@ -356,7 +375,7 @@ public abstract class Enemy : MonoBehaviour
     {
         if (hp > 0 && !inCutscene)
         {
-            playerControls.TakeDamage(contactDmg + (extraDmg * Mathf.Max(1, lv - defaultLv)), this.transform, contactKb);
+            playerControls.TakeDamage(contactDmg + extraDmg, this.transform, contactKb);
             if (!cannotRecieveKb)
                 body.velocity = Vector2.zero;
         }    
@@ -414,6 +433,7 @@ public abstract class Enemy : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         if (rageChargeObj != null) rageChargeObj.SetActive(true);
         yield return new WaitForSeconds(4.5f);
+        CallChildOnRageCutsceneFinished();
         inCutscene = false;
         inRageCutscene = false;
     }
@@ -464,6 +484,34 @@ public abstract class Enemy : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+
+    public void ANIMATION_OVER()
+    {
+    inAnimation = false;
+    }
+
+    protected IEnumerator ResetBuff(float duration, float duration2, Stat statType)
+    {
+        canUseBuffs = false;
+        if (statType == Stat.atk)
+            IncreaseAtk();
+        else if (statType == Stat.def)
+            IncreaseDef();
+        else if (statType == Stat.spd)
+            IncreaseSpd();
+
+        yield return new WaitForSeconds(duration);
+        if (statType == Stat.atk)
+            RevertAtk();
+        else if (statType == Stat.def)
+            RevertDef();
+        else if (statType == Stat.spd)
+            RevertSpd();
+        yield return new WaitForSeconds(duration2);
+        canUseBuffs = true;
+    }
+
+
     protected void IncreaseAtk()
     {
         origContactDmg = contactDmg;
@@ -478,9 +526,16 @@ public abstract class Enemy : MonoBehaviour
         if (nCondition < statusConditions.Length)
             statusConditions[nCondition].sprite = increaseAtk;
         nCondition++;
-        
-        // Debug.Log(origContactDmg + " -> " + contactDmg);
-        // Debug.Log(origTotalExtraDmg + " -> " + totalExtraDmg);
+    }
+    protected void IncreaseSpd()
+    {
+        CallChildOnIncreaseSpd();
+        if (statusBar != null && !statusBar.activeSelf)
+            statusBar.SetActive(true);
+
+        if (nCondition < statusConditions.Length)
+            statusConditions[nCondition].sprite = increaseSpd;
+        nCondition++;
     }
     protected void IncreaseDef(int stages=1)
     {
@@ -504,6 +559,12 @@ public abstract class Enemy : MonoBehaviour
     protected void RevertDef(int stages=1)
     {
         defenseStage -= stages;
+        nCondition--;
+        ConditionFinished();
+    }
+    protected void RevertSpd(int stages=1)
+    {
+        CallChildOnRevertSpd();
         nCondition--;
         ConditionFinished();
     }

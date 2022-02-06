@@ -19120,7 +19120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d7e237cc5a364aa990a52bc6f849a2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atkDmg: 20
+  atkDmg: 10
   kbForce: 10
   destoryOnPlayerCollision: 1
   destoryOnWallCollision: 1
@@ -19128,6 +19128,9 @@ MonoBehaviour:
   body: {fileID: 3066352489987038581}
   direction: {x: 0, y: 0}
   speed: 1
+  sleepEffect: 0
+  sleepDelay: 0
+  anim: {fileID: 0}
 --- !u!210 &3231427932129561716
 SortingGroup:
   m_ObjectHideFlags: 0

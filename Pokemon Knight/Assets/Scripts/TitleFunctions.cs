@@ -11,7 +11,7 @@ using TMPro;
 
 public class TitleFunctions : MonoBehaviour
 {
-    private Player player;
+    private Rewired.Player player;
 
     [SerializeField] private ProCamera2DTransitionsFX transitionCam;
     [SerializeField] private GameObject[] toDestroy;

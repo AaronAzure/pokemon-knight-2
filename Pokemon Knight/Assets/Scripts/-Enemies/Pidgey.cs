@@ -69,6 +69,19 @@ public class Pidgey : Enemy
         Destroy(spawnedHolder);
     }
 
+    public override void CallChildOnIncreaseSpd()
+    {
+        moveSpeed *= 1.5f;
+        chaseSpeed *= 1.5f;
+        maxSpeed *= 1.5f;
+            
+    }
+    public override void CallChildOnRevertSpd()
+    {
+        moveSpeed /= 1.5f;
+        chaseSpeed /= 1.5f;
+        maxSpeed /= 1.5f;
+    }
 
     // Start is called before the first frame update
     void FixedUpdate() 
@@ -76,7 +89,7 @@ public class Pidgey : Enemy
         // Wandering around
         if (!inCutscene && !isMiniBoss)
         {
-            if (!chasing) { body.velocity = Vector2.zero; }
+            if (!chasing || inAnimation) { body.velocity = Vector2.zero; }
             // Chasing PLayer
             else if (!receivingKnockback)
             {
@@ -86,28 +99,32 @@ public class Pidgey : Enemy
                 CapVelocity();
             }
 
-            // if (!isMiniBoss)
-            // {
-                if (target != null && playerInRange)
+            if (target != null && playerInRange)
+            {
+                if (canUseBuffs)
                 {
-                        lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position);
-                        RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position,
-                            this.transform.position + new Vector3(0, 1) + lineOfSight, finalMask);
-                        rayCast = playerInfo.collider.name;
-                        if (playerInfo.collider != null && playerInfo.collider.gameObject.CompareTag("Player"))
-                        {
-                            chasing = true;
-                            anim.speed = chaseSpeed;
-                            if (alert != null) alert.gameObject.SetActive(true);
-                        }
-                        else
-                        {
-                            chasing = false;
-                            if (alert != null) alert.gameObject.SetActive(false);
-                        }
+                    canUseBuffs = false;
+                    anim.SetTrigger("agility");
+                    inAnimation = true;
                 }
-                else if (alert != null) alert.gameObject.SetActive(false);
-            // }
+                    lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position);
+                    RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position,
+                        this.transform.position + new Vector3(0, 1) + lineOfSight, finalMask);
+                    if (rayCast != null && playerInfo.collider != null)
+                        rayCast = playerInfo.collider.name;
+                    if (playerInfo.collider != null && playerInfo.collider.gameObject.CompareTag("Player"))
+                    {
+                        chasing = true;
+                        anim.speed = chaseSpeed;
+                        if (alert != null) alert.gameObject.SetActive(true);
+                    }
+                    else if (playerInfo.collider != null)
+                    {
+                        chasing = false;
+                        if (alert != null) alert.gameObject.SetActive(false);
+                    }
+            }
+            else if (alert != null) alert.gameObject.SetActive(false);
         }
         if (isMiniBoss && hp > 0)
             LookAtTarget();
@@ -164,6 +181,10 @@ public class Pidgey : Enemy
         }
     }
 
+    public void AGILITY()
+    {
+        StartCoroutine( ResetBuff(5,5, Stat.spd) );
+    }
 
     IEnumerator Attack(float delay=5f)
     {

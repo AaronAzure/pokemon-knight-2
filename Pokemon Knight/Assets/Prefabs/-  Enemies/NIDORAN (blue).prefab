@@ -834,17 +834,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lv: 12
-  defaultLv: 12
-  maxHp: 275
+  maxHp: 150
   hp: 0
   mainAnim: {fileID: 6280256033184505320}
-  extraHp: 10
+  extraHp: 20
   extraDmg: 5
   extraProjectileDmg: 0
   perLv: 1
   totalExtraDmg: 0
-  expPossess: 25
-  extraExp: 15
+  expPossess: 50
+  extraExp: 20
   lvBreak: 50
   col: {fileID: 8531754209341023284}
   body: {fileID: 8531754209341023285}
@@ -873,12 +872,13 @@ MonoBehaviour:
   inRage: 0
   inCutscene: 0
   inRageCutscene: 0
-  startingBossFight: 0
   isDefeated: 0
   powerupName: 
   pokeball: {fileID: 0}
   canCatchEffect: {fileID: 0}
-  contactDmg: 25
+  mustDmgBeforeFight: 0
+  bossBattleBegin: 0
+  contactDmg: 5
   contactKb: 10
   renderers:
   - {fileID: 4828055844510435944}
@@ -893,7 +893,7 @@ MonoBehaviour:
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
   bossRoom: {fileID: 0}
-  isSmart: 0
+  isSmart: 1
   spawner: {fileID: 0}
   alert: {fileID: 3348568934580730668}
   playerInField: 0

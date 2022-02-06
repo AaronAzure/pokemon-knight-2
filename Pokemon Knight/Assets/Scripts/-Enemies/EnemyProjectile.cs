@@ -12,6 +12,7 @@ public class EnemyProjectile : MonoBehaviour
     public float speed;
     [Space] public bool sleepEffect;
     [Space] public float sleepDelay;
+    public Animator anim;
 
     void Start()
     {

@@ -26,12 +26,10 @@ public class SnorlaxBoss : Enemy
     [SerializeField] private GameObject bodySlamExplosion;
     private bool bodySlamming;
     private RaycastHit2D groundInfo;
+    private int yawnCount;
 
     public override void Setup()
     {
-        // int gameNumber = PlayerPrefsElite.GetInt("gameNumber");
-        // if (PlayerPrefsElite.VerifyBoolean("canSecondAtk" + gameNumber) && PlayerPrefsElite.GetBoolean("canSecondAtk" + gameNumber))
-        //     Destroy(this.gameObject);
         if (statusBar != null)
             statusBar.SetActive(false);
         playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
@@ -53,6 +51,7 @@ public class SnorlaxBoss : Enemy
         performingNextAtk = false;
         body.gravityScale = 3;
         anim.speed = 1;
+        bodySlamming = false;
         anim.SetTrigger("reset");
         if (co != null)
             StopCoroutine(co);
@@ -93,7 +92,10 @@ public class SnorlaxBoss : Enemy
                 if (atkCount  != newAttackPattern)
                     co = StartCoroutine( BodySlam() );
                 else
+                {
+                    LookAtPlayer();
                     anim.SetTrigger("yawn");
+                }
             }
         }
     }
@@ -135,6 +137,7 @@ public class SnorlaxBoss : Enemy
         if (playerControls != null)
             xTargetPos = (playerControls.transform.position.x - this.transform.position.x);
         xTargetPos += bodySlamOffset[ Random.Range(0, bodySlamOffset.Length) ];
+        contactDmg = 50;
 
         anim.SetTrigger("bodySlam");
         body.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
@@ -147,6 +150,7 @@ public class SnorlaxBoss : Enemy
         performingNextAtk = false;
         body.gravityScale = 3;
         anim.speed = 1;
+        contactDmg = origContactDmg;
         atkCount++;
         if (atkCount > newAttackPattern)
             atkCount = 0;
@@ -155,16 +159,32 @@ public class SnorlaxBoss : Enemy
     {
         bodySlamming = true;
     }
+
+    public void YAWN_AGAIN()
+    {
+        if (inRage && yawnCount == 0)
+        {
+            yawnCount++;
+            LookAtPlayer();
+            anim.SetTrigger("yawn");
+        }
+        else if (inRage && yawnCount > 0)
+        {
+            yawnCount = 0;
+            PERFORMED_ACTION();
+        }
+        else if (!inRage)
+        {
+            PERFORMED_ACTION();
+        }
+    }
     public void YAWN()
     {
         var obj = Instantiate(yawnAtk, yawnPos.position, yawnAtk.transform.rotation);
-        LookAtPlayer();
         Vector2 dir = (playerControls.transform.position + new Vector3(0,2f) - yawnPos.position).normalized;
         obj.direction = dir;
 
-        if (inRage)
-        {
-
-        }
+        if (obj.anim != null && Random.Range(0,2) == 0)
+            obj.anim.SetTrigger("reverse");
     }
 }

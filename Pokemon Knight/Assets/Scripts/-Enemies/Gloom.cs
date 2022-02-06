@@ -30,8 +30,6 @@ public class Gloom : Enemy
             target = GameObject.Find("PLAYER").transform;
 
         finalMask = (whatIsPlayer | whatIsGround);
-
-        totalExtraDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
     }
 
     private void FixedUpdate() 

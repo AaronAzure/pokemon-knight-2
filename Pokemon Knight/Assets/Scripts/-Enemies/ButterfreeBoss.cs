@@ -18,6 +18,7 @@ public class ButterfreeBoss : Enemy
     [SerializeField] private GameObject stunSpore;
     [SerializeField] private Transform stunSporePos;
     private int atkCount;
+    private bool canMove=true;
 
 
     public override void Setup()
@@ -36,10 +37,14 @@ public class ButterfreeBoss : Enemy
         count = 0;
         StartCoroutine( TrackPlayer() );
     }
+    public override void CallChildOnRageCutsceneFinished()
+    {
+        atkCount = 0;
+    }
 
     void FixedUpdate()
     {
-        if (!inCutscene && !inRageCutscene)
+        if (!inCutscene && !inRageCutscene && canMove)
         {
             if (count < newAttackPattern)
             {
@@ -49,9 +54,6 @@ public class ButterfreeBoss : Enemy
                 // if (!receivingKnockback)
                 if (Vector3.Distance(target, body.transform.position) > 0.5f)
                     body.AddForce(dir * moveSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
-                    // if (inRage)
-                    //     body.MovePosition(body.transform.position + dir * moveSpeed * Time.fixedDeltaTime);
-                    // else
                 else {
                     LocatePlayer();
                 }
@@ -132,6 +134,11 @@ public class ButterfreeBoss : Enemy
     }
     IEnumerator PoisonPowder()
     {
+        if (inRage)
+        {
+            Harden();
+            yield return new WaitForSeconds(1.25f);
+        }
         anim.SetTrigger("stunSpore");
         body.velocity = Vector2.zero;
         yield return new WaitForSeconds(0.5f);
@@ -144,9 +151,38 @@ public class ButterfreeBoss : Enemy
         }
 
         // resting
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.75f);
         count = 0;
         LocatePlayer();
         StartCoroutine( TrackPlayer() );
     }
+
+    private void Harden()
+    {
+        if (mainAnim != null)
+        {
+            body.velocity = Vector2.zero;
+            mainAnim.SetTrigger("harden");
+            canMove = false;
+        }
+    }
+    public void INCREASE_DEF()
+    {
+        StartCoroutine( ResetBuff(6, 4, Stat.def) );
+    }
+    public void CAN_MOVE()
+    {
+        canMove = true;
+        // count = 0;
+        // LocatePlayer();
+        // StartCoroutine( TrackPlayer() );
+    }
+
+    // IEnumerator HardenCo()
+    // {
+    //     Harden();
+
+    //     yield return new WaitForSeconds(10);
+    //     StartCoroutine( HardenCo() );
+    // }
 }

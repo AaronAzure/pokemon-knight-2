@@ -7,7 +7,7 @@ public class MusicManager : MonoBehaviour
     public AudioSource 
         titleMusic, forestMusic, swampMusic, bossIntroMusic, bossOutroMusic, 
         accoladeIntroMusic, accoladeOutroMusic;
-    public AudioSource currentMusic;
+    [Space][Space] public AudioSource currentMusic;
     public AudioSource previousMusic;
     private Dictionary<AudioSource, float> origVolumes = new Dictionary<AudioSource, float>();
 
