@@ -156,8 +156,8 @@ MonoBehaviour:
   anim: {fileID: 147192668}
   waves:
   - {fileID: 1568939497178970862, guid: 890ee58966b094a9282bb9f0bf48fef4, type: 3}
-  - {fileID: 7937179587666737044, guid: a57124fb0f8754313803dddf1939fa8c, type: 3}
   - {fileID: 1150939272780168618, guid: 807a1d802f1da411aa878aad18d8ae70, type: 3}
+  - {fileID: 7937179587666737044, guid: a57124fb0f8754313803dddf1939fa8c, type: 3}
   - {fileID: 0}
   enemiesLevel: 10
   miniBossLevel: 15
@@ -173,7 +173,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 147192665}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3, y: -4, z: 0}
+  m_LocalPosition: {x: 2.5, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 362655303}
@@ -459,8 +459,8 @@ MonoBehaviour:
   anim: {fileID: 269114383}
   waves:
   - {fileID: 1568939497178970862, guid: 890ee58966b094a9282bb9f0bf48fef4, type: 3}
-  - {fileID: 1482746041171250567, guid: fb62a1c3fa81a48b59bb6cd65be72889, type: 3}
   - {fileID: 1150939272780168618, guid: 807a1d802f1da411aa878aad18d8ae70, type: 3}
+  - {fileID: 1482746041171250567, guid: fb62a1c3fa81a48b59bb6cd65be72889, type: 3}
   - {fileID: 0}
   enemiesLevel: 10
   miniBossLevel: 15
@@ -6131,8 +6131,8 @@ MonoBehaviour:
   anim: {fileID: 994246786}
   waves:
   - {fileID: 1568939497178970862, guid: 890ee58966b094a9282bb9f0bf48fef4, type: 3}
-  - {fileID: 1482746041171250567, guid: fb62a1c3fa81a48b59bb6cd65be72889, type: 3}
   - {fileID: 1150939272780168618, guid: 807a1d802f1da411aa878aad18d8ae70, type: 3}
+  - {fileID: 1482746041171250567, guid: fb62a1c3fa81a48b59bb6cd65be72889, type: 3}
   - {fileID: 0}
   enemiesLevel: 10
   miniBossLevel: 15
@@ -16376,7 +16376,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1976175703200949028, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.6599997
+      value: -1.6710099
       objectReference: {fileID: 0}
     - target: {fileID: 1976175703200949028, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -21295,8 +21295,8 @@ MonoBehaviour:
   anim: {fileID: 1562689886}
   waves:
   - {fileID: 1568939497178970862, guid: 890ee58966b094a9282bb9f0bf48fef4, type: 3}
-  - {fileID: 0}
   - {fileID: 1150939272780168618, guid: 807a1d802f1da411aa878aad18d8ae70, type: 3}
+  - {fileID: 0}
   - {fileID: 7907085212256002918, guid: 0289edfc1abf5414eadeb37c85791f60, type: 3}
   enemiesLevel: 10
   miniBossLevel: 15
@@ -21939,18 +21939,18 @@ PrefabInstance:
     - target: {fileID: 418849449585294597, guid: 691acd870a3af41ec8e8b571604b3543, type: 3}
       propertyPath: waves.Array.data[1]
       value: 
-      objectReference: {fileID: 7937179587666737044, guid: a57124fb0f8754313803dddf1939fa8c, type: 3}
+      objectReference: {fileID: 1150939272780168618, guid: 807a1d802f1da411aa878aad18d8ae70, type: 3}
     - target: {fileID: 418849449585294597, guid: 691acd870a3af41ec8e8b571604b3543, type: 3}
       propertyPath: waves.Array.data[2]
       value: 
-      objectReference: {fileID: 1150939272780168618, guid: 807a1d802f1da411aa878aad18d8ae70, type: 3}
+      objectReference: {fileID: 7937179587666737044, guid: a57124fb0f8754313803dddf1939fa8c, type: 3}
     - target: {fileID: 418849449585294618, guid: 691acd870a3af41ec8e8b571604b3543, type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 418849449585294618, guid: 691acd870a3af41ec8e8b571604b3543, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8
+      value: -8.5
       objectReference: {fileID: 0}
     - target: {fileID: 418849449585294618, guid: 691acd870a3af41ec8e8b571604b3543, type: 3}
       propertyPath: m_LocalPosition.y

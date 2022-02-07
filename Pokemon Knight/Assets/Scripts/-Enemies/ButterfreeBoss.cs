@@ -15,7 +15,7 @@ public class ButterfreeBoss : Enemy
     [Header("Attacks")]
     [SerializeField] private Animator anim;
     [SerializeField] private GameObject glint;
-    [SerializeField] private GameObject stunSpore;
+    [SerializeField] private EnemyAttack stunSpore;
     [SerializeField] private Transform stunSporePos;
     private int atkCount;
     private bool canMove=true;
@@ -145,6 +145,7 @@ public class ButterfreeBoss : Enemy
         if (!inCutscene) 
         {
             var obj = Instantiate(stunSpore, stunSporePos.position, Quaternion.identity);
+            obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
             if (inRage)
                 obj.transform.localScale *= 1.75f;
             Destroy(obj.gameObject, 4.5f);

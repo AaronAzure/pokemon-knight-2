@@ -731,13 +731,28 @@ MonoBehaviour:
   maxHp: 60
   hp: 0
   mainAnim: {fileID: 0}
+  contactDmg: 5
+  contactKb: 10
+  projectileDmg: 5
+  isSmart: 0
+  renderers:
+  - {fileID: 8888419576735348821}
+  - {fileID: 6844540300897967320}
+  - {fileID: 6750213157302041223}
+  - {fileID: 2677954256130961113}
+  - {fileID: 6908139349164981635}
+  - {fileID: 4304262892863623687}
+  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
+  flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
+  origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
+  bossRoom: {fileID: 0}
   extraHp: 10
   extraDmg: 5
   extraProjectileDmg: 0
   perLv: 1
-  totalExtraDmg: 0
+  calcExtraProjectileDmg: 0
   expPossess: 10
-  extraExp: 6
+  extraExp: 5
   lvBreak: 50
   col: {fileID: 8531754209341023284}
   body: {fileID: 8531754209341023285}
@@ -758,6 +773,8 @@ MonoBehaviour:
   origSize: {x: 0, y: 0, z: 0}
   ShrinkDuration: 0.5
   t: 0
+  feetSize: {x: 0, y: 0}
+  feetOffset: {x: 0, y: 0}
   isBoss: 0
   isMiniBoss: 0
   possessedAura: {fileID: 0}
@@ -772,20 +789,6 @@ MonoBehaviour:
   canCatchEffect: {fileID: 0}
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
-  contactDmg: 5
-  contactKb: 10
-  renderers:
-  - {fileID: 8888419576735348821}
-  - {fileID: 6844540300897967320}
-  - {fileID: 6750213157302041223}
-  - {fileID: 2677954256130961113}
-  - {fileID: 6908139349164981635}
-  - {fileID: 4304262892863623687}
-  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
-  flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
-  origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
-  bossRoom: {fileID: 0}
-  isSmart: 0
   spawner: {fileID: 0}
   alert: {fileID: 3348568934580730668}
   playerInField: 0

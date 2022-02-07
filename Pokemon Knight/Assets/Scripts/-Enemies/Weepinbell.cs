@@ -68,6 +68,10 @@ public class Weepinbell : Enemy
 
             }
         }
+        if (body.velocity.y <= 0 && IsGrounded())
+        {
+            body.velocity *= new Vector2(0,1);
+        }
     }
 
     private void OnDrawGizmosSelected() 
@@ -79,12 +83,22 @@ public class Weepinbell : Enemy
                 this.transform.position + new Vector3(0, 1) + lineOfSight);
         }
         Gizmos.DrawWireCube(this.transform.position + offset, fieldOfVision);
+        
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireCube(this.transform.position + (Vector3) feetOffset, feetSize);
+
     }
 
     public void Jump(bool guaranteed=false)
     {
         if (guaranteed || Random.Range(0, 3) == 0)
-            body.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        {
+            LookAtPlayer();
+            if (playerControls.transform.position.x < this.transform.position.x)
+                body.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            else
+                body.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+        }
     }
 
     public void RAZOR_LEAF()
@@ -94,7 +108,7 @@ public class Weepinbell : Enemy
         if (razorLeafSpawn != null && hp > 0)
         {
             var obj = Instantiate(razorLeaf, razorLeafSpawn.position, razorLeaf.transform.rotation);
-            obj.atkDmg = projectileDmg + totalExtraDmg;
+            obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
             obj.direction = lineOfSight.normalized;
         }
     }

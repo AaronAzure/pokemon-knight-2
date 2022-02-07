@@ -7,7 +7,7 @@ public class SnorlaxBoss : Enemy
     [Space] [Header("Snorlax")]  public float moveSpeed=2.5f;
     // public float dashSpeed=50;
     public float jumpHeight=20;
-    private Transform target;
+    private Vector3 target;
     private int atkCount;
     private int newAttackPattern=3;
     private bool performingNextAtk;
@@ -33,7 +33,7 @@ public class SnorlaxBoss : Enemy
         if (statusBar != null)
             statusBar.SetActive(false);
         playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
-        target = playerControls.transform;
+        target = playerControls.transform.position;
     }
 
     public override void CallChildOnRoar()
@@ -108,16 +108,11 @@ public class SnorlaxBoss : Enemy
 
     IEnumerator GetUp()
     {
+        yield return new WaitForSeconds(0.25f);
         if (!inRage)
-        {
-            yield return new WaitForSeconds(0.75f);
             anim.speed = 1;
-        }
         else
-        {
-            yield return new WaitForSeconds(0.25f);
             anim.speed = 1.5f;
-        }
         anim.SetTrigger("getUp");
         body.velocity = Vector2.zero;
     }
@@ -125,7 +120,7 @@ public class SnorlaxBoss : Enemy
     {
         body.velocity = Vector2.zero;
         if (!inRage)
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.75f);
         else
         {
             yield return new WaitForSeconds(0.5f);
@@ -180,6 +175,7 @@ public class SnorlaxBoss : Enemy
     }
     public void YAWN()
     {
+        LookAtPlayer();
         var obj = Instantiate(yawnAtk, yawnPos.position, yawnAtk.transform.rotation);
         Vector2 dir = (playerControls.transform.position + new Vector3(0,2f) - yawnPos.position).normalized;
         obj.direction = dir;

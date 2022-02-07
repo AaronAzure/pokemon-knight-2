@@ -1045,7 +1045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0e7f80ee19d46e3b23063d76259797, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lv: 10
+  lv: 4
   maxHp: 125
   hp: 0
   mainAnim: {fileID: 5262776919767863634}
@@ -1072,9 +1072,9 @@ MonoBehaviour:
   extraDmg: 5
   extraProjectileDmg: 10
   perLv: 2
-  totalExtraDmg: 0
+  calcExtraProjectileDmg: 0
   expPossess: 50
-  extraExp: 20
+  extraExp: 10
   lvBreak: 50
   col: {fileID: 4723499407535618369}
   body: {fileID: 5036056118465129030}
@@ -1095,6 +1095,8 @@ MonoBehaviour:
   origSize: {x: 0, y: 0, z: 0}
   ShrinkDuration: 0.5
   t: 0
+  feetSize: {x: 0, y: 0}
+  feetOffset: {x: 0, y: 0}
   isBoss: 0
   isMiniBoss: 0
   possessedAura: {fileID: 0}

@@ -99,6 +99,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private SpriteRenderer[] renderers;
     [SerializeField] private Material flashMat;
     [SerializeField] private Material origMat;
+    [SerializeField] private Animator damageIndicatorAnim;
 
 
     [Space]
@@ -108,6 +109,7 @@ public class PlayerControls : MonoBehaviour
     public int lv=1;
     [Space] [SerializeField] private int expNeeded=100;
     [SerializeField] private int exp;  // current exp
+    [SerializeField] private TextMeshProUGUI expGainText;
     [Space] [SerializeField] private GameObject levelUpEffect;
     [SerializeField] private GameObject levelUpObj;
     [SerializeField] private AudioSource levelUpSound;
@@ -1028,7 +1030,23 @@ public class PlayerControls : MonoBehaviour
             anim.SetBool("isDrinking", false);
             hp -= dmg;
             if (dmg > 0 && hp > 0)
+            {
                 StartCoroutine( Flash() );
+                
+                //* STRONG ATTACK
+                if (damageIndicatorAnim != null && force > 0)
+                {
+                    damageIndicatorAnim.SetTrigger("injured");
+                    damageIndicatorAnim.SetFloat("fadeSpeed", hpImg.fillAmount * hpImg.fillAmount);
+                }
+                //* WEAK ATTACK (NO knockback)
+                else if (damageIndicatorAnim != null && force == 0)
+                {
+                    damageIndicatorAnim.SetTrigger("injuredWeak");
+                    damageIndicatorAnim.SetFloat("fadeSpeed", hpImg.fillAmount * hpImg.fillAmount);
+                }
+            }
+                
 
             if (force > 0 && opponent != null)
             {
@@ -1037,9 +1055,7 @@ public class PlayerControls : MonoBehaviour
             }
 
             if (hp <= 0)
-            {
                 StartCoroutine( Died() );
-            }
         }
     }
     IEnumerator Invincibility()
@@ -1119,7 +1135,18 @@ public class PlayerControls : MonoBehaviour
     public void GainExp(int expGained, int enemyLevel)
     {
         if (lv < 100)
-            exp += (int) ((expGained * Mathf.Min(3f, (float) enemyLevel / lv)) * expMultiplier);
+        {
+            int totalExpGained = (int) ((expGained * Mathf.Min(3f, (float) enemyLevel / lv)) * expMultiplier);
+            exp += totalExpGained;
+            
+            if  (expGainText != null)
+            {
+                // New Bonus
+                expGainText.text = totalExpGained.ToString();
+                expGainText.transform.parent.gameObject.SetActive(false);
+                expGainText.transform.parent.gameObject.SetActive(true);
+            }
+        }
         else
             exp = 0;
     }
@@ -1162,6 +1189,11 @@ public class PlayerControls : MonoBehaviour
     {
         body.velocity = Vector2.zero;
         anim.SetTrigger("died");
+        if (damageIndicatorAnim != null)
+        {
+            damageIndicatorAnim.SetFloat("fadeSpeed", 1);
+            damageIndicatorAnim.SetTrigger("died");
+        }
         
         float origGravity = body.gravityScale;
         body.gravityScale = 0;
@@ -1189,6 +1221,11 @@ public class PlayerControls : MonoBehaviour
             // StartCoroutine( musicManager.StopMusic(musicManager.currentMusic) );
             yield return new WaitForSeconds(0.5f);
             // musicManager.StartMusic(musicManager.previousMusic);
+        }
+        if (damageIndicatorAnim != null)
+        {
+            damageIndicatorAnim.SetFloat("fadeSpeed", 1);
+            damageIndicatorAnim.SetTrigger("respawn");
         }
             
         ReloadState();

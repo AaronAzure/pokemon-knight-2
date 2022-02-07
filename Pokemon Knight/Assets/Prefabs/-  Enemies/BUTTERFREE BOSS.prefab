@@ -6108,6 +6108,25 @@ MonoBehaviour:
   maxHp: 1000
   hp: 0
   mainAnim: {fileID: 1602186293996210103}
+  contactDmg: 30
+  contactKb: 25
+  projectileDmg: 8
+  isSmart: 0
+  renderers:
+  - {fileID: 6201443634278078878}
+  - {fileID: 5635582273553281161}
+  - {fileID: 4553523078151066480}
+  - {fileID: 5326972338745019336}
+  - {fileID: 5773640374914880734}
+  - {fileID: 8192777259640324269}
+  - {fileID: 4586948813259512463}
+  - {fileID: 8676072211916011654}
+  - {fileID: 2702450904983023270}
+  - {fileID: 2291465842648553294}
+  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
+  flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
+  origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
+  bossRoom: {fileID: 0}
   extraHp: 0
   extraDmg: 0
   extraProjectileDmg: 0
@@ -6149,24 +6168,6 @@ MonoBehaviour:
   canCatchEffect: {fileID: 7321040211147338235}
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
-  contactDmg: 30
-  contactKb: 25
-  renderers:
-  - {fileID: 6201443634278078878}
-  - {fileID: 5635582273553281161}
-  - {fileID: 4553523078151066480}
-  - {fileID: 5326972338745019336}
-  - {fileID: 5773640374914880734}
-  - {fileID: 8192777259640324269}
-  - {fileID: 4586948813259512463}
-  - {fileID: 8676072211916011654}
-  - {fileID: 2702450904983023270}
-  - {fileID: 2291465842648553294}
-  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
-  flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
-  origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
-  bossRoom: {fileID: 0}
-  isSmart: 0
   spawner: {fileID: 0}
   alert: {fileID: 0}
   playerInField: 0
@@ -6188,7 +6189,7 @@ MonoBehaviour:
   player: {fileID: 0}
   anim: {fileID: 1602186293996210103}
   glint: {fileID: 6840497885434885370}
-  stunSpore: {fileID: 6543823460546405721, guid: 7ed5b4a6b0d3346f59dd15bd8410872c, type: 3}
+  stunSpore: {fileID: 6543823460546405717, guid: 7ed5b4a6b0d3346f59dd15bd8410872c, type: 3}
   stunSporePos: {fileID: 8094515171724798975}
 --- !u!95 &1602186293996210103
 Animator:

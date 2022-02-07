@@ -631,8 +631,8 @@ MonoBehaviour:
   extraDmg: 5
   extraProjectileDmg: 1
   perLv: 2
-  totalExtraDmg: 0
-  expPossess: 15
+  calcExtraProjectileDmg: 0
+  expPossess: 12
   extraExp: 7
   lvBreak: 50
   col: {fileID: 6059486759220388701}
@@ -654,6 +654,8 @@ MonoBehaviour:
   origSize: {x: 0, y: 0, z: 0}
   ShrinkDuration: 0.5
   t: 0
+  feetSize: {x: 0, y: 0}
+  feetOffset: {x: 0, y: 0}
   isBoss: 0
   isMiniBoss: 0
   possessedAura: {fileID: 0}
@@ -694,7 +696,6 @@ MonoBehaviour:
   face: {fileID: 8404566178504463058}
   anim: {fileID: 8587678589928221810}
   stunSpore: {fileID: 6543823460546405717, guid: 7ed5b4a6b0d3346f59dd15bd8410872c, type: 3}
-  stunSporeDmg: 2
   stunSporePos: {fileID: 1167601653546487358}
   canSeePlayer: 0
   canAtk: 1

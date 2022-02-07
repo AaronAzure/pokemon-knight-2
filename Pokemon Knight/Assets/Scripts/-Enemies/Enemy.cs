@@ -39,7 +39,7 @@ public abstract class Enemy : MonoBehaviour
     public int extraDmg=2;  // Bonus
     public int extraProjectileDmg=0;  // Bonus
     public int perLv=1;  // Bonus
-    [SerializeField] protected int totalExtraDmg=0;
+    [SerializeField] protected int calcExtraProjectileDmg=0;
     
     protected int origContactDmg;
     protected float origContactKb;
@@ -75,6 +75,8 @@ public abstract class Enemy : MonoBehaviour
     public Vector3 origSize;
     public float ShrinkDuration = 0.5f;
     public float t = 0;
+    [Space] public Vector2 feetSize;
+    public Vector2 feetOffset;
 
 
     [Space]
@@ -145,11 +147,11 @@ public abstract class Enemy : MonoBehaviour
         if (lv > defaultLv)
             maxHp += Mathf.CeilToInt((extraHp * (lv - defaultLv))/2f);
         if (lv > defaultLv)
-            extraDmg += Mathf.FloorToInt((extraDmg * lv - defaultLv)/2f);
+            contactDmg += Mathf.FloorToInt((extraDmg * (lv - defaultLv))/2f);
         if (lv > defaultLv)
-            extraExp += Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) );
+            expPossess += Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) );
 
-        totalExtraDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
+        calcExtraProjectileDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
 
         hp = maxHp;   
         if (lvText != null)
@@ -300,7 +302,7 @@ public abstract class Enemy : MonoBehaviour
                     spawner.SpawnedDefeated();
 
                 if (playerControls != null)
-                    playerControls.GainExp(expPossess + (extraExp * Mathf.Max(1, lv - defaultLv)), lv);
+                    playerControls.GainExp(expPossess, lv);
 
                 if (!isBoss)
                 {
@@ -375,12 +377,15 @@ public abstract class Enemy : MonoBehaviour
 
     }
 
-
+    protected bool IsGrounded()
+    {
+        return Physics2D.OverlapBox(this.transform.position + (Vector3) feetOffset, feetSize, 0, whatIsGround);
+    }
     public void PlayerCollision()
     {
         if (hp > 0 && !inCutscene)
         {
-            playerControls.TakeDamage(contactDmg + extraDmg, this.transform, contactKb);
+            playerControls.TakeDamage(contactDmg, this.transform, contactKb);
             if (!cannotRecieveKb)
                 body.velocity = Vector2.zero;
         }    
@@ -492,7 +497,7 @@ public abstract class Enemy : MonoBehaviour
 
     public void ANIMATION_OVER()
     {
-    inAnimation = false;
+        inAnimation = false;
     }
 
     protected IEnumerator ResetBuff(float duration, float duration2, Stat statType)
@@ -521,13 +526,13 @@ public abstract class Enemy : MonoBehaviour
     {
         origContactDmg = contactDmg;
         origContactKb = contactKb;
-        origTotalExtraDmg = totalExtraDmg;
+        origTotalExtraDmg = calcExtraProjectileDmg;
         if (statusBar != null && !statusBar.activeSelf)
             statusBar.SetActive(true);
 
         contactDmg = Mathf.CeilToInt(1.3f * contactDmg);
         contactKb = Mathf.CeilToInt(1.3f * contactKb);
-        totalExtraDmg = Mathf.CeilToInt(1.3f * totalExtraDmg);
+        calcExtraProjectileDmg = Mathf.CeilToInt(1.3f * calcExtraProjectileDmg);
         if (nCondition < statusConditions.Length)
             statusConditions[nCondition].sprite = increaseAtk;
         nCondition++;
@@ -557,7 +562,7 @@ public abstract class Enemy : MonoBehaviour
     {
         contactDmg = origContactDmg;
         contactKb = origContactKb;
-        totalExtraDmg = origTotalExtraDmg;
+        calcExtraProjectileDmg = origTotalExtraDmg;
         nCondition--;
         ConditionFinished();
     }
@@ -581,13 +586,27 @@ public abstract class Enemy : MonoBehaviour
 
     public void LogCurrentStatus()
     {
-        string gap = "          ";
-        Debug.Log("  maxHP = " + (maxHp + Mathf.CeilToInt((extraHp * (lv - defaultLv))/2f) ) +  gap +
-            "contactDmg = " + (contactDmg + (Mathf.FloorToInt((extraDmg * lv - defaultLv)/2f))) + gap +
-            "projectileDmg = " + 
-            (projectileDmg + Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv))) + gap +
-            "expGained = " + (expPossess + Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) ))
-        );
+        if (Application.isEditor)
+        {
+            string gap = "          ";
+            Debug.Log("<color=yellow>  " + this.name + "\t <b><i>( Lv. " + this.lv + " )</i></b></color>  -  Editor\n" +
+                "<color=#11FF00> maxHP = " + (maxHp + Mathf.CeilToInt((extraHp * (lv - defaultLv))/2f) ) +  gap +
+                "</color><color=#FF8000> contactDmg = " + (contactDmg + (Mathf.FloorToInt((extraDmg * (lv - defaultLv))/2f))) + gap +
+                "</color><color=#F784FF> projectileDmg = " + 
+                (projectileDmg + Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv))) + gap +
+                "</color><color=#00E8FF> expGained = " + (expPossess + Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) )) + "</color>"
+            );
+        }
+        else
+        {
+            string gap = "          ";
+            Debug.Log("<color=yellow>  " + this.name + "\t <b><i>( Lv. " + this.lv + " )</i></b></color>\n" +
+                "<color=#11FF00> maxHP = " + maxHp +  gap +
+                "</color><color=#FF8000> contactDmg = " + (contactDmg) + gap +
+                "</color><color=#F784FF> projectileDmg = " + (projectileDmg + calcExtraProjectileDmg) + gap +
+                "</color><color=#00E8FF> expGained = " + (expPossess) + "</color>"
+            );
+        }
     }
 }
 
