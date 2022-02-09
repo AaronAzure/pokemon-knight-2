@@ -37,7 +37,7 @@ public class Nidoran : Enemy
         finalMask = (whatIsPlayer | whatIsGround);
         if (alert != null) 
             alert.gameObject.SetActive(false);
-        if (target == null)
+        if (target == null && playerControls != null)
             target = playerControls.transform;
     }
 

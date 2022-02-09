@@ -37,23 +37,11 @@ public class PlayerControls : MonoBehaviour
 
     [Space] 
     [Tooltip("In game = cooldown")] public Image[] partyPokemonsUI;
-    // public Image pokemonY1;
-    // public Image pokemonX1;
-    // public Image pokemonA1;
-    // public Image pokemonY2;
-    // public Image pokemonX2;
-    // public Image pokemonA2;
 
     [Space] 
-    // [Tooltip("Paused settings = equipped")] public Image[] partyPokemonSettings;
     [Tooltip("Paused settings = equipped")] public BoxPokemonButton[] pokemonInTeamBenchSettings;
-    // public Image pokemonY1Settings;
-    // public Image pokemonX1Settings;
-    // public Image pokemonA1Settings;
-    // public Image pokemonY2Settings;
-    // public Image pokemonX2Settings;
-    // public Image pokemonA2Settings;
 
+    
     [Header("Pokemon (Allies)")]
     [SerializeField] private Transform spawnPos;    // Place to Summon Pokemon
     [Space][SerializeField] private GameObject doubleJumpObj;   //Butterfree
@@ -69,6 +57,7 @@ public class PlayerControls : MonoBehaviour
     [Space] [SerializeField] private AllyTeamUI charmander;
     [Space] [SerializeField] private AllyTeamUI squirtle;
     [Space] [SerializeField] private AllyTeamUI pidgey;
+    [Space] [SerializeField] private AllyTeamUI butterfree;
     [Space] [SerializeField] private AllyTeamUI oddish;
 
 
@@ -144,6 +133,7 @@ public class PlayerControls : MonoBehaviour
     private bool receivingKnockback;
     private int dashes = 1;
     private bool dashing;
+    private bool movingToDifferentScene;
     private bool dodging;
     private bool canDodge = true;
     [SerializeField] private bool isInvincible;
@@ -269,7 +259,7 @@ public class PlayerControls : MonoBehaviour
                  lvText.text = "Lv. " + lv;
         }
         for (int i=1 ; i<lv ; i++)
-            expNeeded = (int) (expNeeded * 1.2f);
+            expNeeded = (int) (expNeeded * 1.3f);
         if (PlayerPrefsElite.VerifyInt("playerExp" + gameNumber))
             exp = PlayerPrefsElite.GetInt("playerExp" + gameNumber);
 
@@ -340,17 +330,18 @@ public class PlayerControls : MonoBehaviour
                         pokemonInTeamBenchSettings[i].ally = pidgey.summonable;
                         partyPokemonsUI[i].sprite = pidgey.sprite;
                         break;
+                    case "butterfree":
+                        allies[i] = butterfree.summonable;
+                        pokemonInTeamBenchSettings[i].img.sprite = butterfree.sprite;
+                        pokemonInTeamBenchSettings[i].ally = butterfree.summonable;
+                        partyPokemonsUI[i].sprite = butterfree.sprite;
+                        break;
                     case "oddish":
                         allies[i] = oddish.summonable;
                         pokemonInTeamBenchSettings[i].img.sprite = oddish.sprite;
                         pokemonInTeamBenchSettings[i].ally = oddish.summonable;
                         partyPokemonsUI[i].sprite = oddish.sprite;
                         break;
-                    // case "butterfree":
-                    //     allies[i] = butterfree.summonable;
-                    //     pokemonInTeamBenchSettings[i].img.sprite = butterfree.sprite;
-                    //     partyPokemonsUI[i].sprite = butterfree.sprite;
-                    //     break;
                     case "":
                         pokemonInTeamBenchSettings[i].img.sprite = emptySprite;
                         pokemonInTeamBenchSettings[i].ally = null;
@@ -655,6 +646,7 @@ public class PlayerControls : MonoBehaviour
                             pokemon.trainer = this;
                             pokemon.button = "Y2";
 
+                            IsSpecialPokemon(allies[5]);
                             PokemonSummoned("Y2");
                             
                             //* Looking left
@@ -673,6 +665,7 @@ public class PlayerControls : MonoBehaviour
                             pokemon.trainer = this;
                             pokemon.button = "X2";
 
+                            IsSpecialPokemon(allies[5]);
                             PokemonSummoned("X2");
                             
                             //* Looking left
@@ -691,6 +684,7 @@ public class PlayerControls : MonoBehaviour
                             pokemon.trainer = this;
                             pokemon.button = "A2";
 
+                            IsSpecialPokemon(allies[5]);
                             PokemonSummoned("A2");
                             
                             //* Looking left
@@ -974,7 +968,8 @@ public class PlayerControls : MonoBehaviour
         Invincible(true);
 
         yield return new WaitForSeconds(0.5f);
-        body.velocity = Vector2.zero;
+        if (!dodgingThruScene)
+            body.velocity = Vector2.zero;
         Invincible(false);
         dodging = false;
         
@@ -1096,11 +1091,16 @@ public class PlayerControls : MonoBehaviour
     }
     public void PutToSleep(float delay=0)
     {
-        StartCoroutine( Sleeping(delay, Random.Range(1,4)) );   // sleep for 2 - 4 seconds
+        StartCoroutine( Sleeping(delay, Random.Range(0,3)) );   // sleep for 2 - 4 seconds
     }
     IEnumerator Sleeping(float delay, float duration)
     {
-        yield return new WaitForSeconds(delay);
+        if (sleepingEffect != null)
+        {
+            sleepingEffect.gameObject.SetActive(true);
+            sleepingEffect.Play();
+        }
+        yield return new WaitForSeconds(delay + 0.5f);
 
         if (isSleeping || hp <= 0)
             yield break;
@@ -1111,11 +1111,6 @@ public class PlayerControls : MonoBehaviour
         anim.SetBool("isFalling", false);
         anim.SetTrigger("reset");
         anim.speed = 1;
-        if (sleepingEffect != null)
-        {
-            sleepingEffect.gameObject.SetActive(true);
-            sleepingEffect.Play();
-        }
         body.velocity = Vector2.zero;
         if (face != null && sleepFace != null)
             face.sprite = sleepFace;
@@ -1167,7 +1162,7 @@ public class PlayerControls : MonoBehaviour
             var obj = Instantiate(levelUpEffect, this.transform.position, levelUpEffect.transform.rotation, this.transform);
             Destroy(obj.gameObject, 3);
         }
-        expNeeded = (int) (expNeeded * 1.2f);
+        expNeeded = (int) (expNeeded * 1.3f);
 
         // Increase health
         maxHp += 5;
@@ -1195,6 +1190,8 @@ public class PlayerControls : MonoBehaviour
             damageIndicatorAnim.SetTrigger("died");
         }
         
+        if (musicManager != null)
+            StartCoroutine( musicManager.LowerMusic(musicManager.currentMusic, 0.5f) );
         float origGravity = body.gravityScale;
         body.gravityScale = 0;
         if (col != null)
@@ -1409,8 +1406,6 @@ public class PlayerControls : MonoBehaviour
     {
         if (other.CompareTag("Underwater"))
             inWater = true;
-        // if (other.CompareTag("Roar"))
-        //     EngagedBossRoar();
         if (other.CompareTag("Rage") && musicManager != null)
             StartCoroutine( musicManager.TransitionMusic(musicManager.bossOutroMusic) );
     }
@@ -1570,6 +1565,7 @@ public class PlayerControls : MonoBehaviour
                 PlayerPrefsElite.SetBoolean("canDoubleJump" + gameNumber, canDoubleJump);
                 inCutscene = true;
                 doubleJumpScreen.gameObject.SetActive(true);
+                CaughtAPokemon("butterfree");
                 break;
             case "pidgey": 
                 CaughtAPokemon("pidgey");
@@ -1706,7 +1702,6 @@ public class PlayerControls : MonoBehaviour
                 ui.SetTrigger("restored");
         }
 
-
         if (PlayerPrefsElite.VerifyBoolean("canDoubleJump" + gameNumber))
             canDoubleJump = PlayerPrefsElite.GetBoolean("canDoubleJump" + gameNumber);
         if (PlayerPrefsElite.VerifyBoolean("canDash" + gameNumber))
@@ -1719,7 +1714,7 @@ public class PlayerControls : MonoBehaviour
                  lvText.text = "Lv. " + lv;
         }
         for (int i=1 ; i<lv ; i++)
-            expNeeded = (int) (expNeeded * 1.2f);
+            expNeeded = (int) (expNeeded * 1.3f);
         if (PlayerPrefsElite.VerifyInt("playerExp" + gameNumber))
             exp = PlayerPrefsElite.GetInt("playerExp" + gameNumber);
 
@@ -1846,6 +1841,17 @@ public class PlayerControls : MonoBehaviour
     }
 
     // todo ------------------------------------------------------------------------------------
+
+    public enum SpecialPokemon { none, butterfree, alakazam, starmie };
+    private SpecialPokemon IsSpecialPokemon(Ally pokemonSummoned)
+    {
+        if (pokemonSummoned == butterfree.summonable)
+        {
+            
+            return SpecialPokemon.butterfree;
+        }
+        return SpecialPokemon.none;
+    }
 
 
     void PokemonSummoned(string button)

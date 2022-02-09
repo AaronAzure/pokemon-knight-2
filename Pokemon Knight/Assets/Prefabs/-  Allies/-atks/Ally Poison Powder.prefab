@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6543823460546405722}
   - component: {fileID: -5905073095885153275}
   - component: {fileID: -2863605086126999711}
-  - component: {fileID: 6522998791260219639}
+  - component: {fileID: 7017939098926669067}
   m_Layer: 0
   m_Name: Ally Poison Powder
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6543823460546405721}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 8187695703869490840}
   m_Father: {fileID: 0}
@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 6
---- !u!114 &6522998791260219639
+--- !u!114 &7017939098926669067
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -114,16 +114,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 6543823460546405721}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 362cf1093310646f4b06376b328c08b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 72ba190cd6fbf4bfcb5a838392927218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atkDmg: 5
+  atkDmg: 0
   atkForce: 0
-  trailObj: {fileID: 0}
-  explosionObj: {fileID: 0}
-  destoryOnCollision: 0
+  spawnEffectObj: {fileID: 0}
+  spawnEffect: 0
   velocity: 0
-  customTrajectory: 0
   body: {fileID: 0}
 --- !u!1 &8187695703869764920
 GameObject:
@@ -347,7 +345,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.654902, g: 0, b: 1, a: 1}
+      maxColor: {r: 0.929827, g: 0.3915094, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}

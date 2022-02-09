@@ -22,20 +22,17 @@ public class AllyAttack : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        // Debug.Log("-- logging " + other.name);
         if (other.CompareTag("Enemy"))
         {
             Component[] scripts = other.GetComponents(typeof(Enemy));
             foreach (var script in scripts)
             {
-                // Debug.Log(script.name + "  -  " + script.GetType());
                 script.GetComponent<Enemy>().TakeDamage(atkDmg, this.transform, atkForce);
                 if (spawnEffect && spawnEffectObj != null)
                 {
                     var obj = Instantiate(spawnEffectObj, script.gameObject.transform.position, Quaternion.identity);
                     Destroy(obj.gameObject, 0.5f);
                 }
-                // script.SendMessage("TakeDamage", atkPower, SendMessageOptions.DontRequireReceiver); //! SendMessage = calling methods from unknown classes
             }
         }
     }

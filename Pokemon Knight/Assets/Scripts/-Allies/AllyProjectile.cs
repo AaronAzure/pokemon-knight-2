@@ -43,9 +43,7 @@ public class AllyProjectile : MonoBehaviour
             {
                 Component[] scripts = other.GetComponents(typeof(Enemy));
                 foreach (var script in scripts)
-                {
                     script.GetComponent<Enemy>().TakeDamage(atkDmg, this.transform, atkForce);
-                }
             }
             if (destoryOnCollision && explosionObj != null)
             {

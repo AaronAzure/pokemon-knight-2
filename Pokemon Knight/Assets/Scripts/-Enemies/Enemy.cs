@@ -14,10 +14,12 @@ public abstract class Enemy : MonoBehaviour
 {
     public int lv=2;
     protected int defaultLv=1; // Bonus
+    private int lvBreak=10;  // Additional bonus
     [Space] public int maxHp=100;
     public int hp;
     protected PlayerControls playerControls;
     [SerializeField] protected Animator mainAnim;
+    private bool inPlayMode;
     
 
     [Space] [Header("Damage Related")]
@@ -47,7 +49,6 @@ public abstract class Enemy : MonoBehaviour
 
     [Space] public int expPossess=5;
     public int extraExp=2;  // Additional bonus
-    public int lvBreak=50;  // Additional bonus
     
     //// [SerializeField] private GameObject emptyHolder;
     //// [SerializeField] private TextMeshPro dmgText;
@@ -127,10 +128,13 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void Start() 
     {
+        inPlayMode = true;
         if (statusBar != null)
             statusBar.SetActive(false);
         if (GameObject.Find("PLAYER") != null)
             playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
+        else
+            Debug.LogError("PLAYER couldn't be found!!");
 
         if (!isBoss)
             model.transform.localScale *= Random.Range(0.9f, 1.1f);
@@ -152,6 +156,13 @@ public abstract class Enemy : MonoBehaviour
             expPossess += Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) );
 
         calcExtraProjectileDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
+
+        int nextAreas = (lv / lvBreak);
+        for (int i=0 ; i<nextAreas ; i++)
+        {
+            maxHp = Mathf.RoundToInt(maxHp * 1.5f);
+            expPossess = Mathf.RoundToInt(expPossess * 1.5f);
+        }
 
         hp = maxHp;   
         if (lvText != null)
@@ -586,22 +597,39 @@ public abstract class Enemy : MonoBehaviour
 
     public void LogCurrentStatus()
     {
-        if (Application.isEditor)
+
+        if (!inPlayMode)
         {
+            int tempHp = maxHp;
+            int tempExp = expPossess;
+            if (lv > defaultLv)
+                tempHp += Mathf.CeilToInt((extraHp * (lv - defaultLv))/2f);
+            // if (lv > defaultLv)
+            //     contactDmg += Mathf.FloorToInt((extraDmg * (lv - defaultLv))/2f);
+            if (lv > defaultLv)
+                tempExp += Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) );
+            
+            int nextAreas = (lv / lvBreak);
+            for (int i=0 ; i<nextAreas ; i++)
+            {
+                tempHp = Mathf.RoundToInt(tempHp * 1.5f);
+                tempExp = Mathf.RoundToInt(tempExp * 1.5f);
+            }
+
             string gap = "          ";
-            Debug.Log("<color=yellow>  " + this.name + "\t <b><i>( Lv. " + this.lv + " )</i></b></color>  -  Editor\n" +
-                "<color=#11FF00> maxHP = " + (maxHp + Mathf.CeilToInt((extraHp * (lv - defaultLv))/2f) ) +  gap +
+            Debug.Log("<color=yellow>  " + this.name + " <b><i>( Lv. " + this.lv + " )</i></b></color> =   " +
+                "<color=#11FF00> maxHP = " + (tempHp) +  gap +
                 "</color><color=#FF8000> contactDmg = " + (contactDmg + (Mathf.FloorToInt((extraDmg * (lv - defaultLv))/2f))) + gap +
                 "</color><color=#F784FF> projectileDmg = " + 
                 (projectileDmg + Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv))) + gap +
-                "</color><color=#00E8FF> expGained = " + (expPossess + Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) )) + "</color>"
+                "</color><color=#00E8FF> expGained = " + (tempExp) + "</color>"
             );
         }
         else
         {
             string gap = "          ";
-            Debug.Log("<color=yellow>  " + this.name + "\t <b><i>( Lv. " + this.lv + " )</i></b></color>\n" +
-                "<color=#11FF00> maxHP = " + maxHp +  gap +
+            Debug.Log("<color=yellow>  " + this.name + " <b><i>( Lv. " + this.lv + " )</i></b></color> =   " +
+                "<color=#11FF00> maxHP = " + (maxHp) +  gap +
                 "</color><color=#FF8000> contactDmg = " + (contactDmg) + gap +
                 "</color><color=#F784FF> projectileDmg = " + (projectileDmg + calcExtraProjectileDmg) + gap +
                 "</color><color=#00E8FF> expGained = " + (expPossess) + "</color>"
@@ -611,7 +639,7 @@ public abstract class Enemy : MonoBehaviour
 }
 
 
-[CustomEditor(typeof(Enemy), true)]
+[CanEditMultipleObjects] [CustomEditor(typeof(Enemy), true)]
 public class EnemyEditor : Editor
 {
     public override void OnInspectorGUI()
