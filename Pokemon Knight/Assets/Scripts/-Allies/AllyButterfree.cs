@@ -20,6 +20,11 @@ public class AllyButterfree : Ally
         body.velocity *= 0.5f;
     }   
 
+    protected override void ExtraTrailEffects(FollowTowards ft)
+    {
+        ft.isButterfree = true;
+    }
+
     public void POISON_POWDER()
     {
         if (poisonPowder != null)

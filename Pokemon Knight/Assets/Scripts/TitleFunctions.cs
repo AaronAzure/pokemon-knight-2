@@ -127,6 +127,9 @@ public class TitleFunctions : MonoBehaviour
 
         if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber.ToString()))
             PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber.ToString(), new string[50]);
+        
+        if (PlayerPrefsElite.VerifyArray("berries" + gameNumber.ToString()))
+            PlayerPrefsElite.SetStringArray("berries" + gameNumber.ToString(), new string[20]);
 
         PlayerPrefsElite.SetInt("gameNumber", gameNumber);
         StartCoroutine( FadeToGame() );

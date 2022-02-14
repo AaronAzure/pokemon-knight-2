@@ -51,6 +51,10 @@ public class PlayerControls : MonoBehaviour
     
     [Space] [HideInInspector] public Ally[] allies;
 
+    [HideInInspector] public bool butterfreeOut;
+    [HideInInspector] public int butterfreeSlot = -1;
+    private bool doubleJumpBeforeAtk;
+
 
     [Header("Pre-init Pokemon for PlayerPrefs")]
     [SerializeField] private AllyTeamUI bulbasaur;
@@ -106,7 +110,10 @@ public class PlayerControls : MonoBehaviour
     [Space] [SerializeField] private string[] roomsBeaten;
     [Space] [SerializeField] private string[] pokemonsCaught;
     [Space] [SerializeField] private string[] itemsObtained;
+    [Space] [SerializeField] private string[] berriesCollected;
     public Item currentItem;
+    public Berry currentBerry;
+    public int nBerries;
 
 
     [Space] [Header("Platformer Mechanics")]
@@ -278,6 +285,22 @@ public class PlayerControls : MonoBehaviour
             roomsBeaten = PlayerPrefsElite.GetStringArray("roomsBeaten" + gameNumber);
         else 
             roomsBeaten = new string[100];
+        
+        // MOOMOO MILK POTENCY
+        if (PlayerPrefsElite.VerifyArray("berries" + gameNumber))
+        {
+            berriesCollected = PlayerPrefsElite.GetStringArray("berries" + gameNumber);
+            var berriesSet = new HashSet<string>(berriesCollected);
+            if (berriesSet.Contains(""))
+                berriesSet.Remove("");
+            nBerries = berriesSet.Count;
+            Debug.Log("<color=green>Collected " + nBerries + " berries</color>");
+        }
+        else 
+        {
+            berriesCollected = new string[20];
+            PlayerPrefsElite.SetStringArray("berries" + gameNumber, berriesCollected);
+        }
 
         
         if (transitionAnim != null)
@@ -298,8 +321,6 @@ public class PlayerControls : MonoBehaviour
             allies = new Ally[6];
 
             string[] buttonAllocatedPokemons = PlayerPrefsElite.GetStringArray("buttonAllocatedPokemons" + gameNumber);
-            // foreach (string bap in buttonAllocatedPokemons)
-            //     Debug.Log(bap);
 
             for (int i=0 ; i<buttonAllocatedPokemons.Length ; i++)
             {
@@ -352,6 +373,7 @@ public class PlayerControls : MonoBehaviour
                         break;
                 }
             }
+            SavePokemonTeam();
         }
         else
         {
@@ -497,7 +519,18 @@ public class PlayerControls : MonoBehaviour
             if (player.GetButtonDown("R"))
                 SwitchPokemonSet();
 
-            if (currentItem != null && Interact())
+            if (currentBerry != null && Interact())
+            {
+                body.velocity = Vector2.zero;
+                inCutscene = true;
+                currentBerry.PickupBerry();
+                anim.speed = 1;
+                anim.SetTrigger("pickup");
+                currentBerry = null;
+                if (itemFoundlSound != null) 
+                    itemFoundlSound.Play();
+            }
+            else if (currentItem != null && Interact())
             {
                 body.velocity = Vector2.zero;
                 inCutscene = true;
@@ -539,7 +572,7 @@ public class PlayerControls : MonoBehaviour
                     if (grounded && player.GetButtonDown("B"))
                         Jump();
                     //* Double Jump (mid air jump)
-                    if (canDoubleJump && nExtraJumpsLeft > 0 && !grounded && player.GetButtonDown("B"))
+                    if (canDoubleJump && !butterfreeOut && nExtraJumpsLeft > 0 && !grounded && player.GetButtonDown("B"))
                     {
                         nExtraJumpsLeft--;
                         MidairJump();
@@ -580,117 +613,30 @@ public class PlayerControls : MonoBehaviour
                 {
                     if      (canPressButtonWest && player.GetButtonDown("Y"))
                     {
-                        if (allies[0] != null && (!inWater || allies[0].aquatic))
-                        {
-                            if (!noCoolDown) nPokemonOut++;
-                            var pokemon = Instantiate(allies[0], spawnPos.position, allies[0].transform.rotation);
-                            pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
-                            pokemon.body.velocity = this.body.velocity;
-                            pokemon.trainer = this;
-                            pokemon.button = "Y";
-
-                            PokemonSummoned("Y");
-                            
-                            //* Looking left
-                            if (holder.transform.eulerAngles.y > 0)
-                                pokemon.transform.eulerAngles = new Vector3(0,-180);
-                        }
+                        SummonPokemon(0, "Y");
                     }
                     else if (canPressButtonNorth && player.GetButtonDown("X"))
                     {
-                        if (allies[1] != null && (!inWater || allies[1].aquatic))
-                        {
-                            if (!noCoolDown) nPokemonOut++;
-                            var pokemon = Instantiate(allies[1], spawnPos.position, allies[1].transform.rotation);
-                            pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
-                            pokemon.body.velocity = this.body.velocity;
-                            pokemon.trainer = this;
-                            pokemon.button = "X";
-
-                            PokemonSummoned("X");
-                            
-                            //* Looking left
-                            if (holder.transform.eulerAngles.y > 0)
-                                pokemon.transform.eulerAngles = new Vector3(0,-180);
-                        }
+                        SummonPokemon(1, "X");
                     }
                     else if (canPressButtonEast && player.GetButtonDown("A"))
                     {
-                        if (allies[2] != null && (!inWater || allies[2].aquatic))
-                        {
-                            if (!noCoolDown) nPokemonOut++;
-                            var pokemon = Instantiate(allies[2], spawnPos.position, allies[2].transform.rotation);
-                            pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
-                            pokemon.body.velocity = this.body.velocity;
-                            pokemon.trainer = this;
-                            pokemon.button = "A";
-
-                            PokemonSummoned("A");
-                            
-                            //* Looking left
-                            if (holder.transform.eulerAngles.y > 0)
-                                pokemon.transform.eulerAngles = new Vector3(0,-180);
-                        }
+                        SummonPokemon(2, "A");
                     }
                 }
                 else
                 {
                     if      (canPressButtonWest2 && player.GetButtonDown("Y"))
                     {
-                        if (allies[3] != null && (!inWater || allies[3].aquatic))
-                        {
-                            if (!noCoolDown) nPokemonOut++;
-                            var pokemon = Instantiate(allies[3], spawnPos.position, allies[3].transform.rotation);
-                            pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
-                            pokemon.body.velocity = this.body.velocity;
-                            pokemon.trainer = this;
-                            pokemon.button = "Y2";
-
-                            IsSpecialPokemon(allies[5]);
-                            PokemonSummoned("Y2");
-                            
-                            //* Looking left
-                            if (holder.transform.eulerAngles.y > 0)
-                                pokemon.transform.eulerAngles = new Vector3(0,-180);
-                        }
+                        SummonPokemon(3, "Y2");
                     }
                     else if (canPressButtonNorth2 && player.GetButtonDown("X"))
                     {
-                        if (allies[4] != null && (!inWater || allies[4].aquatic))
-                        {
-                            if (!noCoolDown) nPokemonOut++;
-                            var pokemon = Instantiate(allies[4], spawnPos.position, allies[4].transform.rotation);
-                            pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
-                            pokemon.body.velocity = this.body.velocity;
-                            pokemon.trainer = this;
-                            pokemon.button = "X2";
-
-                            IsSpecialPokemon(allies[5]);
-                            PokemonSummoned("X2");
-                            
-                            //* Looking left
-                            if (holder.transform.eulerAngles.y > 0)
-                                pokemon.transform.eulerAngles = new Vector3(0,-180);
-                        }
+                        SummonPokemon(4, "X2");
                     }
                     else if (canPressButtonEast2 && player.GetButtonDown("A"))
                     {
-                        if (allies[5] != null && (!inWater || allies[5].aquatic))
-                        {
-                            if (!noCoolDown) nPokemonOut++;
-                            var pokemon = Instantiate(allies[5], spawnPos.position, allies[5].transform.rotation);
-                            pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
-                            pokemon.body.velocity = this.body.velocity;
-                            pokemon.trainer = this;
-                            pokemon.button = "A2";
-
-                            IsSpecialPokemon(allies[5]);
-                            PokemonSummoned("A2");
-                            
-                            //* Looking left
-                            if (holder.transform.eulerAngles.y > 0)
-                                pokemon.transform.eulerAngles = new Vector3(0,-180);
-                        }
+                        SummonPokemon(5, "A2");
                     }
                 }
             }
@@ -701,6 +647,30 @@ public class PlayerControls : MonoBehaviour
         {
             if (PressedStandardButton())
                 doubleJumpScreen.SetTrigger("confirm");
+        }
+    }
+
+    private void SummonPokemon(int slot, string button)
+    {
+        if (allies[ slot ] != null && (!inWater || allies[ slot ].aquatic))
+        {
+            if (allies[ slot ] != butterfree.summonable || allies[ slot ] == butterfree.summonable && !butterfreeOut)
+            {
+                if (allies[ slot ] == butterfree.summonable)
+                    butterfreeOut = true;
+                if (!noCoolDown) nPokemonOut++;
+                var pokemon = Instantiate(allies[ slot ], spawnPos.position, allies[ slot ].transform.rotation);
+                pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
+                pokemon.body.velocity = this.body.velocity;
+                pokemon.trainer = this;
+                pokemon.button = button;
+
+                PokemonSummonedIndicator(button);
+                
+                //* Looking left
+                if (holder.transform.eulerAngles.y > 0)
+                    pokemon.transform.eulerAngles = new Vector3(0,-180);
+            }
         }
     }
 
@@ -872,6 +842,12 @@ public class PlayerControls : MonoBehaviour
             pokemon.transform.SetParent(doubleJumpSpawnPos, true);
             Ally ally = pokemon.GetComponent<Ally>();
             ally.trainer = this;
+            butterfreeOut = true;
+            if (butterfreeSlot != -1 && partyPokemonsUI[ butterfreeSlot ].color != new Color(0.3f,0.3f,0.3f))
+            {
+                doubleJumpBeforeAtk = true;
+                partyPokemonsUI[ butterfreeSlot ].color = new Color(0.3f,0.3f,0.3f);
+            }
 
             //* Looking left
             if (holder.transform.eulerAngles.y > 0)
@@ -1000,7 +976,7 @@ public class PlayerControls : MonoBehaviour
         if (healEffect != null)
             Instantiate(healEffect, this.transform.position + new Vector3(0,1), Quaternion.identity, this.transform);
         drinking = false;
-        hp += ((25 * nMoomooMilkUpgrade) + moomooMilkRecovery);
+        hp += ((25 * nBerries) + moomooMilkRecovery);
         nMoomooMilkLeft--;
 
         if (healSound != null)
@@ -1746,6 +1722,19 @@ public class PlayerControls : MonoBehaviour
         if (allies[4] != null) buttonAllocatedPokemons[4] = allies[4].name;
         if (allies[5] != null) buttonAllocatedPokemons[5] = allies[5].name;
         PlayerPrefsElite.SetStringArray("buttonAllocatedPokemons" + gameNumber, buttonAllocatedPokemons);
+
+        butterfreeSlot = RememberSpecialPokemonSlot( SpecialPokemon.butterfree );
+    }
+
+    //* REMEMBER SPECIAL POKEMON SLOTS (DYNAMIC PROGRAMMING) 
+    private int RememberSpecialPokemonSlot(SpecialPokemon sp)
+    {
+        for (int i=0 ; i<allies.Length ; i++)
+        {
+            if (sp == SpecialPokemon.butterfree && allies[i] == butterfree.summonable)
+                return i;
+        }
+        return -1;
     }
 
     public void CaughtAPokemon(string pokemonName)
@@ -1854,7 +1843,7 @@ public class PlayerControls : MonoBehaviour
     }
 
 
-    void PokemonSummoned(string button)
+    void PokemonSummonedIndicator(string button)
     {
         if (noCoolDown)
             return;
@@ -1897,6 +1886,14 @@ public class PlayerControls : MonoBehaviour
         }
     }
     
+    public void ButterfreeReturned()
+    {
+        if (doubleJumpBeforeAtk && butterfreeSlot != -1 && butterfreeSlot < partyPokemonsUI.Length)
+        {
+            partyPokemonsUI[ butterfreeSlot ].color = new Color(1,1,1);
+            doubleJumpBeforeAtk = false;
+        }
+    }
     public void AllPokemonReturned()
     {
         nPokemonOut = 0;

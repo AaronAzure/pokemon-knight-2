@@ -15,6 +15,8 @@ public abstract class Enemy : MonoBehaviour
     public int lv=2;
     protected int defaultLv=1; // Bonus
     private int lvBreak=10;  // Additional bonus
+    [HideInInspector] public enum ChapterLevel { one, two, three, four, five, six, seven };
+    public ChapterLevel chapterLevel = ChapterLevel.one;
     [Space] public int maxHp=100;
     public int hp;
     protected PlayerControls playerControls;
@@ -146,8 +148,6 @@ public abstract class Enemy : MonoBehaviour
 
         Setup();
 
-        // if (lv > lvBreak)
-        //     maxHp += (lv - lvBreak) * extraHp;
         if (lv > defaultLv)
             maxHp += Mathf.CeilToInt((extraHp * (lv - defaultLv))/2f);
         if (lv > defaultLv)
@@ -159,6 +159,7 @@ public abstract class Enemy : MonoBehaviour
 
         int nextAreas = (lv / lvBreak);
         for (int i=0 ; i<nextAreas ; i++)
+        // for (int i=0 ; i<(int)chapterLevel ; i++)
         {
             maxHp = Mathf.RoundToInt(maxHp * 1.5f);
             expPossess = Mathf.RoundToInt(expPossess * 1.5f);
@@ -604,13 +605,12 @@ public abstract class Enemy : MonoBehaviour
             int tempExp = expPossess;
             if (lv > defaultLv)
                 tempHp += Mathf.CeilToInt((extraHp * (lv - defaultLv))/2f);
-            // if (lv > defaultLv)
-            //     contactDmg += Mathf.FloorToInt((extraDmg * (lv - defaultLv))/2f);
             if (lv > defaultLv)
                 tempExp += Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) );
             
             int nextAreas = (lv / lvBreak);
             for (int i=0 ; i<nextAreas ; i++)
+            // for (int i=0 ; i<(int)chapterLevel ; i++)
             {
                 tempHp = Mathf.RoundToInt(tempHp * 1.5f);
                 tempExp = Mathf.RoundToInt(tempExp * 1.5f);

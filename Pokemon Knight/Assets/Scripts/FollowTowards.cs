@@ -21,6 +21,7 @@ public class FollowTowards : MonoBehaviour
     [SerializeField] private GameObject powerupAcquired;
     public WaveSpawner spawner;
     public BossRoom bossRoom;
+    [Space] public bool isButterfree;
 
 
     // Start is called before the first frame update
@@ -57,6 +58,11 @@ public class FollowTowards : MonoBehaviour
             // ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             var main = ps.main;
             main.loop = false;
+            if (player != null && isButterfree)
+            {
+                player.butterfreeOut = false; 
+                player.ButterfreeReturned();
+            }
             if (!justForShow && player != null)
             {
                 player.PokemonReturned(button, cooldownTime);

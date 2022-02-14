@@ -62,7 +62,7 @@ public class HighlightedButton : MonoBehaviour
                             float resummonTime = pokemonButton.ally.resummonTime;
                             if (player != null && player.speedScarf)
                                 resummonTime *= 0.7f;
-                            coolDown.text = resummonTime.ToString() + "s";
+                            coolDown.text = resummonTime.ToString() + "s (" + pokemonButton.ally.resummonTime + "s)";
 
                             desc.text = pokemonButton.ally.moveDesc;
 

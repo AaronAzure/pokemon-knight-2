@@ -51,6 +51,8 @@ public abstract class Ally : MonoBehaviour
             atkDmg += ( extraDmg * Mathf.CeilToInt(((trainer.lv - 1) / perLevel)) );
         if (trainer != null && trainer.furyBracelet && trainer.hpImg.fillAmount <= 0.25f)
             atkDmg *= 2;
+        else if (trainer != null && trainer.furyBracelet && trainer.hpImg.fillAmount <= 0.5f)
+            atkDmg = Mathf.RoundToInt(atkDmg * 1.25f);
         if (trainer != null && hitbox != null && trainer.extraRange)
             hitbox.gameObject.transform.localScale *= 1.5f;
 
@@ -87,6 +89,8 @@ public abstract class Ally : MonoBehaviour
         }
     }
 
+    protected virtual void ExtraTrailEffects(FollowTowards ft) {}
+
     protected IEnumerator BackToBall()
     {
         // CALL ONCE
@@ -95,7 +99,7 @@ public abstract class Ally : MonoBehaviour
         returning = true;
 
         yield return new WaitForSeconds(outTime);
-        int times = 20;
+        int times = 10;
         float x = model.transform.localScale.x / times;
         foreach (SpriteRenderer renderer in renderers)
         {
@@ -115,6 +119,7 @@ public abstract class Ally : MonoBehaviour
             var returnObj = Instantiate(trailObj, this.transform.position, Quaternion.identity, null);
             returnObj.button = this.button;
             returnObj.cooldownTime = this.resummonTime;
+            ExtraTrailEffects(returnObj);
 
             if (trainer != null)
             {
@@ -127,7 +132,6 @@ public abstract class Ally : MonoBehaviour
             }
         }
 
-        // yield return new WaitForSeconds(0.01f);
         yield return new WaitForEndOfFrame();
         Destroy(this.gameObject);
     }
