@@ -6105,12 +6105,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lv: 12
+  chapterLevel: 0
   maxHp: 1000
   hp: 0
   mainAnim: {fileID: 1602186293996210103}
   contactDmg: 30
   contactKb: 25
-  projectileDmg: 8
+  projectileDmg: 12
   isSmart: 0
   renderers:
   - {fileID: 6201443634278078878}
@@ -6131,10 +6132,9 @@ MonoBehaviour:
   extraDmg: 0
   extraProjectileDmg: 0
   perLv: 1
-  totalExtraDmg: 0
+  calcExtraProjectileDmg: 0
   expPossess: 300
   extraExp: 0
-  lvBreak: 50
   col: {fileID: 3172262714034576942}
   body: {fileID: 5132741295536627786}
   model: {fileID: 6347547858869078386}
@@ -6154,6 +6154,8 @@ MonoBehaviour:
   origSize: {x: 0, y: 0, z: 0}
   ShrinkDuration: 0.5
   t: 0
+  feetSize: {x: 0, y: 0}
+  feetOffset: {x: 0, y: 0}
   isBoss: 1
   isMiniBoss: 0
   possessedAura: {fileID: 8365389850214731242}

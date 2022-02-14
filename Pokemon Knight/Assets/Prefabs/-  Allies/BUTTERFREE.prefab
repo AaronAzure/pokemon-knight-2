@@ -732,10 +732,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 6347547858869078386}
   hitbox: {fileID: 0}
-  atkDmg: 4
+  atkDmg: 8
   atkForce: 0
   extraDmg: 1
-  perLevel: 2
+  perLevel: 1
   outTime: 1.5
   resummonTime: 2
   body: {fileID: 1737670390680659744}
@@ -743,7 +743,7 @@ MonoBehaviour:
   trainer: {fileID: 0}
   button: 
   moveName: Poison Powder
-  multiHit: 20
+  multiHit: 10
   moveDesc: Scatters a cloud of poisonous dust on foes.
   renderers:
   - {fileID: 6201443634278078878}

@@ -607,12 +607,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lv: 5
+  chapterLevel: 0
   maxHp: 75
   hp: 0
   mainAnim: {fileID: 0}
   contactDmg: 5
   contactKb: 10
-  projectileDmg: 2
+  projectileDmg: 4
   isSmart: 1
   renderers:
   - {fileID: 5478942814163688623}
@@ -630,11 +631,10 @@ MonoBehaviour:
   extraHp: 15
   extraDmg: 5
   extraProjectileDmg: 1
-  perLv: 2
+  perLv: 1
   calcExtraProjectileDmg: 0
   expPossess: 12
   extraExp: 7
-  lvBreak: 50
   col: {fileID: 6059486759220388701}
   body: {fileID: 5798675815866953818}
   model: {fileID: 8315939532998918946}

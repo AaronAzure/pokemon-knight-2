@@ -74,7 +74,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23eeb2ad9e13d40249bfdbd88382c5ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atkDmg: 4
+  atkDmg: 6
+  kbForce: 0
 --- !u!95 &6543823460546405722
 Animator:
   serializedVersion: 3
@@ -340,7 +341,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.654902, g: 0, b: 1, a: 1}
+      maxColor: {r: 0.37687755, g: 0, b: 0.5754717, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
