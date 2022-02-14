@@ -135,6 +135,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] public bool grounded = true;
     [HideInInspector] public bool jumping = false;
+    [HideInInspector] public bool crouching = false;
     [HideInInspector] public bool ledgeGrabbing = false;
     [SerializeField] private Vector2 wallDetectBox;
     private bool receivingKnockback;
@@ -507,6 +508,19 @@ public class PlayerControls : MonoBehaviour
         //* Walking, Dashing, Summoning, jumping, Interacting
         else if (hp > 0 && !inCutscene && !dodging && !isSleeping)
         {
+            if (!crouching && player.GetAxis("Move Vertical") <= -0.5f && grounded)
+            {
+                body.velocity = Vector2.zero;
+                crouching = true;
+                anim.SetBool("isCrouching", crouching);
+                anim.speed = 1;
+            }
+            else if (crouching && player.GetAxis("Move Vertical") > -0.5f)
+            {
+                crouching = false;
+                anim.SetBool("isCrouching", crouching);
+            }
+
             if (!ledgeGrabbing)
                 ledgeGrabbing = CheckLedgeGrab();
 
@@ -702,7 +716,7 @@ public class PlayerControls : MonoBehaviour
                 float yValue = player.GetAxis("Move Vertical");
                 body.velocity = new Vector2(xValue, yValue) * moveSpeed;
             }
-            else
+            else if (!crouching)
             {
                 Walk(xValue);
 
@@ -797,8 +811,6 @@ public class PlayerControls : MonoBehaviour
         if (Mathf.Abs(xValue) < 0.1f)
         {
             xValue = 0;
-            // body.velocity = new Vector2(0, body.velocity.y);
-            // walkTimerCounter = 0;
         }
         // else
         // {
