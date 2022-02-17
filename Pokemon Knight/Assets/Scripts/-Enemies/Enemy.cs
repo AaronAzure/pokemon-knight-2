@@ -59,7 +59,7 @@ public abstract class Enemy : MonoBehaviour
     [Space] public Collider2D col;
     public Rigidbody2D body;
     public GameObject model;    // sprites holder
-    protected bool receivingKnockback;
+    protected bool receivingKnockback=false;
     public bool cannotRecieveKb;
     [Tooltip("1 = 100% kb, 0 = 0%")] [SerializeField] [Range(0,1f)] protected float kbDefense=1;
     [SerializeField] protected LayerMask whatIsGround;
@@ -105,13 +105,15 @@ public abstract class Enemy : MonoBehaviour
     [HideInInspector] public WaveSpawner spawner;
 
     
-    [Space] [Header("Support")]
+    [Space] [Header("Support / Mechanics")]
     public GameObject alert;
     [HideInInspector] protected bool canFlip=true ;
     public bool playerInField;
     public bool playerInSight;
     protected bool trigger;
     public bool alwaysAttackPlayer;
+    [Space] [SerializeField] protected bool movingLeft;
+    [SerializeField] protected bool movingRight;
 
 
     [Space] [Header("Buffs / Debuffs")]
@@ -125,6 +127,10 @@ public abstract class Enemy : MonoBehaviour
     private int defenseStage;
     protected enum Stat { atk, def, spd };
     protected bool inAnimation;
+
+
+    private enum HpEffect { none, heal, lost };
+    private HpEffect healthStatus = HpEffect.none;
 
 
 
@@ -190,13 +196,42 @@ public abstract class Enemy : MonoBehaviour
     {
         if (hpImg != null && hpEffectImg != null)
         {
-            hpImg.fillAmount = (float) hp / (float) maxHp;
+            float currentHpPercent = ((float) Mathf.Max(0,hp) /(float) maxHp);
+
+            if      (hpImg.fillAmount < currentHpPercent)    //* RECOVERED HEALTH
+            {
+                hpEffectImg.fillAmount = currentHpPercent;
+                healthStatus = HpEffect.heal;
+            }
+            else if (hpImg.fillAmount > currentHpPercent)    //* LOST HEALTH
+            {
+                hpImg.fillAmount = currentHpPercent;
+                healthStatus = HpEffect.lost;
+            }
             
-            //* Hp lost Effect
-            if (hpEffectImg.fillAmount > hpImg.fillAmount)
-                hpEffectImg.fillAmount -= effectSpeed;
-            else 
-                hpEffectImg.fillAmount = hpImg.fillAmount;
+            //* Hp gain Effect
+            if (healthStatus == HpEffect.heal)
+            {
+                if (hpImg.fillAmount < hpEffectImg.fillAmount)
+                    hpImg.fillAmount += effectSpeed;
+                else 
+                {
+                    hpImg.fillAmount = hpEffectImg.fillAmount;
+                    healthStatus = HpEffect.none;
+                }
+            }
+            //* Hp lost 
+            else if (healthStatus == HpEffect.lost)
+            {
+                if (hpEffectImg.fillAmount > hpImg.fillAmount)
+                    hpEffectImg.fillAmount -= effectSpeed;
+                else
+                {
+                    hpEffectImg.fillAmount = hpImg.fillAmount;
+                    healthStatus = HpEffect.none;
+                }
+            }
+                    
             
             //* Hp color Effect
             if (hpImg.fillAmount <= 0.25f)

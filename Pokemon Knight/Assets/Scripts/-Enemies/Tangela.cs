@@ -2,21 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gloom : Enemy
+public class Tangela : Enemy
 {
-    [Space] [Header("Gloom")]  public float moveSpeed=2;
+    [Space] [Header("Tangela")]  public float moveSpeed=2;
     public float distanceDetect=1f;
     public Transform groundDetection;
     [SerializeField] private LayerMask whatIsTree;
     public float forwardDetect=1f;
     public Transform face;
-    [SerializeField] private EnemyProjectile sludgeBomb;
-    [SerializeField] private Transform sludgeBombPos;
     
 
-    [Space] [SerializeField] private Transform target;
 
-    [SerializeField] private float multiplier=-1.1f;
+    [Space] public EnemyProjectile absorbObj;
+    private Transform target;
+    private float multiplier=-1.1f;
     private float trajectory;
     private LayerMask finalMask;
 
@@ -38,13 +37,23 @@ public class Gloom : Enemy
             frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
         else    // left
             frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
-            
-        if ((!groundInfo || frontInfo) && canFlip && body.velocity.y >= 0)
+
+        if (hp > 0 && !receivingKnockback)
         {
-            canFlip = false;
-            WalkTheOtherWay();
-            StartCoroutine( ResetFlipTimer() );
+            if (movingLeft)
+            {
+                body.velocity = new Vector2(-moveSpeed, body.velocity.y);
+                model.transform.eulerAngles = new Vector3(0, 0);
+            }
+            else if (movingRight)
+            {
+                body.velocity = new Vector2(moveSpeed, body.velocity.y);
+                model.transform.eulerAngles = new Vector3(0, 180);
+            }
         }
+            
+        if ((!groundInfo || frontInfo) && canFlip && body.velocity.y >= 0 && (movingLeft || movingRight))
+            Flip();
 
         if (playerInField && target != null)
         {
@@ -80,20 +89,24 @@ public class Gloom : Enemy
         }
     }
 
-    public void SLUDGE_BOMB()
+    public void ABSORB()
     {
         if (hp > 0)
         {
-            if (sludgeBomb != null && sludgeBombPos != null)
+            if (absorbObj != null && target != null)
             {
-                var obj = Instantiate(sludgeBomb, sludgeBombPos.position, sludgeBomb.transform.rotation);
-                obj.body.gravityScale = 3;
+                var obj = Instantiate(absorbObj, target.position + new Vector3(0,1), absorbObj.transform.rotation);
+                obj.moveMaster = this;
                 obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
-                obj.direction = new Vector2(multiplier * trajectory, Random.Range(12,16));
             }
         }
     }
 
+    public void BACK_TO_WALKING()
+    {
+        trigger = false;
+        mainAnim.SetTrigger("walk");
+    }
     public void NEXT_ACTION()
     {
         if (playerInSight)
@@ -104,29 +117,45 @@ public class Gloom : Enemy
         {
             trigger = false;
             mainAnim.SetTrigger("walk");
+            WALK();
         }
-
     }
 
     public void WALK()
     {
         if (Random.Range(0,2) == 0)
-        {
             if (hp > 0)
-                body.velocity = new Vector2(-moveSpeed, body.velocity.y);
-            model.transform.eulerAngles = new Vector3(0, 0);
+                movingLeft = true;
+        else
+            if (hp > 0)
+                movingRight = true;
+    }
+
+    private void Flip()
+    {
+        if (!canFlip)
+            return;
+        if (model.transform.eulerAngles.y != 0)
+        {
+            model.transform.eulerAngles = new Vector3(0, 0);    // left
+            movingRight = false;
+            movingLeft = true;
         }
         else
         {
-            if (hp > 0)
-                body.velocity = new Vector2(moveSpeed, body.velocity.y);
-            model.transform.eulerAngles = new Vector3(0, 180);
+            model.transform.eulerAngles = new Vector3(0, 180);  // right
+            movingLeft = false;
+            movingRight = true;
         }
+        StartCoroutine( ResetFlipTimer() );
     }
+
     public void STOP()
     {
         if (hp > 0)
             body.velocity = new Vector2(0, body.velocity.y);
+        movingLeft = false;
+        movingRight = false;
     }
 
     public void FACE_TARGET()

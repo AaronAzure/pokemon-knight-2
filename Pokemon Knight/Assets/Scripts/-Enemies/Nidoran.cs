@@ -13,8 +13,6 @@ public class Nidoran : Enemy
     public float maxSpeed=6f;
     public float distanceDetect=1f;
     public Transform groundDetection;
-    private bool movingLeft;
-    private bool movingRight;
 
     [SerializeField] private bool grounded=true;
     [SerializeField] private Transform feetPos;

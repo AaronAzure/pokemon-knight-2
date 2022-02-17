@@ -7,7 +7,11 @@ public class FollowTowards : MonoBehaviour
     public Vector3 offset = new Vector3(0,1);
     [SerializeField] private float speed = 5;
     private bool done;
-    [SerializeField] private bool isPokemonReturning=true;
+    public bool isPokemonReturning=true;
+    public bool isAbsorbEffect=false;
+    public Enemy moveMaster;
+    public int hpRecover;
+    [Space] [SerializeField] private GameObject healObj;
     [Space] [SerializeField] private ParticleSystem ps;
 
     
@@ -22,6 +26,7 @@ public class FollowTowards : MonoBehaviour
     public WaveSpawner spawner;
     public BossRoom bossRoom;
     [Space] public bool isButterfree;
+    private bool lostTarget;
 
 
     // Start is called before the first frame update
@@ -34,7 +39,7 @@ public class FollowTowards : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!done)
+        if (!done && target != null)
         {
             float step = speed * Time.fixedDeltaTime;
 
@@ -48,6 +53,20 @@ public class FollowTowards : MonoBehaviour
                 StartCoroutine( Done() );
             }
         }
+        else if (target == null && !done && !lostTarget)
+        {
+            lostTarget = true;
+            StartCoroutine( LostTarget() );
+        }
+    }
+
+    IEnumerator LostTarget()
+    {
+        this.transform.parent = target.transform;
+        var main = ps.main;
+        main.loop = false;
+        yield return new WaitForSeconds(0.25f);
+        Destroy(this.gameObject);
     }
 
     IEnumerator Done()
@@ -79,6 +98,21 @@ public class FollowTowards : MonoBehaviour
             if (bossRoom != null)
                 bossRoom.Walls(false);
 
+            yield return new WaitForSeconds(0.25f);
+            Destroy(this.gameObject);
+        }
+        else if (isAbsorbEffect && moveMaster != null)
+        {
+            if (hpRecover > 0 && healObj != null)
+                Instantiate(healObj, moveMaster.transform.position, healObj.transform.rotation);
+            if ((moveMaster.hp + hpRecover) < moveMaster.maxHp)
+                moveMaster.hp += hpRecover;
+            else
+                moveMaster.hp = moveMaster.maxHp;
+
+            this.transform.parent = target.transform;
+            var main = ps.main;
+            main.loop = false;
             yield return new WaitForSeconds(0.25f);
             Destroy(this.gameObject);
         }

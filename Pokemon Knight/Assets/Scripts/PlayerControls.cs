@@ -220,6 +220,8 @@ public class PlayerControls : MonoBehaviour
 
     [Header("Status Conditions")]
     public bool isSleeping;
+    private enum HpEffect { none, heal, lost };
+    private HpEffect healthStatus = HpEffect.none;
     [SerializeField] private ParticleSystem sleepingEffect;
     [SerializeField] private SpriteRenderer face;
     [SerializeField] private Sprite sleepFace;
@@ -508,14 +510,14 @@ public class PlayerControls : MonoBehaviour
         //* Walking, Dashing, Summoning, jumping, Interacting
         else if (hp > 0 && !inCutscene && !dodging && !isSleeping)
         {
-            if (!crouching && player.GetAxis("Move Vertical") <= -0.5f && grounded)
+            if (!crouching && player.GetAxis("Move Vertical") <= -0.75f && grounded)
             {
                 body.velocity = Vector2.zero;
                 crouching = true;
                 anim.SetBool("isCrouching", crouching);
                 anim.speed = 1;
             }
-            else if (crouching && player.GetAxis("Move Vertical") > -0.5f)
+            else if (crouching && player.GetAxis("Move Vertical") > -0.75f || !grounded)
             {
                 crouching = false;
                 anim.SetBool("isCrouching", crouching);
@@ -754,16 +756,48 @@ public class PlayerControls : MonoBehaviour
         //* Hp
         if (hpImg != null && hpEffectImg != null)
         {
-            hpImg.fillAmount = ((float)hp /(float) maxHp);
+            float currentHpPercent = ((float) Mathf.Max(0,hp) /(float) maxHp);
+
+            if      (hpImg.fillAmount < currentHpPercent)    //* RECOVERED HEALTH
+            {
+                hpEffectImg.fillAmount = currentHpPercent;
+                healthStatus = HpEffect.heal;
+            }
+            else if (hpImg.fillAmount > currentHpPercent)    //* LOST HEALTH
+            {
+                hpImg.fillAmount = currentHpPercent;
+                healthStatus = HpEffect.lost;
+            }
             
-            //* Hp lost Effect
-            if (hpEffectImg.fillAmount > hpImg.fillAmount)
-                if (hp > 0)
-                    hpEffectImg.fillAmount -= effectSpeed;
+            //* Hp gain Effect
+            if (healthStatus == HpEffect.heal)
+            {
+                if (hpImg.fillAmount < hpEffectImg.fillAmount)
+                    if (hp > 0)
+                        hpImg.fillAmount += effectSpeed;
+                    else
+                        hpImg.fillAmount += (effectSpeed/2);
+                else 
+                {
+                    hpImg.fillAmount = hpEffectImg.fillAmount;
+                    healthStatus = HpEffect.none;
+                }
+            }
+            //* Hp lost 
+            else if (healthStatus == HpEffect.lost)
+            {
+                if (hpEffectImg.fillAmount > hpImg.fillAmount)
+                    if (hp > 0)
+                        hpEffectImg.fillAmount -= effectSpeed;
+                    else
+                        hpEffectImg.fillAmount -= (effectSpeed/4);
                 else
-                    hpEffectImg.fillAmount -= (effectSpeed/4);
-            else 
-                hpEffectImg.fillAmount = hpImg.fillAmount;
+                {
+                    hpEffectImg.fillAmount = hpImg.fillAmount;
+                    healthStatus = HpEffect.none;
+                }
+            }
+                    
             
             //* Hp color Effect
             if (hpImg.fillAmount <= 0.25f)
@@ -990,6 +1024,7 @@ public class PlayerControls : MonoBehaviour
         drinking = false;
         hp += ((25 * nBerries) + moomooMilkRecovery);
         nMoomooMilkLeft--;
+        damageIndicatorAnim.SetFloat("fadeSpeed", hpEffectImg.fillAmount * hpEffectImg.fillAmount);
 
         if (healSound != null)
             healSound.Play();
@@ -1012,6 +1047,7 @@ public class PlayerControls : MonoBehaviour
         {
             anim.SetBool("isDrinking", false);
             hp -= dmg;
+            Debug.Log("<color=#FF8800>Took " + dmg + " dmg</color>");
             if (dmg > 0 && hp > 0)
             {
                 StartCoroutine( Flash() );
@@ -1909,6 +1945,7 @@ public class PlayerControls : MonoBehaviour
     public void AllPokemonReturned()
     {
         nPokemonOut = 0;
+        butterfreeOut = false;
 
         canPressButtonWest = true;
         partyPokemonsUI[0].color = new Color(1,1,1);

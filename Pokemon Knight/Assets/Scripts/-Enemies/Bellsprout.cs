@@ -11,8 +11,6 @@ public class Bellsprout : Enemy
     public float maxSpeed=7.5f;
     public float distanceDetect=1f;
     public Transform groundDetection;
-    private bool movingLeft;
-    private bool movingRight;
 
 
     [Header("Attacks")]

@@ -18,6 +18,8 @@ public class Berry : MonoBehaviour
         {
             berries = PlayerPrefsElite.GetStringArray("berries" + PlayerPrefsElite.GetInt("gameNumber"));
             berriesSet = new HashSet<string>(berries);
+            if (berriesSet.Contains(""))
+                berriesSet.Remove("");
             if (berriesSet.Contains(roomName))
                 Destroy(this.gameObject);
         }
@@ -36,7 +38,8 @@ public class Berry : MonoBehaviour
         if (player != null)
         {
             player.nBerries++;
-            if (berries.Length < berriesSet.Count)
+            Debug.Log("<color=yellow>"+berriesSet.Count+"</color>");
+            if (berriesSet.Count < berries.Length)
             {
                 berries[ berriesSet.Count ] = roomName;
                 PlayerPrefsElite.SetStringArray("berries" + PlayerPrefsElite.GetInt("gameNumber"), berries);

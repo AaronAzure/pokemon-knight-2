@@ -10,8 +10,6 @@ public class Oddish : Enemy
     [SerializeField] private LayerMask whatIsTree;
     public float forwardDetect=1f;
     public Transform face;
-    private bool movingLeft;
-    private bool movingRight;
 
 
     [Header("Attacks")]

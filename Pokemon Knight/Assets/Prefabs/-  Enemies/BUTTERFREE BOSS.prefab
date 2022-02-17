@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7272378695528465550}
   - component: {fileID: 4553523078151066480}
   - component: {fileID: 1445352863840856816}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: 2842310223863739285}
   - component: {fileID: 8676072211916011654}
   - component: {fileID: 3811485938230754775}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 5754338738412058841}
   - component: {fileID: 5326972338745019336}
   - component: {fileID: 3625950389921862185}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: wing L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -410,7 +410,7 @@ GameObject:
   - component: {fileID: 9036695571373795603}
   - component: {fileID: 8192777259640324269}
   - component: {fileID: 9019266223111549262}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: antenna L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -543,7 +543,7 @@ GameObject:
   - component: {fileID: 3762034308723394438}
   - component: {fileID: 4586948813259512463}
   - component: {fileID: 4853708645857419120}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: antenna R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -676,7 +676,7 @@ GameObject:
   - component: {fileID: 3768447046871176245}
   - component: {fileID: 2702450904983023270}
   - component: {fileID: 6617946165247182764}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leg L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5840,7 +5840,7 @@ GameObject:
   - component: {fileID: 3312904074114167170}
   - component: {fileID: 5635582273553281161}
   - component: {fileID: 3932653436030041798}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: arm R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6223,7 +6223,7 @@ GameObject:
   - component: {fileID: 4701721614878317035}
   - component: {fileID: 5773640374914880734}
   - component: {fileID: 5183918769507110083}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: wing R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6388,7 +6388,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7522652704014139001}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: HEAD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6423,7 +6423,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2320814802840350389}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: LEGS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6457,7 +6457,7 @@ GameObject:
   - component: {fileID: 2542574084277470329}
   - component: {fileID: 2291465842648553294}
   - component: {fileID: 5673590571506644437}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leg R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6588,7 +6588,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2723475706248323214}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: BODY
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6627,7 +6627,7 @@ GameObject:
   - component: {fileID: 5419800843446830129}
   - component: {fileID: 6201443634278078878}
   - component: {fileID: 2323405748865781233}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: arm L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7198,6 +7198,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: '- GlintSparkle'
       objectReference: {fileID: 0}
+    - target: {fileID: 109358, guid: 66a38d5c77ab146d2a521201c1e036cc, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 111528, guid: 66a38d5c77ab146d2a521201c1e036cc, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 154610, guid: 66a38d5c77ab146d2a521201c1e036cc, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 466126, guid: 66a38d5c77ab146d2a521201c1e036cc, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -7246,6 +7258,18 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3790282255883747837, guid: 66a38d5c77ab146d2a521201c1e036cc, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7605981338527613437, guid: 66a38d5c77ab146d2a521201c1e036cc, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809228514500788430, guid: 66a38d5c77ab146d2a521201c1e036cc, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66a38d5c77ab146d2a521201c1e036cc, type: 3}
 --- !u!1 &6840497885434885370 stripped
@@ -7282,15 +7306,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1465899634756489508, guid: d6dbfe9ab44054723a942f2cb14d2834, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1465899634756510830, guid: d6dbfe9ab44054723a942f2cb14d2834, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1465899634756568762, guid: d6dbfe9ab44054723a942f2cb14d2834, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1465899634756832608, guid: d6dbfe9ab44054723a942f2cb14d2834, type: 3}
       propertyPath: m_RootOrder
@@ -7350,7 +7374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7666413519923928196, guid: d6dbfe9ab44054723a942f2cb14d2834, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6dbfe9ab44054723a942f2cb14d2834, type: 3}
