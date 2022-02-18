@@ -10,7 +10,10 @@ using UnityEngine;
 
 [System.Serializable] public class WaveSpawner : MonoBehaviour
 {
+    
+
     public Animator anim;
+
     public Enemy[] waves;
     public int enemiesLevel=3;
     public int miniBossLevel=5;

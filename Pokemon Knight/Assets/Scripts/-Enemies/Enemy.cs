@@ -280,9 +280,25 @@ public abstract class Enemy : MonoBehaviour
             return;
 
         if (playerControls.transform.position.x - this.transform.position.x > 0)
+        {
+            // Move towards player
+            if (movingLeft)
+            {
+                movingLeft = false; 
+                movingRight = true;
+            }
             model.transform.eulerAngles = new Vector3(0,180);
+        }
         else if (playerControls.transform.position.x - this.transform.position.x < 0)
+        {
+            // Move towards player
+            if (movingRight)
+            {
+                movingLeft = true; 
+                movingRight = false;
+            }
             model.transform.eulerAngles = new Vector3(0,0);
+        }
     }
     public bool PlayerIsToTheLeft()
     {
@@ -316,7 +332,7 @@ public abstract class Enemy : MonoBehaviour
             if (force > 0 && opponent != null && !cannotRecieveKb)
                 StartCoroutine( ApplyKnockback(opponent, force) );
 
-            if (isSmart)
+            if (isSmart && force > 0)
                 LookAtPlayer();
 
             // Dramatic Boss Finisher
@@ -403,7 +419,10 @@ public abstract class Enemy : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             
             if (hp > 0)
-                body.velocity = Vector2.zero;
+                if (body.gravityScale != 0)
+                    body.velocity = new Vector2(0, body.velocity.y);
+                else
+                    body.velocity = Vector2.zero;
             receivingKnockback = false;
         }
     }

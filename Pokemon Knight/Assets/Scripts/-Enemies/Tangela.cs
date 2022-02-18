@@ -22,9 +22,11 @@ public class Tangela : Enemy
 
     public override void Setup()
     {
-        // StartCoroutine( Attack() );
         if (GameObject.Find("PLAYER") != null)
             target = GameObject.Find("PLAYER").transform;
+
+        if (alert != null) 
+            alert.gameObject.SetActive(false);
 
         finalMask = (whatIsPlayer | whatIsGround);
     }
@@ -64,7 +66,7 @@ public class Tangela : Enemy
             if (playerInfo.collider != null && playerInfo.collider.gameObject.CompareTag("Player"))
             {
                 playerInSight = true;
-                alert.SetActive(true);
+                // alert.SetActive(true);
                 if (!trigger)
                 {
                     trigger = true;
@@ -74,7 +76,6 @@ public class Tangela : Enemy
             else
             {
                 playerInSight = false;
-                alert.SetActive(false);
             }
         }    
     }
