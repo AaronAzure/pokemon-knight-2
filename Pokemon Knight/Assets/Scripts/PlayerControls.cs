@@ -268,8 +268,7 @@ public class PlayerControls : MonoBehaviour
             if (lvText != null)
                  lvText.text = "Lv. " + lv;
         }
-        for (int i=1 ; i<lv ; i++)
-            expNeeded = (int) (expNeeded * 1.3f);
+        expNeeded = (int) (100 * Mathf.Pow(1.3f, lv - 1));
         if (PlayerPrefsElite.VerifyInt("playerExp" + gameNumber))
             exp = PlayerPrefsElite.GetInt("playerExp" + gameNumber);
 
@@ -1023,9 +1022,10 @@ public class PlayerControls : MonoBehaviour
             Instantiate(healEffect, this.transform.position + new Vector3(0,1), Quaternion.identity, this.transform);
         drinking = false;
         hp += ((25 * nBerries) + moomooMilkRecovery);
-        Debug.Log( "<color=4CFF00> Healed " + ((25 * nBerries) + moomooMilkRecovery) + " hp</color>");
+        Debug.Log( "<color=#4CFF00> Healed " + ((25 * nBerries) + moomooMilkRecovery) + " hp</color>");
         nMoomooMilkLeft--;
-        damageIndicatorAnim.SetFloat("fadeSpeed", hpEffectImg.fillAmount * hpEffectImg.fillAmount);
+        float newSpeed = (float) hp / (float) maxHp;
+        damageIndicatorAnim.SetFloat("fadeSpeed", newSpeed * newSpeed);
 
         if (healSound != null)
             healSound.Play();
@@ -1042,13 +1042,50 @@ public class PlayerControls : MonoBehaviour
 
 
     // todo -----------------  D A M A G E  ------------------------------------------------
-    public void TakeDamage(int dmg=0, Transform opponent=null, float force=0)
+    public void TakeSpecialDamage(int dmg=0, Transform opponent=null, float force=0)
     {
-        if (hp > 0 && !inCutscene && !isInvincible)
+        if (hp > 0 && !inCutscene)
         {
+            Debug.Log("<color=#FF8800>Took " + dmg + " dmg</color>");
             anim.SetBool("isDrinking", false);
             hp -= dmg;
+            if (dmg > 0 && hp > 0)
+            {
+                StartCoroutine( Flash() );
+                
+                //* STRONG ATTACK
+                if (damageIndicatorAnim != null && force > 0)
+                {
+                    damageIndicatorAnim.SetTrigger("injured");
+                    damageIndicatorAnim.SetFloat("fadeSpeed", hpImg.fillAmount * hpImg.fillAmount);
+                }
+                //* WEAK ATTACK (NO knockback)
+                else if (damageIndicatorAnim != null && force == 0)
+                {
+                    damageIndicatorAnim.SetTrigger("injuredWeak");
+                    damageIndicatorAnim.SetFloat("fadeSpeed", hpImg.fillAmount * hpImg.fillAmount);
+                }
+            }
+                
+
+            if (force > 0 && opponent != null)
+            {
+                if (hp > 0) StartCoroutine( Invincibility() );
+                StartCoroutine( ApplyKnockback(opponent, force) );
+            }
+
+            if (hp <= 0)
+                StartCoroutine( Died() );
+        }
+    }
+    public void TakeDamage(int dmg=0, Transform opponent=null, float force=0)
+    {
+        // if (hp > 0 && !inCutscene)
+        if (hp > 0 && !inCutscene && !isInvincible)
+        {
             Debug.Log("<color=#FF8800>Took " + dmg + " dmg</color>");
+            anim.SetBool("isDrinking", false);
+            hp -= dmg;
             if (dmg > 0 && hp > 0)
             {
                 StartCoroutine( Flash() );
@@ -1257,6 +1294,7 @@ public class PlayerControls : MonoBehaviour
         hp = maxHp;
         anim.SetTrigger("reset");
         isSleeping = false;
+        inCutscene = false;
 
         if (transitionAnim != null)
             transitionAnim.SetTrigger("fromBlack");
@@ -1738,8 +1776,8 @@ public class PlayerControls : MonoBehaviour
             if (lvText != null)
                  lvText.text = "Lv. " + lv;
         }
-        for (int i=1 ; i<lv ; i++)
-            expNeeded = (int) (expNeeded * 1.3f);
+        expNeeded = (int) (100 * Mathf.Pow(1.3f, lv - 1));
+
         if (PlayerPrefsElite.VerifyInt("playerExp" + gameNumber))
             exp = PlayerPrefsElite.GetInt("playerExp" + gameNumber);
 

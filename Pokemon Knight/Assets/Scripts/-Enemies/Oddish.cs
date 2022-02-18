@@ -56,7 +56,7 @@ public class Oddish : Enemy
         anim.SetTrigger("sludgeBomb");
     }
 
-    public override void CallChildOnDeath()
+    public override void CallChildOnBossDeath()
     {
         if (co != null)
             StopCoroutine(co);

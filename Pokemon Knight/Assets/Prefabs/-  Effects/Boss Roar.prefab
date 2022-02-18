@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6578306421477813114}
   - component: {fileID: 6578306421477813113}
+  - component: {fileID: 6951855614976095538}
   m_Layer: 0
   m_Name: Boss Roar
   m_TagString: Roar
@@ -58,6 +59,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 50, y: 30}
   m_EdgeRadius: 0
+--- !u!210 &6951855614976095538
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6578306421477813112}
+  m_Enabled: 1
+  m_SortingLayerID: -1344374445
+  m_SortingLayer: 2
+  m_SortingOrder: 10
 --- !u!1001 &6578306422152995064
 PrefabInstance:
   m_ObjectHideFlags: 0

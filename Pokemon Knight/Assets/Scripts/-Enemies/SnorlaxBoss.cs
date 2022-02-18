@@ -56,7 +56,7 @@ public class SnorlaxBoss : Enemy
         if (co != null)
             StopCoroutine(co);
     }
-    public override void CallChildOnDeath()
+    public override void CallChildOnBossDeath()
     {
         performingNextAtk = false;
         body.gravityScale = 3;

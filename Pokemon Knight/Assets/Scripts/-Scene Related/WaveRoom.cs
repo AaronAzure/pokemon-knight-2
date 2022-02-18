@@ -18,6 +18,7 @@ public class WaveRoom : MonoBehaviour
     [Space] public int waveNumber = 0;
     public int totalWaves = 3;
     public WaveSpawner[] waveSpawners;
+    public List<WaveSpawner> defeatedSpawners;
     private int spawnersDefeated;
     public Enemy miniBoss;
     public string[] roomsBeaten;
@@ -26,6 +27,10 @@ public class WaveRoom : MonoBehaviour
     {
         roomName = SceneManager.GetActiveScene().name + " " + this.name;
         roomsBeaten = new string[100];
+        defeatedSpawners = new List<WaveSpawner>();
+        
+        foreach (GameObject wall in walls)
+            wall.SetActive(false);
 
         if (PlayerPrefsElite.VerifyArray("roomsBeaten" + PlayerPrefsElite.GetInt("gameNumber")))
         {
@@ -37,9 +42,8 @@ public class WaveRoom : MonoBehaviour
 
         }
         foreach (WaveSpawner ws in waveSpawners)
-        {
             ws.waveManager = this;
-        }
+
     }
 
     public void Walls(bool active)
@@ -83,20 +87,25 @@ public class WaveRoom : MonoBehaviour
         }
     }
 
-    public void ASpawnerLost()
+    public void ASpawnerLost(WaveSpawner spawner)
     {
+        if (defeatedSpawners.Contains(spawner))
+            return;
+        defeatedSpawners.Add(spawner);
         spawnersDefeated++;
 
         if (spawnersDefeated >= waveSpawners.Length)
         {
             if (waveNumber < totalWaves - 1)
             {
+                defeatedSpawners.Clear();
                 spawnersDefeated = 0;
                 waveNumber++;
                 StartCoroutine( StartWave(1) );
             }
             else
             {
+                defeatedSpawners.Clear();
                 RoomBeaten();
             }
         }

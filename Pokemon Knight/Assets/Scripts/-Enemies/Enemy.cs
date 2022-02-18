@@ -117,7 +117,7 @@ public abstract class Enemy : MonoBehaviour
 
 
     [Space] [Header("Buffs / Debuffs")]
-    [SerializeField] protected bool canUseBuffs;
+    public bool canUseBuffs;
     [SerializeField] protected Image[] statusConditions;
     [SerializeField] protected int nCondition;
     [Space] [SerializeField] protected Sprite empty;
@@ -184,6 +184,7 @@ public abstract class Enemy : MonoBehaviour
     public virtual void CallChildOnRage() {}
     public virtual void CallChildOnRageCutsceneFinished() {}
     public virtual void CallChildOnDeath() {}
+    public virtual void CallChildOnBossDeath() {}
     public virtual void CallChildOnTargetLost() {}  // VIA EnemyFieldOfVision
     public virtual void CallChildOnTargetFound() {}  // VIA EnemyFieldOfVision
     
@@ -348,7 +349,7 @@ public abstract class Enemy : MonoBehaviour
                 isDefeated = true;
                 if (mainAnim != null)
                     mainAnim.speed = 0.3f;
-                CallChildOnDeath();
+                CallChildOnBossDeath();
 
                 StartCoroutine(DramaticSlowmo());
                 if (possessedAura != null)
@@ -369,6 +370,7 @@ public abstract class Enemy : MonoBehaviour
 
                 if (!isBoss)
                 {
+                    CallChildOnDeath();
                     if (body != null) 
                     {
                         body.gravityScale = 0;

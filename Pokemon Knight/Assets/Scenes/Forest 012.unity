@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 147192666}
   - component: {fileID: 147192668}
   m_Layer: 0
-  m_Name: WaveSpawner (1)
+  m_Name: WaveSpawner (B R)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,10 +155,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 147192668}
   waves:
-  - {fileID: 1568939497178970862, guid: 890ee58966b094a9282bb9f0bf48fef4, type: 3}
-  - {fileID: 1150939272780168618, guid: 807a1d802f1da411aa878aad18d8ae70, type: 3}
-  - {fileID: 7937179587666737044, guid: a57124fb0f8754313803dddf1939fa8c, type: 3}
-  - {fileID: 0}
+  - enemies: {fileID: 1568939497178970862, guid: 890ee58966b094a9282bb9f0bf48fef4, type: 3}
+    canUseBuffs: 0
+  - enemies: {fileID: 1150939272780168618, guid: 807a1d802f1da411aa878aad18d8ae70, type: 3}
+    canUseBuffs: 0
+  - enemies: {fileID: 7937179587666737044, guid: a57124fb0f8754313803dddf1939fa8c, type: 3}
+    canUseBuffs: 0
+  - enemies: {fileID: 0}
+    canUseBuffs: 0
   enemiesLevel: 10
   miniBossLevel: 15
   flipEnemies: 1
@@ -438,7 +442,7 @@ GameObject:
   - component: {fileID: 269114381}
   - component: {fileID: 269114383}
   m_Layer: 0
-  m_Name: WaveSpawner (2)
+  m_Name: WaveSpawner (Far L)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -458,10 +462,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 269114383}
   waves:
-  - {fileID: 1568939497178970862, guid: 890ee58966b094a9282bb9f0bf48fef4, type: 3}
-  - {fileID: 1150939272780168618, guid: 807a1d802f1da411aa878aad18d8ae70, type: 3}
-  - {fileID: 1482746041171250567, guid: fb62a1c3fa81a48b59bb6cd65be72889, type: 3}
-  - {fileID: 0}
+  - enemies: {fileID: 1568939497178970862, guid: 890ee58966b094a9282bb9f0bf48fef4, type: 3}
+    canUseBuffs: 0
+  - enemies: {fileID: 1150939272780168618, guid: 807a1d802f1da411aa878aad18d8ae70, type: 3}
+    canUseBuffs: 0
+  - enemies: {fileID: 1482746041171250567, guid: fb62a1c3fa81a48b59bb6cd65be72889, type: 3}
+    canUseBuffs: 0
+  - enemies: {fileID: 0}
+    canUseBuffs: 0
   enemiesLevel: 10
   miniBossLevel: 15
   flipEnemies: 1
@@ -5998,7 +6006,7 @@ GameObject:
   - component: {fileID: 994246784}
   - component: {fileID: 994246786}
   m_Layer: 0
-  m_Name: WaveSpawner (3)
+  m_Name: WaveSpawner (Far R)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6018,10 +6026,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 994246786}
   waves:
-  - {fileID: 1568939497178970862, guid: 890ee58966b094a9282bb9f0bf48fef4, type: 3}
-  - {fileID: 1150939272780168618, guid: 807a1d802f1da411aa878aad18d8ae70, type: 3}
-  - {fileID: 1482746041171250567, guid: fb62a1c3fa81a48b59bb6cd65be72889, type: 3}
-  - {fileID: 0}
+  - enemies: {fileID: 1568939497178970862, guid: 890ee58966b094a9282bb9f0bf48fef4, type: 3}
+    canUseBuffs: 0
+  - enemies: {fileID: 1150939272780168618, guid: 807a1d802f1da411aa878aad18d8ae70, type: 3}
+    canUseBuffs: 0
+  - enemies: {fileID: 1482746041171250567, guid: fb62a1c3fa81a48b59bb6cd65be72889, type: 3}
+    canUseBuffs: 0
+  - enemies: {fileID: 0}
+    canUseBuffs: 0
   enemiesLevel: 10
   miniBossLevel: 15
   flipEnemies: 0
@@ -21217,10 +21229,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 1562689886}
   waves:
-  - {fileID: 1568939497178970862, guid: 890ee58966b094a9282bb9f0bf48fef4, type: 3}
-  - {fileID: 1150939272780168618, guid: 807a1d802f1da411aa878aad18d8ae70, type: 3}
-  - {fileID: 0}
-  - {fileID: 7907085212256002918, guid: 0289edfc1abf5414eadeb37c85791f60, type: 3}
+  - enemies: {fileID: 1568939497178970862, guid: 890ee58966b094a9282bb9f0bf48fef4, type: 3}
+    canUseBuffs: 0
+  - enemies: {fileID: 1150939272780168618, guid: 807a1d802f1da411aa878aad18d8ae70, type: 3}
+    canUseBuffs: 0
+  - enemies: {fileID: 0}
+    canUseBuffs: 0
+  - enemies: {fileID: 7907085212256002918, guid: 0289edfc1abf5414eadeb37c85791f60, type: 3}
+    canUseBuffs: 0
   enemiesLevel: 10
   miniBossLevel: 15
   flipEnemies: 1
@@ -21753,6 +21769,18 @@ PrefabInstance:
       propertyPath: waves.Array.data[2]
       value: 
       objectReference: {fileID: 7937179587666737044, guid: a57124fb0f8754313803dddf1939fa8c, type: 3}
+    - target: {fileID: 418849449585294597, guid: 691acd870a3af41ec8e8b571604b3543, type: 3}
+      propertyPath: waves.Array.data[0].enemies
+      value: 
+      objectReference: {fileID: 1568939497178970862, guid: 890ee58966b094a9282bb9f0bf48fef4, type: 3}
+    - target: {fileID: 418849449585294597, guid: 691acd870a3af41ec8e8b571604b3543, type: 3}
+      propertyPath: waves.Array.data[1].enemies
+      value: 
+      objectReference: {fileID: 1150939272780168618, guid: 807a1d802f1da411aa878aad18d8ae70, type: 3}
+    - target: {fileID: 418849449585294597, guid: 691acd870a3af41ec8e8b571604b3543, type: 3}
+      propertyPath: waves.Array.data[2].enemies
+      value: 
+      objectReference: {fileID: 7937179587666737044, guid: a57124fb0f8754313803dddf1939fa8c, type: 3}
     - target: {fileID: 418849449585294618, guid: 691acd870a3af41ec8e8b571604b3543, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -21799,7 +21827,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 418849449585294619, guid: 691acd870a3af41ec8e8b571604b3543, type: 3}
       propertyPath: m_Name
-      value: WaveSpawner (0)
+      value: WaveSpawner (B L)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 691acd870a3af41ec8e8b571604b3543, type: 3}

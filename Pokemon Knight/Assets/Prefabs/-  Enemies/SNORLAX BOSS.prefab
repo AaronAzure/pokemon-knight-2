@@ -609,17 +609,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lv: 25
+  chapterLevel: 0
   maxHp: 2500
   hp: 0
   mainAnim: {fileID: 8378938705710331896}
+  contactDmg: 30
+  contactKb: 25
+  projectileDmg: 5
+  isSmart: 0
+  renderers:
+  - {fileID: 8872536232741552601}
+  - {fileID: 2324294423608402691}
+  - {fileID: 1052015718604686485}
+  - {fileID: 1394145410244117664}
+  - {fileID: 9041097653882800165}
+  - {fileID: 517464335967351533}
+  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
+  flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
+  origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
+  bossRoom: {fileID: 0}
   extraHp: 0
   extraDmg: 0
   extraProjectileDmg: 0
   perLv: 1
-  totalExtraDmg: 0
+  calcExtraProjectileDmg: 0
   expPossess: 750
   extraExp: 0
-  lvBreak: 50
   col: {fileID: 3172262714034576942}
   body: {fileID: 5132741295536627786}
   model: {fileID: 6347547858869078386}
@@ -639,6 +654,8 @@ MonoBehaviour:
   origSize: {x: 0, y: 0, z: 0}
   ShrinkDuration: 0.5
   t: 0
+  feetSize: {x: 0, y: 0}
+  feetOffset: {x: 0, y: 0}
   isBoss: 1
   isMiniBoss: 0
   possessedAura: {fileID: 8365389850214731242}
@@ -653,25 +670,13 @@ MonoBehaviour:
   canCatchEffect: {fileID: 7321040211147338235}
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
-  contactDmg: 30
-  contactKb: 25
-  renderers:
-  - {fileID: 8872536232741552601}
-  - {fileID: 2324294423608402691}
-  - {fileID: 1052015718604686485}
-  - {fileID: 1394145410244117664}
-  - {fileID: 9041097653882800165}
-  - {fileID: 517464335967351533}
-  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
-  flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
-  origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
-  bossRoom: {fileID: 0}
-  isSmart: 0
   spawner: {fileID: 0}
   alert: {fileID: 0}
   playerInField: 0
   playerInSight: 0
   alwaysAttackPlayer: 0
+  movingLeft: 0
+  movingRight: 0
   canUseBuffs: 0
   statusConditions:
   - {fileID: 4682627807172591945}
@@ -869,14 +874,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb3ac8bf4b910439d802ea3c0e8719fc, type: 3}
---- !u!4 &3517699386015663787 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2711683262811076704, guid: bb3ac8bf4b910439d802ea3c0e8719fc, type: 3}
-  m_PrefabInstance: {fileID: 1544934213368364747}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3517699386015975339 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2711683262811257184, guid: bb3ac8bf4b910439d802ea3c0e8719fc, type: 3}
+  m_PrefabInstance: {fileID: 1544934213368364747}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3517699386015663787 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2711683262811076704, guid: bb3ac8bf4b910439d802ea3c0e8719fc, type: 3}
   m_PrefabInstance: {fileID: 1544934213368364747}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1883979421493241445
@@ -940,14 +945,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4404aa651c6b2496dae610ef49946375, type: 3}
---- !u!4 &5623561335534521688 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6066307398592113469, guid: 4404aa651c6b2496dae610ef49946375, type: 3}
-  m_PrefabInstance: {fileID: 1883979421493241445}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7321040211147338235 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9204427476297160606, guid: 4404aa651c6b2496dae610ef49946375, type: 3}
+  m_PrefabInstance: {fileID: 1883979421493241445}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5623561335534521688 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6066307398592113469, guid: 4404aa651c6b2496dae610ef49946375, type: 3}
   m_PrefabInstance: {fileID: 1883979421493241445}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3749320841327016590
@@ -1050,6 +1055,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicName: rosary
+--- !u!210 &2465423244871636515
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8017134829077844470}
+  m_Enabled: 1
+  m_SortingLayerID: -1344374445
+  m_SortingLayer: 2
+  m_SortingOrder: 10
 --- !u!1001 &5985764557666823027
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1127,9 +1143,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21839c8bb8537054c855321a11c68a11, type: 3}
---- !u!4 &5980974554891332937 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4791181815318074, guid: 21839c8bb8537054c855321a11c68a11, type: 3}
+--- !u!1 &5986628167979688879 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1534639363344604, guid: 21839c8bb8537054c855321a11c68a11, type: 3}
   m_PrefabInstance: {fileID: 5985764557666823027}
   m_PrefabAsset: {fileID: 0}
 --- !u!198 &5895409272879681131 stripped
@@ -1137,9 +1153,9 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 198446838495520024, guid: 21839c8bb8537054c855321a11c68a11, type: 3}
   m_PrefabInstance: {fileID: 5985764557666823027}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5986628167979688879 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1534639363344604, guid: 21839c8bb8537054c855321a11c68a11, type: 3}
+--- !u!4 &5980974554891332937 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4791181815318074, guid: 21839c8bb8537054c855321a11c68a11, type: 3}
   m_PrefabInstance: {fileID: 5985764557666823027}
   m_PrefabAsset: {fileID: 0}
 --- !u!210 &560192828719531149

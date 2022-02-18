@@ -96,7 +96,10 @@ public class Nidoran : Enemy
                 frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect * 2, whatIsGround);
 
             if (canJump && (!groundInfo || frontInfo) && IsBelowTarget())
-                Jump();
+                if (model.transform.eulerAngles.y > 0 && !PlayerIsToTheLeft())
+                    Jump();
+                else if (model.transform.eulerAngles.y == 0 && PlayerIsToTheLeft())
+                    Jump();
 
             //* Chase player while on ground (COMMIT TO JUMP)
             if (grounded)

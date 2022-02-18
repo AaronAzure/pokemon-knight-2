@@ -2,19 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// [System.Serializable] public class Wave 
-// {
-//     public Enemy[] enemies;
-// }
+[System.Serializable] public class Wave 
+{
+    public Enemy enemies;
+    public bool canUseBuffs;
+}
 
 
 [System.Serializable] public class WaveSpawner : MonoBehaviour
 {
-    
+
 
     public Animator anim;
 
-    public Enemy[] waves;
+    public Wave[] waves;
     public int enemiesLevel=3;
     public int miniBossLevel=5;
     public bool flipEnemies;
@@ -30,14 +31,16 @@ using UnityEngine;
         // Debug.Log(this.name + " is spawning");
         if (waveNumber < waves.Length)
         {
-            if (waves[ waveNumber ] != null)
+            if (waves[ waveNumber ].enemies != null)
             {
                 anim.SetBool("spawn", true);
 
                 yield return new WaitForSeconds(delay);
-                var obj = Instantiate(waves[ waveNumber ], this.transform.position, Quaternion.identity, this.transform);
+                var obj = Instantiate(waves[ waveNumber ].enemies, this.transform.position, 
+                    Quaternion.identity, this.transform);
                 obj.lv = enemiesLevel;
                 obj.spawner = this;
+                obj.canUseBuffs = waves[ waveNumber ].canUseBuffs;
                 if (flipEnemies)
                     obj.model.transform.eulerAngles = new Vector3(0, 180);
                 if (alwaysAttackPlayer)
@@ -63,6 +66,6 @@ using UnityEngine;
     public void SpawnedDefeated()
     {
         // Debug.Log(this.name + " defeated");
-        waveManager.ASpawnerLost();
+        waveManager.ASpawnerLost(this);
     }
 }

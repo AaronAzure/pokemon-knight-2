@@ -60,7 +60,7 @@ public class Pidgey : Enemy
         if (aiPath != null)
             aiPath.canMove = true;
     }
-    public override void CallChildOnDeath()
+    public override void CallChildOnBossDeath()
     {
         StopCoroutine(co);
         if (aiPath != null)

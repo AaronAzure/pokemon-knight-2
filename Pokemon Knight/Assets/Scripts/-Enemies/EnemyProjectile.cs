@@ -28,7 +28,10 @@ public class EnemyProjectile : MonoBehaviour
         if (other.CompareTag("Player"))    
         {
             PlayerControls player = other.GetComponent<PlayerControls>();
-            player.TakeDamage(atkDmg, this.transform, kbForce);
+            if (!absorbEffect)
+                player.TakeDamage(atkDmg, this.transform, kbForce);
+            else
+                player.TakeSpecialDamage(atkDmg, this.transform, kbForce);
 
             if (sleepEffect)
                 player.PutToSleep(sleepDelay);
