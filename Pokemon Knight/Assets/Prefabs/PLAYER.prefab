@@ -5507,6 +5507,8 @@ MonoBehaviour:
   - {fileID: 2785870419627680454}
   - {fileID: 838425567338778661}
   - {fileID: 1342833323554146379}
+  locationAnimObj: {fileID: 3073444990603366141}
+  locationName: {fileID: 6824033673274229815}
   spawnPos: {fileID: 1493877325839604882}
   doubleJumpObj: {fileID: 6347547860042096051, guid: eaaac853802bb4456a53c1644be37652, type: 3}
   isSet1: 1
@@ -7963,7 +7965,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1024, y: 512}
+  m_SizeDelta: {x: 921.6, y: 460.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1987017871886559628
 CanvasRenderer:
@@ -7995,8 +7997,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Forgotten Forest
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b94edc951cdad4c0b9684e82cf30030d, type: 2}
-  m_sharedMaterial: {fileID: -1698028554778917790, guid: b94edc951cdad4c0b9684e82cf30030d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8020,8 +8022,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 120
-  m_fontSizeBase: 120
+  m_fontSize: 180
+  m_fontSizeBase: 180
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

@@ -41,8 +41,11 @@ public class PlayerControls : MonoBehaviour
     [Space] 
     [Tooltip("Paused settings = equipped")] public BoxPokemonButton[] pokemonInTeamBenchSettings;
 
+    [Space] public GameObject locationAnimObj;
+    public TextMeshProUGUI locationName;
+
     
-    [Header("Pokemon (Allies)")]
+    [Space] [Header("Pokemon (Allies)")]
     [SerializeField] private Transform spawnPos;    // Place to Summon Pokemon
     [Space][SerializeField] private GameObject doubleJumpObj;   //Butterfree
 
@@ -1490,13 +1493,24 @@ public class PlayerControls : MonoBehaviour
     {
         if (musicManager != null)
         {
+            bool notNull = (locationAnimObj != null && locationName != null);
+            if (notNull)
+            {
+                locationAnimObj.SetActive(false);
+                locationAnimObj.SetActive(true);
+            }
+
             switch (location.ToLower())
             {
                 case "forest":
                     StartCoroutine( musicManager.TransitionMusic(musicManager.forestMusic) );
+                    if (notNull)
+                        locationName.text = "Towering Treetops";
                     break;
                 case "swamp":
                     StartCoroutine( musicManager.TransitionMusic(musicManager.swampMusic) );
+                    if (notNull)
+                        locationName.text = "Solace Swamplands";
                     break;
                 default:
                     Debug.LogError("Location has not been register in switch PlayerControls.StartingMusic()");
