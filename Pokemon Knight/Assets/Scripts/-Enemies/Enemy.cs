@@ -167,8 +167,8 @@ public abstract class Enemy : MonoBehaviour
         for (int i=0 ; i<nextAreas ; i++)
         // for (int i=0 ; i<(int)chapterLevel ; i++)
         {
-            maxHp = Mathf.RoundToInt(maxHp * 1.5f);
-            expPossess = Mathf.RoundToInt(expPossess * 1.5f);
+            maxHp = Mathf.RoundToInt(maxHp * 2f);
+            expPossess = Mathf.RoundToInt(expPossess * 2f);
         }
 
         hp = maxHp;   

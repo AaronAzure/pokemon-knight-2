@@ -8,7 +8,7 @@ public class Caterpie : Enemy
     public float distanceDetect=2f;
     public Transform groundDetection;
     [SerializeField] private LayerMask whatIsTree;
-    public float forwardDetect=2f;
+    public float forwardDetect=1f;
     public Transform face;
 
     
@@ -25,9 +25,9 @@ public class Caterpie : Enemy
         RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsGround);
         RaycastHit2D frontInfo;
         if (model.transform.eulerAngles.y > 0) // right
-            frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
+            frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, forwardDetect, whatIsGround);
         else // left
-            frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
+            frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, forwardDetect, whatIsGround);
         // RaycastHit2D treeInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsTree);
 
         //* If at edge, then turn around

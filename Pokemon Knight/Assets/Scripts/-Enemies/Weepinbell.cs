@@ -12,13 +12,19 @@ public class Weepinbell : Enemy
     // public float maxSpeed=5f;
     private LayerMask finalMask;
     public Transform target;
-    // public bool canAtk;
-    [SerializeField] private RazorLeaf razorLeaf;
+    [Space] public Transform groundDetection;
+    public float distanceDetect=1.5f;
+    [Space] [SerializeField] private RazorLeaf razorLeaf;
     [SerializeField] private Transform razorLeafSpawn;
     public bool attacked;
     public Vector2 fieldOfVision;
     public Vector3 offset;
     public Vector3 lineOfSight;
+    [Space] public int missCount;
+    private bool moving;
+
+    private RaycastHit2D groundInfo;
+    private RaycastHit2D frontInfo;
     
 
     public override void Setup()
@@ -58,7 +64,8 @@ public class Weepinbell : Enemy
                     {
                         attacked = true;
                         anim.SetTrigger("attack");
-                        Jump();
+                        moving = false; anim.SetBool("isWalking", moving);
+                        JumpAndTarget();
                     }
                 }
                 else
@@ -71,6 +78,29 @@ public class Weepinbell : Enemy
         if (body.velocity.y <= 0 && IsGrounded())
         {
             body.velocity *= new Vector2(0,1);
+        }
+        
+        groundInfo = Physics2D.Raycast(this.transform.position, Vector2.down, 0.5f, whatIsGround);
+
+        if (hp > 0 && !receivingKnockback && moving)
+        {
+            if (model.transform.eulerAngles.y == 0) // LEFT
+                body.velocity = new Vector2(-moveSpeed, body.velocity.y);
+            else    // RIGHT
+                body.velocity = new Vector2(moveSpeed, body.velocity.y);
+
+            if (model.transform.eulerAngles.y == 0 && DistanceFromTarget() > 3f)
+                LookAtTarget();
+            else if (model.transform.eulerAngles.y > 0 && DistanceFromTarget() < -3f)
+                LookAtTarget();
+            
+            if (model.transform.eulerAngles.y > 0)    // right
+                frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
+            else    // left
+                frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
+
+            if (frontInfo && body.velocity.y == 0)
+                Jump();
         }
     }
 
@@ -89,8 +119,20 @@ public class Weepinbell : Enemy
 
     }
 
-    public void Jump(bool guaranteed=false)
+    public void Jump()
     {
+        if (groundInfo && body.velocity.y == 0)
+            return;
+            
+        if (playerControls.transform.position.x < this.transform.position.x)
+            body.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+        else
+            body.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+    }
+    public void JumpAndTarget(bool guaranteed=false)
+    {
+        if (groundInfo && body.velocity.y == 0)
+            return;
         if (guaranteed || Random.Range(0, 3) == 0)
         {
             LookAtPlayer();
@@ -108,6 +150,7 @@ public class Weepinbell : Enemy
         if (razorLeafSpawn != null && hp > 0)
         {
             var obj = Instantiate(razorLeaf, razorLeafSpawn.position, razorLeaf.transform.rotation);
+            obj.weepinbell = this;
             obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
             obj.direction = lineOfSight.normalized;
         }
@@ -123,8 +166,13 @@ public class Weepinbell : Enemy
     IEnumerator RestBeforeNextAttack()
     {
         yield return new WaitForSeconds(2);
+        while (!groundInfo)
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
         anim.SetTrigger("attack");
-        Jump(true);
+        moving = false; anim.SetBool("isWalking", moving);
+        JumpAndTarget(true);
     }
 
     private void LookAtTarget()
@@ -143,10 +191,31 @@ public class Weepinbell : Enemy
         StartCoroutine( Cooldown() );
     }
 
+    private float DistanceFromTarget()
+    {
+        if (target != null)
+            return target.transform.position.x - this.transform.position.x; // (>0) = to the right, (<0) = to the left
+        return 0;
+    }
+
+    public void STOP_MOVING()
+    {
+        moving = false;
+        anim.SetBool("isWalking", moving);
+
+        attacked = false;
+    }
+
     IEnumerator Cooldown()
     {
         yield return new WaitForSeconds(0.5f);
-        attacked = false;
+        if (missCount % 3 == 0)
+        {
+            moving = true;
+            anim.SetBool("isWalking", moving);
+        }
+        else
+            attacked = false;
     }
 
 }

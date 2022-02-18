@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1322604523721071374}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: MODEL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,6 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lv: 5
+  chapterLevel: 0
   maxHp: 75
   hp: 0
   mainAnim: {fileID: 0}
@@ -226,6 +227,8 @@ MonoBehaviour:
   playerInField: 0
   playerInSight: 0
   alwaysAttackPlayer: 0
+  movingLeft: 0
+  movingRight: 0
   canUseBuffs: 0
   statusConditions:
   - {fileID: 7281222436015105096}
@@ -332,7 +335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7553216792960197079}
   - component: {fileID: 7553216792960197072}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: wing F
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -414,7 +417,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7553216793219986959}
   - component: {fileID: 7553216793219986952}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: wing F front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -497,7 +500,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7553216793287676650}
   - component: {fileID: 7553216793287676651}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: pidgey_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -579,7 +582,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7553216793388265603}
   - component: {fileID: 7553216793388265724}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -666,7 +669,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7553216794348305222}
   - component: {fileID: 7553216794348305223}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: wing B front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -748,7 +751,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7553216794599542808}
   - component: {fileID: 7553216794599542809}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: wing B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -994,8 +997,16 @@ PrefabInstance:
       value: AuraSoftYellow 1
       objectReference: {fileID: 0}
     - target: {fileID: 1343425844583092, guid: 237091439349c442eb864029c81ef694, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1343425844583092, guid: 237091439349c442eb864029c81ef694, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1741184341048988, guid: 237091439349c442eb864029c81ef694, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4337606520121794, guid: 237091439349c442eb864029c81ef694, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1083,6 +1094,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: -PossessedPurple
       objectReference: {fileID: 0}
+    - target: {fileID: 1465899634756489508, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1465899634756510830, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1465899634756568762, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1126,6 +1149,10 @@ PrefabInstance:
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666413519923928196, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}

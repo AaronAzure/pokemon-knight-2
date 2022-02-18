@@ -4904,7 +4904,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8395060614244367544}
   - component: {fileID: 4792069771240763185}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leaf back L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4985,7 +4985,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8404566178504463058}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: ground detect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5016,7 +5016,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4217346382160922222}
   - component: {fileID: 5478942814163688623}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leg L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9887,7 +9887,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7835596955819148203}
   - component: {fileID: 4184624923440520074}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leaf back R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9969,7 +9969,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7641216351777906140}
   - component: {fileID: 5523439291125198772}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leaf R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10051,7 +10051,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2846961639279543562}
   - component: {fileID: 3659830457379585843}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leaf M
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10223,17 +10223,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lv: 5
+  chapterLevel: 0
   maxHp: 75
   hp: 0
   mainAnim: {fileID: 0}
+  contactDmg: 5
+  contactKb: 10
+  projectileDmg: 5
+  isSmart: 0
+  renderers:
+  - {fileID: 5478942814163688623}
+  - {fileID: 2335878881091891655}
+  - {fileID: 7268308278520208116}
+  - {fileID: 4792069771240763185}
+  - {fileID: 4184624923440520074}
+  - {fileID: 1720472758345791981}
+  - {fileID: 3659830457379585843}
+  - {fileID: 5523439291125198772}
+  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
+  flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
+  origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
+  bossRoom: {fileID: 0}
   extraHp: 15
   extraDmg: 5
   extraProjectileDmg: 1
   perLv: 2
-  totalExtraDmg: 0
+  calcExtraProjectileDmg: 0
   expPossess: 15
   extraExp: 7
-  lvBreak: 50
   col: {fileID: 6059486759220388701}
   body: {fileID: 5798675815866953818}
   model: {fileID: 8315939532998918946}
@@ -10253,6 +10270,8 @@ MonoBehaviour:
   origSize: {x: 0, y: 0, z: 0}
   ShrinkDuration: 0.5
   t: 0
+  feetSize: {x: 0, y: 0}
+  feetOffset: {x: 0, y: 0}
   isBoss: 1
   isMiniBoss: 1
   possessedAura: {fileID: 6074212082474721446}
@@ -10267,27 +10286,13 @@ MonoBehaviour:
   canCatchEffect: {fileID: 1744615918095040419}
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
-  contactDmg: 5
-  contactKb: 10
-  renderers:
-  - {fileID: 5478942814163688623}
-  - {fileID: 2335878881091891655}
-  - {fileID: 7268308278520208116}
-  - {fileID: 4792069771240763185}
-  - {fileID: 4184624923440520074}
-  - {fileID: 1720472758345791981}
-  - {fileID: 3659830457379585843}
-  - {fileID: 5523439291125198772}
-  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
-  flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
-  origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
-  bossRoom: {fileID: 0}
-  isSmart: 0
   spawner: {fileID: 0}
   alert: {fileID: 0}
   playerInField: 0
   playerInSight: 0
   alwaysAttackPlayer: 0
+  movingLeft: 0
+  movingRight: 0
   canUseBuffs: 0
   statusConditions: []
   nCondition: 0
@@ -10305,7 +10310,6 @@ MonoBehaviour:
   face: {fileID: 8404566178504463058}
   anim: {fileID: 8587678589928221810}
   stunSpore: {fileID: 6543823460546405717, guid: 7ed5b4a6b0d3346f59dd15bd8410872c, type: 3}
-  stunSporeDmg: 2
   stunSporePos: {fileID: 0}
   canSeePlayer: 0
   canAtk: 1
@@ -10357,7 +10361,7 @@ GameObject:
   - component: {fileID: 3585076896233236276}
   - component: {fileID: 8814551119915185745}
   - component: {fileID: 8242825139338191925}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: OrbGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15158,7 +15162,7 @@ GameObject:
   - component: {fileID: 7811858892117110150}
   - component: {fileID: 7355535382657667973}
   - component: {fileID: 3931060421362926634}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Sparks (color)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19904,7 +19908,7 @@ GameObject:
   - component: {fileID: 8654810273538876349}
   - component: {fileID: 4256689257706558471}
   - component: {fileID: 3194809341700592215}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: -PossessedOrange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24798,7 +24802,7 @@ GameObject:
   m_Component:
   - component: {fileID: 905035109378238963}
   - component: {fileID: 1720472758345791981}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leaf L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24879,7 +24883,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8452553695541995158}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: LEG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24915,7 +24919,7 @@ GameObject:
   - component: {fileID: 7066612404739644507}
   - component: {fileID: 3685143359952723720}
   - component: {fileID: 1987709212069861138}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Sparks (white)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29660,7 +29664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8021916019445943823}
   - component: {fileID: 7268308278520208116}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34571,7 +34575,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1828258095164446057}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: MODEL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34604,7 +34608,7 @@ GameObject:
   m_Component:
   - component: {fileID: 220277786424914704}
   - component: {fileID: 2335878881091891655}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leg R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34685,7 +34689,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6671861240514525462}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: SLUDGE BOMB
   m_TagString: Untagged
   m_Icon: {fileID: 0}

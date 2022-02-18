@@ -124,11 +124,21 @@ public class Tangela : Enemy
     public void WALK()
     {
         if (Random.Range(0,2) == 0)
+        {
             if (hp > 0)
+            {
                 movingLeft = true;
+                movingRight = false;
+            }
+        }
         else
+        {
             if (hp > 0)
+            {
                 movingRight = true;
+                movingLeft = false;
+            }
+        }
     }
 
     private void Flip()

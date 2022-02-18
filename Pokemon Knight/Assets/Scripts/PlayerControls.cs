@@ -1023,6 +1023,7 @@ public class PlayerControls : MonoBehaviour
             Instantiate(healEffect, this.transform.position + new Vector3(0,1), Quaternion.identity, this.transform);
         drinking = false;
         hp += ((25 * nBerries) + moomooMilkRecovery);
+        Debug.Log( "<color=4CFF00> Healed " + ((25 * nBerries) + moomooMilkRecovery) + " hp</color>");
         nMoomooMilkLeft--;
         damageIndicatorAnim.SetFloat("fadeSpeed", hpEffectImg.fillAmount * hpEffectImg.fillAmount);
 

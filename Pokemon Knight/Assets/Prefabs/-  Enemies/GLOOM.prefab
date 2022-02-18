@@ -1046,6 +1046,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lv: 12
+  chapterLevel: 0
   maxHp: 125
   hp: 0
   mainAnim: {fileID: 5262776919767863634}
@@ -1070,7 +1071,7 @@ MonoBehaviour:
   bossRoom: {fileID: 0}
   extraHp: 20
   extraDmg: 5
-  extraProjectileDmg: 10
+  extraProjectileDmg: 5
   perLv: 2
   calcExtraProjectileDmg: 0
   expPossess: 20
@@ -1115,6 +1116,8 @@ MonoBehaviour:
   playerInField: 0
   playerInSight: 0
   alwaysAttackPlayer: 0
+  movingLeft: 0
+  movingRight: 0
   canUseBuffs: 0
   statusConditions: []
   nCondition: 0

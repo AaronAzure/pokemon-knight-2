@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 4318499067784286448}
   - component: {fileID: 5060060065747389920}
   - component: {fileID: 2919362440723818951}
-  - component: {fileID: 8033750582292224361}
   - component: {fileID: -2450099253754840806}
   m_Layer: 14
   m_Name: RazorLeaf
@@ -46,13 +45,13 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1374343792732718}
   serializedVersion: 7
-  lengthInSec: 0.2
+  lengthInSec: 2
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -4862,19 +4861,7 @@ MonoBehaviour:
   body: {fileID: 5060060065747389920}
   direction: {x: 0, y: 0}
   speed: 15
---- !u!114 &8033750582292224361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1374343792732718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98ad6b04ce2ae4f3cbbe6cbf098d305d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  time: 2
+  weepinbell: {fileID: 0}
 --- !u!210 &-2450099253754840806
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -4926,13 +4913,13 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1410327870102828}
   serializedVersion: 7
-  lengthInSec: 0.2
+  lengthInSec: 2
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0

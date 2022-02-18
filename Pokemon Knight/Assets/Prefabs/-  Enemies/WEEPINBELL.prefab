@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 999374202604480606}
   - component: {fileID: 6410697866412512817}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2756578156808775797}
   - component: {fileID: 129171046759193507}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: leaf L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7715421911178464689}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: Razor Leaf Spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1961330013622895075}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: Detect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,7 +254,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5190738568925567528}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -355,13 +355,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lv: 12
+  chapterLevel: 0
   maxHp: 150
   hp: 0
   mainAnim: {fileID: 0}
   contactDmg: 5
   contactKb: 10
   projectileDmg: 10
-  isSmart: 0
+  isSmart: 1
   renderers:
   - {fileID: 6410697866412512817}
   - {fileID: 129171046759193507}
@@ -372,7 +373,7 @@ MonoBehaviour:
   bossRoom: {fileID: 0}
   extraHp: 20
   extraDmg: 5
-  extraProjectileDmg: 10
+  extraProjectileDmg: 8
   perLv: 2
   calcExtraProjectileDmg: 0
   expPossess: 25
@@ -417,6 +418,8 @@ MonoBehaviour:
   playerInField: 0
   playerInSight: 0
   alwaysAttackPlayer: 0
+  movingLeft: 0
+  movingRight: 0
   canUseBuffs: 0
   statusConditions: []
   nCondition: 0
@@ -426,14 +429,17 @@ MonoBehaviour:
   increaseSpd: {fileID: 0}
   anim: {fileID: 2136142339847862491}
   moveSpeed: 2
-  jumpForce: 12
+  jumpForce: 15
   target: {fileID: 0}
+  groundDetection: {fileID: 211294165245759972}
+  distanceDetect: 1.5
   razorLeaf: {fileID: 2919362440723818951, guid: 6697d454920314c3e98bb884553496bc, type: 3}
   razorLeafSpawn: {fileID: 7715421911178464689}
   attacked: 0
-  fieldOfVision: {x: 12, y: 10}
-  offset: {x: -5, y: 0, z: 0}
+  fieldOfVision: {x: 14, y: 10}
+  offset: {x: -6, y: 0, z: 0}
   lineOfSight: {x: 0, y: 0, z: 0}
+  missCount: 0
 --- !u!1 &5190738569146184716
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,7 +449,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5190738569146184719}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: MODEL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -465,6 +471,7 @@ Transform:
   - {fileID: 5519992652823448352}
   - {fileID: 999374202604480606}
   - {fileID: 7715421911178464689}
+  - {fileID: 211294165245759972}
   m_Father: {fileID: 5190738568925567533}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1006,6 +1013,36 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &5830227723008166070
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 211294165245759972}
+  m_Layer: 15
+  m_Name: Ground Pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &211294165245759972
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830227723008166070}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5190738569146184719}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9156761070277550345
 GameObject:
   m_ObjectHideFlags: 0
@@ -1016,7 +1053,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2696632500842264762}
   - component: {fileID: 4269989595253222945}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: leaf R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1170,6 +1207,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: -PossessedPurple
       objectReference: {fileID: 0}
+    - target: {fileID: 1465899634756489508, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1465899634756510830, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1465899634756568762, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1213,6 +1262,10 @@ PrefabInstance:
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666413519923928196, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}

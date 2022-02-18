@@ -322,6 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lv: 1
+  chapterLevel: 0
   maxHp: 50
   hp: 0
   mainAnim: {fileID: 0}
@@ -344,7 +345,6 @@ MonoBehaviour:
   calcExtraProjectileDmg: 0
   expPossess: 5
   extraExp: 2
-  lvBreak: 10
   col: {fileID: 8531754209341023284}
   body: {fileID: 8531754209341023285}
   model: {fileID: 8531754209428490774}
@@ -385,6 +385,8 @@ MonoBehaviour:
   playerInField: 0
   playerInSight: 0
   alwaysAttackPlayer: 0
+  movingLeft: 0
+  movingRight: 0
   canUseBuffs: 0
   statusConditions: []
   nCondition: 0
@@ -393,7 +395,7 @@ MonoBehaviour:
   increaseDef: {fileID: 0}
   increaseSpd: {fileID: 0}
   moveSpeed: 1
-  distanceDetect: 1
+  distanceDetect: 0.5
   groundDetection: {fileID: 2690864748907692025}
   whatIsTree:
     serializedVersion: 2
