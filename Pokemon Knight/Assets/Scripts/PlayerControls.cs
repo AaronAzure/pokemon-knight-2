@@ -66,6 +66,7 @@ public class PlayerControls : MonoBehaviour
     [Space] [SerializeField] private AllyTeamUI pidgey;
     [Space] [SerializeField] private AllyTeamUI butterfree;
     [Space] [SerializeField] private AllyTeamUI oddish;
+    [Space] [SerializeField] private AllyTeamUI tangela;
 
 
 
@@ -82,12 +83,17 @@ public class PlayerControls : MonoBehaviour
     [Space] [SerializeField] private BoxPokemonButton[] boxPokemonsToActivate;
     [Space] [SerializeField] private ItemUi[] itemsToActivate;
 
+    [Space] [SerializeField] private Button[] partyPokemonButtons;
+    [SerializeField] private Button[] boxPokemonButtons;
+
     [Space] [SerializeField] private Button partyPokemonFirstSelected;
     [SerializeField] private Button boxPokemonFirstSelected;
     [Space] [SerializeField] private Button partyPokemonLastSelected;
     [SerializeField] private Button boxPokemonLastSelected;
     [Space] [SerializeField] private string oldButtonSymbol;
     private bool isClosing=false;
+    private Ally newAllyToEquip;
+    private Sprite newAllySpriteToEquip;
 
     
     [Space]
@@ -182,7 +188,7 @@ public class PlayerControls : MonoBehaviour
     public Animator[] moomooUi;
     public bool drinking;
     public GameObject healEffect;
-    [SerializeField] private AudioSource healSound;
+    public AudioSource healSound;
 
     [Space] public bool canRest;
     public bool resting;
@@ -368,6 +374,12 @@ public class PlayerControls : MonoBehaviour
                         pokemonInTeamBenchSettings[i].ally = oddish.summonable;
                         partyPokemonsUI[i].sprite = oddish.sprite;
                         break;
+                    case "tangela":
+                        allies[i] = tangela.summonable;
+                        pokemonInTeamBenchSettings[i].img.sprite = tangela.sprite;
+                        pokemonInTeamBenchSettings[i].ally = tangela.summonable;
+                        partyPokemonsUI[i].sprite = tangela.sprite;
+                        break;
                     case "":
                         pokemonInTeamBenchSettings[i].img.sprite = emptySprite;
                         pokemonInTeamBenchSettings[i].ally = null;
@@ -431,7 +443,13 @@ public class PlayerControls : MonoBehaviour
             if (!resting)
                 settings.gameObject.SetActive(true);
             else
+            {
                 equimentSettings.gameObject.SetActive(true);
+                foreach (Button button in partyPokemonButtons)
+                    button.interactable = false;
+                foreach (Button button in boxPokemonButtons)
+                    button.interactable = true;
+            }
         }
         //* EXTRA NAVIGATION IN UI SETTINGS MENU
         else if ((settings.gameObject.activeSelf || equimentSettings.gameObject.activeSelf))
@@ -445,7 +463,11 @@ public class PlayerControls : MonoBehaviour
                 else if (player.GetButtonDown("L") && canNavigate)
                 {
                     equipmentUi.ChangeTabs(false);
-                    partyPokemonFirstSelected.Select();
+                    boxPokemonFirstSelected.Select();
+                    foreach (Button button in partyPokemonButtons)
+                        button.interactable = false;
+                    foreach (Button button in boxPokemonButtons)
+                        button.interactable = true;
                 }
                 // Items
                 else if (player.GetButtonDown("R") && canNavigate)
@@ -848,11 +870,6 @@ public class PlayerControls : MonoBehaviour
         {
             xValue = 0;
         }
-        // else
-        // {
-        //     walkTimerCounter += Time.fixedDeltaTime;
-        // }
-        // if (!receivingKnockback && walkTimerCounter > walkTimer)
         if (!receivingKnockback)
             body.velocity = new Vector2(xValue * moveSpeed, body.velocity.y);
     }
@@ -1505,12 +1522,12 @@ public class PlayerControls : MonoBehaviour
                 case "forest":
                     StartCoroutine( musicManager.TransitionMusic(musicManager.forestMusic) );
                     if (notNull)
-                        locationName.text = "Towering Treetops";
+                        locationName.text = "Whispering Woods";
                     break;
                 case "swamp":
                     StartCoroutine( musicManager.TransitionMusic(musicManager.swampMusic) );
                     if (notNull)
-                        locationName.text = "Solace Swamplands";
+                        locationName.text = "Shady Swamps";
                     break;
                 default:
                     Debug.LogError("Location has not been register in switch PlayerControls.StartingMusic()");
@@ -1568,61 +1585,78 @@ public class PlayerControls : MonoBehaviour
     public void SelectAllyToReplace(string buttonSymbol, Button lastButton)
     {
         oldButtonSymbol = buttonSymbol;
-        if (boxPokemonFirstSelected != null)
-            boxPokemonFirstSelected.Select();
-        partyPokemonLastSelected = lastButton;
-    }
 
-    public void SetNewAlly(Ally newAlly, Sprite newSprite)
-    {
-        //* If the pokemon is already assigned in another pokemon, then remove assigned
-        if      (allies[0] == newAlly) { allies[0] = null; partyPokemonsUI[0].sprite = emptySprite; 
+        if      (allies[0] == newAllyToEquip) { allies[0] = null; partyPokemonsUI[0].sprite = emptySprite; 
             pokemonInTeamBenchSettings[0].img.sprite = emptySprite; pokemonInTeamBenchSettings[0].ally = null;}
-        else if (allies[1] == newAlly) { allies[1] = null; partyPokemonsUI[1].sprite = emptySprite; 
+        else if (allies[1] == newAllyToEquip) { allies[1] = null; partyPokemonsUI[1].sprite = emptySprite; 
             pokemonInTeamBenchSettings[1].img.sprite = emptySprite; pokemonInTeamBenchSettings[1].ally = null;}
-        else if (allies[2] == newAlly) { allies[2] = null; partyPokemonsUI[2].sprite = emptySprite; 
+        else if (allies[2] == newAllyToEquip) { allies[2] = null; partyPokemonsUI[2].sprite = emptySprite; 
             pokemonInTeamBenchSettings[2].img.sprite = emptySprite; pokemonInTeamBenchSettings[2].ally = null;}
-        else if (allies[3] == newAlly) { allies[3] = null; partyPokemonsUI[3].sprite = emptySprite; 
+        else if (allies[3] == newAllyToEquip) { allies[3] = null; partyPokemonsUI[3].sprite = emptySprite; 
             pokemonInTeamBenchSettings[3].img.sprite = emptySprite; pokemonInTeamBenchSettings[3].ally = null;}
-        else if (allies[4] == newAlly) { allies[4] = null; partyPokemonsUI[4].sprite = emptySprite; 
+        else if (allies[4] == newAllyToEquip) { allies[4] = null; partyPokemonsUI[4].sprite = emptySprite; 
             pokemonInTeamBenchSettings[4].img.sprite = emptySprite; pokemonInTeamBenchSettings[4].ally = null;}
-        else if (allies[5] == newAlly) { allies[5] = null; partyPokemonsUI[5].sprite = emptySprite; 
+        else if (allies[5] == newAllyToEquip) { allies[5] = null; partyPokemonsUI[5].sprite = emptySprite; 
             pokemonInTeamBenchSettings[5].img.sprite = emptySprite; pokemonInTeamBenchSettings[5].ally = null;}
 
 
         switch (oldButtonSymbol.ToUpper())
         {
             case "Y1": 
-                allies[0] = newAlly; partyPokemonsUI[0].sprite = newSprite; 
-                pokemonInTeamBenchSettings[0].img.sprite = newSprite; 
-                pokemonInTeamBenchSettings[0].ally = newAlly;
+                allies[0] = newAllyToEquip; partyPokemonsUI[0].sprite = newAllySpriteToEquip; 
+                pokemonInTeamBenchSettings[0].img.sprite = newAllySpriteToEquip; 
+                pokemonInTeamBenchSettings[0].ally = newAllyToEquip;
                 break;
             case "X1": 
-                allies[1] = newAlly; partyPokemonsUI[1].sprite = newSprite; 
-                pokemonInTeamBenchSettings[1].img.sprite = newSprite; 
-                pokemonInTeamBenchSettings[1].ally = newAlly;
+                allies[1] = newAllyToEquip; partyPokemonsUI[1].sprite = newAllySpriteToEquip; 
+                pokemonInTeamBenchSettings[1].img.sprite = newAllySpriteToEquip; 
+                pokemonInTeamBenchSettings[1].ally = newAllyToEquip;
                 break;
             case "A1": 
-                allies[2] = newAlly; partyPokemonsUI[2].sprite = newSprite; 
-                pokemonInTeamBenchSettings[2].img.sprite = newSprite; 
-                pokemonInTeamBenchSettings[2].ally = newAlly;
+                allies[2] = newAllyToEquip; partyPokemonsUI[2].sprite = newAllySpriteToEquip; 
+                pokemonInTeamBenchSettings[2].img.sprite = newAllySpriteToEquip; 
+                pokemonInTeamBenchSettings[2].ally = newAllyToEquip;
                 break;
             case "Y2": 
-                allies[3] = newAlly; partyPokemonsUI[3].sprite = newSprite; 
-                pokemonInTeamBenchSettings[3].img.sprite = newSprite; 
-                pokemonInTeamBenchSettings[3].ally = newAlly;
+                allies[3] = newAllyToEquip; partyPokemonsUI[3].sprite = newAllySpriteToEquip; 
+                pokemonInTeamBenchSettings[3].img.sprite = newAllySpriteToEquip; 
+                pokemonInTeamBenchSettings[3].ally = newAllyToEquip;
                 break;
             case "X2": 
-                allies[4] = newAlly; partyPokemonsUI[4].sprite = newSprite; 
-                pokemonInTeamBenchSettings[4].img.sprite = newSprite; 
-                pokemonInTeamBenchSettings[4].ally = newAlly;
+                allies[4] = newAllyToEquip; partyPokemonsUI[4].sprite = newAllySpriteToEquip; 
+                pokemonInTeamBenchSettings[4].img.sprite = newAllySpriteToEquip; 
+                pokemonInTeamBenchSettings[4].ally = newAllyToEquip;
                 break;
             case "A2": 
-                allies[5] = newAlly; partyPokemonsUI[5].sprite = newSprite; 
-                pokemonInTeamBenchSettings[5].img.sprite = newSprite; 
-                pokemonInTeamBenchSettings[5].ally = newAlly;
+                allies[5] = newAllyToEquip; partyPokemonsUI[5].sprite = newAllySpriteToEquip; 
+                pokemonInTeamBenchSettings[5].img.sprite = newAllySpriteToEquip; 
+                pokemonInTeamBenchSettings[5].ally = newAllyToEquip;
                 break;
         }
+
+        foreach (Button button in partyPokemonButtons)
+            button.interactable = false;
+        foreach (Button button in boxPokemonButtons)
+            button.interactable = true;
+
+        if (boxPokemonLastSelected != null)
+            boxPokemonLastSelected.Select();
+        else if (boxPokemonFirstSelected != null)
+            boxPokemonFirstSelected.Select();
+        partyPokemonLastSelected = lastButton;
+    }
+
+    public void SetNewAlly(Ally newAlly, Sprite newSprite, Button lastButton)
+    {
+        newAllyToEquip = newAlly;
+        newAllySpriteToEquip = newSprite;
+
+        foreach (Button button in boxPokemonButtons)
+            button.interactable = false;
+        foreach (Button button in partyPokemonButtons)
+            button.interactable = true;
+
+        boxPokemonLastSelected = lastButton;
 
         if (partyPokemonLastSelected != null)
             partyPokemonLastSelected.Select();
@@ -1721,6 +1755,7 @@ public class PlayerControls : MonoBehaviour
     {
         settings.SetTrigger("confirm");
     }
+    
     public void Resume()
     {
         settings.gameObject.SetActive(false);

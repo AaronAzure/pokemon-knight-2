@@ -212,18 +212,30 @@ public class Tangela : Enemy
 
     public void BACK_TO_WALKING()
     {
-        trigger = false;
-        mainAnim.SetTrigger("walk");
+        if (!isMiniBoss)
+        {
+            trigger = false;
+            mainAnim.SetTrigger("walk");
+        }
     }
     public void NEXT_ACTION()
     {
-        if (canMove)
+        if (!isMiniBoss)
         {
             if (playerInSight)
             {
                 mainAnim.SetTrigger("attack");
             }
             else if (Random.Range(0,2) == 0)
+            {
+                trigger = false;
+                mainAnim.SetTrigger("walk");
+                WALK();
+            }
+        }
+        else if (canMove)
+        {
+            if (Random.Range(0,2) == 0)
             {
                 trigger = false;
                 mainAnim.SetTrigger("walk");

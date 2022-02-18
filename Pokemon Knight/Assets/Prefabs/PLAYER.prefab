@@ -151,6 +151,82 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &117028711040629417
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5761567844362439711}
+  - component: {fileID: 6327229566453899750}
+  - component: {fileID: 7412156196176922042}
+  m_Layer: 6
+  m_Name: Image (tangela)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &5761567844362439711
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117028711040629417}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 185194070839058235}
+  m_Father: {fileID: 3217139533320609952}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -275, y: -160}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6327229566453899750
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117028711040629417}
+  m_CullTransparentMesh: 1
+--- !u!114 &7412156196176922042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117028711040629417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: ca76ecfb5a2b64b69a8a416a6ea77acc, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &122438543254830134
 GameObject:
   m_ObjectHideFlags: 0
@@ -2584,7 +2660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b991181f58043ec814f0900013f8cac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 7897564615203143177}
+  m_FirstSelected: {fileID: 8974975478381620256}
   m_sendNavigationEvents: 1
   m_DragThreshold: 5
   _alwaysUpdate: 0
@@ -2845,7 +2921,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -2901,6 +2977,7 @@ MonoBehaviour:
   img: {fileID: 7268044354469352597}
   pokemonName: N/A
   sprite: {fileID: 0}
+  button: {fileID: 0}
 --- !u!1 &1362046370857779906
 GameObject:
   m_ObjectHideFlags: 0
@@ -5534,6 +5611,9 @@ MonoBehaviour:
   oddish:
     summonable: {fileID: 3774924213788328330, guid: 62eb1d27d7bc541b3baa8ff8e0d88fa1, type: 3}
     sprite: {fileID: 21300000, guid: 81c09344af2d84c9faabcbd6b0086715, type: 3}
+  tangela:
+    summonable: {fileID: 694335455662283634, guid: 95c49be9d292245768474b71818f2f0c, type: 3}
+    sprite: {fileID: 21300000, guid: ca76ecfb5a2b64b69a8a416a6ea77acc, type: 3}
   titleScreenObj: {fileID: 6871939833612117213}
   settings: {fileID: 5425500440987824872}
   equimentSettings: {fileID: 7770779914071458236}
@@ -5544,11 +5624,27 @@ MonoBehaviour:
   - {fileID: 947227073336756055}
   - {fileID: 8268547953409915916}
   - {fileID: 1930955798670221572}
+  - {fileID: 6820061872796855829}
   itemsToActivate:
   - {fileID: 4399412493689888763}
   - {fileID: 8696348199077421297}
   - {fileID: 5990595127366326276}
   - {fileID: 5288697626747654075}
+  partyPokemonButtons:
+  - {fileID: 8448695630026282731}
+  - {fileID: 9199878810871537409}
+  - {fileID: 1859984719510476835}
+  - {fileID: 8461331493401322898}
+  - {fileID: 2403450278469338051}
+  - {fileID: 4830001186398134266}
+  boxPokemonButtons:
+  - {fileID: 82195362895211997}
+  - {fileID: 8481166383431501876}
+  - {fileID: 5088259210750460731}
+  - {fileID: 3294539081257093970}
+  - {fileID: 4023749265396411970}
+  - {fileID: 6760505474524727998}
+  - {fileID: 8488714680649298101}
   partyPokemonFirstSelected: {fileID: 8448695630026282731}
   boxPokemonFirstSelected: {fileID: 82195362895211997}
   partyPokemonLastSelected: {fileID: 0}
@@ -8064,6 +8160,157 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &2708792103817060116
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 185194070839058235}
+  - component: {fileID: 3409443622250144424}
+  - component: {fileID: 2045822054967741409}
+  - component: {fileID: 8488714680649298101}
+  - component: {fileID: 6820061872796855829}
+  m_Layer: 6
+  m_Name: Button (tangela)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &185194070839058235
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2708792103817060116}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5761567844362439711}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 50}
+  m_SizeDelta: {x: 50, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &3409443622250144424
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2708792103817060116}
+  m_CullTransparentMesh: 1
+--- !u!114 &2045822054967741409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2708792103817060116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: ca9dc2fde113349afb1a7782b88b8a9b, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8488714680649298101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2708792103817060116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 8481166383431501876}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 2045822054967741409}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6820061872796855829}
+        m_TargetAssemblyTypeName: BoxPokemonButton, Assembly-CSharp
+        m_MethodName: SetNewAlly
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6820061872796855829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2708792103817060116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331a785be208e4b618b7ec246d614bc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControls: {fileID: 2241457488112191053}
+  ally: {fileID: 694335455662283634, guid: 95c49be9d292245768474b71818f2f0c, type: 3}
+  img: {fileID: 0}
+  pokemonName: tangela
+  sprite: {fileID: 21300000, guid: ca76ecfb5a2b64b69a8a416a6ea77acc, type: 3}
+  button: {fileID: 0}
 --- !u!1 &2738541584876957479
 GameObject:
   m_ObjectHideFlags: 0
@@ -8792,7 +9039,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -8848,6 +9095,7 @@ MonoBehaviour:
   img: {fileID: 4286152052987686922}
   pokemonName: N/A
   sprite: {fileID: 0}
+  button: {fileID: 0}
 --- !u!1 &3117389320181307572
 GameObject:
   m_ObjectHideFlags: 0
@@ -10050,7 +10298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -10062,7 +10310,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -10110,6 +10358,7 @@ MonoBehaviour:
   img: {fileID: 0}
   pokemonName: pidgey
   sprite: {fileID: 21300000, guid: c70af58672a8e48d08a6f85382660dbd, type: 3}
+  button: {fileID: 0}
 --- !u!1 &3965216228472759001
 GameObject:
   m_ObjectHideFlags: 0
@@ -11725,7 +11974,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerControls: {fileID: 2241457488112191053}
   equipped: 0
-  weight: 2
+  weight: 3
   itemName: amberNecklace
   sprite: {fileID: 21300000, guid: c47135298e30a4219bb70a1e631fa7ff, type: 3}
   button: {fileID: 3039950271863228555}
@@ -11820,7 +12069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -11832,7 +12081,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -11880,6 +12129,7 @@ MonoBehaviour:
   img: {fileID: 0}
   pokemonName: N/A
   sprite: {fileID: 21300000, guid: 4661e33b4989d42aebf88ab21ce99f54, type: 3}
+  button: {fileID: 0}
 --- !u!1 &4668977019811094831
 GameObject:
   m_ObjectHideFlags: 0
@@ -12677,7 +12927,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -12733,6 +12983,7 @@ MonoBehaviour:
   img: {fileID: 1516046635839501044}
   pokemonName: N/A
   sprite: {fileID: 0}
+  button: {fileID: 0}
 --- !u!1 &5056031919485899173
 GameObject:
   m_ObjectHideFlags: 0
@@ -13034,6 +13285,7 @@ RectTransform:
   - {fileID: 4704271846398292008}
   - {fileID: 820032537291892249}
   - {fileID: 9201820616467262428}
+  - {fileID: 5761567844362439711}
   m_Father: {fileID: 7557906445422349802}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15708,7 +15960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -15720,7 +15972,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -15768,6 +16020,7 @@ MonoBehaviour:
   img: {fileID: 0}
   pokemonName: N/A
   sprite: {fileID: 21300000, guid: 734e0078de1454a23b6dadd3059ce715, type: 3}
+  button: {fileID: 0}
 --- !u!1 &7038894721978555725
 GameObject:
   m_ObjectHideFlags: 0
@@ -16067,7 +16320,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -16079,7 +16332,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -16127,6 +16380,7 @@ MonoBehaviour:
   img: {fileID: 0}
   pokemonName: butterfree
   sprite: {fileID: 21300000, guid: a7b59fbf5d2ce4838a0ef5d0e8594a13, type: 3}
+  button: {fileID: 0}
 --- !u!1 &7188057513672532424
 GameObject:
   m_ObjectHideFlags: 0
@@ -16981,6 +17235,7 @@ MonoBehaviour:
   - {fileID: 947227073336756055}
   - {fileID: 8268547953409915916}
   - {fileID: 1930955798670221572}
+  - {fileID: 6820061872796855829}
   atkpower: {fileID: 1514299011837051685}
   coolDown: {fileID: 4862186933371582921}
   itemMenu: 0
@@ -17475,7 +17730,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -17531,6 +17786,7 @@ MonoBehaviour:
   img: {fileID: 278024225129318523}
   pokemonName: N/A
   sprite: {fileID: 0}
+  button: {fileID: 0}
 --- !u!1 &7967500199171116425
 GameObject:
   m_ObjectHideFlags: 0
@@ -20429,7 +20685,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -20485,6 +20741,7 @@ MonoBehaviour:
   img: {fileID: 4726424841688308290}
   pokemonName: N/A
   sprite: {fileID: 0}
+  button: {fileID: 0}
 --- !u!1 &8705728110070575891
 GameObject:
   m_ObjectHideFlags: 0
@@ -20579,7 +20836,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -20635,6 +20892,7 @@ MonoBehaviour:
   img: {fileID: 8167640903599285167}
   pokemonName: N/A
   sprite: {fileID: 0}
+  button: {fileID: 0}
 --- !u!1 &8710807054578778175
 GameObject:
   m_ObjectHideFlags: 0
@@ -20933,7 +21191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -20945,7 +21203,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -20993,6 +21251,7 @@ MonoBehaviour:
   img: {fileID: 0}
   pokemonName: oddish
   sprite: {fileID: 21300000, guid: 81c09344af2d84c9faabcbd6b0086715, type: 3}
+  button: {fileID: 0}
 --- !u!1 &8785963519808036024
 GameObject:
   m_ObjectHideFlags: 0
@@ -21383,7 +21642,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -21395,7 +21654,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -21443,6 +21702,7 @@ MonoBehaviour:
   img: {fileID: 0}
   pokemonName: N/A
   sprite: {fileID: 21300000, guid: 1243267e71a864ac49078e9b28e535c6, type: 3}
+  button: {fileID: 0}
 --- !u!1 &9003057378037211185
 GameObject:
   m_ObjectHideFlags: 0

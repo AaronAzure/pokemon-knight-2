@@ -10,6 +10,8 @@ public class BoxPokemonButton : MonoBehaviour
     public Image img;
     public string pokemonName = "N/A";
     public Sprite sprite;
+    [Space] public Button button;
+
 
 
 
@@ -22,6 +24,6 @@ public class BoxPokemonButton : MonoBehaviour
         if (sprite == null)
             Debug.LogError(this.gameObject.name +  "  -  sprite is not serialised", this.gameObject);
         // Debug.Log(this.ally.gameObject.name + "  _  " + this.sprite.name);
-        playerControls.SetNewAlly(this.ally, this.sprite);
+        playerControls.SetNewAlly(this.ally, this.sprite, this.button);
     }
 }

@@ -1350,8 +1350,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 0}
-        key1: {r: 0, g: 1, b: 0, a: 1}
+        key0: {r: 0.00288103, g: 0.103773594, b: 0, a: 0}
+        key1: {r: 0, g: 0.4528302, b: 0, a: 1}
         key2: {r: 0, g: 0, b: 1, a: 0.9235074}
         key3: {r: 0, g: 0, b: 0, a: 0.39215687}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -4887,12 +4887,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 170330}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d7e237cc5a364aa990a52bc6f849a2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveMaster: {fileID: 0}
   atkDmg: 10
   kbForce: 0
   destoryOnPlayerCollision: 0
@@ -4902,10 +4901,11 @@ MonoBehaviour:
   direction: {x: 0, y: 0}
   speed: 0
   sleepEffect: 0
-  absorbEffect: 1
-  absorbReturnObj: {fileID: 1133196975338173599, guid: 6e9b27035856b44ed953efb3d7ad5eb8, type: 3}
   sleepDelay: 0
   anim: {fileID: 8823747247268393092}
+  absorbEffect: 1
+  moveMaster: {fileID: 0}
+  absorbReturnObj: {fileID: 1133196975338173599, guid: 6e9b27035856b44ed953efb3d7ad5eb8, type: 3}
 --- !u!114 &3755788023701768691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6197,8 +6197,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0, g: 1, b: 0, a: 0}
-        key1: {r: 0.4852941, g: 1, b: 0.4852941, a: 1}
+        key0: {r: 0, g: 0.4245283, b: 0, a: 0}
+        key1: {r: 0, g: 0.2830189, b: 0, a: 1}
         key2: {r: 1, g: 1, b: 1, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -10959,15 +10959,15 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.41911763, g: 1, b: 0.41911763, a: 0}
-        key1: {r: 0, g: 1, b: 0, a: 1}
+        key0: {r: 0.29810432, g: 0.7264151, b: 0.29810432, a: 0}
+        key1: {r: 0, g: 0.3679245, b: 0, a: 1}
         key2: {r: 0, g: 0.09803922, b: 1, a: 0.6784314}
         key3: {r: 1, g: 1, b: 1, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
-        ctime0: 578
+        ctime0: 771
         ctime1: 65535
         ctime2: 65388
         ctime3: 65535

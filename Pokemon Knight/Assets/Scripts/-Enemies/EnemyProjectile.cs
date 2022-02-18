@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class EnemyProjectile : MonoBehaviour
 {
-    [HideInInspector] public Enemy moveMaster;
     public int atkDmg=10;
     public float kbForce=10;
     [Space] public bool destoryOnPlayerCollision;
@@ -12,10 +11,15 @@ public class EnemyProjectile : MonoBehaviour
     public Vector2 direction;
     public float speed;
     [Space] public bool sleepEffect;
-    [Space] public bool absorbEffect;
-    public FollowTowards absorbReturnObj;
     [Space] public float sleepDelay;
     public Animator anim;
+    
+    
+    [Header("Absorb")]
+    [Space] public bool absorbEffect;
+    [HideInInspector] public Enemy moveMaster;
+    public FollowTowards absorbReturnObj;
+
 
     void Start()
     {
@@ -56,7 +60,6 @@ public class EnemyProjectile : MonoBehaviour
                     else
                         moveMaster.hp = moveMaster.maxHp;
                 }
-
             }
             
             if (destoryOnPlayerCollision)

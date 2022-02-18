@@ -422,7 +422,7 @@ public abstract class Enemy : MonoBehaviour
             
             if (hp > 0)
                 if (body.gravityScale != 0)
-                    body.velocity = new Vector2(0, body.velocity.y);
+                    body.velocity = new Vector2(0, Mathf.Min(0, body.velocity.y));
                 else
                     body.velocity = Vector2.zero;
             receivingKnockback = false;

@@ -135,6 +135,7 @@
      <Compile Include="Assets/Ferr/Common/2DT/Ferr2DT_Material.cs" />
      <Compile Include="Assets/Ferr/2D/Scripts/poly2tri/Utility/Point2D.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UISelectionUtility.cs" />
+     <Compile Include="Assets/Scripts/Interactable/Berry.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Utils/TilemapUtils.cs" />
      <Compile Include="Assets/Forest Sprite Pack/Scenes/Playable Demo Scene/2D Character Controller/Scripts/PlatformController.cs" />
      <Compile Include="Assets/Scripts/ConditionalFieldAttribute.cs" />
@@ -180,6 +181,7 @@
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DLimitDistance.cs" />
      <Compile Include="Assets/Scripts/-Allies/AllyProjectile.cs" />
      <Compile Include="Assets/Forest Sprite Pack/Scripts/Hazards and Obstacles Update 05/FadeOutAndDestroy.cs" />
+     <Compile Include="Assets/Scripts/-Enemies/Tangela.cs" />
      <Compile Include="Assets/Forest Sprite Pack/Scripts/CameraPreventZFighting.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Triggers/ProCamera2DTriggerZoom.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/Brush/TilesetBrush.cs" />
@@ -230,6 +232,7 @@
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ThemeSettings.cs" />
      <Compile Include="Assets/Scripts/PokemonSets.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/MapPathFinding/PathfindingBehaviour.cs" />
+     <Compile Include="Assets/Scripts/-UI/CameraArea.cs" />
      <Compile Include="Assets/Ferr/2D/Scripts/poly2tri/Triangulation/Polygon/PolygonSet.cs" />
      <Compile Include="Assets/Scripts/Pokeball.cs" />
      <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/ToggleCinematics.cs" />
@@ -395,9 +398,8 @@
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIGroup.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/IPostMover.cs" />
      <Compile Include="Assets/Ferr/Common/Scripts/EditInIsolation.cs" />
-     <Compile Include="Assets/Scripts/Interactable/Berry.cs" />
-     <Compile Include="Assets/Scripts/-UI/CameraArea.cs" />
-     <Compile Include="Assets/Scripts/-Enemies/Tangela.cs" />
+     <Compile Include="Assets/Scripts/-Allies/DetectEnemy.cs" />
+     <Compile Include="Assets/Scripts/-Allies/AllyTangela.cs" />
      <None Include="Assets/Ferr/Common/Shaders/UnlitSolidColor.shader" />
      <None Include="Assets/Ferr/2DTerrain/Shaders/LitColoredTransparent.shader" />
      <None Include="Assets/Ferr/Common/Shaders/UnlitSolidColorTransparent.shader" />

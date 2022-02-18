@@ -16,6 +16,12 @@ public class AllyProjectile : MonoBehaviour
     public Rigidbody2D body;
 
 
+    [Header("Absorb")]
+    [Space] public bool absorbEffect;
+    [HideInInspector] public PlayerControls player;
+    public FollowTowards absorbReturnObj;
+
+
     private void Start() 
     {
         if (trailObj != null && !customTrajectory)
@@ -39,11 +45,41 @@ public class AllyProjectile : MonoBehaviour
         {
             if (trailObj != null) 
                 trailObj.transform.parent = null;
+
+
+
             if (other.tag == "Enemy")
             {
                 Component[] scripts = other.GetComponents(typeof(Enemy));
                 foreach (var script in scripts)
-                    script.GetComponent<Enemy>().TakeDamage(atkDmg, this.transform, atkForce);
+                {
+                    var foe = script.GetComponent<Enemy>();
+                    if (absorbEffect && player != null)
+                    {
+                        float hpRecoverPercent = (float) (atkDmg / 2f);
+                        if (foe.hp < atkDmg)
+                            hpRecoverPercent = (float) (foe.hp / 2f);
+                        int hpRecover = Mathf.Abs( Mathf.RoundToInt(hpRecoverPercent * player.maxHp) );
+                        if (absorbReturnObj != null)
+                        {
+                            var obj = Instantiate(absorbReturnObj, foe.transform.position + Vector3.up, 
+                                absorbReturnObj.transform.rotation);
+                            obj.target = player.transform;
+                            obj.isPokemonReturning = false;
+                            obj.isAllyAbsorbEffect = true;
+                            obj.player = this.player;
+                            obj.hpRecover = hpRecover;
+                        }
+                        else
+                        {
+                            if ((player.hp + hpRecover) < player.maxHp)
+                                player.hp += hpRecover;
+                            else
+                                player.hp = player.maxHp;
+                        }
+                    }
+                    foe.TakeDamage(atkDmg, this.transform, atkForce);
+                }
             }
             if (destoryOnCollision && explosionObj != null)
             {

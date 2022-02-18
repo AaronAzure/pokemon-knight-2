@@ -9,6 +9,7 @@ public class FollowTowards : MonoBehaviour
     private bool done;
     public bool isPokemonReturning=true;
     public bool isAbsorbEffect=false;
+    public bool isAllyAbsorbEffect=false;
     public Enemy moveMaster;
     public int hpRecover;
     [Space] [SerializeField] private GameObject healObj;
@@ -98,6 +99,23 @@ public class FollowTowards : MonoBehaviour
             if (bossRoom != null)
                 bossRoom.Walls(false);
 
+            yield return new WaitForSeconds(0.25f);
+            Destroy(this.gameObject);
+        }
+        else if (isAllyAbsorbEffect && player != null)
+        {
+            if (player.healSound != null)
+                player.healSound.Play();
+            if (hpRecover > 0 && healObj != null)
+                Instantiate(healObj, player.transform.position, healObj.transform.rotation);
+            if ((player.hp + hpRecover) < player.maxHp)
+                player.hp += hpRecover;
+            else
+                player.hp = player.maxHp;
+
+            this.transform.parent = target.transform;
+            var main = ps.main;
+            main.loop = false;
             yield return new WaitForSeconds(0.25f);
             Destroy(this.gameObject);
         }
