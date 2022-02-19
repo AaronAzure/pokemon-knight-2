@@ -70,6 +70,8 @@ public abstract class Ally : MonoBehaviour
 
     protected virtual void Setup() { }
 
+    public virtual string ExtraDesc(int playerLv) { return ""; }
+
 
     void LateUpdate() 
     {

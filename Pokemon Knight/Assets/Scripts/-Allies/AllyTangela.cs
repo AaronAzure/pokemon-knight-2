@@ -7,15 +7,30 @@ public class AllyTangela : Ally
     [Space] [Header("Tangela")] 
     [SerializeField] private AllyProjectile absorb;
     [SerializeField] private DetectEnemy detection;
+    [SerializeField] private int maxDrain=10;
+    [SerializeField] private int totalMaxDrain;
+    [SerializeField] private int extraDrainDmg=1;
 
     protected override void Setup() 
     {
+        if (trainer != null)
+            totalMaxDrain = maxDrain + ( extraDrainDmg * Mathf.CeilToInt(((trainer.lv - 1) / perLevel)) );
+
         if (absorb != null)
         {
             absorb.atkDmg = this.atkDmg;
             absorb.atkForce = this.atkForce;
+            absorb.maxDrain = this.totalMaxDrain;
         }
     }   
+
+    public override string ExtraDesc(int playerLv)
+    {
+        totalMaxDrain = maxDrain + ( extraDrainDmg * Mathf.CeilToInt(((playerLv - 1) / perLevel)) );
+        string extraDesc = "\n(max of " + totalMaxDrain + " hp).";
+
+        return extraDesc;
+    }
 
     private Transform ClosestEnemy()
     {

@@ -18,6 +18,7 @@ public class PlayerControls : MonoBehaviour
     [Space] [Header("Ui")]
     public Image hpEffectImg;
     public Image hpImg;
+    public TextMeshProUGUI hpTxt;
     [Space]
     public Image expEffectImg;  // white
     public Image expImg;        // blue
@@ -203,6 +204,7 @@ public class PlayerControls : MonoBehaviour
     public EquipmentUi equipmentUi;
     public Button[] itemButtons;
     public Image[] equippedItems;
+    public string[] equippedItemNames;
     [SerializeField] private AudioSource itemFoundlSound;
     public int nEquipped;
     public int currentWeight=0; 
@@ -260,6 +262,7 @@ public class PlayerControls : MonoBehaviour
 
     void Start()
     {
+        equippedItemNames = new string[30];
         player = ReInput.players.GetPlayer(playerID);
 
         gameNumber = PlayerPrefsElite.GetInt("gameNumber");
@@ -273,7 +276,7 @@ public class PlayerControls : MonoBehaviour
         if (PlayerPrefsElite.VerifyInt("playerLevel" + gameNumber))
         {
             lv = PlayerPrefsElite.GetInt("playerLevel" + gameNumber);
-            maxHp += (5 * (lv - 1));
+            maxHp = 100 + (5 * (lv - 1));
             if (lvText != null)
                  lvText.text = "Lv. " + lv;
         }
@@ -414,6 +417,27 @@ public class PlayerControls : MonoBehaviour
             SavePokemonTeam();
         }
     
+
+        if (PlayerPrefsElite.VerifyArray("equippedItems" + gameNumber))
+        {
+            equippedItemNames = PlayerPrefsElite.GetStringArray("equippedItems" + gameNumber);
+            HashSet<string> set = new HashSet<string>(equippedItemNames);
+            if (set.Contains(""))
+                set.Remove("");
+            HashSet<ItemUi> itemSet = new HashSet<ItemUi>(itemsToActivate);
+            // foreach (string item in set)
+            //     if (itemSet.Contains())
+            foreach (ItemUi item in itemSet)
+                if (set.Contains(item.itemName))
+                    item.TOGGLE_ITEM();
+            
+        }
+        else
+        {
+            PlayerPrefsElite.SetStringArray("equippedItems" + gameNumber, equippedItemNames);
+        }
+
+        
         CheckEquippablePokemon();
         CheckObtainedItems();
 
@@ -777,6 +801,14 @@ public class PlayerControls : MonoBehaviour
             if (expImg.fillAmount >= 1)
                 LevelUp();
         }
+        
+        if (hpTxt != null)
+        {
+            hpTxt.text = hp + "/" + maxHp;
+            if (hp < 0)
+                hpTxt.text = "0/" + maxHp;
+        }
+        
         //* Hp
         if (hpImg != null && hpEffectImg != null)
         {
@@ -1734,7 +1766,6 @@ public class PlayerControls : MonoBehaviour
                     equippedItems[i].sprite = equippedItems[i+1].sprite;
             }
         }
-        // equippedItems[nEquipped].sprite = itemSprite;
         nEquipped--;
     }
 
@@ -1821,7 +1852,7 @@ public class PlayerControls : MonoBehaviour
         if (PlayerPrefsElite.VerifyInt("playerLevel" + gameNumber))
         {
             lv = PlayerPrefsElite.GetInt("playerLevel" + gameNumber);
-            maxHp += (5 * (lv - 1));
+            maxHp = 100 + (5 * (lv - 1));
             if (lvText != null)
                  lvText.text = "Lv. " + lv;
         }
@@ -1858,6 +1889,14 @@ public class PlayerControls : MonoBehaviour
         if (allies[4] != null) buttonAllocatedPokemons[4] = allies[4].name;
         if (allies[5] != null) buttonAllocatedPokemons[5] = allies[5].name;
         PlayerPrefsElite.SetStringArray("buttonAllocatedPokemons" + gameNumber, buttonAllocatedPokemons);
+
+        butterfreeSlot = RememberSpecialPokemonSlot( SpecialPokemon.butterfree );
+    }
+    private void SaveEquippedItems()
+    {
+        string[] buttonAllocatedPokemons = new string[30];
+
+        PlayerPrefsElite.SetStringArray("equippedItems" + gameNumber, buttonAllocatedPokemons);
 
         butterfreeSlot = RememberSpecialPokemonSlot( SpecialPokemon.butterfree );
     }

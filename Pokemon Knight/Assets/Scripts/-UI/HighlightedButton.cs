@@ -60,11 +60,16 @@ public class HighlightedButton : MonoBehaviour
                             }
 
                             float resummonTime = pokemonButton.ally.resummonTime;
+                            coolDown.text = resummonTime.ToString();
                             if (player != null && player.speedScarf)
+                            {
                                 resummonTime *= 0.7f;
-                            coolDown.text = resummonTime.ToString() + "s (" + pokemonButton.ally.resummonTime + "s)";
+                                coolDown.text = resummonTime.ToString() + "s (" + pokemonButton.ally.resummonTime + "s)";
+                            }
 
                             desc.text = pokemonButton.ally.moveDesc;
+                            if (player != null)
+                                desc.text += pokemonButton.ally.ExtraDesc(player.lv);
 
                             break;
                         }

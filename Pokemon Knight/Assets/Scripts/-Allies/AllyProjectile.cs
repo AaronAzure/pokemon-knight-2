@@ -20,6 +20,7 @@ public class AllyProjectile : MonoBehaviour
     [Space] public bool absorbEffect;
     [HideInInspector] public PlayerControls player;
     public FollowTowards absorbReturnObj;
+    public int maxDrain=5;
 
 
     private void Start() 
@@ -60,6 +61,8 @@ public class AllyProjectile : MonoBehaviour
                         if (foe.hp < atkDmg)
                             hpRecoverPercent = (float) (foe.hp / 2f);
                         int hpRecover = Mathf.Abs( Mathf.RoundToInt(hpRecoverPercent * player.maxHp) );
+                        hpRecover = Mathf.Min(maxDrain, hpRecover);
+                        
                         if (absorbReturnObj != null)
                         {
                             var obj = Instantiate(absorbReturnObj, foe.transform.position + Vector3.up, 
