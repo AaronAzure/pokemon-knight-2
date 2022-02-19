@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8395060614244367544}
   - component: {fileID: 4792069771240763185}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leaf back L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4217346382160922222}
   - component: {fileID: 5478942814163688623}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leg L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -275,7 +275,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7835596955819148203}
   - component: {fileID: 4184624923440520074}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leaf back R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -357,7 +357,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7641216351777906140}
   - component: {fileID: 5523439291125198772}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leaf R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -439,7 +439,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2846961639279543562}
   - component: {fileID: 3659830457379585843}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leaf M
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -525,7 +525,7 @@ GameObject:
   - component: {fileID: 7907085212256002918}
   - component: {fileID: 5798675815866953818}
   m_Layer: 8
-  m_Name: ODDISH
+  m_Name: ODDISH (enemy)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -675,6 +675,8 @@ MonoBehaviour:
   playerInField: 0
   playerInSight: 0
   alwaysAttackPlayer: 0
+  movingLeft: 0
+  movingRight: 0
   canUseBuffs: 0
   statusConditions:
   - {fileID: 8770370005866762583}
@@ -734,7 +736,7 @@ GameObject:
   m_Component:
   - component: {fileID: 905035109378238963}
   - component: {fileID: 1720472758345791981}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leaf L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -815,7 +817,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8452553695541995158}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: LEG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -849,7 +851,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8021916019445943823}
   - component: {fileID: 7268308278520208116}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -970,7 +972,7 @@ GameObject:
   m_Component:
   - component: {fileID: 220277786424914704}
   - component: {fileID: 2335878881091891655}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: leg R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1053,6 +1055,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: -PossessedPurple
       objectReference: {fileID: 0}
+    - target: {fileID: 1465899634756489508, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1465899634756510830, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1465899634756568762, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -1096,6 +1110,10 @@ PrefabInstance:
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666413519923928196, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}

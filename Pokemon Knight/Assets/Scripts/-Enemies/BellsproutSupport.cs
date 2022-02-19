@@ -11,6 +11,8 @@ public class BellsproutSupport : MonoBehaviour
                 bellsprout.target = other.transform;
             bellsprout.playerInRange = true;
             bellsprout.anim.SetTrigger("walking");
+            if (bellsprout.canUseBuffs)
+                bellsprout.anim.SetTrigger("growth");
 
             bellsprout.anim.speed = bellsprout.chaseSpeed;
         }    

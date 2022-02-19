@@ -109,6 +109,7 @@ public class PlayerControls : MonoBehaviour
     [Header("Player data")]
     public int maxHp;
     public int hp;  // current hp
+    private int lastHp;
     public int lv=1;
     [Space] [SerializeField] private int expNeeded=100;
     [SerializeField] private int exp;  // current exp
@@ -204,7 +205,7 @@ public class PlayerControls : MonoBehaviour
     public EquipmentUi equipmentUi;
     public Button[] itemButtons;
     public Image[] equippedItems;
-    public string[] equippedItemNames;
+    public List<string> equippedItemNames;
     [SerializeField] private AudioSource itemFoundlSound;
     public int nEquipped;
     public int currentWeight=0; 
@@ -213,6 +214,8 @@ public class PlayerControls : MonoBehaviour
     [Space] public bool speedScarf;
     public bool amberNecklace;
     public bool furyBracelet;
+    [SerializeField] private GameObject furyYellowObj;
+    [SerializeField] private GameObject furyRedObj;
     public bool amethystCharm;
     public TextMeshProUGUI weightText;
     
@@ -262,7 +265,8 @@ public class PlayerControls : MonoBehaviour
 
     void Start()
     {
-        equippedItemNames = new string[30];
+        
+        equippedItemNames = new List<string>();
         player = ReInput.players.GetPlayer(playerID);
 
         gameNumber = PlayerPrefsElite.GetInt("gameNumber");
@@ -420,21 +424,20 @@ public class PlayerControls : MonoBehaviour
 
         if (PlayerPrefsElite.VerifyArray("equippedItems" + gameNumber))
         {
-            equippedItemNames = PlayerPrefsElite.GetStringArray("equippedItems" + gameNumber);
+            equippedItemNames = new List<string>( PlayerPrefsElite.GetStringArray("equippedItems" + gameNumber) );
             HashSet<string> set = new HashSet<string>(equippedItemNames);
             if (set.Contains(""))
                 set.Remove("");
             HashSet<ItemUi> itemSet = new HashSet<ItemUi>(itemsToActivate);
-            // foreach (string item in set)
-            //     if (itemSet.Contains())
             foreach (ItemUi item in itemSet)
                 if (set.Contains(item.itemName))
                     item.TOGGLE_ITEM();
-            
+            SaveEquippedItems();
         }
         else
         {
-            PlayerPrefsElite.SetStringArray("equippedItems" + gameNumber, equippedItemNames);
+            PlayerPrefsElite.SetStringArray("equippedItems" + gameNumber, equippedItemNames.ToArray());
+            SaveEquippedItems();
         }
 
         
@@ -862,8 +865,25 @@ public class PlayerControls : MonoBehaviour
                 hpImg.color = new Color(1f, 0.65f, 0f);
             else
                 hpImg.color = new Color(0f, 0.85f, 0f);
+
+        }
+        
+        ChangeInHp();
+    }
+
+    private void ChangeInHp()
+    {
+        if (furyBracelet && lastHp != hp && hp > 0)
+        {
+            lastHp = hp;
+            
+            if (furyRedObj != null)
+                furyRedObj.SetActive( (hpImg.fillAmount <= 0.25f) );
+            if (furyYellowObj != null)
+                furyYellowObj.SetActive( (hpImg.fillAmount <= 0.5f) && (hpImg.fillAmount > 0.25f) );
         }
     }
+
         private void OnDrawGizmosSelected() //! ------- I M P O R T A N T -------
     {
         Gizmos.color = Color.red;
@@ -1304,6 +1324,11 @@ public class PlayerControls : MonoBehaviour
             damageIndicatorAnim.SetTrigger("died");
         }
         
+        if (furyRedObj != null)
+            furyRedObj.SetActive(false);
+        if (furyYellowObj != null)
+            furyYellowObj.SetActive(false);
+        
         if (musicManager != null)
             StartCoroutine( musicManager.LowerMusic(musicManager.currentMusic, 0.5f) );
         float origGravity = body.gravityScale;
@@ -1345,6 +1370,14 @@ public class PlayerControls : MonoBehaviour
         Invincible(false);
         hp = maxHp;
         anim.SetTrigger("reset");
+
+        hpImg.fillAmount = 1;
+        hpEffectImg.fillAmount = 1;
+        if (furyRedObj != null)
+            furyRedObj.SetActive(false);
+        if (furyYellowObj != null)
+            furyYellowObj.SetActive(false);
+
         isSleeping = false;
         inCutscene = false;
 
@@ -1830,6 +1863,7 @@ public class PlayerControls : MonoBehaviour
         anim.SetBool("isResting", false);
 
         SavePokemonTeam();
+        SaveEquippedItems();
     }
 
     // todo ------------------------------------------------------------------------------------
@@ -1894,11 +1928,7 @@ public class PlayerControls : MonoBehaviour
     }
     private void SaveEquippedItems()
     {
-        string[] buttonAllocatedPokemons = new string[30];
-
-        PlayerPrefsElite.SetStringArray("equippedItems" + gameNumber, buttonAllocatedPokemons);
-
-        butterfreeSlot = RememberSpecialPokemonSlot( SpecialPokemon.butterfree );
+        PlayerPrefsElite.SetStringArray("equippedItems" + gameNumber, equippedItemNames.ToArray());
     }
 
     //* REMEMBER SPECIAL POKEMON SLOTS (DYNAMIC PROGRAMMING) 

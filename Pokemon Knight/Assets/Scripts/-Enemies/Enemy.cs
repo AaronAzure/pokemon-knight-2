@@ -590,6 +590,64 @@ public abstract class Enemy : MonoBehaviour
     }
 
 
+    public void INCREASE_ATK()
+    {
+        if (canUseBuffs)
+        {
+            canUseBuffs = false;
+            StartCoroutine( INCREASE_ATK_CO() );
+        }
+    }
+    IEnumerator INCREASE_ATK_CO()
+    {
+        canUseBuffs = false;
+        IncreaseAtk();
+
+        yield return new WaitForSeconds(5);
+        RevertAtk();
+
+        yield return new WaitForSeconds(5);
+        canUseBuffs = true;
+    }
+    public void INCREASE_DEF()
+    {
+        if (canUseBuffs)
+        {
+            canUseBuffs = false;
+            StartCoroutine( INCREASE_DEF_CO() );
+        }
+    }
+    IEnumerator INCREASE_DEF_CO()
+    {
+        canUseBuffs = false;
+        IncreaseDef();
+
+        yield return new WaitForSeconds(5);
+        RevertDef();
+
+        yield return new WaitForSeconds(5);
+        canUseBuffs = true;
+    }
+    public void INCREASE_SPD()
+    {
+        if (canUseBuffs)
+        {
+            canUseBuffs = false;
+            StartCoroutine( INCREASE_SPD_CO() );
+        }
+    }
+    IEnumerator INCREASE_SPD_CO()
+    {
+        canUseBuffs = false;
+        IncreaseSpd();
+
+        yield return new WaitForSeconds(5);
+        RevertSpd();
+
+        yield return new WaitForSeconds(5);
+        canUseBuffs = true;
+    }
+
     protected void IncreaseAtk()
     {
         origContactDmg = contactDmg;

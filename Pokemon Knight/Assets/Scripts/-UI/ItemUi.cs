@@ -95,5 +95,22 @@ public class ItemUi : MonoBehaviour
                 Debug.LogError("itemUi.sprite is NULL ", this.gameObject);
             // todo - call to player
         }
+        
+        EquipItemPref();
+    }
+
+    public void EquipItemPref()
+    {
+        if (playerControls != null)
+        {
+            if (playerControls.equippedItemNames.Contains(itemName))
+                playerControls.equippedItemNames.Remove(itemName);
+            else
+                playerControls.equippedItemNames.Add(itemName);
+        }
+        else
+        {
+            Debug.LogError("PlayerControl is not set", this.gameObject);
+        }
     }
 }

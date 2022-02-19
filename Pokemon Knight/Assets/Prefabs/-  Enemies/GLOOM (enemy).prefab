@@ -80,7 +80,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7005814167754721486}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: ground detect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5244226064233434156}
   - component: {fileID: 5244226064233434159}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: leaf 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5244226064271995655}
   - component: {fileID: 5244226064271995654}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,7 +278,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5244226064701135476}
   - component: {fileID: 5244226064701135479}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: hand L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -360,7 +360,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5244226064990305578}
   - component: {fileID: 5244226064990305573}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: leaf 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -442,7 +442,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5244226065140975443}
   - component: {fileID: 5244226065140975442}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: flower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -528,7 +528,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5244226065317503631}
   - component: {fileID: 5244226065317503630}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: leaf 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -610,7 +610,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5244226065383736790}
   - component: {fileID: 5244226065383736785}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: leaf 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -692,7 +692,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5244226065615904609}
   - component: {fileID: 5244226065615904608}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: leg L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -774,7 +774,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5244226066012328072}
   - component: {fileID: 5244226066012328075}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: hand R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -856,7 +856,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5244226066297422838}
   - component: {fileID: 5244226066297422833}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: leg R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -943,7 +943,7 @@ GameObject:
   - component: {fileID: 270095424}
   - component: {fileID: 9176231504721097512}
   m_Layer: 8
-  m_Name: GLOOM
+  m_Name: GLOOM (enemy)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1157,7 +1157,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6826569509314706377}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: BODY
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1190,7 +1190,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 920394277680074613}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: MODEL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1224,6 +1224,10 @@ PrefabInstance:
     - target: {fileID: 521407335237500431, guid: 518c9c745c5ae4cb3b2ba46f6c890536, type: 3}
       propertyPath: m_Name
       value: -- FIELD OF VISION
+      objectReference: {fileID: 0}
+    - target: {fileID: 521407335237500431, guid: 518c9c745c5ae4cb3b2ba46f6c890536, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5942427012736757570, guid: 518c9c745c5ae4cb3b2ba46f6c890536, type: 3}
       propertyPath: m_RootOrder

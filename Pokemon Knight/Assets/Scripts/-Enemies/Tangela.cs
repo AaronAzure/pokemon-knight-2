@@ -26,6 +26,7 @@ public class Tangela : Enemy
     private bool massAbsorbAtk;
     private int sameAtkPattern;
     private bool canMove=true;
+    public bool attacking;
 
     public override void Setup()
     {
@@ -152,7 +153,7 @@ public class Tangela : Enemy
         }
     }
 
-    public void MiniBossAbsorb()
+    public void MiniBossChainAbsorb()
     {
         if (hp > 0)
         {
@@ -161,14 +162,17 @@ public class Tangela : Enemy
                 var obj = Instantiate(absorbObj, target.position + new Vector3(0,1), absorbObj.transform.rotation);
                 obj.moveMaster = this;
                 if (obj.anim != null) 
-                    obj.anim.speed = 2;
+                    if (hpImg.fillAmount <= 0.5f)
+                        obj.anim.speed = 3;
+                    else
+                        obj.anim.speed = 2;
 
                 obj.transform.parent = spawnedHolder.transform;
                 obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
             }
         }
     }
-    public void RandomAbsorb(int n=4)
+    public void MiniBossBurstAbsorb(int n=4)
     {
         List<int> pos = new List<int>();
         List<int> ints = new List<int>();
@@ -233,7 +237,7 @@ public class Tangela : Enemy
                 WALK();
             }
         }
-        else if (canMove)
+        else if (canMove && !attacking)
         {
             if (Random.Range(0,2) == 0)
             {
@@ -330,10 +334,7 @@ public class Tangela : Enemy
         {
             //* Less likely to repeat the same attack
             if (Random.Range(0,2*sameAtkPattern) == 0)
-                if (hpImg.fillAmount <= 0.5f)
-                    co = StartCoroutine( MultiAbsorbOverTime(6) );
-                else
-                    co = StartCoroutine( MultiAbsorbOverTime(4) );
+                co = StartCoroutine( MultiAbsorbOverTime(4) );
             
             //* More likely to perform a different attack
             else
@@ -350,7 +351,7 @@ public class Tangela : Enemy
         for (int i=0 ; i<n ; i++)
         {
             yield return new WaitForSeconds(0.5f);
-            MiniBossAbsorb();
+            MiniBossChainAbsorb();
         }
         co = StartCoroutine( ChooseAttack(2) );
     }
@@ -360,7 +361,7 @@ public class Tangela : Enemy
         mainAnim.SetTrigger("attack");
         if (n > absorbSpawns.Length)
             n = absorbSpawns.Length;
-        RandomAbsorb(n);
+        MiniBossBurstAbsorb(n);
 
         yield return new WaitForSeconds(3);
         co = StartCoroutine( ChooseAttack(0.5f) );

@@ -23,11 +23,17 @@ public class WaveRoom : MonoBehaviour
     public Enemy miniBoss;
     public string[] roomsBeaten;
 
+    [Header("Already Beaten")]
+    [Space] [SerializeField] private GameObject newRoom;
+
     void Start() 
     {
         roomName = SceneManager.GetActiveScene().name + " " + this.name;
         roomsBeaten = new string[100];
         defeatedSpawners = new List<WaveSpawner>();
+
+        if (newRoom != null)
+            newRoom.SetActive(false);
         
         foreach (GameObject wall in walls)
             wall.SetActive(false);
@@ -36,9 +42,13 @@ public class WaveRoom : MonoBehaviour
         {
             roomsBeaten = PlayerPrefsElite.GetStringArray("roomsBeaten" + PlayerPrefsElite.GetInt("gameNumber"));
             var set = new HashSet<string>(roomsBeaten);
-            Debug.Log(roomsBeaten.Length + " " + set.Count);
+            // Debug.Log(roomsBeaten.Length + " " + set.Count);
             if (set.Contains(roomName))
+            {
+                if (newRoom != null)
+                    newRoom.transform.parent = null; newRoom.SetActive(true);
                 Destroy(this.gameObject);
+            }
 
         }
         foreach (WaveSpawner ws in waveSpawners)

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3868172222412639587}
   - component: {fileID: 3868172222427846317}
   - component: {fileID: 3868172222426683331}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Tinysparkles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4934,7 +4934,7 @@ GameObject:
   - component: {fileID: 5850416406816429723}
   - component: {fileID: 7241809505544309795}
   m_Layer: 8
-  m_Name: METAPOD
+  m_Name: METAPOD (enemy)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5028,6 +5028,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lv: 4
+  chapterLevel: 0
   maxHp: 55
   hp: 0
   mainAnim: {fileID: 7241809505544309795}
@@ -5048,7 +5049,6 @@ MonoBehaviour:
   calcExtraProjectileDmg: 0
   expPossess: 8
   extraExp: 3
-  lvBreak: 10
   col: {fileID: 5850416406816429714}
   body: {fileID: 5850416406816429715}
   model: {fileID: 8959013983781483716}
@@ -5089,6 +5089,8 @@ MonoBehaviour:
   playerInField: 0
   playerInSight: 0
   alwaysAttackPlayer: 0
+  movingLeft: 0
+  movingRight: 0
   canUseBuffs: 0
   statusConditions:
   - {fileID: 696446644331728854}
@@ -5130,7 +5132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4160658219508442689}
   - component: {fileID: 1554805217673268361}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Shine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5213,7 +5215,7 @@ GameObject:
   - component: {fileID: 8959013983781483723}
   - component: {fileID: 8959013983781483722}
   - component: {fileID: 7394664434669150772}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: metapod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5537,6 +5539,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: PossessedPurple
       objectReference: {fileID: 0}
+    - target: {fileID: 1465899634756489508, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1465899634756510830, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1465899634756568762, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -5592,6 +5606,10 @@ PrefabInstance:
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666413519923928196, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}

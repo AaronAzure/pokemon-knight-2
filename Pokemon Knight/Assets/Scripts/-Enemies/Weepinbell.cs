@@ -48,7 +48,11 @@ public class Weepinbell : Enemy
     {
         if (!alwaysAttackPlayer)
         {
-            bool detection = Physics2D.OverlapBox(this.transform.position + offset, fieldOfVision, 0, whatIsPlayer);
+            bool detection = false;
+            if (model.transform.rotation.y > 0)
+                detection = Physics2D.OverlapBox(this.transform.position - offset, fieldOfVision, 0, whatIsPlayer);
+            else
+                detection = Physics2D.OverlapBox(this.transform.position + offset, fieldOfVision, 0, whatIsPlayer);
             if (target != null && detection)
             {
 
@@ -112,7 +116,10 @@ public class Weepinbell : Enemy
             Gizmos.DrawLine(this.transform.position + new Vector3(0, 1),
                 this.transform.position + new Vector3(0, 1) + lineOfSight);
         }
-        Gizmos.DrawWireCube(this.transform.position + offset, fieldOfVision);
+        if (model.transform.rotation.y > 0)
+            Gizmos.DrawWireCube(this.transform.position - offset , fieldOfVision);
+        else
+            Gizmos.DrawWireCube(this.transform.position + offset, fieldOfVision);
         
         Gizmos.color = Color.white;
         Gizmos.DrawWireCube(this.transform.position + (Vector3) feetOffset, feetSize);

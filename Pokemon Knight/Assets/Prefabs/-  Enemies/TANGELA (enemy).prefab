@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2194226062300190869}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: vine-pivot (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 7990751721105209301}
   - component: {fileID: 4302134205619123276}
   - component: {fileID: 7278394945481007433}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tangela-vines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,7 +243,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7005814167754721486}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: ground detect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -274,7 +274,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1431031835686330868}
   - component: {fileID: 5485312537736016903}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tangela_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -357,7 +357,7 @@ GameObject:
   - component: {fileID: 7757610845894223398}
   - component: {fileID: 7310241987729875014}
   - component: {fileID: 7764467479694932544}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tangela-vines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -458,7 +458,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6095376998948532943}
   - component: {fileID: 1513158412436225244}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: leg L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -542,7 +542,7 @@ GameObject:
   - component: {fileID: 1810781945326168813}
   - component: {fileID: 1750867759835018116}
   - component: {fileID: 7607496479491281504}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tangela-vines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -643,7 +643,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8670430272570554459}
   - component: {fileID: 239400507932574145}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: leg R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -731,7 +731,7 @@ GameObject:
   - component: {fileID: 6530007894587127881}
   - component: {fileID: 5074059084330990211}
   m_Layer: 8
-  m_Name: TANGELA
+  m_Name: TANGELA (enemy)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -874,7 +874,7 @@ MonoBehaviour:
   perLv: 2
   calcExtraProjectileDmg: 0
   expPossess: 25
-  extraExp: 11
+  extraExp: 14
   col: {fileID: 4723499407535618369}
   body: {fileID: 5036056118465129030}
   model: {fileID: 7418136976851294526}
@@ -939,6 +939,7 @@ MonoBehaviour:
   absorbObj: {fileID: 5711834433958961915, guid: 1a4a09bf7b8e549ebbb59f25cc5ed6ac, type: 3}
   spawnedHolder: {fileID: 2299243147025881872}
   absorbSpawns: []
+  attacking: 0
 --- !u!1 &7418136976851294526
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,7 +949,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 920394277680074613}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: MODEL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -984,7 +985,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3208269714147285086}
   - component: {fileID: 5846545051157631914}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: feet L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1066,7 +1067,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1667227686856749874}
   - component: {fileID: 5236678766088291713}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: feet R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1147,7 +1148,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7228053434100675579}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: BODY
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1183,7 +1184,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3281448967845735416}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: vine-pivot (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1215,7 +1216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6746860721402306141}
   - component: {fileID: 1031410587226232904}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tangela_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1296,7 +1297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5407028365283741750}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: vine-pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1328,6 +1329,14 @@ PrefabInstance:
     - target: {fileID: 521407335237500431, guid: 518c9c745c5ae4cb3b2ba46f6c890536, type: 3}
       propertyPath: m_Name
       value: -- FIELD OF VISION
+      objectReference: {fileID: 0}
+    - target: {fileID: 521407335237500431, guid: 518c9c745c5ae4cb3b2ba46f6c890536, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 521407335237500431, guid: 518c9c745c5ae4cb3b2ba46f6c890536, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5942427012736757570, guid: 518c9c745c5ae4cb3b2ba46f6c890536, type: 3}
       propertyPath: m_RootOrder
@@ -1490,6 +1499,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: -PossessedPurple
       objectReference: {fileID: 0}
+    - target: {fileID: 1465899634756489508, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1465899634756510830, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1465899634756568762, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -1533,6 +1554,10 @@ PrefabInstance:
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666413519923928196, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}

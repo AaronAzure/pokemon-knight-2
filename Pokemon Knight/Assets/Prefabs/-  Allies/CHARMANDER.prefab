@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4496361343667962459}
   - component: {fileID: 2651850152627539904}
   - component: {fileID: 9180588018149622702}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: ATK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9068800195842741658}
-  m_Layer: 9
+  m_Layer: 15
   m_Name: atk pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6320707430243459005}
-  m_Layer: 9
+  m_Layer: 15
   m_Name: LEG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   m_Component:
   - component: {fileID: 316684771236225134}
   - component: {fileID: 8960383251517244062}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: leg R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5713911494170503991}
   - component: {fileID: 5477563188469265777}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: head 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2743031402485939085}
   - component: {fileID: 5629376776960016810}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: arm L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -401,7 +401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6631681739661244781}
   - component: {fileID: 4280857482487815803}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: leg L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -637,7 +637,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4788065970439772731}
-  m_Layer: 9
+  m_Layer: 15
   m_Name: MODEL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -669,7 +669,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4112406143335535927}
   - component: {fileID: 8901685359546600512}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: head 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -750,7 +750,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5403180869692532244}
-  m_Layer: 9
+  m_Layer: 15
   m_Name: BODY
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -785,7 +785,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7708198568091762014}
-  m_Layer: 9
+  m_Layer: 15
   m_Name: HEAD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -820,7 +820,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1682448471468836584}
   - component: {fileID: 7902742105209532179}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: arm R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -902,7 +902,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2701072943190002532}
   - component: {fileID: 4518262229096337866}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -985,7 +985,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3014067405925213824}
   - component: {fileID: 919050524666812698}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1064,9 +1064,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4496361343667962459}
     m_Modifications:
+    - target: {fileID: 126448, guid: c170e0e0a1c5d41238396d7303275a4c, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 139654, guid: c170e0e0a1c5d41238396d7303275a4c, type: 3}
       propertyPath: m_Name
       value: Flamethrower
+      objectReference: {fileID: 0}
+    - target: {fileID: 139654, guid: c170e0e0a1c5d41238396d7303275a4c, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 151862, guid: c170e0e0a1c5d41238396d7303275a4c, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 162884, guid: c170e0e0a1c5d41238396d7303275a4c, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 428734, guid: c170e0e0a1c5d41238396d7303275a4c, type: 3}
       propertyPath: m_RootOrder
@@ -1178,9 +1194,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2701072943190002532}
     m_Modifications:
+    - target: {fileID: 102114, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 135564, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 161738, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
       propertyPath: m_Name
       value: ToonFireTorchIntenseRed
+      objectReference: {fileID: 0}
+    - target: {fileID: 161738, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 491456, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
       propertyPath: m_RootOrder
