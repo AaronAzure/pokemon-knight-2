@@ -1,6 +1,7 @@
 ﻿using System.Collections;
-// using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ using UnityEditor;
 
 public abstract class Enemy : MonoBehaviour
 {
+    [SerializeField] private string enemyId;
     public int lv=2;
     protected int defaultLv=1; // Bonus
     private int lvBreak=10;  // Additional bonus
@@ -131,11 +133,24 @@ public abstract class Enemy : MonoBehaviour
 
     private enum HpEffect { none, heal, lost };
     private HpEffect healthStatus = HpEffect.none;
+    [HideInInspector] public bool spawnedByWave;
+
 
 
 
     public virtual void Start() 
     {
+        if (!isBoss && !spawnedByWave)
+        {
+            enemyId = SceneManager.GetActiveScene().name + " " + this.name;
+            if (PlayerPrefsElite.VerifyArray("enemyDefeated"))
+            {
+                HashSet<string> names = new HashSet<string>(PlayerPrefsElite.GetStringArray("enemyDefeated"));
+                if (names.Contains(enemyId))
+                    Destroy(this.gameObject);
+            }
+        }
+
         inPlayMode = true;
         if (statusBar != null)
             statusBar.SetActive(false);
@@ -148,7 +163,7 @@ public abstract class Enemy : MonoBehaviour
             model.transform.localScale *= Random.Range(0.9f, 1.1f);
         if (isMiniBoss)
         {
-            maxHp *= 3;
+            maxHp *= 4;
             expPossess *= 3;
         }
 
@@ -163,12 +178,15 @@ public abstract class Enemy : MonoBehaviour
 
         calcExtraProjectileDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
 
-        int nextAreas = (lv / lvBreak);
-        for (int i=0 ; i<nextAreas ; i++)
-        // for (int i=0 ; i<(int)chapterLevel ; i++)
+        if (!isBoss)
         {
-            maxHp = Mathf.RoundToInt(maxHp * 2f);
-            expPossess = Mathf.RoundToInt(expPossess * 2f);
+            int nextAreas = (lv / lvBreak);
+            for (int i=0 ; i<nextAreas ; i++)
+            // for (int i=0 ; i<(int)chapterLevel ; i++)
+            {
+                maxHp = Mathf.RoundToInt(maxHp * 2f);
+                expPossess = Mathf.RoundToInt(expPossess * 2f);
+            }
         }
 
         hp = maxHp;   
@@ -311,7 +329,7 @@ public abstract class Enemy : MonoBehaviour
 
     public void TakeDamage(int dmg=0, Transform opponent=null, float force=0)
     {
-        if (!inCutscene)
+        if (!inCutscene && hp > 0)
         {
             if (hp > 0)
             {
@@ -366,7 +384,10 @@ public abstract class Enemy : MonoBehaviour
                     spawner.SpawnedDefeated();
 
                 if (playerControls != null)
+                {
                     playerControls.GainExp(expPossess, lv);
+                    playerControls.KilledEnemy(enemyId);
+                }
 
                 if (!isBoss)
                 {
@@ -722,12 +743,15 @@ public abstract class Enemy : MonoBehaviour
             if (lv > defaultLv)
                 tempExp += Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) );
             
-            int nextAreas = (lv / lvBreak);
-            for (int i=0 ; i<nextAreas ; i++)
-            // for (int i=0 ; i<(int)chapterLevel ; i++)
+            if (!isBoss)
             {
-                tempHp = Mathf.RoundToInt(tempHp * 1.5f);
-                tempExp = Mathf.RoundToInt(tempExp * 1.5f);
+                int nextAreas = (lv / lvBreak);
+                for (int i=0 ; i<nextAreas ; i++)
+                // for (int i=0 ; i<(int)chapterLevel ; i++)
+                {
+                    tempHp = Mathf.RoundToInt(tempHp * 1.5f);
+                    tempExp = Mathf.RoundToInt(tempExp * 1.5f);
+                }
             }
 
             string gap = "          ";

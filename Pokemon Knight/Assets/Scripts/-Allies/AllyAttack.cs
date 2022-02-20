@@ -5,8 +5,8 @@ public class AllyAttack : MonoBehaviour
     // public Transform atkPos;
     // public LayerMask whatIsEnemy;
     // public float atkRange;
-    [HideInInspector] public int atkDmg;
-    [HideInInspector] public int atkForce;    // knockback force
+    public int atkDmg;
+    public int atkForce;    // knockback force
 
     [SerializeField] private GameObject spawnEffectObj;
     [SerializeField] private bool spawnEffect;

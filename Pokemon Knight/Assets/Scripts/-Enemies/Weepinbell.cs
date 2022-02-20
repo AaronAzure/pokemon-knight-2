@@ -138,7 +138,7 @@ public class Weepinbell : Enemy
     }
     public void JumpAndTarget(bool guaranteed=false)
     {
-        if (groundInfo && body.velocity.y == 0)
+        if (!groundInfo)
             return;
         if (guaranteed || Random.Range(0, 3) == 0)
         {

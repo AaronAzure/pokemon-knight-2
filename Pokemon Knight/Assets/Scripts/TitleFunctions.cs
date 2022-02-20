@@ -117,6 +117,9 @@ public class TitleFunctions : MonoBehaviour
 
         if (PlayerPrefsElite.VerifyArray("buttonAllocatedPokemons" + gameNumber.ToString()))
             PlayerPrefsElite.DeleteKey("buttonAllocatedPokemons" + gameNumber.ToString());
+        
+        if (PlayerPrefsElite.VerifyArray("equippedItems" + gameNumber.ToString()))
+            PlayerPrefsElite.DeleteKey("equippedItems" + gameNumber.ToString());
 
         // Non-player related (Wave)
         if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber.ToString()))
@@ -130,6 +133,9 @@ public class TitleFunctions : MonoBehaviour
         
         if (PlayerPrefsElite.VerifyArray("berries" + gameNumber.ToString()))
             PlayerPrefsElite.SetStringArray("berries" + gameNumber.ToString(), new string[20]);
+        
+        if (PlayerPrefsElite.VerifyArray("spareKeychain" + gameNumber.ToString()))
+            PlayerPrefsElite.SetStringArray("spareKeychain" + gameNumber.ToString(), new string[20]);
 
         PlayerPrefsElite.SetInt("gameNumber", gameNumber);
         StartCoroutine( FadeToGame() );

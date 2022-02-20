@@ -48,8 +48,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   offset: {x: 0, y: 1, z: 0}
-  speed: 25
+  speed: 40
   isPokemonReturning: 1
+  isAbsorbEffect: 0
+  isAllyAbsorbEffect: 0
+  moveMaster: {fileID: 0}
+  hpRecover: 0
+  healObj: {fileID: 0}
   ps: {fileID: 7543729391301439259}
   powerup: 0
   player: {fileID: 0}
@@ -60,6 +65,7 @@ MonoBehaviour:
   powerupAcquired: {fileID: 182714, guid: f4645b758a8ad41d0b2ca8ea1cc48431, type: 3}
   spawner: {fileID: 0}
   bossRoom: {fileID: 0}
+  isButterfree: 0
 --- !u!210 &361934810294491225
 SortingGroup:
   m_ObjectHideFlags: 0

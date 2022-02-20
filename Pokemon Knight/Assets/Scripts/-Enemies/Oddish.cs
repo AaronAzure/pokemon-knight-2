@@ -267,7 +267,10 @@ public class Oddish : Enemy
 
     IEnumerator RestBeforeNextVolley()
     {
-        yield return new WaitForSeconds(3);
+        if (hpImg.fillAmount <= 0.5f)
+            yield return new WaitForSeconds(1.5f);
+        else
+            yield return new WaitForSeconds(3);
         if (hp > 0)
             anim.SetTrigger("sludgeBomb");
         attackCount = 0;

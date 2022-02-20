@@ -43,7 +43,7 @@ public class MusicManager : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
             currentMusic.volume -= fraction;
         }
-        yield return new WaitForEndOfFrame();
+        yield return null;
         currentMusic.Stop();
 
         if (nextMusic == null)
@@ -74,10 +74,10 @@ public class MusicManager : MonoBehaviour
         float fraction = music.volume / times;
         for (int i=0 ; i<times ; i++)
         {
-            yield return new WaitForEndOfFrame();
+            yield return null;
             music.volume -= fraction;
         }
-        yield return new WaitForEndOfFrame();
+        yield return null;
         music.Stop();
     }
     public IEnumerator LowerMusic(AudioSource music, float percent, bool rememberLastMusic=false)
@@ -86,7 +86,7 @@ public class MusicManager : MonoBehaviour
         float fraction = (music.volume  * percent) / times;
         for (int i=0 ; i<times ; i++)
         {
-            yield return new WaitForEndOfFrame();
+            yield return null;
             music.volume -= fraction;
         }
         if (rememberLastMusic)
@@ -98,7 +98,7 @@ public class MusicManager : MonoBehaviour
         float fraction = (music.volume  * times) / percent;
         for (int i=0 ; i<times ; i++)
         {
-            yield return new WaitForEndOfFrame();
+            yield return null;
             music.volume += fraction;
         }
     }

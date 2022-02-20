@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 13249924}
   - component: {fileID: 13249923}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: foreground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -796,7 +796,7 @@ GameObject:
   - component: {fileID: 528409136}
   - component: {fileID: 528409135}
   - component: {fileID: 528409134}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: 0_-1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1248,9 +1248,9 @@ GameObject:
   m_Component:
   - component: {fileID: 650740958}
   - component: {fileID: 650740957}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TilemapGroup
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1270,7 +1270,7 @@ MonoBehaviour:
   m_tilemaps:
   - {fileID: 619582319}
   - {fileID: 13249923}
-  m_selectedIndex: 1
+  m_selectedIndex: 0
   m_unselectedColorMultiplier: 1
   m_defaultTilemapWindowVisible: 0
   m_displayTilemapRList: 1
@@ -2112,7 +2112,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1046537964
 GameObject:
@@ -2489,63 +2489,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &1242641571
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 385006923305863864, guid: dbdc38e5c4d9e4010a5db16207660acf, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 385006923305863864, guid: dbdc38e5c4d9e4010a5db16207660acf, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.36335698
-      objectReference: {fileID: 0}
-    - target: {fileID: 385006923305863864, guid: dbdc38e5c4d9e4010a5db16207660acf, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.3420124
-      objectReference: {fileID: 0}
-    - target: {fileID: 385006923305863864, guid: dbdc38e5c4d9e4010a5db16207660acf, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 385006923305863864, guid: dbdc38e5c4d9e4010a5db16207660acf, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 385006923305863864, guid: dbdc38e5c4d9e4010a5db16207660acf, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 385006923305863864, guid: dbdc38e5c4d9e4010a5db16207660acf, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 385006923305863864, guid: dbdc38e5c4d9e4010a5db16207660acf, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 385006923305863864, guid: dbdc38e5c4d9e4010a5db16207660acf, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 385006923305863864, guid: dbdc38e5c4d9e4010a5db16207660acf, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 385006923305863864, guid: dbdc38e5c4d9e4010a5db16207660acf, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6720000477191158417, guid: dbdc38e5c4d9e4010a5db16207660acf, type: 3}
-      propertyPath: m_Name
-      value: TANGELA
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: dbdc38e5c4d9e4010a5db16207660acf, type: 3}
 --- !u!1 &1263076730
 GameObject:
   m_ObjectHideFlags: 0
@@ -2626,7 +2569,7 @@ Transform:
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
 --- !u!1 &1279935214
 GameObject:
@@ -2710,107 +2653,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1303241372
-GameObject:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1303241375}
-  - component: {fileID: 1303241374}
-  - component: {fileID: 1303241373}
-  m_Layer: 0
-  m_Name: Brush
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1303241373
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1303241372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 860611cc84144924c8a95e2a1670d236, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Offset: {x: 0, y: 0}
-  IsUndoEnabled: 1
-  m_brushTilemap: {fileID: 1303241374}
---- !u!114 &1303241374
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1303241372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dec3ca0fe88506448df84e8bf55b2dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowGrid: 1
-  InnerPadding: 0
-  ColliderDepth: 0.1
-  ColliderType: 0
-  Collider2DType: 0
-  Collider2DOptimizationDisabled: 0
-  ShowColliderNormals: 1
-  ColliderDisplayMode: 0
-  IsUndoEnabled: 0
-  SortOrder: 0
-  ColliderGenerationMethod: 0
-  m_sortingLayer: -1344374445
-  m_sortingLayerName: Foreground
-  m_orderInLayer: 0
-  m_material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_tintColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.7}
-  m_pixelSnap: 0
-  m_maskInteraction: 0
-  m_isVisible: 0
-  m_allowPaintingOutOfBounds: 1
-  m_autoShrink: 0
-  m_enableUndoWhilePainting: 1
-  m_isTrigger: 0
-  m_physicMaterial: {fileID: 0}
-  m_physicMaterial2D: {fileID: 0}
-  m_cellSize: {x: 1, y: 1}
-  m_mapBounds:
-    m_Center: {x: 0.5, y: 0.5, z: 0}
-    m_Extent: {x: 0.5, y: 0.5, z: 0}
-  m_tileset: {fileID: 11400000, guid: 79622320642904dfb958dc4663f1f61a, type: 2}
-  m_minGridX: 0
-  m_minGridY: 0
-  m_maxGridX: 0
-  m_maxGridY: 0
-  m_parentTilemapGroup: {fileID: 0}
-  m_parallaxFactor: {x: 1, y: 1}
-  m_chunkRendererProperties:
-    castShadows: 0
-    receiveShadows: 0
-    useLightProbes: 0
-    reflectionProbeUsage: 0
-    anchorOverride: {fileID: 0}
---- !u!4 &1303241375
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1303241372}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 38, y: 22, z: -0.01}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1304745683
 GameObject:
   m_ObjectHideFlags: 0
@@ -3137,7 +2979,7 @@ GameObject:
   - component: {fileID: 1485306959}
   - component: {fileID: 1485306958}
   - component: {fileID: 1485306957}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: 0_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3426,7 +3268,7 @@ Transform:
   - {fileID: 692037116}
   - {fileID: 798599205}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1820745662
 GameObject:
@@ -4424,11 +4266,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2132627198596253916, guid: be31718e66abf4de899f72cb0539f981, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -3.86
       objectReference: {fileID: 0}
     - target: {fileID: 2132627198596253916, guid: be31718e66abf4de899f72cb0539f981, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: -0.36
       objectReference: {fileID: 0}
     - target: {fileID: 2132627198596253916, guid: be31718e66abf4de899f72cb0539f981, type: 3}
       propertyPath: m_LocalPosition.z

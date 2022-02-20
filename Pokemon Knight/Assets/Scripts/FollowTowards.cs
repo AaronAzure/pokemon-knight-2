@@ -104,14 +104,17 @@ public class FollowTowards : MonoBehaviour
         }
         else if (isAllyAbsorbEffect && player != null)
         {
-            if (player.healSound != null)
-                player.healSound.Play();
-            if (hpRecover > 0 && healObj != null)
-                Instantiate(healObj, player.transform.position, healObj.transform.rotation);
-            if ((player.hp + hpRecover) < player.maxHp)
-                player.hp += hpRecover;
-            else
-                player.hp = player.maxHp;
+            if (player.hp > 0)
+            {
+                if (player.healSound != null)
+                    player.healSound.Play();
+                if (hpRecover > 0 && healObj != null)
+                    Instantiate(healObj, player.transform.position, healObj.transform.rotation);
+                if ((player.hp + hpRecover) < player.maxHp)
+                    player.hp += hpRecover;
+                else
+                    player.hp = player.maxHp;
+            }
 
             this.transform.parent = target.transform;
             var main = ps.main;

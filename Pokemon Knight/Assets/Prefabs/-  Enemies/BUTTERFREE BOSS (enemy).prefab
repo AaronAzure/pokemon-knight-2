@@ -6106,7 +6106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lv: 12
   chapterLevel: 0
-  maxHp: 1000
+  maxHp: 1250
   hp: 0
   mainAnim: {fileID: 1602186293996210103}
   contactDmg: 30
@@ -6133,7 +6133,7 @@ MonoBehaviour:
   extraProjectileDmg: 0
   perLv: 1
   calcExtraProjectileDmg: 0
-  expPossess: 300
+  expPossess: 500
   extraExp: 0
   col: {fileID: 3172262714034576942}
   body: {fileID: 5132741295536627786}
@@ -6175,6 +6175,8 @@ MonoBehaviour:
   playerInField: 0
   playerInSight: 0
   alwaysAttackPlayer: 0
+  movingLeft: 0
+  movingRight: 0
   canUseBuffs: 0
   statusConditions:
   - {fileID: 4682627807172591945}

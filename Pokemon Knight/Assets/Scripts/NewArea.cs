@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NewArea : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class NewArea : MonoBehaviour
         if (other.tag == "Player" && Application.CanStreamedLevelBeLoaded(nextScene))
         {
             PlayerControls player = other.GetComponent<PlayerControls>();
-            player.SetNextArea(nextScene, nextPos, isDoorExit);
+            player.SetNextArea(nextScene, nextPos, isDoorExit, SceneManager.GetActiveScene().name + " " + this.name);
         }
     }
 }

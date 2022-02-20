@@ -14,21 +14,21 @@ public class ItemUi : MonoBehaviour
 
     private bool CanEquip(int itemWeight)
     {
-        if ((playerControls.currentWeight + itemWeight) <= playerControls.maxWeight )
+        if ((playerControls.currentWeight + itemWeight) <= (playerControls.maxWeight + playerControls.extraWeight) )
             return true;
         Debug.LogError("TOO HEAVY = [" + playerControls.currentWeight + "]  [" + itemWeight + "]");
-        return ( (playerControls.currentWeight + itemWeight) <= playerControls.maxWeight );
+        return ( (playerControls.currentWeight + itemWeight) <= (playerControls.maxWeight + playerControls.extraWeight) );
     }
 
     private void Equip(int itemWeight)
     {
         playerControls.currentWeight += itemWeight;
-        playerControls.weightText.text = playerControls.currentWeight + "/" + playerControls.maxWeight;
+        playerControls.weightText.text = playerControls.currentWeight + "/" + (playerControls.maxWeight + playerControls.extraWeight);
     }
     private void Unequip(int itemWeight)
     {
         playerControls.currentWeight -= itemWeight;
-        playerControls.weightText.text = playerControls.currentWeight + "/" + playerControls.maxWeight;
+        playerControls.weightText.text = playerControls.currentWeight + "/" + (playerControls.maxWeight + playerControls.extraWeight);
     }
 
     public void TOGGLE_ITEM()

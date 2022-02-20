@@ -40,6 +40,7 @@ using UnityEngine;
                     Quaternion.identity, this.transform);
                 obj.lv = enemiesLevel;
                 obj.spawner = this;
+                obj.spawnedByWave = true;
                 obj.canUseBuffs = waves[ waveNumber ].canUseBuffs;
                 if (flipEnemies)
                     obj.model.transform.eulerAngles = new Vector3(0, 180);
