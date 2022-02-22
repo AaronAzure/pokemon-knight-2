@@ -152,6 +152,7 @@ public class Weepinbell : Enemy
 
     public void RAZOR_LEAF()
     {
+        LookAtPlayer();
         if (alwaysAttackPlayer)
             lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));
         if (razorLeafSpawn != null && hp > 0)

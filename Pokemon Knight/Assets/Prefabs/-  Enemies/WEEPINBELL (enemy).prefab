@@ -354,6 +354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 527a5ef260e5a463f9797b5fd90ea5a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyId: 
   lv: 12
   chapterLevel: 0
   maxHp: 150
@@ -373,7 +374,7 @@ MonoBehaviour:
   bossRoom: {fileID: 0}
   extraHp: 20
   extraDmg: 5
-  extraProjectileDmg: 8
+  extraProjectileDmg: 6
   perLv: 2
   calcExtraProjectileDmg: 0
   expPossess: 25
@@ -427,6 +428,7 @@ MonoBehaviour:
   increaseAtk: {fileID: 0}
   increaseDef: {fileID: 0}
   increaseSpd: {fileID: 0}
+  spawnedByWave: 0
   anim: {fileID: 2136142339847862491}
   moveSpeed: 2
   jumpForce: 15

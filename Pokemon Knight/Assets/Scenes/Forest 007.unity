@@ -140,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1482746041171250567, guid: fb62a1c3fa81a48b59bb6cd65be72889, type: 3}
       propertyPath: extraProjectileDmg
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5190738568925567528, guid: fb62a1c3fa81a48b59bb6cd65be72889, type: 3}
       propertyPath: m_Name
@@ -250,7 +250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3091697107756361057, guid: 1e20b51377baa405198110b3c168560b, type: 3}
       propertyPath: itemName
-      value: furyBracelet
+      value: crisisCharm
       objectReference: {fileID: 0}
     - target: {fileID: 3091697107756361058, guid: 1e20b51377baa405198110b3c168560b, type: 3}
       propertyPath: m_Name
@@ -259,10 +259,10 @@ PrefabInstance:
     - target: {fileID: 3091697108379744360, guid: 1e20b51377baa405198110b3c168560b, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: ab0ff63e13ab94b12adb4e08317d6ece, type: 3}
+      objectReference: {fileID: 21300000, guid: 2d486428e236944d78a1a462b5be59fb, type: 3}
     - target: {fileID: 3091697108849011791, guid: 1e20b51377baa405198110b3c168560b, type: 3}
       propertyPath: m_text
-      value: Fury Bracelet
+      value: Crisis Charm
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e20b51377baa405198110b3c168560b, type: 3}
@@ -2346,9 +2346,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3091697107756361057, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: itemName
+      value: quickCharm
+      objectReference: {fileID: 0}
     - target: {fileID: 3091697107756361058, guid: 1e20b51377baa405198110b3c168560b, type: 3}
       propertyPath: m_Name
       value: pokeball-item
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091697108379744360, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8f8229410b0124b3484033d2dc5a54e0, type: 3}
+    - target: {fileID: 3091697108849011791, guid: 1e20b51377baa405198110b3c168560b, type: 3}
+      propertyPath: m_text
+      value: 'Quick Charm
+
+'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e20b51377baa405198110b3c168560b, type: 3}
@@ -2592,11 +2606,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1976175703200949028, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.6710101
+      value: 2.9975471
       objectReference: {fileID: 0}
     - target: {fileID: 1976175703200949028, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.0000001
+      value: 0.25000012
       objectReference: {fileID: 0}
     - target: {fileID: 1976175703200949029, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: m_ForceIntoRT
@@ -2604,7 +2618,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1976175703200949029, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: orthographic size
-      value: 6
+      value: 6.75
       objectReference: {fileID: 0}
     - target: {fileID: 1976175703200949035, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: m_UpdateMethod
@@ -2625,7 +2639,7 @@ PrefabInstance:
     - target: {fileID: 2625058270864084360, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: cm.Array.data[0]
       value: 
-      objectReference: {fileID: 1510761249}
+      objectReference: {fileID: 1510761251}
     - target: {fileID: 3068828298539005972, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3
@@ -2652,17 +2666,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
---- !u!114 &1510761249 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4699099702704253288, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
-  m_PrefabInstance: {fileID: 1510761248}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1510761251 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1976175702109154766, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}

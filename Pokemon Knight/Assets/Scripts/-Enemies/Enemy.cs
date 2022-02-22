@@ -114,7 +114,8 @@ public abstract class Enemy : MonoBehaviour
     public bool playerInSight;
     protected bool trigger;
     public bool alwaysAttackPlayer;
-    [Space] [SerializeField] protected bool movingLeft;
+    [Space] public bool cannotMove;
+    [SerializeField] protected bool movingLeft;
     [SerializeField] protected bool movingRight;
 
 

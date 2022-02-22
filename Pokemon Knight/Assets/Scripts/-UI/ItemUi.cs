@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,16 +9,33 @@ public class ItemUi : MonoBehaviour
     public bool equipped;
     public int weight=1;
     public string itemName = "N/A";
+    [Space] public string camelisedItemName;
     public Sprite sprite;
     [Space] public Button button;
     [TextArea(15,20)] public string itemDesc;
 
+    void Start() 
+    {
+        string temp = "";
+        for (int i=0 ; i<itemName.Length ; i++)
+        {
+            char letter = itemName[i];
+            if (char.IsUpper(letter))
+                temp += " " + char.ToUpper(letter);
+            else
+                if (i == 0)
+                    temp += char.ToUpper(letter);
+                else
+                    temp += letter;
+        }
+        camelisedItemName = temp;
+    }
 
     private bool CanEquip(int itemWeight)
     {
         if ((playerControls.currentWeight + itemWeight) <= (playerControls.maxWeight + playerControls.extraWeight) )
             return true;
-        Debug.LogError("TOO HEAVY = [" + playerControls.currentWeight + "]  [" + itemWeight + "]");
+        playerControls.TooHeavy();
         return ( (playerControls.currentWeight + itemWeight) <= (playerControls.maxWeight + playerControls.extraWeight) );
     }
 
@@ -39,17 +58,17 @@ public class ItemUi : MonoBehaviour
             equipped = false;
             switch (itemName)
             {
-                case "speedScarf":
-                    playerControls.speedScarf = false;
+                case "quickCharm":
+                    playerControls.quickCharm = false;
                     break;
-                case "amberNecklace":
-                    playerControls.amberNecklace = false;
+                case "chuggerCharm":
+                    playerControls.chuggerCharm = false;
                     break;
-                case "furyBracelet":
-                    playerControls.furyBracelet = false;
+                case "crisisCharm":
+                    playerControls.crisisCharm = false;
                     break;
-                case "amethystCharm":
-                    playerControls.amethystCharm = false;
+                case "dualCharm":
+                    playerControls.dualCharm = false;
                     playerControls.maxPokemonOut--;
                     break;
                 default:
@@ -69,17 +88,17 @@ public class ItemUi : MonoBehaviour
             equipped = true;
             switch (itemName)
             {
-                case "speedScarf":
-                    playerControls.speedScarf = true;
+                case "quickCharm":
+                    playerControls.quickCharm = true;
                     break;
-                case "amberNecklace":
-                    playerControls.amberNecklace = true;
+                case "chuggerCharm":
+                    playerControls.chuggerCharm = true;
                     break;
-                case "furyBracelet":
-                    playerControls.furyBracelet = true;
+                case "crisisCharm":
+                    playerControls.crisisCharm = true;
                     break;
-                case "amethystCharm":
-                    playerControls.amethystCharm = true;
+                case "dualCharm":
+                    playerControls.dualCharm = true;
                     playerControls.maxPokemonOut++;
                     break;
                 default:

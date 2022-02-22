@@ -49,9 +49,9 @@ public abstract class Ally : MonoBehaviour
         // Strength grows per level
         if (trainer != null)
             atkDmg += ( extraDmg * Mathf.CeilToInt(((trainer.lv - 1) / perLevel)) );
-        if (trainer != null && trainer.furyBracelet && trainer.hpImg.fillAmount <= 0.25f)
+        if (trainer != null && trainer.crisisCharm && trainer.hpImg.fillAmount <= 0.25f)
             atkDmg *= 2;
-        else if (trainer != null && trainer.furyBracelet && trainer.hpImg.fillAmount <= 0.5f)
+        else if (trainer != null && trainer.crisisCharm && trainer.hpImg.fillAmount <= 0.5f)
             atkDmg = Mathf.RoundToInt(atkDmg * 1.25f);
         if (trainer != null && hitbox != null && trainer.extraRange)
             hitbox.gameObject.transform.localScale *= 1.5f;
@@ -61,7 +61,7 @@ public abstract class Ally : MonoBehaviour
             hitbox.atkDmg = this.atkDmg;
             hitbox.atkForce = this.atkForce;
         }
-        if (trainer != null && trainer.speedScarf)
+        if (trainer != null && trainer.quickCharm)
             resummonTime *= 0.7f;
 
         StartCoroutine( BackToBall() );

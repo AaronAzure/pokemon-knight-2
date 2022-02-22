@@ -35,7 +35,7 @@ public class Bellsprout : Enemy
         // Wandering around
         if (!chasing)
         {
-            if (!receivingKnockback && hp > 0)
+            if (!receivingKnockback && hp > 0 && !cannotMove)
             {
                 if (movingLeft)
                     body.velocity = new Vector2(-moveSpeed, body.velocity.y);
@@ -118,17 +118,20 @@ public class Bellsprout : Enemy
     {
         if (!canFlip)
             return;
-        if (model.transform.eulerAngles.y != 0)
+        if (movingLeft || movingRight)
         {
-            model.transform.eulerAngles = new Vector3(0, 0);    // left
-            movingRight = false;
-            movingLeft = true;
-        }
-        else
-        {
-            model.transform.eulerAngles = new Vector3(0, 180);  // right
-            movingLeft = false;
-            movingRight = true;
+            if (model.transform.eulerAngles.y != 0)
+            {
+                model.transform.eulerAngles = new Vector3(0, 0);    // left
+                movingRight = false;
+                movingLeft = true;
+            }
+            else
+            {
+                model.transform.eulerAngles = new Vector3(0, 180);  // right
+                movingLeft = false;
+                movingRight = true;
+            }
         }
         StartCoroutine( ResetFlipTimer() );
     }
