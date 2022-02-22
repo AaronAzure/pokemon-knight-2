@@ -209,18 +209,19 @@ public class PlayerControls : MonoBehaviour
     public Button[] itemButtons;
     public Image[] equippedItems;
     public List<string> equippedItemNames;
+    [SerializeField] private Animator weightAnim;
     [SerializeField] private AudioSource itemFoundlSound;
     public int nEquipped;
     public int currentWeight=0; 
     public int maxWeight=3; 
     public int extraWeight=0; 
     public bool canNavigate=true;
-    [Space] public bool speedScarf;
-    public bool amberNecklace;
-    public bool furyBracelet;
+    [Space] public bool quickCharm;
+    public bool chuggerCharm;
+    public bool crisisCharm;
     [SerializeField] private GameObject furyYellowObj;
     [SerializeField] private GameObject furyRedObj;
-    public bool amethystCharm;
+    public bool dualCharm;
     public TextMeshProUGUI weightText;
     
 
@@ -486,7 +487,7 @@ public class PlayerControls : MonoBehaviour
     IEnumerator CannotChangeSceneAgain()
     {
         inCutscene = true;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         inCutscene = false;
     }
     void Update()
@@ -921,7 +922,7 @@ public class PlayerControls : MonoBehaviour
 
     private void ChangeInHp(float hpPercent)
     {
-        if (furyBracelet && lastHp != hp && hp > 0)
+        if (crisisCharm && lastHp != hp && hp > 0)
         {
             lastHp = hp;
 
@@ -1131,7 +1132,7 @@ public class PlayerControls : MonoBehaviour
         drinking = true;
         body.velocity = Vector2.zero;
         anim.speed = 1;
-        if (amberNecklace)
+        if (chuggerCharm)
             anim.speed = 2;
         anim.SetBool("isDrinking", true);
         anim.SetTrigger("drink");
@@ -1847,6 +1848,14 @@ public class PlayerControls : MonoBehaviour
         nEquipped++;
         weightText.text = currentWeight + "/" + (maxWeight + extraWeight);
     }
+    public void TooHeavy()
+    {
+        if (weightAnim != null)
+        {
+            weightAnim.SetTrigger("tooHeavy");
+            Debug.LogError("TOO HEAVY");
+        }
+    }
     public void UnequipItem(Sprite itemSprite)
     {
         bool unequipped = false;
@@ -1967,7 +1976,7 @@ public class PlayerControls : MonoBehaviour
     public void SaveState()
     {
         PlayerPrefsElite.SetString("checkpointScene" + gameNumber, SceneManager.GetActiveScene().name);
-        PlayerPrefsElite.SetVector3("checkpointPos" + gameNumber, this.transform.position + new Vector3(0,0.25f));
+        PlayerPrefsElite.SetVector3("checkpointPos" + gameNumber, this.transform.position + new Vector3(0,0.5f));
         PlayerPrefsElite.SetInt("playerExp" + gameNumber, exp);
         PlayerPrefsElite.SetInt("playerLevel" + gameNumber, lv);
         PlayerPrefsElite.SetBoolean("canDoubleJump" + gameNumber, canDoubleJump);

@@ -61,7 +61,7 @@ public class HighlightedButton : MonoBehaviour
 
                             float resummonTime = pokemonButton.ally.resummonTime;
                             coolDown.text = resummonTime.ToString();
-                            if (player != null && player.speedScarf)
+                            if (player != null && player.quickCharm)
                             {
                                 resummonTime *= 0.7f;
                                 coolDown.text = resummonTime.ToString() + "s (" + pokemonButton.ally.resummonTime + "s)";
@@ -93,7 +93,7 @@ public class HighlightedButton : MonoBehaviour
                         if (itemButton != null && newlyHighlighted.name == itemButton.name)
                         {
                             found = true;
-                            header.text = itemButton.itemName;
+                            header.text = itemButton.camelisedItemName;
 
                             weight.text = itemButton.weight.ToString();
 
