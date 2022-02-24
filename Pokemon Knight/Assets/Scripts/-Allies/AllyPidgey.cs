@@ -22,7 +22,8 @@ public class AllyPidgey : Ally
         if (gust != null)
         {
             body.velocity = Vector2.zero;
-            Instantiate(gust, this.transform.position - new Vector3(0,1), gust.transform.rotation);
+            var obj = Instantiate(gust, this.transform.position - new Vector3(0,1), gust.transform.rotation);
+            obj.spawnedPos = this.transform.position;
         }
     }
 }

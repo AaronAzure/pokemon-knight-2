@@ -7,7 +7,6 @@ public class Oddish : Enemy
     [Space] [Header("Oddish")]  public float moveSpeed=2;
     public float distanceDetect=1f;
     public Transform groundDetection;
-    [SerializeField] private LayerMask whatIsTree;
     public float forwardDetect=1f;
     public Transform face;
 

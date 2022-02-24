@@ -21,6 +21,7 @@ public class AllyOddish : Ally
         if (sludgeBomb != null)
         {
             var obj = Instantiate(sludgeBomb, atkPos.position, sludgeBomb.transform.rotation);
+            obj.spawnedPos = this.transform.position;
             if (this.transform.eulerAngles.y > 0) //left
                 obj.body.velocity = new Vector2(-13,12);
             else //right

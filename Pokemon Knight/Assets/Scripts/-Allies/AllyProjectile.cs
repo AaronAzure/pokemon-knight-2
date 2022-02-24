@@ -6,7 +6,8 @@ public class AllyProjectile : MonoBehaviour
 {
     public int atkDmg;
     public int atkForce;    // knockback force
-
+    
+    [HideInInspector] public Vector3 spawnedPos;
     [SerializeField] private GameObject trailObj;
     [SerializeField] private GameObject explosionObj;
     [SerializeField] private bool destoryOnCollision=true;
@@ -47,8 +48,6 @@ public class AllyProjectile : MonoBehaviour
             if (trailObj != null) 
                 trailObj.transform.parent = null;
 
-
-
             if (other.tag == "Enemy")
             {
                 Component[] scripts = other.GetComponents(typeof(Enemy));
@@ -81,7 +80,7 @@ public class AllyProjectile : MonoBehaviour
                                 player.hp = player.maxHp;
                         }
                     }
-                    foe.TakeDamage(atkDmg, this.transform, atkForce);
+                    foe.TakeDamage(atkDmg, spawnedPos, atkForce);
                 }
             }
             if (destoryOnCollision && explosionObj != null)

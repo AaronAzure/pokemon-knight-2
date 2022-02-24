@@ -661,7 +661,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 480402825
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
 --- !u!114 &694335455662283634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -710,6 +710,15 @@ MonoBehaviour:
   maxDrain: 10
   totalMaxDrain: 0
   extraDrainDmg: 1
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 256
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 128
+  finalMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!95 &4519332239266570387
 Animator:
   serializedVersion: 3
@@ -1172,6 +1181,10 @@ PrefabInstance:
     - target: {fileID: 8142900994599000359, guid: 2851fdc9b91eb46f6a4abafaa990a88b, type: 3}
       propertyPath: m_Size.x
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8142900994599000359, guid: 2851fdc9b91eb46f6a4abafaa990a88b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2851fdc9b91eb46f6a4abafaa990a88b, type: 3}

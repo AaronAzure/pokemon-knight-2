@@ -13,7 +13,7 @@ using UnityEditor;
 
 public abstract class Enemy : MonoBehaviour
 {
-    [SerializeField] private string enemyId;
+    private string enemyId;
     public int lv=2;
     protected int defaultLv=1; // Bonus
     private int lvBreak=10;  // Additional bonus
@@ -22,7 +22,7 @@ public abstract class Enemy : MonoBehaviour
     [Space] public int maxHp=100;
     public int hp;
     protected PlayerControls playerControls;
-    [SerializeField] protected Animator mainAnim;
+    [Space] [SerializeField] protected Animator mainAnim;
     private bool inPlayMode;
     
 
@@ -66,6 +66,9 @@ public abstract class Enemy : MonoBehaviour
     [Tooltip("1 = 100% kb, 0 = 0%")] [SerializeField] [Range(0,1f)] protected float kbDefense=1;
     [SerializeField] protected LayerMask whatIsGround;
     [SerializeField] protected LayerMask whatIsPlayer;
+    [SerializeField] protected LayerMask whatIsBounds;
+    [SerializeField] private LayerMask whatIsTree;
+    protected LayerMask obstacleMask;
 
 
     //* UI
@@ -76,10 +79,10 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private float effectSpeed = 0.005f;
 
 
-    [Header("size")]
-    public Vector3 origSize;
-    public float ShrinkDuration = 0.5f;
-    public float t = 0;
+    [Header("Feet")]
+    [HideInInspector] public Vector3 origSize;
+    [HideInInspector] public float ShrinkDuration = 0.5f;
+    [HideInInspector] public float t = 0;
     [Space] public Vector2 feetSize;
     public Vector2 feetOffset;
 
@@ -112,6 +115,7 @@ public abstract class Enemy : MonoBehaviour
     [HideInInspector] protected bool canFlip=true ;
     public bool playerInField;
     public bool playerInSight;
+    public bool playerInCloseRange;
     protected bool trigger;
     public bool alwaysAttackPlayer;
     [Space] public bool cannotMove;
@@ -168,7 +172,6 @@ public abstract class Enemy : MonoBehaviour
             expPossess *= 3;
         }
 
-        Setup();
 
         if (lv > defaultLv)
             maxHp += Mathf.CeilToInt((extraHp * (lv - defaultLv))/2f);
@@ -195,6 +198,9 @@ public abstract class Enemy : MonoBehaviour
             lvText.text = "Lv. " + lv; 
 
         origSize = model.transform.localScale;
+        obstacleMask = (whatIsGround | whatIsBounds);
+        
+        Setup();
     }
 
     public virtual void Setup() {}
@@ -243,13 +249,18 @@ public abstract class Enemy : MonoBehaviour
             //* Hp lost 
             else if (healthStatus == HpEffect.lost)
             {
-                if (hpEffectImg.fillAmount > hpImg.fillAmount)
-                    hpEffectImg.fillAmount -= effectSpeed;
-                else
+                if (hp > 0)
                 {
-                    hpEffectImg.fillAmount = hpImg.fillAmount;
-                    healthStatus = HpEffect.none;
+                    if (hpEffectImg.fillAmount > hpImg.fillAmount)
+                        hpEffectImg.fillAmount -= effectSpeed;
+                    else
+                    {
+                        hpEffectImg.fillAmount = hpImg.fillAmount;
+                        healthStatus = HpEffect.none;
+                    }
                 }
+                else if (hpEffectImg.fillAmount > hpImg.fillAmount)
+                    hpEffectImg.fillAmount -= (effectSpeed * 5);
             }
                     
             
@@ -328,7 +339,7 @@ public abstract class Enemy : MonoBehaviour
         return(playerControls.transform.position.x - this.transform.position.x < 0);
     }
 
-    public void TakeDamage(int dmg=0, Transform opponent=null, float force=0)
+    public void TakeDamage(int dmg, Vector3 hitPos, float force=0)
     {
         if (!inCutscene && hp > 0)
         {
@@ -349,8 +360,8 @@ public abstract class Enemy : MonoBehaviour
             if (dmg > 0 && dmg < hp)
                 StartCoroutine( Flash() );
 
-            if (force > 0 && opponent != null && !cannotRecieveKb)
-                StartCoroutine( ApplyKnockback(opponent, force) );
+            if (force > 0 && hitPos != null && !cannotRecieveKb)
+                StartCoroutine( ApplyKnockback(hitPos, force) );
 
             if (isSmart && force > 0)
                 LookAtPlayer();
@@ -433,12 +444,13 @@ public abstract class Enemy : MonoBehaviour
             canCatchEffect.SetActive(true);
         canCatch = true;
     }
-    public IEnumerator ApplyKnockback(Transform opponent, float force)
+    public IEnumerator ApplyKnockback(Vector3 hitPos, float force)
     {
         if (hp > 0)
         {
             receivingKnockback = true;
-            Vector2 direction = (opponent.position - this.transform.position).normalized;
+            Vector2 direction = (hitPos - this.transform.position).normalized;
+            direction *= new Vector2(1,0);
             body.velocity = -direction * force * kbDefense;
             yield return new WaitForSeconds(0.1f);
             

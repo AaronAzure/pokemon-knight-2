@@ -52,7 +52,6 @@ public class Nidoran : Enemy
     {
         yield return new WaitForSeconds(duration);
         chasing = false;
-        // playerInField = false;    
         alert.SetActive(false);
 
         targetLostCo = null;

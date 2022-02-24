@@ -27,7 +27,7 @@ public class AllyAttack : MonoBehaviour
             Component[] scripts = other.GetComponents(typeof(Enemy));
             foreach (var script in scripts)
             {
-                script.GetComponent<Enemy>().TakeDamage(atkDmg, this.transform, atkForce);
+                script.GetComponent<Enemy>().TakeDamage(atkDmg, this.transform.position, atkForce);
                 if (spawnEffect && spawnEffectObj != null)
                 {
                     var obj = Instantiate(spawnEffectObj, script.gameObject.transform.position, Quaternion.identity);

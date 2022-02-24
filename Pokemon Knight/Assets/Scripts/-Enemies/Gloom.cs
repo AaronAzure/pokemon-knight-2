@@ -7,7 +7,6 @@ public class Gloom : Enemy
     [Space] [Header("Gloom")]  public float moveSpeed=2;
     public float distanceDetect=1f;
     public Transform groundDetection;
-    [SerializeField] private LayerMask whatIsTree;
     public float forwardDetect=1f;
     public Transform face;
     [SerializeField] private EnemyProjectile sludgeBomb;

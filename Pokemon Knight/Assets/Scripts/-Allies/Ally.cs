@@ -35,10 +35,12 @@ public abstract class Ally : MonoBehaviour
 
     [Space] [Header("Physics")] 
     public bool aquatic=false;
-    [Space] [SerializeField] private LayerMask whatIsGround;
+    private bool hitWater;
+    private Coroutine co;
+    [Space] [SerializeField] protected LayerMask whatIsGround;
     [SerializeField] private float feetRadius=0.01f;
     private bool once;
-    private bool returning;
+    private bool returning=false;
     private bool shrinking;
     
 
@@ -64,7 +66,7 @@ public abstract class Ally : MonoBehaviour
         if (trainer != null && trainer.quickCharm)
             resummonTime *= 0.7f;
 
-        StartCoroutine( BackToBall() );
+        co = StartCoroutine( BackToBallAfterAction() );
         Setup();
     }
 
@@ -85,15 +87,55 @@ public abstract class Ally : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if (!aquatic && other.CompareTag("Underwater"))    
+        if (!aquatic && !hitWater && other.CompareTag("Underwater"))
         {
-            StartCoroutine( BackToBall() );
+            hitWater = true;
+            StopCoroutine(co);
+            StartCoroutine( ImmediateBackToBall() );
         }
     }
 
     protected virtual void ExtraTrailEffects(FollowTowards ft) {}
 
-    protected IEnumerator BackToBall()
+    protected IEnumerator ImmediateBackToBall()
+    {
+        // CALL ONCE
+
+        int times = 10;
+        float x = model.transform.localScale.x / times;
+        foreach (SpriteRenderer renderer in renderers)
+        {
+            if (flashMat != null)
+                renderer.material = flashMat;
+        }
+        yield return new WaitForEndOfFrame();
+        for (int i=0 ; i<times ; i++)
+        {
+            model.transform.localScale -= new Vector3(x,x);
+            yield return null;
+        }
+        if (trailObj != null)
+        {
+            var returnObj = Instantiate(trailObj, this.transform.position, Quaternion.identity, null);
+            returnObj.button = this.button;
+            returnObj.cooldownTime = this.resummonTime;
+            ExtraTrailEffects(returnObj);
+
+            if (trainer != null)
+            {
+                returnObj.player = this.trainer;
+                returnObj.target = trainer.transform;
+            }
+            else
+            {
+                Debug.LogError(" PlayerControls not assigned to Ally.trainer");
+            }
+        }
+
+        yield return new WaitForEndOfFrame();
+        Destroy(this.gameObject);
+    }
+    protected IEnumerator BackToBallAfterAction()
     {
         // CALL ONCE
         if (returning)

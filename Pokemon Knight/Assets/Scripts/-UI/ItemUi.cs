@@ -76,6 +76,8 @@ public class ItemUi : MonoBehaviour
                     break;
             }
             Unequip(this.weight);
+            EquipItemPref(false);
+
             if (sprite != null)
                 playerControls.UnequipItem(sprite);
             else
@@ -107,6 +109,7 @@ public class ItemUi : MonoBehaviour
             }
 
             Equip(this.weight);
+            EquipItemPref(true);
 
             if (sprite != null)
                 playerControls.EquipItem(sprite);
@@ -115,17 +118,16 @@ public class ItemUi : MonoBehaviour
             // todo - call to player
         }
         
-        EquipItemPref();
     }
 
-    public void EquipItemPref()
+    public void EquipItemPref(bool toEquip)
     {
         if (playerControls != null)
         {
-            if (playerControls.equippedItemNames.Contains(itemName))
-                playerControls.equippedItemNames.Remove(itemName);
-            else
+            if (toEquip && !playerControls.equippedItemNames.Contains(itemName))
                 playerControls.equippedItemNames.Add(itemName);
+            else if (!toEquip && playerControls.equippedItemNames.Contains(itemName))
+                playerControls.equippedItemNames.Remove(itemName);
         }
         else
         {

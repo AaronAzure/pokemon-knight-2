@@ -113,6 +113,7 @@ public class PlayerControls : MonoBehaviour
     public int lv=1;
     [Space] [SerializeField] private int expNeeded=100;
     [SerializeField] private int exp;  // current exp
+    [SerializeField] private int expJustGained;
     [SerializeField] private TextMeshProUGUI expGainText;
     [Space] [SerializeField] private GameObject levelUpEffect;
     [SerializeField] private GameObject levelUpObj;
@@ -291,7 +292,7 @@ public class PlayerControls : MonoBehaviour
             if (lvText != null)
                  lvText.text = "Lv. " + lv;
         }
-        expNeeded = (int) (100 * Mathf.Pow(1.3f, lv - 1));
+        expNeeded = (int) (100 * Mathf.Pow(1.2f, lv - 1));
         if (PlayerPrefsElite.VerifyInt("playerExp" + gameNumber))
             exp = PlayerPrefsElite.GetInt("playerExp" + gameNumber);
 
@@ -462,6 +463,7 @@ public class PlayerControls : MonoBehaviour
         }
         else
         {
+            Debug.Log("NEW GAME items");
             PlayerPrefsElite.SetStringArray("equippedItems" + gameNumber, equippedItemNames.ToArray());
             SaveEquippedItems();
         }
@@ -1211,7 +1213,8 @@ public class PlayerControls : MonoBehaviour
     public void TakeDamage(int dmg=0, Transform opponent=null, float force=0)
     {
         // if (hp > 0 && !inCutscene)
-        if (hp > 0 && !inCutscene && !isInvincible)
+        // if (hp > 0 && !inCutscene && !isInvincible)
+        if (hp > 0 && !isInvincible)
         {
             Debug.Log("<color=#FF8800>Took " + dmg + " dmg</color>");
             anim.SetBool("isDrinking", false);
@@ -1328,10 +1331,23 @@ public class PlayerControls : MonoBehaviour
             
             if  (expGainText != null)
             {
-                // New Bonus
-                expGainText.text = totalExpGained.ToString();
-                expGainText.transform.parent.gameObject.SetActive(false);
-                expGainText.transform.parent.gameObject.SetActive(true);
+                // if (expGainText.gameObject.activeSelf)
+                // {
+                //     // New Added Bonus
+                //     expGainText.text = (totalExpGained + expJustGained).ToString();
+                //     expGainText.transform.parent.gameObject.SetActive(false);
+                //     expGainText.transform.parent.gameObject.SetActive(true);
+                //     expJustGained += totalExpGained;
+                // }
+                // else
+                // {
+                    // expJustGained = 0;
+                    // New Bonus
+                    expGainText.text = totalExpGained.ToString();
+                    expGainText.transform.parent.gameObject.SetActive(false);
+                    expGainText.transform.parent.gameObject.SetActive(true);
+                //     expJustGained = totalExpGained;
+                // }
             }
         }
         else
@@ -1354,7 +1370,7 @@ public class PlayerControls : MonoBehaviour
             var obj = Instantiate(levelUpEffect, this.transform.position, levelUpEffect.transform.rotation, this.transform);
             Destroy(obj.gameObject, 3);
         }
-        expNeeded = (int) (expNeeded * 1.3f);
+        expNeeded = (int) (expNeeded * 1.2f);
 
         // Increase health
         maxHp += 5;
@@ -1613,6 +1629,7 @@ public class PlayerControls : MonoBehaviour
     {
         if (other.CompareTag("Underwater"))
             inWater = true;
+            nExtraJumpsLeft = nExtraJumps;
         if (other.CompareTag("Rage") && musicManager != null)
             StartCoroutine( musicManager.TransitionMusic(musicManager.bossOutroMusic) );
     }
@@ -1621,7 +1638,6 @@ public class PlayerControls : MonoBehaviour
         if (other.CompareTag("Underwater"))
         {
             inWater = false;
-            nExtraJumpsLeft = nExtraJumps;
         }
         if (other.CompareTag("Roar"))
             RoarOver();
@@ -1958,7 +1974,7 @@ public class PlayerControls : MonoBehaviour
             if (lvText != null)
                  lvText.text = "Lv. " + lv;
         }
-        expNeeded = (int) (100 * Mathf.Pow(1.3f, lv - 1));
+        expNeeded = (int) (100 * Mathf.Pow(1.2f, lv - 1));
 
         if (PlayerPrefsElite.VerifyInt("playerExp" + gameNumber))
             exp = PlayerPrefsElite.GetInt("playerExp" + gameNumber);
@@ -1970,6 +1986,8 @@ public class PlayerControls : MonoBehaviour
             this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos" + gameNumber);
             Debug.Log("<color=#0EB8BF>Reload " + PlayerPrefsElite.GetString("checkpointScene" + gameNumber) + "</color>");
         }
+
+
 
         enemyDefeated.Clear(); PlayerPrefsElite.SetStringArray("enemyDefeated", new string[0]);
     }
@@ -2084,7 +2102,6 @@ public class PlayerControls : MonoBehaviour
                     heldItem.gameObject.SetActive(true);
                 }
             }
-
         }
         else
         {

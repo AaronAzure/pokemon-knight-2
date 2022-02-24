@@ -17,7 +17,8 @@ public class TargetFinder : MonoBehaviour
             if (proCam != null) proCam.AddCameraTarget(target.transform);
             if (cm != null) {
                 foreach (CinemachineVirtualCamera c in cm)
-                    c.Follow = target.transform;
+                    if (c != null)
+                        c.Follow = target.transform;
             }
             if (manualFollow != null) manualFollow.target = target.transform;
         }

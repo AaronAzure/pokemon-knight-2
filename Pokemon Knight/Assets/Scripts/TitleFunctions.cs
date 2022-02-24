@@ -115,18 +115,16 @@ public class TitleFunctions : MonoBehaviour
         if (PlayerPrefsElite.VerifyVector3("checkpointPos" + gameNumber.ToString()))
             PlayerPrefsElite.DeleteKey("checkpointPos" + gameNumber.ToString());
 
+        // PLAYER EQUIPPED PREFERENCES
         if (PlayerPrefsElite.VerifyArray("buttonAllocatedPokemons" + gameNumber.ToString()))
             PlayerPrefsElite.DeleteKey("buttonAllocatedPokemons" + gameNumber.ToString());
         
         if (PlayerPrefsElite.VerifyArray("equippedItems" + gameNumber.ToString()))
             PlayerPrefsElite.DeleteKey("equippedItems" + gameNumber.ToString());
 
-        // Non-player related (Wave)
+        // ACHIEVEMENTS OR UNLOCKABLES
         if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber.ToString()))
             PlayerPrefsElite.SetStringArray("roomsBeaten" + gameNumber.ToString(), new string[100]);    
-
-        if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber.ToString()))
-            PlayerPrefsElite.SetStringArray("pokemonsCaught" + gameNumber.ToString(), new string[100]);    
 
         if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber.ToString()))
             PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber.ToString(), new string[50]);
