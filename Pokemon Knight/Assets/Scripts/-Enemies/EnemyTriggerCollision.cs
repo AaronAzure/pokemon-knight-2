@@ -13,6 +13,11 @@ public class EnemyTriggerCollision : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if (parentScript != null && !parentScript.aquatic && other.CompareTag("Underwater"))    
+            parentScript.TakeDamage(parentScript.maxHp, this.transform.position, 0 , false);
+    }
     private void OnTriggerStay2D(Collider2D other) 
     {
         if (other.CompareTag("Player"))    

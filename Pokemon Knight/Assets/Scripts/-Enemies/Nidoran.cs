@@ -219,6 +219,7 @@ public class Nidoran : Enemy
 
     bool IsBelowTarget()
     {
+        // return (this.transform.position.y - target.transform.position.y) <= 0;
         return (this.transform.position.y - target.transform.position.y) < -0.1f;
     }
 

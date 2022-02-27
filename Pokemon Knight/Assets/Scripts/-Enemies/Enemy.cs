@@ -121,6 +121,8 @@ public abstract class Enemy : MonoBehaviour
     [Space] public bool cannotMove;
     [SerializeField] protected bool movingLeft;
     [SerializeField] protected bool movingRight;
+    private bool downToHalfHp;
+    [Space] public bool aquatic;
 
 
     [Space] [Header("Buffs / Debuffs")]
@@ -168,7 +170,7 @@ public abstract class Enemy : MonoBehaviour
             model.transform.localScale *= Random.Range(0.9f, 1.1f);
         if (isMiniBoss)
         {
-            maxHp *= 4;
+            maxHp *= 3;
             expPossess *= 3;
         }
 
@@ -182,7 +184,7 @@ public abstract class Enemy : MonoBehaviour
 
         calcExtraProjectileDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
 
-        if (!isBoss)
+        if (!isBoss || isMiniBoss)
         {
             int nextAreas = (lv / lvBreak);
             for (int i=0 ; i<nextAreas ; i++)
@@ -213,8 +215,9 @@ public abstract class Enemy : MonoBehaviour
     public virtual void CallChildOnTargetLost() {}  // VIA EnemyFieldOfVision
     public virtual void CallChildOnTargetFound() {}  // VIA EnemyFieldOfVision
     
-    public virtual void CallChildOnIncreaseSpd() {}  // VIA EnemyFieldOfVision
-    public virtual void CallChildOnRevertSpd() {}  // VIA EnemyFieldOfVision
+    public virtual void CallChildOnHalfHealth() {}  
+    public virtual void CallChildOnIncreaseSpd() {}  
+    public virtual void CallChildOnRevertSpd() {}  
 
     // todo ----------------------------------------------------------------------------------------------------
 
@@ -339,7 +342,7 @@ public abstract class Enemy : MonoBehaviour
         return(playerControls.transform.position.x - this.transform.position.x < 0);
     }
 
-    public void TakeDamage(int dmg, Vector3 hitPos, float force=0)
+    public void TakeDamage(int dmg, Vector3 hitPos, float force=0, bool killedByPlayer=true)
     {
         if (!inCutscene && hp > 0)
         {
@@ -356,6 +359,12 @@ public abstract class Enemy : MonoBehaviour
             //// Destroy(holder.gameObject, 0.5f);
             //// var obj = Instantiate(dmgText, new Vector3(transform.position.x, transform.position.y + 2), Quaternion.identity, holder.transform);
             //// obj.text = dmg.ToString();
+
+            if (!downToHalfHp && hpImg.fillAmount <= 0.5f)
+            {
+                downToHalfHp = true;
+                CallChildOnHalfHealth();
+            }
 
             if (dmg > 0 && dmg < hp)
                 StartCoroutine( Flash() );
@@ -395,7 +404,7 @@ public abstract class Enemy : MonoBehaviour
                 if (spawner != null && !isBoss)
                     spawner.SpawnedDefeated();
 
-                if (playerControls != null)
+                if (playerControls != null && killedByPlayer)
                 {
                     playerControls.GainExp(expPossess, lv);
                     playerControls.KilledEnemy(enemyId);

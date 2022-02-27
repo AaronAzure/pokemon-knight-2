@@ -125,6 +125,11 @@ public class WaveRoom : MonoBehaviour
     {
         Walls(false);
 
-        player.AddRoomBeaten(roomName);
+        List<string> temp = new List<string>(
+            PlayerPrefsElite.GetStringArray("roomsBeaten" + PlayerPrefsElite.GetInt("gameNumber")) 
+        );
+        temp.Add(roomName);
+        PlayerPrefsElite.SetStringArray("roomsBeaten" + PlayerPrefsElite.GetInt("gameNumber"), temp.ToArray());
+        // player.AddRoomBeaten(roomName);
     }
 }

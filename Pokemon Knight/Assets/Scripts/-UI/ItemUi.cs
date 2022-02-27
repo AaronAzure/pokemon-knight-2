@@ -71,6 +71,15 @@ public class ItemUi : MonoBehaviour
                     playerControls.dualCharm = false;
                     playerControls.maxPokemonOut--;
                     break;
+                case "graciousHeartCharm":
+                    playerControls.graciousHeartCharm = false;
+                    playerControls.CalculateMaxHp();
+                    playerControls.RecalculateHp();
+                    break;
+                case "milkAddictCharm":
+                    playerControls.milkAddictCharm = false;
+                    playerControls.DecreaseNumberOfMoomooMilk();
+                    break;
                 default:
                     Debug.LogError("ItemUi.itemName is not yet registered to a matching item");
                     break;
@@ -102,6 +111,15 @@ public class ItemUi : MonoBehaviour
                 case "dualCharm":
                     playerControls.dualCharm = true;
                     playerControls.maxPokemonOut++;
+                    break;
+                case "graciousHeartCharm":
+                    playerControls.graciousHeartCharm = true;
+                    playerControls.CalculateMaxHp();
+                    playerControls.FullRestore();
+                    break;
+                case "milkAddictCharm":
+                    playerControls.milkAddictCharm = true;
+                    playerControls.IncreaseNumberOfMoomooMilk();
                     break;
                 default:
                     Debug.LogError("ItemUi.itemName is not yet registered to a matching item");

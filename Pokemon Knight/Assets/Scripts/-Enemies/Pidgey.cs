@@ -82,6 +82,14 @@ public class Pidgey : Enemy
         chaseSpeed /= 1.5f;
         maxSpeed /= 1.5f;
     }
+    public override void CallChildOnHalfHealth()
+    {
+        if (isMiniBoss)
+        {
+            aiPath.maxSpeed *= 1.5f;
+            aiPath.maxAcceleration *= 1.5f;
+        }
+    }
 
     // Start is called before the first frame update
     void FixedUpdate() 

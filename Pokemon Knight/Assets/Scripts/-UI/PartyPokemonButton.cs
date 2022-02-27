@@ -26,6 +26,6 @@ public class PartyPokemonButton : MonoBehaviour
             Debug.LogError(this.gameObject.name +  "  -  ally is null", this.gameObject);
         if (buttonSymbol == null)
             Debug.LogError(this.gameObject.name +  "  -  sprite is not serialised", this.gameObject);
-        playerControls.SelectAllyToReplace(buttonSymbol, button);
+        playerControls.SelectAllyToReplace(buttonSymbol, this.button);
     }
 }

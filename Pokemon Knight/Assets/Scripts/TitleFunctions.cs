@@ -123,17 +123,20 @@ public class TitleFunctions : MonoBehaviour
             PlayerPrefsElite.DeleteKey("equippedItems" + gameNumber.ToString());
 
         // ACHIEVEMENTS OR UNLOCKABLES
+        if (PlayerPrefsElite.VerifyArray("pokemonsCaught" + gameNumber.ToString()))
+            PlayerPrefsElite.SetStringArray("pokemonsCaught" + gameNumber.ToString(), new string[0]);    
+
         if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber.ToString()))
-            PlayerPrefsElite.SetStringArray("roomsBeaten" + gameNumber.ToString(), new string[100]);    
+            PlayerPrefsElite.SetStringArray("roomsBeaten" + gameNumber.ToString(), new string[0]);    
 
         if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber.ToString()))
-            PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber.ToString(), new string[50]);
+            PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber.ToString(), new string[0]);
         
-        if (PlayerPrefsElite.VerifyArray("berries" + gameNumber.ToString()))
-            PlayerPrefsElite.SetStringArray("berries" + gameNumber.ToString(), new string[20]);
+        if (PlayerPrefsElite.VerifyArray("berriesCollected" + gameNumber.ToString()))
+            PlayerPrefsElite.SetStringArray("berriesCollected" + gameNumber.ToString(), new string[0]);
         
         if (PlayerPrefsElite.VerifyArray("spareKeychain" + gameNumber.ToString()))
-            PlayerPrefsElite.SetStringArray("spareKeychain" + gameNumber.ToString(), new string[20]);
+            PlayerPrefsElite.SetStringArray("spareKeychain" + gameNumber.ToString(), new string[0]);
 
         PlayerPrefsElite.SetInt("gameNumber", gameNumber);
         StartCoroutine( FadeToGame() );

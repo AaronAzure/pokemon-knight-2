@@ -11,6 +11,9 @@ public class Beedrill : Enemy
     private LayerMask finalMask;
     public Transform target;
     public bool chasing;
+    public bool charging;
+    private float chargeX;
+    private float chargeY;
     public bool playerInRange;
     
 
@@ -48,6 +51,9 @@ public class Beedrill : Enemy
             movingRight = true;
             model.transform.eulerAngles = new Vector3(0, 180);
         }
+
+        if (mainAnim != null)
+            mainAnim.Play("beedrill-idle-anim", -1, Random.Range(0f,1f));
     }
 
     public override void CallChildOnIncreaseSpd()
@@ -160,6 +166,10 @@ public class Beedrill : Enemy
                 CallChildOnTargetLost();
             }
         }
+        else if (charging)
+        {
+            body.velocity = new Vector2(chargeX, chargeY);
+        }
     }
 
     private void LookAtTarget()
@@ -232,6 +242,7 @@ public class Beedrill : Enemy
     public void STOP()
     {
         body.velocity = Vector2.zero;
+        charging = false;
     }
     public void FINISHED_PERFORMING_FURY_ATTACL()
     {
@@ -242,8 +253,8 @@ public class Beedrill : Enemy
     {
         contactDmg = Mathf.RoundToInt(contactDmg * 1.5f);
 
-        float chargeX = 0;
-        float chargeY = 0;
+        chargeX = 0;
+        chargeY = 0;
         if (model.transform.rotation.y > 0)
             chargeX = chargeSpeed;
         else
@@ -254,7 +265,8 @@ public class Beedrill : Enemy
         else if (target.position.y - this.transform.position.y < -2)   // player below beedrill
             chargeY = -3;
         
-        body.velocity = new Vector2(chargeX, chargeY);
+        // body.velocity = new Vector2(chargeX, chargeY);
+        charging = true;
     }
 
     public void AGILITY()

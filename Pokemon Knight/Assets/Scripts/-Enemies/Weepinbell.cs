@@ -8,6 +8,8 @@ public class Weepinbell : Enemy
     public Animator anim;
     public float moveSpeed=2;
     public float jumpForce=10;
+    public bool canPivot=true;
+    private Coroutine flipCo;
     // public float chaseSpeed=4;
     // public float maxSpeed=5f;
     private LayerMask finalMask;
@@ -53,6 +55,15 @@ public class Weepinbell : Enemy
                 detection = Physics2D.OverlapBox(this.transform.position - offset, fieldOfVision, 0, whatIsPlayer);
             else
                 detection = Physics2D.OverlapBox(this.transform.position + offset, fieldOfVision, 0, whatIsPlayer);
+
+            if (canPivot)
+            {
+                if (!playerInSight && flipCo == null)
+                    flipCo = StartCoroutine( JumpAroundCo() );
+                else if (playerInSight && flipCo != null)
+                    StopCoroutine(flipCo);
+            }
+
             if (target != null && detection)
             {
 
@@ -131,10 +142,7 @@ public class Weepinbell : Enemy
         if (groundInfo && body.velocity.y == 0)
             return;
             
-        if (playerControls.transform.position.x < this.transform.position.x)
-            body.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-        else
-            body.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+        body.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
     }
     public void JumpAndTarget(bool guaranteed=false)
     {
@@ -170,6 +178,18 @@ public class Weepinbell : Enemy
             StartCoroutine( RestBeforeNextAttack() );
     }
 
+    public void FLIP()
+    {
+        if (model.transform.eulerAngles.y > 0)  // right
+            model.transform.eulerAngles = new Vector3(0,0);
+        else  // left
+            model.transform.eulerAngles = new Vector3(0,180);
+
+        if (movingLeft)
+            { movingLeft = false; movingRight = true; }
+        else if (movingRight)
+            { movingLeft = true; movingRight = false; }
+    }
 
     IEnumerator RestBeforeNextAttack()
     {
@@ -192,6 +212,18 @@ public class Weepinbell : Enemy
             else
                 model.transform.eulerAngles = new Vector3(0, 0);  // face left
         }
+    }
+
+    IEnumerator JumpAroundCo()
+    {
+        yield return new WaitForSeconds(3);
+        if (!playerInSight)
+            body.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+        
+        yield return new WaitForSeconds(0.5f);
+        if (!playerInSight)
+            FLIP();
+        flipCo = null;
     }
 
     public void CanAttackAgain()

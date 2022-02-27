@@ -40,8 +40,12 @@ public class SpareKeychain : MonoBehaviour
         {
             player.extraWeight++;
             
-            keychain.Add(roomName);
-            PlayerPrefsElite.SetStringArray("spareKeychain" + PlayerPrefsElite.GetInt("gameNumber"), keychain.ToArray());
+            // keychain.Add(roomName);
+            List<string> temp = new List<string>(
+                PlayerPrefsElite.GetStringArray("spareKeychain" + PlayerPrefsElite.GetInt("gameNumber"))
+            );
+            temp.Add(roomName);
+            PlayerPrefsElite.SetStringArray("spareKeychain" + PlayerPrefsElite.GetInt("gameNumber"), temp.ToArray());
 
             Destroy(this.gameObject);
         }

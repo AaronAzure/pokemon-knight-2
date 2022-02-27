@@ -6,7 +6,7 @@ public class Berry : MonoBehaviour
 {
     private PlayerControls player;
     [SerializeField] private string roomName;
-    [Space] [SerializeField] private string[] berries;
+    [Space] [SerializeField] private List<string> berries;
     [SerializeField] private HashSet<string> berriesSet;
     [Space] [SerializeField] private Animator anim;
    
@@ -14,9 +14,11 @@ public class Berry : MonoBehaviour
     {
         roomName = SceneManager.GetActiveScene().name + " " + this.name;
 
-        if (PlayerPrefsElite.VerifyArray("berries" + PlayerPrefsElite.GetInt("gameNumber")))
+        if (PlayerPrefsElite.VerifyArray("berriesCollected" + PlayerPrefsElite.GetInt("gameNumber")))
         {
-            berries = PlayerPrefsElite.GetStringArray("berries" + PlayerPrefsElite.GetInt("gameNumber"));
+            berries = new List<string>(
+                PlayerPrefsElite.GetStringArray("berriesCollected" + PlayerPrefsElite.GetInt("gameNumber"))
+            );
             berriesSet = new HashSet<string>(berries);
             if (berriesSet.Contains(""))
                 berriesSet.Remove("");
@@ -38,12 +40,8 @@ public class Berry : MonoBehaviour
         if (player != null)
         {
             player.nBerries++;
-            Debug.Log("<color=yellow>"+berriesSet.Count+"</color>");
-            if (berriesSet.Count < berries.Length)
-            {
-                berries[ berriesSet.Count ] = roomName;
-                PlayerPrefsElite.SetStringArray("berries" + PlayerPrefsElite.GetInt("gameNumber"), berries);
-            }
+            berries.Add(roomName);
+            PlayerPrefsElite.SetStringArray("berriesCollected" + PlayerPrefsElite.GetInt("gameNumber"), berries.ToArray());
 
             Destroy(this.gameObject);
         }

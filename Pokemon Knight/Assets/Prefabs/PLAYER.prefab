@@ -76,6 +76,159 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &62629370107754758
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6509101287804011177}
+  - component: {fileID: 484836039689710935}
+  - component: {fileID: 5612434688478548291}
+  - component: {fileID: 3380349494287237355}
+  - component: {fileID: 5827992435296858475}
+  m_Layer: 6
+  m_Name: Button (milk addict charm)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6509101287804011177
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62629370107754758}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8446697539384432462}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 50}
+  m_SizeDelta: {x: 50, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &484836039689710935
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62629370107754758}
+  m_CullTransparentMesh: 1
+--- !u!114 &5612434688478548291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62629370107754758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: ca9dc2fde113349afb1a7782b88b8a9b, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3380349494287237355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62629370107754758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 1
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 4017848827784110972}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 5612434688478548291}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5827992435296858475}
+        m_TargetAssemblyTypeName: ItemUi, Assembly-CSharp
+        m_MethodName: TOGGLE_ITEM
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5827992435296858475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62629370107754758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de558411ab574456087480c05c9f474c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControls: {fileID: 2241457488112191053}
+  equipped: 0
+  weight: 3
+  itemName: milkAddictCharm
+  camelisedItemName: 
+  sprite: {fileID: 21300000, guid: 3f89e6dae9f4043f39c1b94f06eb55ca, type: 3}
+  button: {fileID: 3380349494287237355}
+  itemDesc: Increases the number of moomoo milk by 1.
 --- !u!1 &65798728669520488
 GameObject:
   m_ObjectHideFlags: 0
@@ -2111,7 +2264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -3089,6 +3242,159 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2241457488112191053}
+--- !u!1 &1514410528058203829
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7450225184783594602}
+  - component: {fileID: 1486261347807872517}
+  - component: {fileID: 8970655421631075026}
+  - component: {fileID: 5071313533347484013}
+  - component: {fileID: 3342027390676305192}
+  m_Layer: 6
+  m_Name: Button (gracious heart charm)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7450225184783594602
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514410528058203829}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8831882495398113201}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 50}
+  m_SizeDelta: {x: 50, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1486261347807872517
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514410528058203829}
+  m_CullTransparentMesh: 1
+--- !u!114 &8970655421631075026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514410528058203829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: ca9dc2fde113349afb1a7782b88b8a9b, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5071313533347484013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514410528058203829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 1
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 4017848827784110972}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 8970655421631075026}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3342027390676305192}
+        m_TargetAssemblyTypeName: ItemUi, Assembly-CSharp
+        m_MethodName: TOGGLE_ITEM
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3342027390676305192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514410528058203829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de558411ab574456087480c05c9f474c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControls: {fileID: 2241457488112191053}
+  equipped: 0
+  weight: 2
+  itemName: graciousHeartCharm
+  camelisedItemName: 
+  sprite: {fileID: 21300000, guid: c8812f0f97c8e48b095740861d94cc63, type: 3}
+  button: {fileID: 5071313533347484013}
+  itemDesc: Increases maximum health by 20%.
 --- !u!1 &1573283401793601009
 GameObject:
   m_ObjectHideFlags: 0
@@ -5271,6 +5577,8 @@ Transform:
   - {fileID: 2132627197911381679}
   - {fileID: 4455756628797438083}
   - {fileID: 5956879184121893029}
+  - {fileID: 4622651497592739341}
+  - {fileID: 8334694121223829394}
   m_Father: {fileID: 2132627198596253916}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5634,6 +5942,8 @@ MonoBehaviour:
   - {fileID: 8696348199077421297}
   - {fileID: 5990595127366326276}
   - {fileID: 5288697626747654075}
+  - {fileID: 3342027390676305192}
+  - {fileID: 5827992435296858475}
   partyPokemonButtons:
   - {fileID: 8448695630026282731}
   - {fileID: 9199878810871537409}
@@ -5672,9 +5982,11 @@ MonoBehaviour:
   damageIndicatorAnim: {fileID: 5280143250466897823}
   maxHp: 100
   hp: 100
+  extraHp: 0
   lv: 1
   expNeeded: 100
   exp: 0
+  expJustGained: 0
   expGainText: {fileID: 2165376480154755250}
   levelUpEffect: {fileID: 3551548688495287604, guid: 97c20f2055b044e5dab1c9526a4abf65, type: 3}
   levelUpObj: {fileID: 8074765572664269522}
@@ -5702,6 +6014,9 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
+  whatIsWater:
+    serializedVersion: 2
+    m_Bits: 8192
   grounded: 1
   jumping: 0
   crouching: 0
@@ -5710,6 +6025,8 @@ MonoBehaviour:
   isInvincible: 0
   glint: {fileID: 8562783821844657228}
   inWater: 0
+  aboveWaterCheckOffset: {fileID: 4622651497592739341}
+  inWaterCheckOffset: {fileID: 8334694121223829394}
   wallCheckOffset: {fileID: 4455756628797438083}
   ledgeCheckOffset: {fileID: 5956879184121893029}
   checkDist: 0.3
@@ -5717,7 +6034,6 @@ MonoBehaviour:
   holder: {fileID: 2132627197905515840}
   anim: {fileID: 2132627198596253915}
   inCutscene: 0
-  nMoomooMilk: 3
   nMoomooMilkLeft: 3
   moomooMilkRecovery: 50
   nMoomooMilkUpgrade: 0
@@ -5725,6 +6041,31 @@ MonoBehaviour:
   - {fileID: 6341788581484816230}
   - {fileID: 2303622045083937415}
   - {fileID: 5658371924109265517}
+  extraMoomooUis:
+  - moomooUi:
+    - {fileID: 6341788581484816230}
+    excludedMoomooUi:
+    - {fileID: 2303622045083937415}
+    - {fileID: 5658371924109265517}
+    - {fileID: 470999231466160075}
+  - moomooUi:
+    - {fileID: 6341788581484816230}
+    - {fileID: 2303622045083937415}
+    excludedMoomooUi:
+    - {fileID: 5658371924109265517}
+    - {fileID: 470999231466160075}
+  - moomooUi:
+    - {fileID: 6341788581484816230}
+    - {fileID: 2303622045083937415}
+    - {fileID: 5658371924109265517}
+    excludedMoomooUi:
+    - {fileID: 470999231466160075}
+  - moomooUi:
+    - {fileID: 6341788581484816230}
+    - {fileID: 2303622045083937415}
+    - {fileID: 5658371924109265517}
+    - {fileID: 470999231466160075}
+    excludedMoomooUi: []
   drinking: 0
   healEffect: {fileID: 105942, guid: d175db428b1064ca49c9655ae8f1dec5, type: 3}
   healSound: {fileID: 3880037440360950768}
@@ -5756,6 +6097,8 @@ MonoBehaviour:
   quickCharm: 0
   chuggerCharm: 0
   crisisCharm: 0
+  graciousHeartCharm: 0
+  milkAddictCharm: 0
   furyYellowObj: {fileID: 1754932999958180330}
   furyRedObj: {fileID: 3527117781563414550}
   dualCharm: 0
@@ -7544,6 +7887,36 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &2283422832163638139
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8334694121223829394}
+  m_Layer: 6
+  m_Name: In Water Check
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8334694121223829394
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2283422832163638139}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_Children: []
+  m_Father: {fileID: 2132627197905515855}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2306277717753605125
 GameObject:
   m_ObjectHideFlags: 0
@@ -8323,7 +8696,7 @@ MonoBehaviour:
   img: {fileID: 0}
   pokemonName: tangela
   sprite: {fileID: 21300000, guid: ca76ecfb5a2b64b69a8a416a6ea77acc, type: 3}
-  button: {fileID: 0}
+  button: {fileID: 8488714680649298101}
 --- !u!1 &2738541584876957479
 GameObject:
   m_ObjectHideFlags: 0
@@ -8939,7 +9312,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: f41c627fe223847ffaf037f5f9634060, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -10180,7 +10553,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 60, y: -50}
+  m_AnchoredPosition: {x: 55, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4149769373545302821
@@ -10371,7 +10744,7 @@ MonoBehaviour:
   img: {fileID: 0}
   pokemonName: pidgey
   sprite: {fileID: 21300000, guid: c70af58672a8e48d08a6f85382660dbd, type: 3}
-  button: {fileID: 0}
+  button: {fileID: 3294539081257093970}
 --- !u!1 &3965216228472759001
 GameObject:
   m_ObjectHideFlags: 0
@@ -11600,7 +11973,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -270.00003, y: -50.000004}
+  m_AnchoredPosition: {x: -275, y: -50.000004}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7046836846211131354
@@ -12144,7 +12517,7 @@ MonoBehaviour:
   img: {fileID: 0}
   pokemonName: N/A
   sprite: {fileID: 21300000, guid: 4661e33b4989d42aebf88ab21ce99f54, type: 3}
-  button: {fileID: 0}
+  button: {fileID: 8481166383431501876}
 --- !u!1 &4668977019811094831
 GameObject:
   m_ObjectHideFlags: 0
@@ -13975,6 +14348,8 @@ RectTransform:
   - {fileID: 4885217145024484142}
   - {fileID: 313664395875960773}
   - {fileID: 9213853775411033217}
+  - {fileID: 8831882495398113201}
+  - {fileID: 8446697539384432462}
   m_Father: {fileID: 1321779182896695048}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14603,6 +14978,82 @@ RectTransform:
   m_AnchoredPosition: {x: 2050, y: -250}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &5659133237952733416
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8446697539384432462}
+  - component: {fileID: 6637372563875382373}
+  - component: {fileID: 516257859516902597}
+  m_Layer: 6
+  m_Name: Image (milk addict charm)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &8446697539384432462
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5659133237952733416}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6509101287804011177}
+  m_Father: {fileID: 2160544754912153077}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 275, y: -50}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6637372563875382373
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5659133237952733416}
+  m_CullTransparentMesh: 1
+--- !u!114 &516257859516902597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5659133237952733416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 3f89e6dae9f4043f39c1b94f06eb55ca, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &5749727527876952832
 GameObject:
   m_ObjectHideFlags: 0
@@ -14828,7 +15279,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -160, y: -50}
+  m_AnchoredPosition: {x: -165, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6184016216060629144
@@ -16320,7 +16771,7 @@ MonoBehaviour:
   img: {fileID: 0}
   pokemonName: N/A
   sprite: {fileID: 21300000, guid: 734e0078de1454a23b6dadd3059ce715, type: 3}
-  button: {fileID: 0}
+  button: {fileID: 5088259210750460731}
 --- !u!1 &7038894721978555725
 GameObject:
   m_ObjectHideFlags: 0
@@ -16680,7 +17131,7 @@ MonoBehaviour:
   img: {fileID: 0}
   pokemonName: butterfree
   sprite: {fileID: 21300000, guid: a7b59fbf5d2ce4838a0ef5d0e8594a13, type: 3}
-  button: {fileID: 0}
+  button: {fileID: 4023749265396411970}
 --- !u!1 &7188057513672532424
 GameObject:
   m_ObjectHideFlags: 0
@@ -16815,6 +17266,36 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &7278391262314095208
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4622651497592739341}
+  m_Layer: 6
+  m_Name: Above Water Check
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4622651497592739341
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7278391262314095208}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_Children: []
+  m_Father: {fileID: 2132627197905515855}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7317183140306403506
 GameObject:
   m_ObjectHideFlags: 0
@@ -18678,7 +19159,8 @@ MonoBehaviour:
   camelisedItemName: 
   sprite: {fileID: 21300000, guid: a8018513399e543b2a0179f31d40c5ec, type: 3}
   button: {fileID: 739061216611332162}
-  itemDesc: Increases the maximum number of pokemons allowed to be out at a time.
+  itemDesc: Increases the maximum number of pokemons allowed to be out at a time
+    by 1.
 --- !u!1 &8040131137099116874
 GameObject:
   m_ObjectHideFlags: 0
@@ -19765,7 +20247,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -50, y: -50}
+  m_AnchoredPosition: {x: -55, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4457551221571861989
@@ -20351,6 +20833,8 @@ MonoBehaviour:
   - {fileID: 8696348199077421297}
   - {fileID: 5990595127366326276}
   - {fileID: 5288697626747654075}
+  - {fileID: 3342027390676305192}
+  - {fileID: 5827992435296858475}
   header: {fileID: 5805128177081126044}
   weight: {fileID: 5121713851618300817}
   desc: {fileID: 8917832745510450872}
@@ -20841,6 +21325,82 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 1243267e71a864ac49078e9b28e535c6, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!1 &8602320094054135747
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8831882495398113201}
+  - component: {fileID: 8002857298697329986}
+  - component: {fileID: 2283101936992918846}
+  m_Layer: 6
+  m_Name: Image (gracious heart charm)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &8831882495398113201
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8602320094054135747}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7450225184783594602}
+  m_Father: {fileID: 2160544754912153077}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 165, y: -50}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8002857298697329986
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8602320094054135747}
+  m_CullTransparentMesh: 1
+--- !u!114 &2283101936992918846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8602320094054135747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: c8812f0f97c8e48b095740861d94cc63, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -21630,7 +22190,7 @@ MonoBehaviour:
   img: {fileID: 0}
   pokemonName: oddish
   sprite: {fileID: 21300000, guid: 81c09344af2d84c9faabcbd6b0086715, type: 3}
-  button: {fileID: 0}
+  button: {fileID: 6760505474524727998}
 --- !u!1 &8785963519808036024
 GameObject:
   m_ObjectHideFlags: 0
@@ -22081,7 +22641,7 @@ MonoBehaviour:
   img: {fileID: 0}
   pokemonName: N/A
   sprite: {fileID: 21300000, guid: 1243267e71a864ac49078e9b28e535c6, type: 3}
-  button: {fileID: 0}
+  button: {fileID: 82195362895211997}
 --- !u!1 &9003057378037211185
 GameObject:
   m_ObjectHideFlags: 0
@@ -22519,14 +23079,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d2758e6a11334dd69af18f2adb4aaa0, type: 3}
---- !u!1 &1754932999958180330 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 147226, guid: 0d2758e6a11334dd69af18f2adb4aaa0, type: 3}
-  m_PrefabInstance: {fileID: 1754932999958040304}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1754932999957999850 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 491034, guid: 0d2758e6a11334dd69af18f2adb4aaa0, type: 3}
+  m_PrefabInstance: {fileID: 1754932999958040304}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1754932999958180330 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 147226, guid: 0d2758e6a11334dd69af18f2adb4aaa0, type: 3}
   m_PrefabInstance: {fileID: 1754932999958040304}
   m_PrefabAsset: {fileID: 0}
 --- !u!210 &6127956180540817874
@@ -22707,14 +23267,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1b3ba7d5e3c74936aab9434f68d6e97, type: 3}
---- !u!4 &8077548649212217286 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4741035110883746, guid: b1b3ba7d5e3c74936aab9434f68d6e97, type: 3}
-  m_PrefabInstance: {fileID: 8073230378520667748}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8074765572664269522 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1887589919947958, guid: b1b3ba7d5e3c74936aab9434f68d6e97, type: 3}
+  m_PrefabInstance: {fileID: 8073230378520667748}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8077548649212217286 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4741035110883746, guid: b1b3ba7d5e3c74936aab9434f68d6e97, type: 3}
   m_PrefabInstance: {fileID: 8073230378520667748}
   m_PrefabAsset: {fileID: 0}
 --- !u!210 &6133037175535459182
@@ -22825,14 +23385,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66a38d5c77ab146d2a521201c1e036cc, type: 3}
---- !u!4 &8562783821844808620 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 466126, guid: 66a38d5c77ab146d2a521201c1e036cc, type: 3}
-  m_PrefabInstance: {fileID: 8562783821844619106}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8562783821844657228 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 109358, guid: 66a38d5c77ab146d2a521201c1e036cc, type: 3}
+  m_PrefabInstance: {fileID: 8562783821844619106}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8562783821844808620 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 466126, guid: 66a38d5c77ab146d2a521201c1e036cc, type: 3}
   m_PrefabInstance: {fileID: 8562783821844619106}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9062479082645852822

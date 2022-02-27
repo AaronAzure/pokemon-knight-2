@@ -6,7 +6,8 @@ public class AllyTangela : Ally
 {
     [Space] [Header("Tangela")] 
     [SerializeField] private AllyProjectile absorb;
-    [SerializeField] private DetectEnemy detection;
+    [SerializeField] private Transform absorbDefaultPos;
+    [Space] [SerializeField] private DetectEnemy detection;
     [SerializeField] private int maxDrain=10;
     [SerializeField] private int totalMaxDrain;
     [SerializeField] private int extraDrainDmg=1;
@@ -38,13 +39,13 @@ public class AllyTangela : Ally
     private Transform ClosestEnemy()
     {
         if (detection == null)
-            return this.transform;
+            return absorbDefaultPos;
         
         float distance = Mathf.Infinity;
         List<Transform> enemies = detection.DetectEnemies();
 
         if (enemies == null || enemies.Count == 0)
-            return this.transform;
+            return absorbDefaultPos;
         
         int ind = -1;
         for (int i=0 ; i<enemies.Count ; i++)
@@ -57,7 +58,7 @@ public class AllyTangela : Ally
             }
         }
         if (ind == -1)
-            return this.transform;
+            return absorbDefaultPos;
 
         return enemies[ind];
     }

@@ -29,7 +29,14 @@ public class Item : MonoBehaviour
     {
         anim.gameObject.transform.parent = null;
         anim.gameObject.SetActive(true);
-        player.GainItem(itemName);
+
+        List<string> temp = new List<string>( 
+            PlayerPrefsElite.GetStringArray("itemsObtained" + PlayerPrefsElite.GetInt("gameNumber")) 
+        );
+        temp.Add(itemName);
+        PlayerPrefsElite.SetStringArray("itemsObtained" + PlayerPrefsElite.GetInt("gameNumber"), temp.ToArray());
+        player.CheckObtainedItems();
+        
         Destroy(this.gameObject);
     }
     

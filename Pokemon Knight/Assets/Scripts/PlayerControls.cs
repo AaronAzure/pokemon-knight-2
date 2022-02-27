@@ -109,6 +109,7 @@ public class PlayerControls : MonoBehaviour
     [Header("Player data")]
     public int maxHp;
     public int hp;  // current hp
+    public int extraHp=0;
     private int lastHp;
     public int lv=1;
     [Space] [SerializeField] private int expNeeded=100;
@@ -119,11 +120,11 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private GameObject levelUpObj;
     [SerializeField] private AudioSource levelUpSound;
     [SerializeField] private GameObject playerUi;
-    [Space] [SerializeField] private string[] roomsBeaten;
-    [Space] [SerializeField] private string[] pokemonsCaught;
-    [Space] [SerializeField] private string[] itemsObtained;
-    [Space] [SerializeField] private string[] berriesCollected;
-    [Space] [SerializeField] private List<string> spareKeychainCollected = new List<string>();
+    [Space] [SerializeField] private List<string> roomsBeaten;
+    [Space] [SerializeField] private List<string> pokemonsCaught;
+    [Space] [SerializeField] private List<string> itemsObtained;
+    [Space] [SerializeField] private List<string> berriesCollected;
+    [Space] [SerializeField] private List<string> spareKeychainCollected;
     [Space] [SerializeField] private List<string> enemyDefeated = new List<string>();
     public Item currentItem;
     public Berry currentBerry;
@@ -148,6 +149,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float feetRadius;
     [SerializeField] private Vector2 feetBox;
     [SerializeField] private LayerMask whatIsGround;
+    [SerializeField] private LayerMask whatIsWater;
     [SerializeField] public bool grounded = true;
     [HideInInspector] public bool jumping = false;
     [HideInInspector] public bool crouching = false;
@@ -165,6 +167,8 @@ public class PlayerControls : MonoBehaviour
     private float dodgeSpeed = 7.5f;
 
     [SerializeField] private bool inWater;
+    private bool aboveWaterCheck, inWaterCheck;
+    [SerializeField] private Transform aboveWaterCheckOffset, inWaterCheckOffset;
     private bool greenBox, redBox;
     private bool wallCheck, ledgeCheck;
     [SerializeField] private Transform wallCheckOffset, ledgeCheckOffset;
@@ -187,11 +191,11 @@ public class PlayerControls : MonoBehaviour
 
 
     [Space] [Header("Moomoo milk")]
-    public int nMoomooMilk = 1;
     public int nMoomooMilkLeft = 1;
     public int moomooMilkRecovery = 50;
     public int nMoomooMilkUpgrade=0;
     public Animator[] moomooUi;
+    public MoomooMilkUi[] extraMoomooUis;
     public bool drinking;
     public GameObject healEffect;
     public AudioSource healSound;
@@ -220,6 +224,8 @@ public class PlayerControls : MonoBehaviour
     [Space] public bool quickCharm;
     public bool chuggerCharm;
     public bool crisisCharm;
+    public bool graciousHeartCharm;
+    public bool milkAddictCharm;
     [SerializeField] private GameObject furyYellowObj;
     [SerializeField] private GameObject furyRedObj;
     public bool dualCharm;
@@ -288,7 +294,7 @@ public class PlayerControls : MonoBehaviour
         if (PlayerPrefsElite.VerifyInt("playerLevel" + gameNumber))
         {
             lv = PlayerPrefsElite.GetInt("playerLevel" + gameNumber);
-            maxHp = 100 + (5 * (lv - 1));
+            CalculateMaxHp();
             if (lvText != null)
                  lvText.text = "Lv. " + lv;
         }
@@ -306,20 +312,27 @@ public class PlayerControls : MonoBehaviour
         }
         else 
             PlayerPrefsElite.SetString("checkpointScene" + gameNumber, SceneManager.GetActiveScene().name);
+
+        origGrav = body.gravityScale;
+        col.enabled = false;
+        body.gravityScale = 0;
         if (PlayerPrefsElite.VerifyVector3("checkpointPos" + gameNumber))
             this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos" + gameNumber);
         else 
             PlayerPrefsElite.SetVector3("checkpointPos" + gameNumber, this.transform.position + new Vector3(0,0.25f));
 
         if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber))
-            roomsBeaten = PlayerPrefsElite.GetStringArray("roomsBeaten" + gameNumber);
+            roomsBeaten = new List<string>(PlayerPrefsElite.GetStringArray("roomsBeaten" + gameNumber));
         else 
-            roomsBeaten = new string[100];
+        {
+            roomsBeaten = new List<string>();
+            PlayerPrefsElite.SetStringArray("roomsBeaten" + gameNumber, new string[0]);
+        }
         
         // MOOMOO MILK POTENCY
-        if (PlayerPrefsElite.VerifyArray("berries" + gameNumber))
+        if (PlayerPrefsElite.VerifyArray("berriesCollected" + gameNumber))
         {
-            berriesCollected = PlayerPrefsElite.GetStringArray("berries" + gameNumber);
+            berriesCollected = new List<string>( PlayerPrefsElite.GetStringArray("berriesCollected" + gameNumber) );
             var berriesSet = new HashSet<string>(berriesCollected);
             if (berriesSet.Contains(""))
                 berriesSet.Remove("");
@@ -328,8 +341,8 @@ public class PlayerControls : MonoBehaviour
         }
         else 
         {
-            berriesCollected = new string[20];
-            PlayerPrefsElite.SetStringArray("berries" + gameNumber, berriesCollected);
+            berriesCollected = new List<string>();
+            PlayerPrefsElite.SetStringArray("berriesCollected" + gameNumber, berriesCollected.ToArray());
         }
         
         if (PlayerPrefsElite.VerifyArray("spareKeychain" + gameNumber))
@@ -339,7 +352,6 @@ public class PlayerControls : MonoBehaviour
             if (spareKeychainSet.Contains(""))
                 spareKeychainSet.Remove("");
             extraWeight = spareKeychainSet.Count;
-            // Debug.Log("<color=green>Collected " + extraWeight + " berries</color>");
         }
         else 
         {
@@ -484,13 +496,14 @@ public class PlayerControls : MonoBehaviour
         }
 
         weightText.text = currentWeight + "/" + (maxWeight + extraWeight);
-        origGrav = body.gravityScale;
     }
     IEnumerator CannotChangeSceneAgain()
     {
         inCutscene = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
+        body.gravityScale = 3;
         inCutscene = false;
+        col.enabled = true;
     }
     void Update()
     {
@@ -569,7 +582,7 @@ public class PlayerControls : MonoBehaviour
             if (player.GetButtonUp("L"))
             {
                 anim.speed = 1;
-                body.velocity = Vector2.zero;
+                body.velocity = new Vector2(0, body.velocity.y);
                 anim.SetBool("isDrinking", false);
                 drinking = false;
             }
@@ -608,6 +621,9 @@ public class PlayerControls : MonoBehaviour
                 crouching = false;
                 anim.SetBool("isCrouching", crouching);
             }
+
+            if (inWater && CheckAtWaterSurface())
+                nExtraJumpsLeft = nExtraJumps;
 
             if (!ledgeGrabbing)
                 ledgeGrabbing = CheckLedgeGrab();
@@ -687,13 +703,19 @@ public class PlayerControls : MonoBehaviour
                     if (grounded && player.GetButtonDown("B"))
                         Jump();
                     //* Double Jump (mid air jump)
-                    // if (!butterfreeOut && inWater)
-                    //     nExtraJumpsLeft = 1;
-
-                    if (canDoubleJump && !butterfreeOut && nExtraJumpsLeft > 0 && !grounded && player.GetButtonDown("B"))
+                    if (canDoubleJump)
                     {
-                        nExtraJumpsLeft--;
-                        MidairJump();
+                        if (!inWater && !butterfreeOut && nExtraJumpsLeft > 0 && !grounded && player.GetButtonDown("B"))
+                        {
+                            nExtraJumpsLeft--;
+                            MidairJump();
+                        }
+                        else if (inWater && !butterfreeOut && nExtraJumpsLeft > 0 && CheckAtWaterSurface()
+                            && player.GetButtonDown("B"))
+                        {
+                            nExtraJumpsLeft--;
+                            MidairJump();
+                        }
                     }
 
                     if (player.GetButton("B") && jumping)
@@ -818,6 +840,7 @@ public class PlayerControls : MonoBehaviour
             if (inWater && canSwim)
             {
                 float yValue = player.GetAxis("Move Vertical");
+
                 body.velocity = new Vector2(xValue, yValue) * moveSpeed;
             }
             else if (!crouching)
@@ -940,6 +963,10 @@ public class PlayerControls : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(feetPos.position, feetBox);
 
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawLine(inWaterCheckOffset.position, inWaterCheckOffset.position + new Vector3(checkDist,0));
+        Gizmos.color = Color.gray;
+        Gizmos.DrawLine(aboveWaterCheckOffset.position, aboveWaterCheckOffset.position + new Vector3(checkDist,0));
         if (holder.transform.eulerAngles.y > 0)
         {
             Gizmos.color = Color.yellow;
@@ -1055,6 +1082,13 @@ public class PlayerControls : MonoBehaviour
         }
         return false;
     }
+    private bool CheckAtWaterSurface()
+    {
+        inWaterCheck = Physics2D.Raycast(inWaterCheckOffset.position, Vector2.left, checkDist, whatIsWater);
+        aboveWaterCheck = Physics2D.Raycast(aboveWaterCheckOffset.position, Vector2.left, checkDist, whatIsWater);
+
+        return (inWaterCheck && !aboveWaterCheck && !grounded);
+    }
 
     public void NO_VELOCITY()
     {
@@ -1132,7 +1166,7 @@ public class PlayerControls : MonoBehaviour
     public void DrinkingMoomooMilk()
     {
         drinking = true;
-        body.velocity = Vector2.zero;
+        body.velocity = new Vector2(0, body.velocity.y);
         anim.speed = 1;
         if (chuggerCharm)
             anim.speed = 2;
@@ -1145,6 +1179,8 @@ public class PlayerControls : MonoBehaviour
             Instantiate(healEffect, this.transform.position + new Vector3(0,1), Quaternion.identity, this.transform);
         drinking = false;
         hp += ((25 * nBerries) + moomooMilkRecovery);
+        if (hp > maxHp)
+            hp = maxHp;
         Debug.Log( "<color=#4CFF00> Healed " + ((25 * nBerries) + moomooMilkRecovery) + " hp</color>");
         nMoomooMilkLeft--;
         float newSpeed = (float) hp / (float) maxHp;
@@ -1158,9 +1194,43 @@ public class PlayerControls : MonoBehaviour
             moomooUi[ nMoomooMilkLeft ].SetTrigger("used");
         
     }
+
+    public void IncreaseNumberOfMoomooMilk()
+    {
+        foreach (Animator moomooAnim in extraMoomooUis[moomooUi.Length].excludedMoomooUi)
+            moomooAnim.gameObject.SetActive(false);
+        foreach (Animator moomooAnim in extraMoomooUis[moomooUi.Length].moomooUi)
+            moomooAnim.gameObject.SetActive(true);
+        moomooUi = extraMoomooUis[moomooUi.Length].moomooUi;
+        nMoomooMilkLeft = moomooUi.Length;
+    }
+    public void DecreaseNumberOfMoomooMilk()
+    {
+        foreach (Animator moomooAnim in extraMoomooUis[moomooUi.Length - 2].excludedMoomooUi)
+            moomooAnim.gameObject.SetActive(false);
+        foreach (Animator moomooAnim in extraMoomooUis[moomooUi.Length - 2].moomooUi)
+            moomooAnim.gameObject.SetActive(true);
+        moomooUi = extraMoomooUis[moomooUi.Length - 2].moomooUi;
+        nMoomooMilkLeft = moomooUi.Length;
+    }
+
     public void FullRestore()
     {
         hp = maxHp;
+    }
+    public void CalculateMaxHp()
+    {
+        maxHp = 100 + (5 * (lv - 1));
+        if (graciousHeartCharm)
+            extraHp = Mathf.CeilToInt(maxHp * 0.2f);
+        else
+            extraHp = 0;
+        maxHp += extraHp;
+    }
+    public void RecalculateHp()
+    {
+        if (hp > maxHp)
+            hp = maxHp;
     }
 
     public void KilledEnemy(string enemyName)
@@ -1373,7 +1443,7 @@ public class PlayerControls : MonoBehaviour
         expNeeded = (int) (expNeeded * 1.2f);
 
         // Increase health
-        maxHp += 5;
+        CalculateMaxHp();
         hp += 5;
 
         if (lvText != null)
@@ -1406,7 +1476,6 @@ public class PlayerControls : MonoBehaviour
         
         if (musicManager != null)
             StartCoroutine( musicManager.LowerMusic(musicManager.currentMusic, 0.5f) );
-        float origGravity = body.gravityScale;
         body.gravityScale = 0;
         if (col != null)
             col.enabled = false;
@@ -1421,7 +1490,7 @@ public class PlayerControls : MonoBehaviour
         
         yield return new WaitForSeconds(1f);
         StartCoroutine( Respawn() );
-        body.gravityScale = origGravity;
+        body.gravityScale = origGrav;
         if (col != null)
             col.enabled = true;
     }
@@ -1629,16 +1698,14 @@ public class PlayerControls : MonoBehaviour
     {
         if (other.CompareTag("Underwater"))
             inWater = true;
-            nExtraJumpsLeft = nExtraJumps;
+            // nExtraJumpsLeft = nExtraJumps;
         if (other.CompareTag("Rage") && musicManager != null)
             StartCoroutine( musicManager.TransitionMusic(musicManager.bossOutroMusic) );
     }
     private void OnTriggerExit2D(Collider2D other) 
     {
         if (other.CompareTag("Underwater"))
-        {
             inWater = false;
-        }
         if (other.CompareTag("Roar"))
             RoarOver();
     }
@@ -1799,12 +1866,12 @@ public class PlayerControls : MonoBehaviour
         foreach (Button button in partyPokemonButtons)
             button.interactable = true;
 
-        boxPokemonLastSelected = lastButton;
 
         if (partyPokemonLastSelected != null)
             partyPokemonLastSelected.Select();
         else if (partyPokemonFirstSelected != null)
             partyPokemonFirstSelected.Select();
+        boxPokemonLastSelected = lastButton;
     }
 
 
@@ -1827,6 +1894,9 @@ public class PlayerControls : MonoBehaviour
             case "oddish": 
                 CaughtAPokemon("oddish");
                 break;
+            case "tangela": 
+                CaughtAPokemon("tangela");
+                break;
             default:
                 CaughtAPokemon(powerupName);
                 Debug.LogError("PlayerControls.GainPowerup - unregistered powerup (ADD TO SWITCH CASE)");
@@ -1835,28 +1905,6 @@ public class PlayerControls : MonoBehaviour
         body.velocity = Vector2.zero;
     }
 
-    public void GainItem(string itemTypeName)
-    {
-        if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber))
-            itemsObtained = PlayerPrefsElite.GetStringArray("itemsObtained" + gameNumber);
-        else
-        {
-            PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber, new string[50]);
-            itemsObtained = PlayerPrefsElite.GetStringArray("itemsObtained" + gameNumber);
-        }
-
-        for (int i=0 ; i<itemsObtained.Length ; i++)
-        {
-            if (itemsObtained[i] == "")
-            {
-                Debug.Log("item slot " + i + " is set to " + itemTypeName);
-                itemsObtained[i] = itemTypeName;
-                break;
-            }
-        }
-        PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber, itemsObtained);
-        CheckObtainedItems();
-    }
     
     public void EquipItem(Sprite itemSprite)
     {
@@ -1934,10 +1982,10 @@ public class PlayerControls : MonoBehaviour
         anim.SetBool("isResting", true);
         if (moomooUi != null)
         {
-            for (int i=nMoomooMilkLeft ; i<nMoomooMilk ; i++)
+            for (int i=nMoomooMilkLeft ; i<moomooUi.Length ; i++)
                 moomooUi[i].SetTrigger("restored");
         }
-        nMoomooMilkLeft = nMoomooMilk;
+        nMoomooMilkLeft = moomooUi.Length;
         enemyDefeated.Clear(); PlayerPrefsElite.SetStringArray("enemyDefeated", new string[0]);
 
         SaveState();
@@ -1957,7 +2005,7 @@ public class PlayerControls : MonoBehaviour
 
     public void ReloadState()
     {
-        nMoomooMilkLeft = nMoomooMilk;
+        nMoomooMilkLeft = moomooUi.Length;
         // UI indication
         if (moomooUi != null)
             foreach (Animator ui in moomooUi)
@@ -1970,7 +2018,7 @@ public class PlayerControls : MonoBehaviour
         if (PlayerPrefsElite.VerifyInt("playerLevel" + gameNumber))
         {
             lv = PlayerPrefsElite.GetInt("playerLevel" + gameNumber);
-            maxHp = 100 + (5 * (lv - 1));
+            CalculateMaxHp();
             if (lvText != null)
                  lvText.text = "Lv. " + lv;
         }
@@ -1987,7 +2035,29 @@ public class PlayerControls : MonoBehaviour
             Debug.Log("<color=#0EB8BF>Reload " + PlayerPrefsElite.GetString("checkpointScene" + gameNumber) + "</color>");
         }
 
+        if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber))
+            PlayerPrefsElite.SetStringArray("roomsBeaten" + gameNumber, roomsBeaten.ToArray());
+        if (PlayerPrefsElite.VerifyArray("pokemonsCaught" + gameNumber))
+            PlayerPrefsElite.SetStringArray("pokemonsCaught" + gameNumber, pokemonsCaught.ToArray());
+        if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber))
+            PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber, itemsObtained.ToArray());
+        if (PlayerPrefsElite.VerifyArray("berriesCollected" + gameNumber))
+            PlayerPrefsElite.SetStringArray("berriesCollected" + gameNumber, berriesCollected.ToArray());
+        if (PlayerPrefsElite.VerifyArray("spareKeychain" + gameNumber))
+            PlayerPrefsElite.SetStringArray("spareKeychain" + gameNumber, spareKeychainCollected.ToArray());
+        
+        var berriesSet = new HashSet<string>(berriesCollected);
+        if (berriesSet.Contains(""))
+            berriesSet.Remove("");
+        nBerries = berriesSet.Count;
+        var spareKeychainSet = new HashSet<string>(spareKeychainCollected);
+        if (spareKeychainSet.Contains(""))
+            spareKeychainSet.Remove("");
+        extraWeight = spareKeychainCollected.Count;
+        
 
+        CheckEquippablePokemon();
+        CheckObtainedItems();
 
         enemyDefeated.Clear(); PlayerPrefsElite.SetStringArray("enemyDefeated", new string[0]);
     }
@@ -1999,7 +2069,17 @@ public class PlayerControls : MonoBehaviour
         PlayerPrefsElite.SetInt("playerLevel" + gameNumber, lv);
         PlayerPrefsElite.SetBoolean("canDoubleJump" + gameNumber, canDoubleJump);
         PlayerPrefsElite.SetBoolean("canDash" + gameNumber, canDash);
-        PlayerPrefsElite.SetStringArray("roomsBeaten" + gameNumber, roomsBeaten);
+
+        if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber))
+            roomsBeaten = new List<string>( PlayerPrefsElite.GetStringArray("roomsBeaten" + gameNumber) );
+        if (PlayerPrefsElite.VerifyArray("pokemonsCaught" + gameNumber))
+            pokemonsCaught = new List<string>( PlayerPrefsElite.GetStringArray("pokemonsCaught" + gameNumber) );
+        if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber))
+            itemsObtained = new List<string>( PlayerPrefsElite.GetStringArray("itemsObtained" + gameNumber) );
+        if (PlayerPrefsElite.VerifyArray("berriesCollected" + gameNumber))
+            berriesCollected = new List<string>( PlayerPrefsElite.GetStringArray("berriesCollected" + gameNumber) );
+        if (PlayerPrefsElite.VerifyArray("spareKeychain" + gameNumber))
+            spareKeychainCollected = new List<string>( PlayerPrefsElite.GetStringArray("spareKeychain" + gameNumber) );
     }
 
     private void SavePokemonTeam()
@@ -2035,17 +2115,10 @@ public class PlayerControls : MonoBehaviour
     {
         if (PlayerPrefsElite.VerifyArray("pokemonsCaught" + gameNumber))
         {
-            pokemonsCaught = PlayerPrefsElite.GetStringArray("pokemonsCaught" + gameNumber);
-            for (int i=0 ; i<pokemonsCaught.Length ; i++)
-            {
-                if (pokemonsCaught[i] == "")
-                {
-                    pokemonsCaught[i] = pokemonName;
-                    break;
-                }
-            }
-            PlayerPrefsElite.SetStringArray("pokemonsCaught" + gameNumber, pokemonsCaught);
-            var set = new HashSet<string>(pokemonsCaught);
+            List<string> temp = new List<string>( PlayerPrefsElite.GetStringArray("pokemonsCaught" + gameNumber) );
+            temp.Add(pokemonName);
+            PlayerPrefsElite.SetStringArray("pokemonsCaught" + gameNumber, temp.ToArray());
+            var set = new HashSet<string>(temp);
 
             Debug.Log("pokemons caught set = " + set.Count);
             bool foundMatch = false;
@@ -2061,7 +2134,6 @@ public class PlayerControls : MonoBehaviour
             if (!foundMatch)
                 Debug.LogError("PlayerControls.CaughtAPokemon - unregistered pokemon (ADD TO boxPokemonsToActivate)");
 
-
             CheckEquippablePokemon();
         }
     }
@@ -2069,19 +2141,22 @@ public class PlayerControls : MonoBehaviour
     {
         if (PlayerPrefsElite.VerifyArray("pokemonsCaught" + gameNumber))
         {
-            pokemonsCaught = PlayerPrefsElite.GetStringArray("pokemonsCaught" + gameNumber);
-            var set = new HashSet<string>(pokemonsCaught);
+            List<string> temp = new List<string>( PlayerPrefsElite.GetStringArray("pokemonsCaught" + gameNumber) );
+            var set = new HashSet<string>(temp);
             
-            Debug.Log("pokemons caught set = " + set.Count);
+            // Debug.Log("pokemons caught set = " + set.Count);
             
             foreach (BoxPokemonButton boxPokemon in boxPokemonsToActivate)
             {
-                Debug.Log(" " + boxPokemon.pokemonName);
-
                 if (boxPokemon.pokemonName != null && set.Contains(boxPokemon.pokemonName))
                 {
                     boxPokemon.transform.parent.gameObject.SetActive(true);
                     boxPokemon.gameObject.SetActive(true);
+                }
+                else
+                {
+                    boxPokemon.transform.parent.gameObject.SetActive(false);
+                    boxPokemon.gameObject.SetActive(false);
                 }
             }
         }
@@ -2092,7 +2167,7 @@ public class PlayerControls : MonoBehaviour
     {
         if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber))
         {
-            itemsObtained = PlayerPrefsElite.GetStringArray("itemsObtained" + gameNumber);
+            itemsObtained = new List<string>( PlayerPrefsElite.GetStringArray("itemsObtained" + gameNumber) );
             var set = new HashSet<string>(itemsObtained);
             foreach (ItemUi heldItem in itemsToActivate)
             {
@@ -2101,25 +2176,17 @@ public class PlayerControls : MonoBehaviour
                     heldItem.transform.parent.gameObject.SetActive(true);
                     heldItem.gameObject.SetActive(true);
                 }
+                else
+                {
+                    heldItem.transform.parent.gameObject.SetActive(false);
+                    heldItem.gameObject.SetActive(false);
+                }
             }
         }
         else
         {
-            PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber, new string[50]);
+            PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber, new string[0]);
         }
-    }
-
-    public void AddRoomBeaten(string roomName)
-    {
-        for (int i=0 ; i < roomsBeaten.Length ; i++)
-        {
-            if (roomsBeaten[i] == "")
-            {
-                roomsBeaten[i] = roomName;
-                break;
-            }
-        }
-        PlayerPrefsElite.SetStringArray("roomsBeaten" + gameNumber, roomsBeaten);
     }
 
     // todo ------------------------------------------------------------------------------------
@@ -2320,4 +2387,11 @@ public class AllyTeamUI
 {
     public Ally summonable;
     public Sprite sprite;
+}
+
+[System.Serializable]
+public class MoomooMilkUi
+{
+    public Animator[] moomooUi;
+    public Animator[] excludedMoomooUi;
 }
