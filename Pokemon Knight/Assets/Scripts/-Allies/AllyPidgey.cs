@@ -13,6 +13,7 @@ public class AllyPidgey : Ally
         {
             gust.atkDmg = this.atkDmg;
             gust.atkForce = this.atkForce;
+            gust.spBonus = this.spBonus;
         }
         body.velocity *= 0.5f;
     }   

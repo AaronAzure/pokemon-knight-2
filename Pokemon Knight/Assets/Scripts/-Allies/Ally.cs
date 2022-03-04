@@ -5,15 +5,18 @@ using UnityEngine;
 public abstract class Ally : MonoBehaviour
 {
     [Space] [SerializeField] protected GameObject model;
+    [Space] [SerializeField] protected Animator anim;
     [Space] [Tooltip("Collider within obj, not spawned")] public AllyAttack hitbox;  // Separate gameobject with collider
     public int atkDmg;
     public int atkForce;
+    public int spBonus;
     [Space] public int extraDmg;
     public int perLevel=1;
     [Space] public float outTime = 0.5f;    // Time pokemon appears in the overworld
     public float resummonTime = 0.5f;    // Delay before calling pokemon again
-    // [SerializeField] private int delayTimes=50;
+
     [Space] public Rigidbody2D body;
+    [Space] public bool useUlt;
     [Space] [Tooltip("PokeballTrail prefab - return back to player")] public FollowTowards trailObj;
     
 
@@ -62,12 +65,15 @@ public abstract class Ally : MonoBehaviour
         {
             hitbox.atkDmg = this.atkDmg;
             hitbox.atkForce = this.atkForce;
+            hitbox.spBonus = this.spBonus;
         }
+        if (useUlt)
+            resummonTime = 1;
         if (trainer != null && trainer.quickCharm)
             resummonTime *= 0.7f;
 
-        co = StartCoroutine( BackToBallAfterAction() );
         Setup();
+        co = StartCoroutine( BackToBallAfterAction() );
     }
 
     protected virtual void Setup() { }

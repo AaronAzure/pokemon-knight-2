@@ -856,7 +856,7 @@ MonoBehaviour:
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
   bossRoom: {fileID: 0}
   extraHp: 20
-  extraDmg: 6
+  extraDmg: 5
   extraProjectileDmg: 0
   perLv: 1
   calcExtraProjectileDmg: 0
@@ -873,6 +873,12 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
+  whatIsBounds:
+    serializedVersion: 2
+    m_Bits: 0
+  whatIsTree:
+    serializedVersion: 2
+    m_Bits: 0
   statusBar: {fileID: 8531754209908783881}
   hpEffectImg: {fileID: 8531754209565969899}
   hpImg: {fileID: 8531754210197151158}
@@ -901,9 +907,12 @@ MonoBehaviour:
   alert: {fileID: 3348568934580730668}
   playerInField: 0
   playerInSight: 0
+  playerInCloseRange: 0
   alwaysAttackPlayer: 0
+  cannotMove: 0
   movingLeft: 0
   movingRight: 0
+  aquatic: 0
   canUseBuffs: 0
   statusConditions: []
   nCondition: 0
@@ -911,6 +920,7 @@ MonoBehaviour:
   increaseAtk: {fileID: 0}
   increaseDef: {fileID: 0}
   increaseSpd: {fileID: 0}
+  spawnedByWave: 0
   anim: {fileID: 4237969926322932405}
   moveSpeed: 2
   chaseSpeed: 5

@@ -561,6 +561,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7683898162574173715}
+  - {fileID: 161269359462900261}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -654,14 +655,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 7683898162574173712}
+  anim: {fileID: 7683898162395236361}
   hitbox: {fileID: 0}
   atkDmg: 30
   atkForce: 40
+  spBonus: 8
   extraDmg: 9
   perLevel: 1
   outTime: 1.5
   resummonTime: 1.5
   body: {fileID: 7683898162395236403}
+  useUlt: 0
   trailObj: {fileID: 1133196975338173599, guid: 68d6e6c0a5773413db7e478ab4425d98, type: 3}
   trainer: {fileID: 0}
   button: 
@@ -714,3 +718,65 @@ Transform:
   m_Father: {fileID: 7683898162395236401}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &161269359463359327
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7683898162395236401}
+    m_Modifications:
+    - target: {fileID: 194666, guid: cbe8e3749862d4e8d85e9a509294728e, type: 3}
+      propertyPath: m_Name
+      value: '- Flash Explosion'
+      objectReference: {fileID: 0}
+    - target: {fileID: 459130, guid: cbe8e3749862d4e8d85e9a509294728e, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 459130, guid: cbe8e3749862d4e8d85e9a509294728e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 459130, guid: cbe8e3749862d4e8d85e9a509294728e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 459130, guid: cbe8e3749862d4e8d85e9a509294728e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 459130, guid: cbe8e3749862d4e8d85e9a509294728e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 459130, guid: cbe8e3749862d4e8d85e9a509294728e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 459130, guid: cbe8e3749862d4e8d85e9a509294728e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 459130, guid: cbe8e3749862d4e8d85e9a509294728e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 459130, guid: cbe8e3749862d4e8d85e9a509294728e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 459130, guid: cbe8e3749862d4e8d85e9a509294728e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 459130, guid: cbe8e3749862d4e8d85e9a509294728e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cbe8e3749862d4e8d85e9a509294728e, type: 3}
+--- !u!4 &161269359462900261 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 459130, guid: cbe8e3749862d4e8d85e9a509294728e, type: 3}
+  m_PrefabInstance: {fileID: 161269359463359327}
+  m_PrefabAsset: {fileID: 0}

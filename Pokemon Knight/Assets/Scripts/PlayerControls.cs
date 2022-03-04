@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Rewired;
@@ -12,6 +13,7 @@ public class PlayerControls : MonoBehaviour
     private Rewired.Player player;
     public int playerID = 0;
     [SerializeField] private GameObject rewiredInputSystem;
+    [SerializeField] private GameObject lookTarget;
     private int gameNumber;
     
 
@@ -28,6 +30,13 @@ public class PlayerControls : MonoBehaviour
     public Animator transitionAnim;
     public Sprite emptySprite;
     
+    [Space] [SerializeField] private GameObject mapMenu;
+    [SerializeField] private RectTransform mapMenuRect;
+    public Dictionary<string, SceneMap> sceneMaps;
+    public SceneMap lastScene;
+    public Vector2 mapOffset;
+
+
     [Space] 
     public Image pokeballY1;
     public Image pokeballX1;
@@ -35,6 +44,15 @@ public class PlayerControls : MonoBehaviour
     public Image pokeballY2;
     public Image pokeballX2;
     public Image pokeballA2;
+
+    [Space] public GameObject gaugesHolder;
+    public Image gaugeImg;
+    public GameObject gaugeButton;
+    public GameObject gaugeIndicator;
+    public GameObject gaugeGlow;
+    public int spMax=100;
+    public int spReq=100;
+    public int sp;
 
     [Space] 
     [Tooltip("In game = cooldown")] public Image[] partyPokemonsUI;
@@ -120,6 +138,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private GameObject levelUpObj;
     [SerializeField] private AudioSource levelUpSound;
     [SerializeField] private GameObject playerUi;
+    [Space] [SerializeField] private List<string> visitedScenes;
     [Space] [SerializeField] private List<string> roomsBeaten;
     [Space] [SerializeField] private List<string> pokemonsCaught;
     [Space] [SerializeField] private List<string> itemsObtained;
@@ -241,6 +260,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private Transform doubleJumpSpawnPos;
     [Space] public bool canDash;
     public bool canSwim;
+    public bool canUseUlt;
     private MusicManager musicManager;
     
 
@@ -257,6 +277,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float dmgMultiplier = 1;
     [SerializeField] private float expMultiplier = 1;
     [SerializeField] private bool noCoolDown;
+    [SerializeField] private bool infiniteGauge;
     public bool extraRange;
 
     private static PlayerControls playerInstance;   // There can only be one
@@ -289,8 +310,20 @@ public class PlayerControls : MonoBehaviour
         // Last save
         if (PlayerPrefsElite.VerifyBoolean("canDoubleJump" + gameNumber))
             canDoubleJump = PlayerPrefsElite.GetBoolean("canDoubleJump" + gameNumber);
+
+        if (PlayerPrefsElite.VerifyBoolean("canUseUlt" + gameNumber))
+            canUseUlt = PlayerPrefsElite.GetBoolean("canUseUlt" + gameNumber);
+        if (canUseUlt)
+            gaugesHolder.SetActive(true);
+        else
+            gaugesHolder.SetActive(false);
+        gaugeImg.fillAmount = 0;
+        gaugeGlow.SetActive(false);
+
+
         if (PlayerPrefsElite.VerifyBoolean("canDash" + gameNumber))
             canDash = PlayerPrefsElite.GetBoolean("canDash" + gameNumber);
+            
         if (PlayerPrefsElite.VerifyInt("playerLevel" + gameNumber))
         {
             lv = PlayerPrefsElite.GetInt("playerLevel" + gameNumber);
@@ -304,14 +337,38 @@ public class PlayerControls : MonoBehaviour
 
         hp = maxHp;
 
+        string sceneName = SceneManager.GetActiveScene().name;
         if (PlayerPrefsElite.VerifyString("checkpointScene" + gameNumber))
         {
             StartCoroutine( CannotChangeSceneAgain() ); inCutscene = true;
-            SceneManager.LoadScene(PlayerPrefsElite.GetString("checkpointScene" + gameNumber));
-            Debug.Log("<color=#0EB8BF>"+PlayerPrefsElite.GetString("checkpointScene" + gameNumber)+"</color>");
+            sceneName = PlayerPrefsElite.GetString("checkpointScene" + gameNumber);
+            SceneManager.LoadScene(sceneName);
+            // Debug.Log("<color=#0EB8BF>"+PlayerPrefsElite.GetString("checkpointScene" + gameNumber)+"</color>");
         }
         else 
-            PlayerPrefsElite.SetString("checkpointScene" + gameNumber, SceneManager.GetActiveScene().name);
+        {
+            PlayerPrefsElite.SetString("checkpointScene" + gameNumber, sceneName);
+            body.gravityScale = 3;
+            inCutscene = false;
+            col.enabled = true;
+        }
+
+        if (sceneMaps == null)
+            sceneMaps = new Dictionary<string, SceneMap>();
+        if (sceneMaps.ContainsKey(sceneName))
+            lastScene = sceneMaps[sceneName];
+        else
+            Debug.LogError("CANNOT FIND MATCHING MAP NAME : for " + sceneName);
+
+        
+        // foreach (SceneMap sm in sceneMaps)
+        // {
+        //     if (sceneName == sm.sceneName)
+        //     {
+        //         lastScene = sm;
+        //         break;
+        //     }
+        // }
 
         origGrav = body.gravityScale;
         col.enabled = false;
@@ -321,6 +378,26 @@ public class PlayerControls : MonoBehaviour
         else 
             PlayerPrefsElite.SetVector3("checkpointPos" + gameNumber, this.transform.position + new Vector3(0,0.25f));
 
+        if (PlayerPrefsElite.VerifyArray("visitedScenes" + gameNumber))
+            visitedScenes = new List<string>(PlayerPrefsElite.GetStringArray("visitedScenes" + gameNumber));
+        else 
+        {
+            visitedScenes = new List<string>();
+            PlayerPrefsElite.SetStringArray("visitedScenes" + gameNumber, new string[0]);
+        }
+        if (!visitedScenes.Contains(sceneName))
+        {
+            visitedScenes.Add(sceneName);
+            PlayerPrefsElite.SetStringArray("visitedScenes" + gameNumber, visitedScenes.ToArray());
+            if (sceneMaps.ContainsKey(sceneName))
+                sceneMaps[sceneName].Visited();
+        }
+        if (sceneMaps.ContainsKey(sceneName))
+        {
+            sceneMaps[sceneName].EnterScene();
+        }
+
+
         if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber))
             roomsBeaten = new List<string>(PlayerPrefsElite.GetStringArray("roomsBeaten" + gameNumber));
         else 
@@ -328,6 +405,8 @@ public class PlayerControls : MonoBehaviour
             roomsBeaten = new List<string>();
             PlayerPrefsElite.SetStringArray("roomsBeaten" + gameNumber, new string[0]);
         }
+        if (PlayerPrefsElite.VerifyArray("pokemonsCaught" + gameNumber))
+            pokemonsCaught = new List<string>( PlayerPrefsElite.GetStringArray("pokemonsCaught" + gameNumber) );
         
         // MOOMOO MILK POTENCY
         if (PlayerPrefsElite.VerifyArray("berriesCollected" + gameNumber))
@@ -495,6 +574,10 @@ public class PlayerControls : MonoBehaviour
                 titleScreenObj.musicManager = this.musicManager;
         }
 
+        // foreach(string sm in sceneMaps.Keys)
+        //     Debug.Log(sm, this.gameObject);
+
+        mapMenu.SetActive(false);
         weightText.text = currentWeight + "/" + (maxWeight + extraWeight);
     }
     IEnumerator CannotChangeSceneAgain()
@@ -687,6 +770,16 @@ public class PlayerControls : MonoBehaviour
                 anim.SetBool("isFalling", false);
                 nExtraJumpsLeft = nExtraJumps;
             }
+
+            if (player.GetButtonDown("MINUS"))
+                ToggleMap();
+
+            if (mapMenu.activeSelf)
+            {
+                MoveMap();
+                if (player.GetButtonDown("Right Stick"))
+                    LockToCurrentPos();
+            }
             
             if (body.velocity.y < -0.1f && !grounded)
             {
@@ -798,12 +891,20 @@ public class PlayerControls : MonoBehaviour
             {
                 if (allies[ slot ] == butterfree.summonable)
                     butterfreeOut = true;
+
                 if (!noCoolDown) nPokemonOut++;
                 var pokemon = Instantiate(allies[ slot ], spawnPos.position, allies[ slot ].transform.rotation);
                 pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
                 pokemon.body.velocity = this.body.velocity;
                 pokemon.trainer = this;
                 pokemon.button = button;
+                    
+                if (canUseUlt && (sp >= spReq || infiniteGauge) && player.GetButton("ZL"))
+                {
+                    pokemon.useUlt = true;
+                    sp -= spReq;
+                    gaugeGlow.SetActive(false);
+                }
 
                 PokemonSummonedIndicator(button);
                 
@@ -861,12 +962,47 @@ public class PlayerControls : MonoBehaviour
                 }
             }
 
+            float lookX = player.GetAxis("Look Horizontal");
+            float lookY = player.GetAxis("Look Vertical");
+            // Debug.Log("right stick = (" + lookX + ", " + lookY + ")");
+            // lookTarget.transform.localPosition = new Vector3(lookX, lookY);
+            lookTarget.transform.position = holder.transform.position + new Vector3(3*lookX, 3*lookY);
+
             //* Flip character
             playerDirection(xValue);
         }
     }
     private void LateUpdate() 
     {
+        //* Gauge meter
+        if (canUseUlt && gaugeImg != null)
+        {
+            float temp = ((float)sp /(float) spMax);
+            // gaugeImg.fillAmount = ((float)sp /(float) spMax);
+            if (gaugeImg.fillAmount < temp)
+                gaugeImg.fillAmount += effectSpeed;
+                if (gaugeImg.fillAmount > temp)
+                    gaugeImg.fillAmount = temp;
+            else if (gaugeImg.fillAmount > temp)
+                gaugeImg.fillAmount -= effectSpeed;
+                if (gaugeImg.fillAmount < temp)
+                    gaugeImg.fillAmount = temp;
+
+            if (gaugeGlow != null)
+                if (gaugeImg.fillAmount < 1)
+                {
+                    gaugeGlow.SetActive(false);
+                    gaugeButton.SetActive(false);
+                }
+                else
+                {
+                    gaugeGlow.SetActive(true);
+                    gaugeButton.SetActive(true);
+                    gaugeIndicator.SetActive(false);
+                    gaugeIndicator.SetActive(true);
+                }
+        }
+
         //* Exp
         if (expImg != null)
         {
@@ -1233,6 +1369,25 @@ public class PlayerControls : MonoBehaviour
             hp = maxHp;
     }
 
+    private void ToggleMap()
+    {
+        mapMenu.SetActive(!mapMenu.activeSelf);
+        Debug.Log(lastScene.parentRect.localPosition + " : " + lastScene.rect.localPosition);
+        if (mapMenu.activeSelf)
+            mapMenuRect.localPosition = -lastScene.rect.localPosition + (Vector3) mapOffset;
+    }
+    private void LockToCurrentPos()
+    {
+        if (mapMenu.activeSelf)
+            mapMenuRect.localPosition = -lastScene.rect.localPosition + (Vector3) mapOffset;
+    }
+    private void MoveMap()
+    {
+        float xVal = 10 * player.GetAxis("Look Horizontal");
+        float yVal = 10 * player.GetAxis("Look Vertical");
+        mapMenuRect.anchoredPosition -= new Vector2(xVal, yVal);
+    }
+
     public void KilledEnemy(string enemyName)
     {
         if (enemyDefeated == null)
@@ -1424,6 +1579,24 @@ public class PlayerControls : MonoBehaviour
             exp = 0;
     }
 
+    public void FillGauge(int spGained)
+    {
+        if (canUseUlt)
+        {
+            if ((sp + spGained) < spMax)
+                sp += spGained;
+            else
+                sp = spMax;
+            // gaugeImg.fillAmount += amount;
+            if (gaugeGlow != null)
+                if (gaugeImg.fillAmount < 1)
+                    gaugeGlow.SetActive(false);
+                else
+                    gaugeGlow.SetActive(true);
+
+        }
+    }
+
     void LevelUp()
     {
         levelUpObj.SetActive(false);
@@ -1524,6 +1697,7 @@ public class PlayerControls : MonoBehaviour
 
         isSleeping = false;
         inCutscene = false;
+        ledgeGrabbing = false;
 
         if (transitionAnim != null)
             transitionAnim.SetTrigger("fromBlack");
@@ -1558,7 +1732,21 @@ public class PlayerControls : MonoBehaviour
             this.transform.position = newPos;
 
             yield return new WaitForSeconds(0.5f);
-            string newSceneFirstWord = SceneManager.GetActiveScene().name.Split(' ')[0];
+            string sceneName = SceneManager.GetActiveScene().name;
+            if (!visitedScenes.Contains(sceneName))
+            {
+                visitedScenes.Add(sceneName);
+                PlayerPrefsElite.SetStringArray("visitedScenes" + gameNumber, visitedScenes.ToArray());
+                sceneMaps[sceneName].Visited();
+            }
+            if (sceneMaps.ContainsKey(sceneName))
+            {
+                lastScene.LeftScene();
+                sceneMaps[sceneName].EnterScene();
+                lastScene = sceneMaps[sceneName];
+            }
+            
+            string newSceneFirstWord = sceneName.Split(' ')[0];
             if (newSceneFirstWord != PlayerPrefsElite.GetString("currentArea" + gameNumber))
             {
                 PlayerPrefsElite.SetString("currentArea" + gameNumber, newSceneFirstWord);
@@ -1567,6 +1755,9 @@ public class PlayerControls : MonoBehaviour
             }
             if (transitionAnim != null)
                 transitionAnim.SetTrigger("fromBlack");
+
+            if (mapMenu.activeSelf)
+                mapMenuRect.localPosition = -lastScene.rect.localPosition + (Vector3) mapOffset;
             
             yield return new WaitForSeconds(0.4f);
             AllPokemonReturned();
@@ -1977,6 +2168,7 @@ public class PlayerControls : MonoBehaviour
         body.velocity = Vector2.zero;
         resting = true;
         FullRestore();
+        damageIndicatorAnim.SetFloat("fadeSpeed", 1);
         anim.speed = 1;
         anim.SetTrigger("rest");
         anim.SetBool("isResting", true);
@@ -2015,17 +2207,17 @@ public class PlayerControls : MonoBehaviour
             canDoubleJump = PlayerPrefsElite.GetBoolean("canDoubleJump" + gameNumber);
         if (PlayerPrefsElite.VerifyBoolean("canDash" + gameNumber))
             canDash = PlayerPrefsElite.GetBoolean("canDash" + gameNumber);
-        if (PlayerPrefsElite.VerifyInt("playerLevel" + gameNumber))
-        {
-            lv = PlayerPrefsElite.GetInt("playerLevel" + gameNumber);
-            CalculateMaxHp();
-            if (lvText != null)
-                 lvText.text = "Lv. " + lv;
-        }
-        expNeeded = (int) (100 * Mathf.Pow(1.2f, lv - 1));
+        // if (PlayerPrefsElite.VerifyInt("playerLevel" + gameNumber))
+        // {
+        //     lv = PlayerPrefsElite.GetInt("playerLevel" + gameNumber);
+        //     CalculateMaxHp();
+        //     if (lvText != null)
+        //          lvText.text = "Lv. " + lv;
+        // }
+        // expNeeded = (int) (100 * Mathf.Pow(1.2f, lv - 1));
 
-        if (PlayerPrefsElite.VerifyInt("playerExp" + gameNumber))
-            exp = PlayerPrefsElite.GetInt("playerExp" + gameNumber);
+        // if (PlayerPrefsElite.VerifyInt("playerExp" + gameNumber))
+        //     exp = PlayerPrefsElite.GetInt("playerExp" + gameNumber);
 
         hp = maxHp;
         if (PlayerPrefsElite.VerifyString("checkpointScene" + gameNumber) && PlayerPrefsElite.VerifyVector3("checkpointPos" + gameNumber))
@@ -2378,6 +2570,27 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
+    public void UnlockGauge()
+    {
+        if (canUseUlt)
+        {
+            canUseUlt = false;
+            gaugesHolder.SetActive(false);
+        }
+        else
+        {
+            canUseUlt = true;
+            gaugesHolder.SetActive(true);
+        }
+        gaugeImg.fillAmount = 0;
+        gaugeGlow.SetActive(false);
+    }
+    public bool InfiniteGauge()
+    {
+        infiniteGauge = !infiniteGauge;
+        return infiniteGauge;
+    }
+
 }
 
 
@@ -2394,4 +2607,29 @@ public class MoomooMilkUi
 {
     public Animator[] moomooUi;
     public Animator[] excludedMoomooUi;
+}
+
+[CanEditMultipleObjects] [CustomEditor(typeof(PlayerControls), true)]
+public class PlayerControlsEditor : Editor
+{
+    private bool infiniteSp;
+    public override void OnInspectorGUI()
+    {
+
+        PlayerControls playerScript = (PlayerControls)target;
+
+        if (playerScript.canUseUlt && GUILayout.Button("Lock Gauge"))
+            playerScript.UnlockGauge();
+        else if (!playerScript.canUseUlt && GUILayout.Button("Unlock Gauge"))
+            playerScript.UnlockGauge();
+        EditorGUILayout.Space();
+
+        if (!infiniteSp && GUILayout.Button("Infinite Gauge"))
+            infiniteSp = playerScript.InfiniteGauge();
+        if (infiniteSp && GUILayout.Button("Finite Gauge"))
+            infiniteSp = playerScript.InfiniteGauge();
+        EditorGUILayout.Space();
+
+        DrawDefaultInspector();
+    }
 }

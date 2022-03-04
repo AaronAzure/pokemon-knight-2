@@ -6,6 +6,7 @@ public class AllyProjectile : MonoBehaviour
 {
     public int atkDmg;
     public int atkForce;    // knockback force
+    public int spBonus;
     
     [HideInInspector] public Vector3 spawnedPos;
     [SerializeField] private GameObject trailObj;
@@ -16,6 +17,13 @@ public class AllyProjectile : MonoBehaviour
     [SerializeField] private bool customTrajectory;
     public Rigidbody2D body;
 
+
+    [Header("Explosive Hitbox")]
+    [Space] public bool explosiveHitbox;
+    [Space] public int explosiveAtk;
+    public int explosiveKb;
+    [SerializeField] private AllyProjectile explosiveHitboxObj;
+    // public float detonateAfter;
 
     [Header("Absorb")]
     [Space] public bool absorbEffect;
@@ -80,17 +88,27 @@ public class AllyProjectile : MonoBehaviour
                                 player.hp = player.maxHp;
                         }
                     }
-                    foe.TakeDamage(atkDmg, spawnedPos, atkForce);
+                    foe.TakeDamage(atkDmg, spawnedPos, atkForce, true, spBonus);
                 }
             }
-            if (destoryOnCollision && explosionObj != null)
+            if (explosiveHitbox && explosiveHitboxObj != null)
+            {
+                var obj = Instantiate(explosiveHitboxObj, this.transform.position, Quaternion.identity);
+                obj.atkDmg = explosiveAtk;
+                obj.atkForce = explosiveKb;
+            }
+            else if (destoryOnCollision && explosionObj != null)
             {
                 var obj = Instantiate(explosionObj, this.transform.position, Quaternion.identity);
-                Destroy(obj.gameObject, 0.5f);
             }
+
             if (destoryOnCollision)
                 Destroy(this.gameObject);
         }
     }
 
+    // IEnumerator Detonate()
+    // {
+    //     if (deton)
+    // }
 }

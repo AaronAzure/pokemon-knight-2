@@ -170,8 +170,8 @@ public abstract class Enemy : MonoBehaviour
             model.transform.localScale *= Random.Range(0.9f, 1.1f);
         if (isMiniBoss)
         {
-            maxHp *= 3;
-            expPossess *= 3;
+            maxHp *= 5;
+            expPossess *= 5;
         }
 
 
@@ -342,7 +342,7 @@ public abstract class Enemy : MonoBehaviour
         return(playerControls.transform.position.x - this.transform.position.x < 0);
     }
 
-    public void TakeDamage(int dmg, Vector3 hitPos, float force=0, bool killedByPlayer=true)
+    public void TakeDamage(int dmg, Vector3 hitPos, float force=0, bool attackedByPlayer=true, int spBonus=0)
     {
         if (!inCutscene && hp > 0)
         {
@@ -359,6 +359,9 @@ public abstract class Enemy : MonoBehaviour
             //// Destroy(holder.gameObject, 0.5f);
             //// var obj = Instantiate(dmgText, new Vector3(transform.position.x, transform.position.y + 2), Quaternion.identity, holder.transform);
             //// obj.text = dmg.ToString();
+
+            if (attackedByPlayer && playerControls != null)
+                playerControls.FillGauge(spBonus);
 
             if (!downToHalfHp && hpImg.fillAmount <= 0.5f)
             {
@@ -404,7 +407,7 @@ public abstract class Enemy : MonoBehaviour
                 if (spawner != null && !isBoss)
                     spawner.SpawnedDefeated();
 
-                if (playerControls != null && killedByPlayer)
+                if (playerControls != null && attackedByPlayer)
                 {
                     playerControls.GainExp(expPossess, lv);
                     playerControls.KilledEnemy(enemyId);

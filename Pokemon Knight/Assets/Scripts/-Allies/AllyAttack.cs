@@ -7,6 +7,7 @@ public class AllyAttack : MonoBehaviour
     // public float atkRange;
     public int atkDmg;
     public int atkForce;    // knockback force
+    public int spBonus;
 
     [SerializeField] private GameObject spawnEffectObj;
     [SerializeField] private bool spawnEffect;
@@ -27,7 +28,7 @@ public class AllyAttack : MonoBehaviour
             Component[] scripts = other.GetComponents(typeof(Enemy));
             foreach (var script in scripts)
             {
-                script.GetComponent<Enemy>().TakeDamage(atkDmg, this.transform.position, atkForce);
+                script.GetComponent<Enemy>().TakeDamage(atkDmg, this.transform.position, atkForce, true, spBonus);
                 if (spawnEffect && spawnEffectObj != null)
                 {
                     var obj = Instantiate(spawnEffectObj, script.gameObject.transform.position, Quaternion.identity);

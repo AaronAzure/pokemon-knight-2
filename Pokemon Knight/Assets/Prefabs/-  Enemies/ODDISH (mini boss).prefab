@@ -10245,7 +10245,7 @@ MonoBehaviour:
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
   bossRoom: {fileID: 0}
   extraHp: 15
-  extraDmg: 5
+  extraDmg: 3
   extraProjectileDmg: 1
   perLv: 2
   calcExtraProjectileDmg: 0
@@ -10262,6 +10262,12 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
+  whatIsBounds:
+    serializedVersion: 2
+    m_Bits: 0
+  whatIsTree:
+    serializedVersion: 2
+    m_Bits: 128
   statusBar: {fileID: 8760570438856112430}
   hpEffectImg: {fileID: 2306269714981723284}
   hpImg: {fileID: 7908789846407830107}
@@ -10290,9 +10296,12 @@ MonoBehaviour:
   alert: {fileID: 0}
   playerInField: 0
   playerInSight: 0
+  playerInCloseRange: 0
   alwaysAttackPlayer: 0
+  cannotMove: 0
   movingLeft: 0
   movingRight: 0
+  aquatic: 0
   canUseBuffs: 0
   statusConditions: []
   nCondition: 0
@@ -10300,12 +10309,10 @@ MonoBehaviour:
   increaseAtk: {fileID: 0}
   increaseDef: {fileID: 0}
   increaseSpd: {fileID: 0}
+  spawnedByWave: 0
   moveSpeed: 2
   distanceDetect: 1
   groundDetection: {fileID: 8404566178504463058}
-  whatIsTree:
-    serializedVersion: 2
-    m_Bits: 128
   forwardDetect: 1
   face: {fileID: 8404566178504463058}
   anim: {fileID: 8587678589928221810}
@@ -10317,6 +10324,8 @@ MonoBehaviour:
   sludgeBomb: {fileID: 3066352489987038474, guid: c7115e7712d964158a11fb06aa26d091, type: 3}
   sludgeBombPos: {fileID: 6671861240514525462}
   target: {fileID: 0}
+  visionCol: {fileID: 0}
+  colOffset: {x: 0, y: 0}
 --- !u!50 &5798675815866953818
 Rigidbody2D:
   serializedVersion: 4

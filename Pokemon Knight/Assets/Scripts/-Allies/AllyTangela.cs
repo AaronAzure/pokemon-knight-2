@@ -23,6 +23,7 @@ public class AllyTangela : Ally
         {
             absorb.atkDmg = this.atkDmg;
             absorb.atkForce = this.atkForce;
+            absorb.spBonus = this.spBonus;
             absorb.maxDrain = this.totalMaxDrain;
         }
         finalMask = (whatIsEnemy | whatIsGround);

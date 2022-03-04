@@ -869,7 +869,7 @@ MonoBehaviour:
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
   bossRoom: {fileID: 0}
   extraHp: 25
-  extraDmg: 6
+  extraDmg: 3
   extraProjectileDmg: 5
   perLv: 2
   calcExtraProjectileDmg: 0
@@ -886,6 +886,12 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
+  whatIsBounds:
+    serializedVersion: 2
+    m_Bits: 0
+  whatIsTree:
+    serializedVersion: 2
+    m_Bits: 2048
   statusBar: {fileID: 7784875283598828338}
   hpEffectImg: {fileID: 3862723587657172616}
   hpImg: {fileID: 8672535142926172231}
@@ -914,9 +920,12 @@ MonoBehaviour:
   alert: {fileID: 2996076087178614816}
   playerInField: 0
   playerInSight: 0
+  playerInCloseRange: 0
   alwaysAttackPlayer: 0
+  cannotMove: 0
   movingLeft: 0
   movingRight: 0
+  aquatic: 0
   canUseBuffs: 0
   statusConditions:
   - {fileID: 7794675116893522763}
@@ -928,12 +937,10 @@ MonoBehaviour:
   increaseAtk: {fileID: 21300000, guid: e6aa1c7ac5d224f13baa80336f2fa589, type: 3}
   increaseDef: {fileID: 21300000, guid: 803d0478c00c541368ad3d9588c08a5e, type: 3}
   increaseSpd: {fileID: 21300000, guid: dc912f0b2b3a04e8e9249ae5607abeab, type: 3}
+  spawnedByWave: 0
   moveSpeed: 2
   distanceDetect: 1
   groundDetection: {fileID: 7005814167754721486}
-  whatIsTree:
-    serializedVersion: 2
-    m_Bits: 2048
   forwardDetect: 1
   face: {fileID: 7005814167754721486}
   absorbObj: {fileID: 5711834433958961915, guid: 1a4a09bf7b8e549ebbb59f25cc5ed6ac, type: 3}

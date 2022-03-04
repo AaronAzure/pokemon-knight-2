@@ -354,7 +354,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 527a5ef260e5a463f9797b5fd90ea5a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyId: 
   lv: 12
   chapterLevel: 0
   maxHp: 150
@@ -373,8 +372,8 @@ MonoBehaviour:
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
   bossRoom: {fileID: 0}
   extraHp: 20
-  extraDmg: 5
-  extraProjectileDmg: 6
+  extraDmg: 3
+  extraProjectileDmg: 5
   perLv: 2
   calcExtraProjectileDmg: 0
   expPossess: 25
@@ -390,6 +389,12 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
+  whatIsBounds:
+    serializedVersion: 2
+    m_Bits: 0
+  whatIsTree:
+    serializedVersion: 2
+    m_Bits: 0
   statusBar: {fileID: 5190738569626584339}
   hpEffectImg: {fileID: 5190738569149477873}
   hpImg: {fileID: 5190738569914999724}
@@ -418,9 +423,12 @@ MonoBehaviour:
   alert: {fileID: 3803489936706705490}
   playerInField: 0
   playerInSight: 0
+  playerInCloseRange: 0
   alwaysAttackPlayer: 0
+  cannotMove: 0
   movingLeft: 0
   movingRight: 0
+  aquatic: 0
   canUseBuffs: 0
   statusConditions: []
   nCondition: 0
@@ -432,6 +440,7 @@ MonoBehaviour:
   anim: {fileID: 2136142339847862491}
   moveSpeed: 2
   jumpForce: 15
+  canPivot: 1
   target: {fileID: 0}
   groundDetection: {fileID: 211294165245759972}
   distanceDetect: 1.5

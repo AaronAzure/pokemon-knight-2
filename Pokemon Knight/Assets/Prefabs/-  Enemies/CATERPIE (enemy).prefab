@@ -356,6 +356,12 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 0
+  whatIsBounds:
+    serializedVersion: 2
+    m_Bits: 0
+  whatIsTree:
+    serializedVersion: 2
+    m_Bits: 2048
   statusBar: {fileID: 8531754209908783881}
   hpEffectImg: {fileID: 8531754209565969899}
   hpImg: {fileID: 8531754210197151158}
@@ -384,9 +390,12 @@ MonoBehaviour:
   alert: {fileID: 0}
   playerInField: 0
   playerInSight: 0
+  playerInCloseRange: 0
   alwaysAttackPlayer: 0
+  cannotMove: 0
   movingLeft: 0
   movingRight: 0
+  aquatic: 0
   canUseBuffs: 0
   statusConditions: []
   nCondition: 0
@@ -394,12 +403,10 @@ MonoBehaviour:
   increaseAtk: {fileID: 0}
   increaseDef: {fileID: 0}
   increaseSpd: {fileID: 0}
+  spawnedByWave: 0
   moveSpeed: 1
   distanceDetect: 0.5
   groundDetection: {fileID: 2690864748907692025}
-  whatIsTree:
-    serializedVersion: 2
-    m_Bits: 2048
   forwardDetect: 0.5
   face: {fileID: 2690864748907692025}
 --- !u!1 &8531754209428490774
