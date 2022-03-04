@@ -94,6 +94,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private ReturnToTitleScreen titleScreenObj;
     [Space] [SerializeField] private Animator settings;
     [Space] [SerializeField] private Animator equimentSettings;
+    private bool onPokemonTab=true;
     [Space] [SerializeField] private Animator pokemonSets;
 
     [Space] [SerializeField] private Canvas pokemonSet1;
@@ -360,16 +361,6 @@ public class PlayerControls : MonoBehaviour
         else
             Debug.LogError("CANNOT FIND MATCHING MAP NAME : for " + sceneName);
 
-        
-        // foreach (SceneMap sm in sceneMaps)
-        // {
-        //     if (sceneName == sm.sceneName)
-        //     {
-        //         lastScene = sm;
-        //         break;
-        //     }
-        // }
-
         origGrav = body.gravityScale;
         col.enabled = false;
         body.gravityScale = 0;
@@ -597,12 +588,19 @@ public class PlayerControls : MonoBehaviour
             inCutscene = true;
             canNavigate = true;
             isClosing = false;
+            
+            // Exit MENU
             if (!resting)
                 settings.gameObject.SetActive(true);
+            // Rest MENU
             else
             {
                 weightText.text = currentWeight + "/" + (maxWeight + extraWeight);
                 equimentSettings.gameObject.SetActive(true);
+                if (equipmentUi.onPokemonTab)
+                    boxPokemonFirstSelected.Select();
+                else
+                    SelectDefaultItem();
                 foreach (Button button in partyPokemonButtons)
                     button.interactable = false;
                 foreach (Button button in boxPokemonButtons)
@@ -631,15 +629,7 @@ public class PlayerControls : MonoBehaviour
                 else if (player.GetButtonDown("R") && canNavigate)
                 {
                     equipmentUi.ChangeTabs(true);
-                    foreach (ItemUi iu in itemsToActivate)
-                    {
-                        if (iu.gameObject.activeSelf && iu.transform.parent.gameObject.activeSelf)
-                        {
-                            Debug.Log("**" + iu.button.name);
-                            iu.button.Select();
-                            break;
-                        }
-                    }
+                    SelectDefaultItem();
                 }
             }
             // SETTINGS MENU
@@ -1329,6 +1319,18 @@ public class PlayerControls : MonoBehaviour
         if (moomooUi != null && nMoomooMilkLeft < moomooUi.Length)
             moomooUi[ nMoomooMilkLeft ].SetTrigger("used");
         
+    }
+
+    private void SelectDefaultItem()
+    {
+        foreach (ItemUi iu in itemsToActivate)
+        {
+            if (iu.gameObject.activeSelf && iu.transform.parent.gameObject.activeSelf)
+            {
+                iu.button.Select();
+                break;
+            }
+        }
     }
 
     public void IncreaseNumberOfMoomooMilk()

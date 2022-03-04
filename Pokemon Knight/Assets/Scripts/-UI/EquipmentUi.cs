@@ -31,6 +31,7 @@ public class EquipmentUi : MonoBehaviour
                 toRight = false;
                 onPokemonTab = false;
                 anim.SetTrigger("toItems");
+                anim.SetBool("onPokemonTab", false);
                 player.canNavigate = false;
             }
             else if (!toRight && !onPokemonTab)
@@ -38,6 +39,7 @@ public class EquipmentUi : MonoBehaviour
                 toRight = true;
                 onPokemonTab = true;
                 anim.SetTrigger("toPokemon");
+                anim.SetBool("onPokemonTab", true);
                 player.canNavigate = false;
             }
         }
