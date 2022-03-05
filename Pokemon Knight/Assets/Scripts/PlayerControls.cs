@@ -341,7 +341,7 @@ public class PlayerControls : MonoBehaviour
         origGrav = body.gravityScale;
         col.enabled = false;
         body.gravityScale = 0;
-        
+
         string sceneName = SceneManager.GetActiveScene().name;
         if (PlayerPrefsElite.VerifyString("checkpointScene" + gameNumber))
         {
@@ -399,6 +399,11 @@ public class PlayerControls : MonoBehaviour
         }
         if (PlayerPrefsElite.VerifyArray("pokemonsCaught" + gameNumber))
             pokemonsCaught = new List<string>( PlayerPrefsElite.GetStringArray("pokemonsCaught" + gameNumber) );
+        else
+        {
+            pokemonsCaught = new List<string>();
+            PlayerPrefsElite.SetStringArray("pokemonsCaught" + gameNumber, new string[0]);
+        }
         
         // MOOMOO MILK POTENCY
         if (PlayerPrefsElite.VerifyArray("berriesCollected" + gameNumber))

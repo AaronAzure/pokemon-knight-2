@@ -97,17 +97,13 @@ public class TitleFunctions : MonoBehaviour
             loadedGameFileButton.Select();
     }
 
-public void BACK()
-{
-    if ( canCancel && player.GetButtonDown("B"))
-        {
-            if (EventSystem.current.currentSelectedGameObject == nameField.gameObject)
-                doneNamingButton.Select();
-            else
-                anim.SetTrigger("back");
-            // SelectDefaultButton();
-        }
-}
+    public void BACK()
+    {
+        if (EventSystem.current.currentSelectedGameObject == nameField.gameObject)
+            doneNamingButton.Select();
+        else
+            anim.SetTrigger("back");
+    }
     public void CAN_NOT_EXIT() {canCancel = false;}
     public void CAN_EXIT() {canCancel = true;}
     public void SELECT_NEW_GAME_BUTTON()
