@@ -338,6 +338,10 @@ public class PlayerControls : MonoBehaviour
 
         hp = maxHp;
 
+        origGrav = body.gravityScale;
+        col.enabled = false;
+        body.gravityScale = 0;
+        
         string sceneName = SceneManager.GetActiveScene().name;
         if (PlayerPrefsElite.VerifyString("checkpointScene" + gameNumber))
         {
@@ -361,9 +365,6 @@ public class PlayerControls : MonoBehaviour
         else
             Debug.LogError("CANNOT FIND MATCHING MAP NAME : for " + sceneName);
 
-        origGrav = body.gravityScale;
-        col.enabled = false;
-        body.gravityScale = 0;
         if (PlayerPrefsElite.VerifyVector3("checkpointPos" + gameNumber))
             this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos" + gameNumber);
         else 

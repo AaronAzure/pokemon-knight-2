@@ -23,27 +23,44 @@ public class TitleFunctions : MonoBehaviour
     [SerializeField] private Button firstStartMenuButton;
     [Space] [SerializeField] private Button[] newGameButtons;
     [SerializeField] private TextMeshProUGUI[] fileNames;
+    
+    [Space] [SerializeField] private Button loadedGameFileButton;
+    [SerializeField] private TMP_InputField nameField;
+    [SerializeField] private TextMeshProUGUI fileNumTxt;
+    [SerializeField] private TextMeshProUGUI fileNameTxt;
+    [Space] [SerializeField] private TextMeshProUGUI enteredNameTxt;
+    [SerializeField] private Button doneNamingButton;
+
+    [Space] public int fileNumber;
+    public string fileName;
+
+    private void Awake() 
+    {
+        for (int i=0; i<4 ; i++)
+            if (!PlayerPrefsElite.VerifyString("gameName" + i))
+                PlayerPrefsElite.SetString("gameName" + i, "");
+    }
 
     void Start() 
     {
         player = ReInput.players.GetPlayer(0);
 
-        for (int i=0 ; i<4 ; i++)
-        {
-            // DOESN'T ALREADY EXIST
-            if (!PlayerPrefsElite.VerifyBoolean("game-file-" + i.ToString()))
-            {
-                PlayerPrefsElite.SetBoolean("game-file-" + i.ToString(), false);
-                if (newGameButtons != null && newGameButtons.Length > i)
-                    newGameButtons[i].gameObject.SetActive(false);
-            }
-            // ALREADY EXIST
-            else if (!PlayerPrefsElite.GetBoolean("game-file-" + i.ToString()))
-            {
-                if (newGameButtons != null && newGameButtons.Length > i)
-                    newGameButtons[i].gameObject.SetActive(false);
-            }
-        }
+        // for (int i=0 ; i<4 ; i++)
+        // {
+        //     // DOESN'T ALREADY EXIST
+        //     if (!PlayerPrefsElite.VerifyBoolean("game-file-" + i.ToString()))
+        //     {
+        //         PlayerPrefsElite.SetBoolean("game-file-" + i.ToString(), false);
+        //         if (newGameButtons != null && newGameButtons.Length > i)
+        //             newGameButtons[i].gameObject.SetActive(false);
+        //     }
+        //     // ALREADY EXIST
+        //     else if (!PlayerPrefsElite.GetBoolean("game-file-" + i.ToString()))
+        //     {
+        //         if (newGameButtons != null && newGameButtons.Length > i)
+        //             newGameButtons[i].gameObject.SetActive(false);
+        //     }
+        // }
 
         // GAME STARTED GETS NEW GAME BUTTON
         for (int i=0 ; i<fileNames.Length ; i++)
@@ -52,7 +69,8 @@ public class TitleFunctions : MonoBehaviour
                 && PlayerPrefsElite.GetBoolean("game-file-" + i.ToString())
                 && PlayerPrefsElite.VerifyInt("playerLevel" + i.ToString()))
                 {
-                    fileNames[i].text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + i.ToString())) + "";
+                    fileNames[i].text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + i))
+                         + " " + PlayerPrefsElite.GetString("gameName" + i);
                     fileNames[i].fontSize = 45;
                 }
         }
@@ -60,21 +78,55 @@ public class TitleFunctions : MonoBehaviour
 
     private void Update() 
     {
-        if ( canCancel && player.GetButtonDown("B") && anim.GetBool("toSavedGames"))    
-            BackToStartMenu();
+        if ( canCancel && player.GetButtonDown("B"))
+        {
+            if (EventSystem.current.currentSelectedGameObject == nameField.gameObject)
+                doneNamingButton.Select();
+            else
+                anim.SetTrigger("back");
+            // SelectDefaultButton();
+        }
+    }
+    public void SELECT_DEFAULT_BUTTON()
+    {
+        if      (firstSaveGameButton.IsInteractable())
+            firstSaveGameButton.Select();
+        else if (firstStartMenuButton.IsInteractable())
+            firstStartMenuButton.Select();
+        else if (loadedGameFileButton.IsInteractable())
+            loadedGameFileButton.Select();
     }
 
+public void BACK()
+{
+    if ( canCancel && player.GetButtonDown("B"))
+        {
+            if (EventSystem.current.currentSelectedGameObject == nameField.gameObject)
+                doneNamingButton.Select();
+            else
+                anim.SetTrigger("back");
+            // SelectDefaultButton();
+        }
+}
+    public void CAN_NOT_EXIT() {canCancel = false;}
     public void CAN_EXIT() {canCancel = true;}
     public void SELECT_NEW_GAME_BUTTON()
     {
+        anim.SetTrigger("next");
         firstSaveGameButton.Select();
     }
 
     public void TO_SAVED_GAMES()
     {
+        anim.SetTrigger("next");
         // EventSystem.current.SetSelectedGameObject(null);
         canCancel = false;
         anim.SetBool("toSavedGames", true);
+        firstSaveGameButton.Select();
+    }
+    public void BackToSelectFile()
+    {
+        anim.SetBool("toFile", false);
         firstSaveGameButton.Select();
     }
     public void BackToStartMenu()
@@ -85,9 +137,43 @@ public class TitleFunctions : MonoBehaviour
     public void START_GAME(int gameNumber)
     {
         // PlayerPrefsElite.GetInt("gameNumber");
+        gameNumber = fileNumber;
         PlayerPrefsElite.SetInt("gameNumber", gameNumber);
         PlayerPrefsElite.SetBoolean("game-file-" + gameNumber, true);
         StartCoroutine( FadeToGame() );
+    }
+    public void FILE_SELECTED(int gameNumber)
+    {
+        fileNumber = gameNumber;
+        fileNames[fileNumber].text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + fileNumber))
+            + " " + PlayerPrefsElite.GetString("gameName" + fileNumber);
+        fileNumTxt.text = (fileNumber+1).ToString() + ".";
+        loadedGameFileButton.Select();
+        anim.SetTrigger("next");
+        anim.SetBool("toFile", true);
+    }
+    public void NAMING_FILE()
+    {
+        anim.SetTrigger("next");
+        nameField.Select();
+        if (PlayerPrefsElite.VerifyString("gameName" + fileNumber))
+            nameField.text = PlayerPrefsElite.GetString("gameName" + fileNumber);
+        else
+            nameField.text = "";
+    }
+    public void FINISH_TYPING()
+    {
+        doneNamingButton.Select();
+    }
+    public void SAVE_NAME()
+    {
+        string newName = enteredNameTxt.text;
+        anim.SetTrigger("back");
+        loadedGameFileButton.Select();
+        PlayerPrefsElite.SetString("gameName" + fileNumber, newName);
+        nameField.text = newName;
+        fileNames[fileNumber].text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + fileNumber))
+            + " " + PlayerPrefsElite.GetString("gameName" + fileNumber);
     }
     public void DisplayOptions()
     {
@@ -95,7 +181,9 @@ public class TitleFunctions : MonoBehaviour
     }
     public void NEW_GAME(int gameNumber)
     {
+        gameNumber = fileNumber;
         PlayerPrefsElite.SetBoolean("game-file-" + gameNumber, true);
+        PlayerPrefsElite.SetString("gameName" + gameNumber, fileName);
 
         if (PlayerPrefsElite.VerifyBoolean("canDoubleJump" + gameNumber.ToString()))
             PlayerPrefsElite.SetBoolean("canDoubleJump" + gameNumber.ToString(), false);
@@ -147,10 +235,6 @@ public class TitleFunctions : MonoBehaviour
     }
     IEnumerator FadeToGame()
     {
-        // if (toDestroy.Length > 0)
-        //     foreach (GameObject obj in toDestroy)
-        //         Destroy(obj);
-        // Can only press once
         if (starting)
             yield break;
 
