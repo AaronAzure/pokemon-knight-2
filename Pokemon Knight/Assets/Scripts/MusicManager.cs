@@ -39,8 +39,7 @@ public class MusicManager : MonoBehaviour
         float fraction = currentMusic.volume / times;
         for (int i=0 ; i<times ; i++)
         {
-            // yield return new WaitForEndOfFrame();
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSecondsRealtime(0.05f);
             currentMusic.volume -= fraction;
         }
         yield return null;

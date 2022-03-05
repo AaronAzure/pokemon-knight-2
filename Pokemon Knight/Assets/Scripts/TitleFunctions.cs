@@ -32,7 +32,7 @@ public class TitleFunctions : MonoBehaviour
     [SerializeField] private Button doneNamingButton;
 
     [Space] public int fileNumber;
-    public string fileName;
+    // public string fileName;
 
     private void Awake() 
     {
@@ -44,23 +44,6 @@ public class TitleFunctions : MonoBehaviour
     void Start() 
     {
         player = ReInput.players.GetPlayer(0);
-
-        // for (int i=0 ; i<4 ; i++)
-        // {
-        //     // DOESN'T ALREADY EXIST
-        //     if (!PlayerPrefsElite.VerifyBoolean("game-file-" + i.ToString()))
-        //     {
-        //         PlayerPrefsElite.SetBoolean("game-file-" + i.ToString(), false);
-        //         if (newGameButtons != null && newGameButtons.Length > i)
-        //             newGameButtons[i].gameObject.SetActive(false);
-        //     }
-        //     // ALREADY EXIST
-        //     else if (!PlayerPrefsElite.GetBoolean("game-file-" + i.ToString()))
-        //     {
-        //         if (newGameButtons != null && newGameButtons.Length > i)
-        //             newGameButtons[i].gameObject.SetActive(false);
-        //     }
-        // }
 
         // GAME STARTED GETS NEW GAME BUTTON
         for (int i=0 ; i<fileNames.Length ; i++)
@@ -120,16 +103,7 @@ public class TitleFunctions : MonoBehaviour
         anim.SetBool("toSavedGames", true);
         firstSaveGameButton.Select();
     }
-    public void BackToSelectFile()
-    {
-        anim.SetBool("toFile", false);
-        firstSaveGameButton.Select();
-    }
-    public void BackToStartMenu()
-    {
-        anim.SetBool("toSavedGames", false);
-        firstStartMenuButton.Select();
-    }
+    
     public void START_GAME(int gameNumber)
     {
         // PlayerPrefsElite.GetInt("gameNumber");
@@ -143,10 +117,12 @@ public class TitleFunctions : MonoBehaviour
         fileNumber = gameNumber;
         fileNames[fileNumber].text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + fileNumber))
             + " " + PlayerPrefsElite.GetString("gameName" + fileNumber);
+        fileNameTxt.text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + fileNumber))
+            + " " + PlayerPrefsElite.GetString("gameName" + fileNumber);
         fileNumTxt.text = (fileNumber+1).ToString() + ".";
         loadedGameFileButton.Select();
         anim.SetTrigger("next");
-        anim.SetBool("toFile", true);
+        // anim.SetBool("toFile", true);
     }
     public void NAMING_FILE()
     {
@@ -170,6 +146,8 @@ public class TitleFunctions : MonoBehaviour
         nameField.text = newName;
         fileNames[fileNumber].text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + fileNumber))
             + " " + PlayerPrefsElite.GetString("gameName" + fileNumber);
+        fileNameTxt.text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + fileNumber))
+            + " " + PlayerPrefsElite.GetString("gameName" + fileNumber);
     }
     public void DisplayOptions()
     {
@@ -179,7 +157,7 @@ public class TitleFunctions : MonoBehaviour
     {
         gameNumber = fileNumber;
         PlayerPrefsElite.SetBoolean("game-file-" + gameNumber, true);
-        PlayerPrefsElite.SetString("gameName" + gameNumber, fileName);
+        PlayerPrefsElite.SetString("gameName" + gameNumber, enteredNameTxt.text);
 
         if (PlayerPrefsElite.VerifyBoolean("canDoubleJump" + gameNumber.ToString()))
             PlayerPrefsElite.SetBoolean("canDoubleJump" + gameNumber.ToString(), false);
