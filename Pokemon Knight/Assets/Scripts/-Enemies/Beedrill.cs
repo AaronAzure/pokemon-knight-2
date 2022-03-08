@@ -172,14 +172,6 @@ public class Beedrill : Enemy
         }
     }
 
-    private void LookAtTarget()
-    {
-        if (target.position.x > this.transform.position.x)  // player is to the right
-            model.transform.eulerAngles = new Vector3(0, 180);  // face right
-        // chasing left (negative velocity)
-        else
-            model.transform.eulerAngles = new Vector3(0, 0);  // face left
-    }
 
     private void CapVelocity()
     {

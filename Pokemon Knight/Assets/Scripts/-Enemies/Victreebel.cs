@@ -72,13 +72,9 @@ public class Victreebel : Enemy
 
             }
             if (!receivingKnockback && !goingToJump && body.velocity.y <= 0 && IsGrounded())
-            {
                 body.velocity *= new Vector2(0,1);
-            }
             else if (goingToJump && body.velocity.y <= 0 && IsGrounded())
-            {
                 mainAnim.SetTrigger("idle");
-            }
             
             groundInfo = Physics2D.Raycast(this.transform.position, Vector2.down, 0.5f, whatIsGround);
         }
@@ -118,9 +114,17 @@ public class Victreebel : Enemy
         jumpLeft = PlayerIsToTheLeft();
     }
 
+    public void JUMP_CHANCE()
+    {
+        if (!IsGrounded())
+            return;
+
+        if (Random.Range(0, 3) == 0)
+            body.AddForce(new Vector2(0, jumpForce + 5), ForceMode2D.Impulse);
+    }
+
     public void JUMP_TOWARDS_PLAYER()
     {
-            
         if (jumpLeft)
             body.AddForce(new Vector2(-Random.Range(leapForce-8,leapForce), 
                 Random.Range(jumpForce, jumpForce + 6)), ForceMode2D.Impulse);
@@ -151,6 +155,7 @@ public class Victreebel : Enemy
             {
                 atkPattern++;
                 mainAnim.SetTrigger("attack");
+                JUMP_CHANCE();
             }
             else if (atkPattern != maxAtkPattern)
             {
@@ -179,17 +184,5 @@ public class Victreebel : Enemy
         else if (movingRight)
             { movingLeft = true; movingRight = false; }
     }
-
-    private void LookAtTarget()
-    {
-        if (target != null)
-        {
-            if (target.position.x > this.transform.position.x)  // player is to the right
-                model.transform.eulerAngles = new Vector3(0, 180);  // face right
-            else
-                model.transform.eulerAngles = new Vector3(0, 0);  // face left
-        }
-    }
-
 
 }

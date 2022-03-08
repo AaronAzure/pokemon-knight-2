@@ -183,6 +183,7 @@ public class PlayerControls : MonoBehaviour
     private bool dodging;
     private bool canDodge = true;
     [SerializeField] private bool isInvincible;
+    [SerializeField] private bool dodgeRollInvincible;
     [SerializeField] private GameObject glint;
     private bool dodgingThruScene;
     private float dodgeSpeed = 7.5f;
@@ -1311,6 +1312,8 @@ public class PlayerControls : MonoBehaviour
             glint.SetActive(true);
     }
 
+    
+
     void Invincible(bool active)
     {
         isInvincible = active;
@@ -1871,7 +1874,7 @@ public class PlayerControls : MonoBehaviour
                 if (sceneMaps.ContainsKey(sceneName))
                     sceneMaps[sceneName].Visited();
                 else
-                    Debug.LogError(sceneName + " map has not been added");
+                    Debug.Log("<color=#FF8800>" + sceneName + " map has not been added" +"</color>");
             }
             if (sceneMaps.ContainsKey(sceneName))
             {

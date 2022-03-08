@@ -312,7 +312,7 @@ public abstract class Enemy : MonoBehaviour
         canFlip = true;
     }
 
-    public void LookAtPlayer()
+    public void LookAtPlayer()  // MOVE IN THAT DIRECTION AS WELL
     {
         if (playerControls == null)
             return;
@@ -337,6 +337,16 @@ public abstract class Enemy : MonoBehaviour
             }
             model.transform.eulerAngles = new Vector3(0,0);
         }
+    }
+    public void LookAtTarget()
+    {
+        if (playerControls == null)
+            return;
+
+        if (playerControls.transform.position.x > this.transform.position.x)
+            model.transform.eulerAngles = new Vector3(0,180);   // to the right
+        else
+            model.transform.eulerAngles = new Vector3(0,0);     // to the left
     }
     public bool PlayerIsToTheLeft()
     {
