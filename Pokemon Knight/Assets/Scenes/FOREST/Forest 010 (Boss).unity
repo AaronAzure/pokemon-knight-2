@@ -5370,7 +5370,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1083825773}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.5, y: 3, z: 3}
+  m_LocalPosition: {x: 3.5, y: 3.5, z: 3}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children:
   - {fileID: 1043537185}
@@ -5656,7 +5656,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1976175703200949028, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.18
+      value: 4.1800017
       objectReference: {fileID: 0}
     - target: {fileID: 1976175703200949028, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6941,9 +6941,11 @@ MonoBehaviour:
   body: {fileID: 5341421015526597984}
   direction: {x: 0, y: 0}
   speed: 0
+  anim: {fileID: 0}
   sleepEffect: 0
   sleepDelay: 0
-  anim: {fileID: 0}
+  paralysisEffect: 0
+  paralysisDelay: 0
   absorbEffect: 0
   moveMaster: {fileID: 0}
   absorbReturnObj: {fileID: 0}

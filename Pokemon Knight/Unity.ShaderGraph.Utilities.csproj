@@ -36,10 +36,10 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Library/PackageCache/com.unity.shadergraph@10.7.0/Editor/Utilities/EnumInfo.cs" />
      <Compile Include="Library/PackageCache/com.unity.shadergraph@10.7.0/Editor/Utilities/GenerationAPIAttribute.cs" />
      <Compile Include="Library/PackageCache/com.unity.shadergraph@10.7.0/Editor/Utilities/AssemblyInfo.cs" />
      <Compile Include="Library/PackageCache/com.unity.shadergraph@10.7.0/Editor/Utilities/StringBuilderExtensions.cs" />
-     <Compile Include="Library/PackageCache/com.unity.shadergraph@10.7.0/Editor/Utilities/EnumInfo.cs" />
      <None Include="Library/PackageCache/com.unity.shadergraph@10.7.0/Editor/Utilities/Unity.ShaderGraph.Utilities.asmdef" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/Hub/Editor/2020.3.23f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -293,11 +293,11 @@
     <Reference Include="Rewired_Core">
         <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Core.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.NRefactory">
         <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/PackageCache/com.unity.render-pipelines.core@10.7.0/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
         <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>

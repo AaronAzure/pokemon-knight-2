@@ -112,12 +112,14 @@ public abstract class Enemy : MonoBehaviour
     
     [Space] [Header("Support / Mechanics")]
     public GameObject alert;
+    protected bool isTargeting;
     [HideInInspector] protected bool canFlip=true ;
     public bool playerInField;
     public bool playerInSight;
     public bool playerInCloseRange;
     protected bool trigger;
     public bool alwaysAttackPlayer;
+    public bool isInRoom;
     [Space] public bool cannotMove;
     [SerializeField] protected bool movingLeft;
     [SerializeField] protected bool movingRight;
@@ -127,6 +129,8 @@ public abstract class Enemy : MonoBehaviour
 
     [Space] [Header("Buffs / Debuffs")]
     public bool canUseBuffs;
+    public float buffDuration=5;
+    public float beforeNextUse=5;
     [SerializeField] protected Image[] statusConditions;
     [SerializeField] protected int nCondition;
     [Space] [SerializeField] protected Sprite empty;
@@ -500,8 +504,8 @@ public abstract class Enemy : MonoBehaviour
         if (hp > 0 && !inCutscene)
         {
             playerControls.TakeDamage(contactDmg, this.transform, contactKb);
-            if (!cannotRecieveKb)
-                body.velocity = Vector2.zero;
+            // if (!cannotRecieveKb)
+            //     body.velocity = Vector2.zero;
         }    
         else if (canCatch)
         {
@@ -649,10 +653,10 @@ public abstract class Enemy : MonoBehaviour
         canUseBuffs = false;
         IncreaseAtk();
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(buffDuration);
         RevertAtk();
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(beforeNextUse);
         canUseBuffs = true;
     }
     public void INCREASE_DEF()
@@ -668,10 +672,10 @@ public abstract class Enemy : MonoBehaviour
         canUseBuffs = false;
         IncreaseDef();
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(buffDuration);
         RevertDef();
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(beforeNextUse);
         canUseBuffs = true;
     }
     public void INCREASE_SPD()
@@ -687,10 +691,10 @@ public abstract class Enemy : MonoBehaviour
         canUseBuffs = false;
         IncreaseSpd();
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(buffDuration);
         RevertSpd();
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(beforeNextUse);
         canUseBuffs = true;
     }
 

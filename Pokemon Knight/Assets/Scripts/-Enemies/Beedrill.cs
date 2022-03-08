@@ -241,8 +241,11 @@ public class Beedrill : Enemy
 
     public void STOP()
     {
-        body.velocity = Vector2.zero;
-        charging = false;
+        if (hp > 0)
+        {
+            body.velocity = Vector2.zero;
+            charging = false;
+        }
     }
     public void FINISHED_PERFORMING_FURY_ATTACL()
     {

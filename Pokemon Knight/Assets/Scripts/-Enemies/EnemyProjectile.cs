@@ -10,9 +10,17 @@ public class EnemyProjectile : MonoBehaviour
     public Rigidbody2D body;
     public Vector2 direction;
     public float speed;
+    [Space] public Animator anim;
+
+
+    [Header("Sleep")]
     [Space] public bool sleepEffect;
     [Space] public float sleepDelay;
-    public Animator anim;
+    
+    
+    [Header("Paralysis")]
+    [Space] public bool paralysisEffect;
+    [Space] public float paralysisDelay;
     
     
     [Header("Absorb")]
@@ -40,6 +48,10 @@ public class EnemyProjectile : MonoBehaviour
 
             if (sleepEffect)
                 player.PutToSleep(sleepDelay);
+            
+            if (paralysisEffect)
+                player.Paralysed(paralysisDelay);
+            
             if (absorbEffect && moveMaster != null)
             {
                 float hpRecoverPercent = ((float) atkDmg / (float) player.maxHp) / 2f;

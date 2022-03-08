@@ -167,7 +167,7 @@ public class ButterfreeBoss : Enemy
             canMove = false;
         }
     }
-    public void INCREASE_DEF()
+    public void INCREASE_DEF_CO()
     {
         StartCoroutine( ResetBuff(6, 4, Stat.def) );
     }

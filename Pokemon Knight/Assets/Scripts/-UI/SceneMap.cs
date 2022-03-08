@@ -11,6 +11,12 @@ public class SceneMap : MonoBehaviour
     public RectTransform parentRect;
     public RectTransform rect;
 
+
+    private void Awake() 
+    {
+        if (sceneName == "")
+            sceneName = this.gameObject.name;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +25,7 @@ public class SceneMap : MonoBehaviour
 
         if (player.sceneMaps == null)
             player.sceneMaps = new Dictionary<string, SceneMap>();
-            // player.sceneMaps = new HashSet<SceneMap>();
+
         player.sceneMaps.Add(sceneName, this);
 
         int gameNumber = PlayerPrefsElite.GetInt("gameNumber");

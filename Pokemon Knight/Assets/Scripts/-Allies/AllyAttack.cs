@@ -36,6 +36,19 @@ public class AllyAttack : MonoBehaviour
                 }
             }
         }
+        if (other.CompareTag("Crystal"))
+        {
+            Component[] scripts = other.GetComponents(typeof(CrystalBarrier));
+            foreach (var script in scripts)
+            {
+                script.GetComponent<CrystalBarrier>().BreakCrystal();
+                if (spawnEffect && spawnEffectObj != null)
+                {
+                    var obj = Instantiate(spawnEffectObj, script.gameObject.transform.position, Quaternion.identity);
+                    Destroy(obj.gameObject, 0.5f);
+                }
+            }
+        }
     }
 
 }

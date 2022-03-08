@@ -453,6 +453,10 @@ PrefabInstance:
       propertyPath: lv
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 7937179587666737044, guid: a57124fb0f8754313803dddf1939fa8c, type: 3}
+      propertyPath: canUseBuffs
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8531754209341023282, guid: a57124fb0f8754313803dddf1939fa8c, type: 3}
       propertyPath: m_Name
       value: BELLSPROUT (enemy)
@@ -1260,7 +1264,7 @@ SpriteRenderer:
   m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a270a298595174538b4dd8c14070d4f6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.22352941, g: 0.78039217, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1779,7 +1783,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1976175703200949028, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.0087214
+      value: 3.0065498
       objectReference: {fileID: 0}
     - target: {fileID: 1976175703200949028, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2740,7 +2744,7 @@ SpriteRenderer:
   m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a270a298595174538b4dd8c14070d4f6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.22352941, g: 0.78039217, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

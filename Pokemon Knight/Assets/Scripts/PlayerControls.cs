@@ -94,7 +94,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private ReturnToTitleScreen titleScreenObj;
     [Space] [SerializeField] private Animator settings;
     [Space] [SerializeField] private Animator equimentSettings;
-    private bool onPokemonTab=true;
+    // private bool onPokemonTab=true;
     [Space] [SerializeField] private Animator pokemonSets;
 
     [Space] [SerializeField] private Canvas pokemonSet1;
@@ -141,6 +141,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private GameObject playerUi;
     [Space] [SerializeField] private List<string> visitedScenes;
     [Space] [SerializeField] private List<string> roomsBeaten;
+    [Space] [SerializeField] private List<string> crystalsBroken;
     [Space] [SerializeField] private List<string> pokemonsCaught;
     [Space] [SerializeField] private List<string> itemsObtained;
     [Space] [SerializeField] private List<string> berriesCollected;
@@ -267,9 +268,25 @@ public class PlayerControls : MonoBehaviour
 
     [Header("Status Conditions")]
     public bool isSleeping;
+    public bool isParalysed;
+    private Coroutine paralysisCo;
+    [SerializeField] protected Image[] statusConditions;
+    [SerializeField] protected int nCondition;
+    [Space] [SerializeField] protected Sprite empty;
+    [SerializeField] protected Sprite increaseAtk;
+    [SerializeField] protected Sprite increaseDef;
+    [SerializeField] protected Sprite increaseSpd;
+    [SerializeField] protected Sprite decreaseAtk;
+    [SerializeField] protected Sprite decreaseDef;
+    [SerializeField] protected Sprite decreaseSpd;
+    [SerializeField] protected Sprite paralysisStatImg;
+    [SerializeField] protected Sprite sleepStatImg;
     private enum HpEffect { none, heal, lost };
     private HpEffect healthStatus = HpEffect.none;
+    private bool hasGotStatusEffect;
     [SerializeField] private ParticleSystem sleepingEffect;
+    [SerializeField] private ParticleSystem paralysisEffect;
+    [SerializeField] private ParticleSystem[] pEffects;
     [SerializeField] private SpriteRenderer face;
     [SerializeField] private Sprite sleepFace;
 
@@ -385,9 +402,7 @@ public class PlayerControls : MonoBehaviour
                 sceneMaps[sceneName].Visited();
         }
         if (sceneMaps.ContainsKey(sceneName))
-        {
             sceneMaps[sceneName].EnterScene();
-        }
 
 
         if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber))
@@ -397,6 +412,15 @@ public class PlayerControls : MonoBehaviour
             roomsBeaten = new List<string>();
             PlayerPrefsElite.SetStringArray("roomsBeaten" + gameNumber, new string[0]);
         }
+        
+        if (PlayerPrefsElite.VerifyArray("crystalsBroken" + gameNumber))
+            crystalsBroken = new List<string>(PlayerPrefsElite.GetStringArray("crystalsBroken" + gameNumber));
+        else 
+        {
+            crystalsBroken = new List<string>();
+            PlayerPrefsElite.SetStringArray("crystalsBroken" + gameNumber, new string[0]);
+        }
+
         if (PlayerPrefsElite.VerifyArray("pokemonsCaught" + gameNumber))
             pokemonsCaught = new List<string>( PlayerPrefsElite.GetStringArray("pokemonsCaught" + gameNumber) );
         else
@@ -571,8 +595,6 @@ public class PlayerControls : MonoBehaviour
                 titleScreenObj.musicManager = this.musicManager;
         }
 
-        // foreach(string sm in sceneMaps.Keys)
-        //     Debug.Log(sm, this.gameObject);
 
         mapMenu.SetActive(false);
         weightText.text = currentWeight + "/" + (maxWeight + extraWeight);
@@ -658,7 +680,7 @@ public class PlayerControls : MonoBehaviour
         //* STOP MOOMOO MILK
         else if (drinking)
         {
-            if (player.GetButtonUp("L"))
+            if (player.GetButtonUp("L") || isParalysed || isSleeping)
             {
                 anim.speed = 1;
                 body.velocity = new Vector2(0, body.velocity.y);
@@ -686,7 +708,7 @@ public class PlayerControls : MonoBehaviour
                 body.velocity = new Vector2(-dodgeSpeed, body.velocity.y);
         }
         //* Walking, Dashing, Summoning, jumping, Interacting
-        else if (hp > 0 && !inCutscene && !dodging && !isSleeping)
+        else if (hp > 0 && !inCutscene && !dodging && !isSleeping && !isParalysed)
         {
             if (!crouching && player.GetAxis("Move Vertical") <= -0.75f && grounded)
             {
@@ -931,7 +953,7 @@ public class PlayerControls : MonoBehaviour
         if (settings.gameObject.activeSelf) {}
         else if (ledgeGrabbing) {}
         else if (resting) {}
-        else if (hp > 0 && !inCutscene && !dodging && !drinking && !isSleeping)
+        else if (hp > 0 && !inCutscene && !dodging && !drinking && !isSleeping && !isParalysed)
         {
             float xValue = player.GetAxis("Move Horizontal");
             if (inWater && canSwim)
@@ -1519,7 +1541,12 @@ public class PlayerControls : MonoBehaviour
     }
     public void PutToSleep(float delay=0)
     {
-        StartCoroutine( Sleeping(delay, Random.Range(0,3)) );   // sleep for 2 - 4 seconds
+        if (!hasGotStatusEffect)
+        {
+            hasGotStatusEffect = true;
+            ShowStatEffect( sleepStatImg );
+            StartCoroutine( Sleeping(delay, Random.Range(0,3)) );   // sleep for 2 - 4 seconds
+        }
     }
     IEnumerator Sleeping(float delay, float duration)
     {
@@ -1539,7 +1566,7 @@ public class PlayerControls : MonoBehaviour
         anim.SetBool("isFalling", false);
         anim.SetTrigger("reset");
         anim.speed = 1;
-        body.velocity = Vector2.zero;
+        body.velocity = new Vector2(0, body.velocity.y);
         if (face != null && sleepFace != null)
             face.sprite = sleepFace;
 
@@ -1550,10 +1577,95 @@ public class PlayerControls : MonoBehaviour
             sleepingEffect.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         
         yield return new WaitForSeconds(1);
+        hasGotStatusEffect = false;
         isSleeping = false;
     }
+    
+    public void Paralysed(float delay=0)
+    {
+        if (!hasGotStatusEffect)
+        {
+            hasGotStatusEffect = true;
+            ShowStatEffect(paralysisStatImg);
+            paralysisCo = StartCoroutine( Paralysis(delay) );   // sleep for 2 - 4 seconds
+        }
 
+    }
+    IEnumerator Paralysis(float delay)
+    {
+        if (paralysisEffect != null)
+        {
+            paralysisEffect.gameObject.SetActive(true);
+            paralysisEffect.Play();
+            foreach (ParticleSystem pe in pEffects)
+            {
+                pe.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
+                var main = pe.main;
+                main.duration = 0.8f;
+                pe.Play();
+            }
+        }
+        yield return new WaitForSeconds(delay + 0.5f);
 
+        // int r = Random.Range(3,6);
+        for (int i=0 ; i<4 ; i++)
+        {
+            if (hp <= 0)
+            {
+                yield break;
+            }
+
+            yield return new WaitForSeconds(4);
+            foreach (ParticleSystem pe in pEffects)
+            {
+                pe.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
+                var main = pe.main;
+                main.duration = 0.2f;
+                pe.Play();
+            }
+            isParalysed = true;
+
+            anim.SetBool("isWalking", false);
+            anim.SetBool("isGrounded", true);
+            anim.SetBool("isFalling", false);
+            anim.SetTrigger("reset");
+            anim.speed = 1;
+
+            body.velocity = new Vector2(0, body.velocity.y);
+
+            yield return new WaitForSeconds(0.75f);
+            foreach (ParticleSystem pe in pEffects)
+            {
+                pe.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
+                var main = pe.main;
+                main.duration = 0.8f;
+                pe.Play();
+            }
+            isParalysed = false;
+        }
+
+        if (paralysisEffect != null)
+            paralysisEffect.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        
+        hasGotStatusEffect = false;
+        paralysisCo = null;
+        ConditionFinished();
+    }
+
+    protected void ShowStatEffect(Sprite statimg)
+    {
+        if (nCondition < statusConditions.Length)
+        {
+            statusConditions[nCondition].sprite = statimg;
+            nCondition++;
+        }
+    }
+    protected void ConditionFinished()
+    {
+        nCondition--;
+        for (int i=0 ; i<statusConditions.Length - 1 ; i++)
+            statusConditions[i].sprite = statusConditions[i+1].sprite;
+    }
 
     public void GainExp(int expGained, int enemyLevel)
     {
@@ -1679,9 +1791,7 @@ public class PlayerControls : MonoBehaviour
     {
         if (musicManager != null && musicManager.previousMusic != null)
         {
-            // StartCoroutine( musicManager.StopMusic(musicManager.currentMusic) );
             yield return new WaitForSeconds(0.5f);
-            // musicManager.StartMusic(musicManager.previousMusic);
         }
         if (damageIndicatorAnim != null)
         {
@@ -1704,8 +1814,21 @@ public class PlayerControls : MonoBehaviour
             furyYellowObj.SetActive(false);
 
         isSleeping = false;
+        isParalysed = false;
         inCutscene = false;
         ledgeGrabbing = false;
+        hasGotStatusEffect = false;
+
+        if (paralysisCo != null)
+        {
+            StopCoroutine( paralysisCo );
+            if (paralysisEffect != null)
+                paralysisEffect.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            
+            hasGotStatusEffect = false;
+            paralysisCo = null;
+            ConditionFinished();
+        }
 
         if (transitionAnim != null)
             transitionAnim.SetTrigger("fromBlack");
@@ -1745,7 +1868,10 @@ public class PlayerControls : MonoBehaviour
             {
                 visitedScenes.Add(sceneName);
                 PlayerPrefsElite.SetStringArray("visitedScenes" + gameNumber, visitedScenes.ToArray());
-                sceneMaps[sceneName].Visited();
+                if (sceneMaps.ContainsKey(sceneName))
+                    sceneMaps[sceneName].Visited();
+                else
+                    Debug.LogError(sceneName + " map has not been added");
             }
             if (sceneMaps.ContainsKey(sceneName))
             {
@@ -1927,14 +2053,17 @@ public class PlayerControls : MonoBehaviour
             {
                 case "start":
                     StartCoroutine( musicManager.TransitionMusic(musicManager.forestMusic) );
+                    musicManager.previousMusic = musicManager.forestMusic;
                     break;
                 case "forest":
                     StartCoroutine( musicManager.TransitionMusic(musicManager.forestMusic) );
+                    musicManager.previousMusic = musicManager.forestMusic;
                     if (notNull)
                         locationName.text = "Whispering Woods";
                     break;
                 case "swamp":
                     StartCoroutine( musicManager.TransitionMusic(musicManager.swampMusic) );
+                    musicManager.previousMusic = musicManager.swampMusic;
                     if (notNull)
                         locationName.text = "Somber Swamplands";
                     break;
@@ -2237,6 +2366,8 @@ public class PlayerControls : MonoBehaviour
 
         if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber))
             PlayerPrefsElite.SetStringArray("roomsBeaten" + gameNumber, roomsBeaten.ToArray());
+        if (PlayerPrefsElite.VerifyArray("crystalsBroken" + gameNumber))
+            PlayerPrefsElite.SetStringArray("crystalsBroken" + gameNumber, crystalsBroken.ToArray());
         if (PlayerPrefsElite.VerifyArray("pokemonsCaught" + gameNumber))
             PlayerPrefsElite.SetStringArray("pokemonsCaught" + gameNumber, pokemonsCaught.ToArray());
         if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber))
@@ -2272,6 +2403,8 @@ public class PlayerControls : MonoBehaviour
 
         if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber))
             roomsBeaten = new List<string>( PlayerPrefsElite.GetStringArray("roomsBeaten" + gameNumber) );
+        if (PlayerPrefsElite.VerifyArray("crystalsBroken" + gameNumber))
+            crystalsBroken = new List<string>( PlayerPrefsElite.GetStringArray("crystalsBroken" + gameNumber) );
         if (PlayerPrefsElite.VerifyArray("pokemonsCaught" + gameNumber))
             pokemonsCaught = new List<string>( PlayerPrefsElite.GetStringArray("pokemonsCaught" + gameNumber) );
         if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber))

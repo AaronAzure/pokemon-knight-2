@@ -14,7 +14,7 @@ public class Tangela : Enemy
 
     [Space] public EnemyProjectile absorbObj;
     private Transform target;
-    private float multiplier=-1.1f;
+    // private float multiplier=-1.1f;
     private float trajectory;
     private LayerMask finalMask;
 

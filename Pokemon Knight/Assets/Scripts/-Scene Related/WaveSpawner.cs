@@ -39,6 +39,7 @@ using UnityEngine;
                 var obj = Instantiate(waves[ waveNumber ].enemies, this.transform.position, 
                     Quaternion.identity, this.transform);
                 obj.lv = enemiesLevel;
+                obj.isInRoom = true;
                 obj.spawner = this;
                 obj.spawnedByWave = true;
                 obj.canUseBuffs = waves[ waveNumber ].canUseBuffs;
