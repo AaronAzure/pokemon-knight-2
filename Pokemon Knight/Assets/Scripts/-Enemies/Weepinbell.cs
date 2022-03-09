@@ -70,7 +70,7 @@ public class Weepinbell : Enemy
         //* PURSUE PLAYER
         else if (!receivingKnockback && hp > 0)
         {
-            if (isTargeting)
+            if (isTargeting && !moving)
                 LookAtPlayer();
 
             //* GIVE CHASE
@@ -146,6 +146,16 @@ public class Weepinbell : Enemy
 
 
     // todo ---------------------- ANIMATION EVENTS ---------------------------
+
+    public void STOP_FOLLOWING()
+    {
+        isTargeting = false;
+    }
+    public void CONTINUE_FOLLOWING()
+    {
+        isTargeting = true;
+        LookAtTarget();
+    }
     public void NEXT_ACTION()
     {
         if (keepAttacking && missCount % 3 != 0)
@@ -255,6 +265,8 @@ public class Weepinbell : Enemy
         movingLeft = false;
         movingRight = false;
         mainAnim.SetBool("isWalking", moving);
+        if (body.bodyType != RigidbodyType2D.Static)
+            body.velocity = new Vector2(0, body.velocity.y);
     }
 
 }

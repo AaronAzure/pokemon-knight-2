@@ -5005,9 +5005,14 @@ MonoBehaviour:
   body: {fileID: 6798075333244963948}
   direction: {x: 0, y: 0}
   speed: 5
+  anim: {fileID: 1811478000804151384}
   sleepEffect: 1
   sleepDelay: 1
-  anim: {fileID: 1811478000804151384}
+  paralysisEffect: 0
+  paralysisDelay: 0
+  absorbEffect: 0
+  moveMaster: {fileID: 0}
+  absorbReturnObj: {fileID: 0}
 --- !u!50 &6798075333244963948
 Rigidbody2D:
   serializedVersion: 4
@@ -5058,4 +5063,4 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 480402825
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: 2

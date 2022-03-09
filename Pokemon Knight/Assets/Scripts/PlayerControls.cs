@@ -180,10 +180,9 @@ public class PlayerControls : MonoBehaviour
     private int dashes = 1;
     private bool dashing;
     private bool movingToDifferentScene;
-    private bool dodging;
+    private bool dodging;   // In dodge roll animation
     private bool canDodge = true;
     [SerializeField] private bool isInvincible;
-    [SerializeField] private bool dodgeRollInvincible;
     [SerializeField] private GameObject glint;
     private bool dodgingThruScene;
     private float dodgeSpeed = 7.5f;
@@ -1298,26 +1297,35 @@ public class PlayerControls : MonoBehaviour
         dodging = true;
         canDodge = false;
         anim.SetTrigger("dodge");
-        Invincible(true);
 
+        //* FINISH DODGE ROLL
         yield return new WaitForSeconds(0.5f);
         if (!dodgingThruScene)
             body.velocity = Vector2.zero;
-        Invincible(false);
         dodging = false;
         
+        //* Refresh Dodge Roll
         yield return new WaitForSeconds(0.5f);
         canDodge = true;
         if (glint != null)
             glint.SetActive(true);
     }
 
-    
+    public void DODGE_ROLL_INVINCIBLE()
+    {
+        Invincible(true);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyProjectile"), true);
+    }
+    public void DODGE_ROLL_FINISH()
+    {
+        Invincible(false);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyProjectile"), false);
+    }
 
     void Invincible(bool active)
     {
         isInvincible = active;
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyProjectile"), active);
+        // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyProjectile"), active);
     }
 
     public void DrinkingMoomooMilk()
@@ -1432,9 +1440,10 @@ public class PlayerControls : MonoBehaviour
 
 
     // todo -----------------  D A M A G E  ------------------------------------------------
-    public void TakeSpecialDamage(int dmg=0, Transform opponent=null, float force=0)
+    
+    public void TakeDamage(int dmg=0, Transform opponent=null, float force=0, bool ignoreInvinciblity=false)
     {
-        if (hp > 0 && !inCutscene)
+        if (hp > 0 && (!isInvincible || ignoreInvinciblity) )
         {
             Debug.Log("<color=#FF8800>Took " + dmg + " dmg</color>");
             anim.SetBool("isDrinking", false);
@@ -1456,45 +1465,6 @@ public class PlayerControls : MonoBehaviour
                     damageIndicatorAnim.SetFloat("fadeSpeed", hpImg.fillAmount * hpImg.fillAmount);
                 }
             }
-                
-
-            if (force > 0 && opponent != null)
-            {
-                if (hp > 0) StartCoroutine( Invincibility() );
-                StartCoroutine( ApplyKnockback(opponent, force) );
-            }
-
-            if (hp <= 0)
-                StartCoroutine( Died() );
-        }
-    }
-    public void TakeDamage(int dmg=0, Transform opponent=null, float force=0)
-    {
-        // if (hp > 0 && !inCutscene)
-        // if (hp > 0 && !inCutscene && !isInvincible)
-        if (hp > 0 && !isInvincible)
-        {
-            Debug.Log("<color=#FF8800>Took " + dmg + " dmg</color>");
-            anim.SetBool("isDrinking", false);
-            hp -= dmg;
-            if (dmg > 0 && hp > 0)
-            {
-                StartCoroutine( Flash() );
-                
-                //* STRONG ATTACK
-                if (damageIndicatorAnim != null && force > 0)
-                {
-                    damageIndicatorAnim.SetTrigger("injured");
-                    damageIndicatorAnim.SetFloat("fadeSpeed", hpImg.fillAmount * hpImg.fillAmount);
-                }
-                //* WEAK ATTACK (NO knockback)
-                else if (damageIndicatorAnim != null && force == 0)
-                {
-                    damageIndicatorAnim.SetTrigger("injuredWeak");
-                    damageIndicatorAnim.SetFloat("fadeSpeed", hpImg.fillAmount * hpImg.fillAmount);
-                }
-            }
-                
 
             if (force > 0 && opponent != null)
             {
@@ -2111,7 +2081,6 @@ public class PlayerControls : MonoBehaviour
         if (musicManager != null)
             StartCoroutine( musicManager.TransitionMusic(musicManager.accoladeIntroMusic, true) );
     }
-
 
     
     public void RoarOver()

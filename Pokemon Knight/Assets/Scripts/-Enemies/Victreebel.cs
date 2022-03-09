@@ -11,6 +11,8 @@ public class Victreebel : Enemy
     private bool goingToJump;
     private LayerMask finalMask;
     public Transform target;
+    public bool targetFound;
+    public bool stopSearching;
     [Space] public Transform groundDetection;
     public float distanceDetect=0.5f;
     [Space] [SerializeField] private RazorLeaf razorLeaf;
@@ -22,6 +24,7 @@ public class Victreebel : Enemy
     public bool hasAattacked;
     public Vector3 lineOfSight;
     [Space] public BoxCollider2D fovCol;
+    private Coroutine targetLostCo;
     // private bool moving;
 
     private RaycastHit2D groundInfo;
@@ -46,31 +49,55 @@ public class Victreebel : Enemy
         }
     }
 
+    public override void CallChildOnTargetLost()
+    {
+        if (targetLostCo == null)
+            targetLostCo = StartCoroutine( TryToFindTarget(5f) );
+    }
+    IEnumerator TryToFindTarget(float duration=2)
+    {
+        yield return new WaitForSeconds(duration);
+        targetFound = false;
+        stopSearching = false;
+        alert.SetActive(false);
+
+        targetLostCo = null;
+    }
+
     void FixedUpdate() 
     {
         if (hp > 0)
         {
-            if (target != null && playerInField)
+            if (!stopSearching)
             {
-                if (isTargeting)
-                    LookAtTarget();
+                if (target != null && playerInField)
+                {
+                    lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));
+                    RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position,
+                        this.transform.position + new Vector3(0, 1) + lineOfSight, finalMask);
 
-                lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));
-                RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position,
-                    this.transform.position + new Vector3(0, 1) + lineOfSight, finalMask);
-
-                // if (playerInfo.collider != null && playerInfo.collider.gameObject.CompareTag("Player"))
-                // {
-                //     if (alert != null) 
-                //         alert.gameObject.SetActive(true);
-                //     LookAtTarget();
-                // }
-                // else
-                // {
-                //     if (alert != null) alert.gameObject.SetActive(false);
-                // }
-
+                    if (playerInfo.collider != null && playerInfo.collider.gameObject.CompareTag("Player"))
+                    {
+                        if (alert != null) 
+                            alert.gameObject.SetActive(true);
+                        targetFound = true;
+                        if (targetLostCo != null)
+                        {
+                            StopCoroutine( targetLostCo );
+                            targetLostCo = null;
+                        }
+                    }
+                    //* PLAYER IS OUT OF SIGHT, BUT STILL WITHIN FOV
+                    else if (playerInfo.collider != null && !playerInfo.collider.gameObject.CompareTag("Player") && IsGrounded())
+                        CallChildOnTargetLost();
+                    if (isTargeting)
+                        LookAtTarget();
+                }
+                //* PLAYER IS OUT OF FOV
+                else if (target != null && !playerInField && IsGrounded())
+                    CallChildOnTargetLost();
             }
+
             if (!receivingKnockback && !goingToJump && body.velocity.y <= 0 && IsGrounded())
                 body.velocity *= new Vector2(0,1);
             else if (goingToJump && body.velocity.y <= 0 && IsGrounded())
@@ -94,6 +121,32 @@ public class Victreebel : Enemy
 
     }
 
+    public void NEXT_ACTION()
+    {
+        if (playerInField && targetFound)
+        {
+            if (canUseBuffs)
+                mainAnim.SetTrigger("growth");
+            else if (atkPattern < newAtkPattern)
+            {
+                atkPattern++;
+                mainAnim.SetTrigger("attack");
+                JUMP_CHANCE();
+            }
+            else if (atkPattern != maxAtkPattern)
+            {
+                atkPattern++;
+                mainAnim.SetTrigger("jump");
+            }
+            else
+            {
+                atkPattern = 1;
+                maxAtkPattern = Random.Range(4,7);
+                mainAnim.SetTrigger("ult");
+            }
+        }
+            // StartCoroutine( RestBeforeNextAttack() );
+    }
 
     public void DONE_JUMPING()
     {
@@ -102,10 +155,17 @@ public class Victreebel : Enemy
     public void STOP_FOLLOWING()
     {
         isTargeting = false;
+        stopSearching = true;
+        if (targetLostCo != null)
+        {
+            StopCoroutine( targetLostCo );
+            targetLostCo = null;
+        }
     }
     public void CONTINUE_FOLLOWING()
     {
         isTargeting = true;
+        stopSearching = false;
         LookAtTarget();
     }
     public void CHECK_PLAYER_CURRENT_LOCATION()
@@ -145,32 +205,6 @@ public class Victreebel : Enemy
         }
     }
 
-    public void NEXT_ACTION()
-    {
-        if (playerInField)
-        {
-            if (canUseBuffs)
-                mainAnim.SetTrigger("growth");
-            else if (atkPattern < newAtkPattern)
-            {
-                atkPattern++;
-                mainAnim.SetTrigger("attack");
-                JUMP_CHANCE();
-            }
-            else if (atkPattern != maxAtkPattern)
-            {
-                atkPattern++;
-                mainAnim.SetTrigger("jump");
-            }
-            else
-            {
-                atkPattern = 1;
-                maxAtkPattern = Random.Range(4,7);
-                mainAnim.SetTrigger("ult");
-            }
-        }
-            // StartCoroutine( RestBeforeNextAttack() );
-    }
 
     public void FLIP()
     {

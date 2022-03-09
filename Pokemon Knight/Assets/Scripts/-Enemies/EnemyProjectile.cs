@@ -4,6 +4,7 @@ public class EnemyProjectile : MonoBehaviour
 {
     public int atkDmg=10;
     public float kbForce=10;
+    [Space] public bool ignoreInvincible;
     [Space] public bool destoryOnPlayerCollision;
     [Space] public bool destoryOnWallCollision;
     public GameObject explosion;
@@ -41,10 +42,8 @@ public class EnemyProjectile : MonoBehaviour
         if (other.CompareTag("Player"))    
         {
             PlayerControls player = other.GetComponent<PlayerControls>();
-            if (!absorbEffect)
-                player.TakeDamage(atkDmg, this.transform, kbForce);
-            else
-                player.TakeSpecialDamage(atkDmg, this.transform, kbForce);
+            
+            player.TakeDamage(atkDmg, this.transform, kbForce, ignoreInvincible);
 
             if (sleepEffect)
                 player.PutToSleep(sleepDelay);

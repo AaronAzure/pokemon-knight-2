@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bellsprout : Enemy
+public class BellsproutBoss : Enemy
 {
     [Space] [Header("Bellsprout")]  
     public Animator anim;
@@ -88,8 +88,6 @@ public class Bellsprout : Enemy
                 chasing = true;
                 if (alert != null) alert.gameObject.SetActive(true);
                 anim.speed = chaseSpeed;
-                if (canUseBuffs)
-                    anim.SetTrigger("growth");
             }
             else
             {

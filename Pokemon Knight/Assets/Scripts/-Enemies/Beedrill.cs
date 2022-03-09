@@ -77,7 +77,7 @@ public class Beedrill : Enemy
     public override void CallChildOnTargetLost()
     {
         if (targetLostCo == null)
-            targetLostCo = StartCoroutine( TryToFindTarget(1.5f) );
+            targetLostCo = StartCoroutine( TryToFindTarget(2.5f) );
     }
     IEnumerator TryToFindTarget(float duration=2)
     {
@@ -124,9 +124,17 @@ public class Beedrill : Enemy
                 else
                 {
                     if (movingLeft)
+                    {
                         body.velocity = new Vector2(-moveSpeed,0);
+                        if (model.transform.eulerAngles.y != 0)
+                            model.transform.eulerAngles = new Vector3(0, 0);
+                    }
                     else if (movingRight)
+                    {
                         body.velocity = new Vector2(+moveSpeed,0);
+                        if (model.transform.eulerAngles.y != 180)
+                            model.transform.eulerAngles = new Vector3(0, 180);
+                    }
 
                     if (timer < flipTimer)
                         timer += Time.fixedDeltaTime;

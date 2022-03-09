@@ -57,7 +57,13 @@ public class SceneMap : MonoBehaviour
     
     public void GetPlayerHead()
     {
-        playerHead = this.gameObject.transform.GetChild(0).gameObject;
+        var serialisedObj = new SerializedObject(this);
+        // playerHead = this.gameObject.transform.GetChild(0).gameObject;
+        serialisedObj.FindProperty("playerHead").objectReferenceValue = this.gameObject.transform.GetChild(0).gameObject;
+        
+        serialisedObj.FindProperty("sceneName").stringValue = this.gameObject.name;
+        
+        serialisedObj.ApplyModifiedProperties();
     }
 }
 

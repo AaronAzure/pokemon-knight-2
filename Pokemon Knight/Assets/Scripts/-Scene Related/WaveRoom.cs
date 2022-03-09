@@ -22,6 +22,7 @@ public class WaveRoom : MonoBehaviour
     private int spawnersDefeated;
     public Enemy miniBoss;
     public string[] roomsBeaten;
+    public bool hasABoss;
 
     [Header("Already Beaten")]
     [Space] [SerializeField] private GameObject newRoom;
@@ -123,6 +124,9 @@ public class WaveRoom : MonoBehaviour
 
     public void RoomBeaten()
     {
+        if (!hasABoss)
+            player.BossBattleOver();
+            
         Walls(false);
 
         List<string> temp = new List<string>(

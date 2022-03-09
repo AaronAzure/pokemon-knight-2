@@ -4894,15 +4894,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atkDmg: 10
   kbForce: 0
+  ignoreInvincible: 1
   destoryOnPlayerCollision: 0
   destoryOnWallCollision: 0
   explosion: {fileID: 0}
   body: {fileID: 0}
   direction: {x: 0, y: 0}
   speed: 0
+  anim: {fileID: 8823747247268393092}
   sleepEffect: 0
   sleepDelay: 0
-  anim: {fileID: 8823747247268393092}
+  paralysisEffect: 0
+  paralysisDelay: 0
   absorbEffect: 1
   moveMaster: {fileID: 0}
   absorbReturnObj: {fileID: 1133196975338173599, guid: 6e9b27035856b44ed953efb3d7ad5eb8, type: 3}

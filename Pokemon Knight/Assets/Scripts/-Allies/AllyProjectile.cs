@@ -105,6 +105,23 @@ public class AllyProjectile : MonoBehaviour
             if (destoryOnCollision)
                 Destroy(this.gameObject);
         }
+
+        if (other.CompareTag("Crystal"))
+        {
+            Component[] scripts = other.GetComponents(typeof(CrystalBarrier));
+            foreach (var script in scripts)
+            {
+                script.GetComponent<CrystalBarrier>().BreakCrystal();
+            }
+            
+            if (destoryOnCollision && explosionObj != null)
+            {
+                var obj = Instantiate(explosionObj, this.transform.position, Quaternion.identity);
+            }
+
+            if (destoryOnCollision)
+                Destroy(this.gameObject);
+        }
     }
 
     // IEnumerator Detonate()
