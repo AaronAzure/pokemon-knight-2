@@ -243,13 +243,11 @@ Transform:
   - {fileID: 1272233745}
   - {fileID: 1870325969}
   - {fileID: 1711442844}
-  - {fileID: 1672566368}
   - {fileID: 675771979}
   - {fileID: 183966652}
   - {fileID: 1800554662}
   - {fileID: 1603604325}
   - {fileID: 1864669949}
-  - {fileID: 938080760}
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -820,7 +818,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1976175703200949028, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.9925568
+      value: 3.0017903
       objectReference: {fileID: 0}
     - target: {fileID: 1976175703200949028, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -12528,80 +12526,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &938080759
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 99294178}
-    m_Modifications:
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_RootOrder
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -8.04
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.79999924
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5249119507078783117, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_Name
-      value: ODDISH (enemy) (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7907085212256002918, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: lv
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 7907085212256002918, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: canUseBuffs
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7907085212256002918, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: chapterLevel
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
---- !u!4 &938080760 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-  m_PrefabInstance: {fileID: 938080759}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &950530391
 GameObject:
   m_ObjectHideFlags: 1
@@ -14367,7 +14291,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1189856887121461696, guid: 07801f68610d440fe85448e48c296ecf, type: 3}
       propertyPath: nextPos.y
-      value: 29
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 1189856887121461696, guid: 07801f68610d440fe85448e48c296ecf, type: 3}
       propertyPath: nextScene
@@ -24540,80 +24464,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 385006923305863864, guid: dbdc38e5c4d9e4010a5db16207660acf, type: 3}
   m_PrefabInstance: {fileID: 1603604324}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &1672566367
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 99294178}
-    m_Modifications:
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_RootOrder
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -7.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5249119507078783117, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: m_Name
-      value: ODDISH (enemy) (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7907085212256002918, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: lv
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 7907085212256002918, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: canUseBuffs
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7907085212256002918, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-      propertyPath: chapterLevel
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
---- !u!4 &1672566368 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1210750820205220004, guid: b61f47b39f9d24dd68bf1f8042ba4f60, type: 3}
-  m_PrefabInstance: {fileID: 1672566367}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1696966890
 GameObject:

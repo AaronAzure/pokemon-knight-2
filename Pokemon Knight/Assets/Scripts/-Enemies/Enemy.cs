@@ -31,6 +31,7 @@ public abstract class Enemy : MonoBehaviour
     public float contactKb=10;
     public int projectileDmg=5;
     [Space] public bool isSmart;    // Turns if attacked from behind;
+    [Space] public bool isEvenSmarter;    // Turns if attacked from behind;
     
     [Space] [SerializeField] private SpriteRenderer[] renderers;
     [SerializeField] private Material defeatedMat;
@@ -99,8 +100,8 @@ public abstract class Enemy : MonoBehaviour
     [HideInInspector] public bool inRageCutscene; // Can't move
     [HideInInspector] public bool isDefeated;
     [Space] [Space] public string powerupName;
-    public GameObject pokeball;
-    public GameObject canCatchEffect;
+    [Tooltip("Prefabs/- Enemies/- effects/-pokeball-catch")] public GameObject pokeball;
+    [Tooltip("Prefabs/- Enemies/- effects/-can catch")] public GameObject canCatchEffect;
     [HideInInspector] public bool mustDmgBeforeFight;
     [HideInInspector] public bool bossBattleBegin;
 
@@ -112,7 +113,7 @@ public abstract class Enemy : MonoBehaviour
     
     [Space] [Header("Support / Mechanics")]
     public GameObject alert;
-    protected bool isTargeting;
+    public bool isTargeting;
     [HideInInspector] protected bool canFlip=true ;
     public bool playerInField;
     public bool playerInSight;
@@ -125,6 +126,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected bool movingRight;
     private bool downToHalfHp;
     [Space] public bool aquatic;
+    public AllyAttack dontGetHitTwice;
 
 
     [Space] [Header("Buffs / Debuffs")]
@@ -218,6 +220,7 @@ public abstract class Enemy : MonoBehaviour
     public virtual void CallChildOnBossDeath() {}
     public virtual void CallChildOnTargetLost() {}  // VIA EnemyFieldOfVision
     public virtual void CallChildOnTargetFound() {}  // VIA EnemyFieldOfVision
+    public virtual void CallChildOnDamaged() {}
     
     public virtual void CallChildOnHalfHealth() {}  
     public virtual void CallChildOnIncreaseSpd() {}  
@@ -356,10 +359,15 @@ public abstract class Enemy : MonoBehaviour
         return(playerControls.transform.position.x - this.transform.position.x < 0);
     }
 
-    public void TakeDamage(int dmg, Vector3 hitPos, float force=0, bool attackedByPlayer=true, int spBonus=0)
+    public void TakeDamage(int dmg, Vector3 hitPos, float force=0, bool attackedByPlayer=true, int spBonus=0, 
+        AllyAttack registerAttack=null)
     {
-        if (!inCutscene && hp > 0)
+        if (dontGetHitTwice != null && dontGetHitTwice == registerAttack) {}
+        else if (!inCutscene && hp > 0)
         {
+            //* PREVENTS GETTING HIT BY VINE WHIP TWICE
+            if (registerAttack != null)
+                dontGetHitTwice = registerAttack;
             if (hp > 0)
             {
                 if (defenseStage == 0)
@@ -389,6 +397,9 @@ public abstract class Enemy : MonoBehaviour
             if (force > 0 && hitPos != null && !cannotRecieveKb)
                 StartCoroutine( ApplyKnockback(hitPos, force) );
 
+            // if (isEvenSmarter && force > 0)
+            //     LookAtPlayer();
+            CallChildOnDamaged();
             if (isSmart && force > 0)
                 LookAtPlayer();
 
@@ -782,14 +793,20 @@ public abstract class Enemy : MonoBehaviour
             if (lv > defaultLv)
                 tempExp += Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) );
             
-            if (!isBoss)
+            if (isMiniBoss)
+            {
+                tempHp *= 5;
+                tempExp *= 5;
+            }
+            
+            if (!isBoss || isMiniBoss)
             {
                 int nextAreas = (lv / lvBreak);
                 for (int i=0 ; i<nextAreas ; i++)
                 // for (int i=0 ; i<(int)chapterLevel ; i++)
                 {
-                    tempHp = Mathf.RoundToInt(tempHp * 1.5f);
-                    tempExp = Mathf.RoundToInt(tempExp * 1.5f);
+                    tempHp = Mathf.RoundToInt(tempHp * 2f);
+                    tempExp = Mathf.RoundToInt(tempExp * 2f);
                 }
             }
 

@@ -54,6 +54,17 @@ public class Victreebel : Enemy
         if (targetLostCo == null)
             targetLostCo = StartCoroutine( TryToFindTarget(5f) );
     }
+    public override void CallChildOnDamaged() 
+    {
+        if (alert != null) 
+            alert.SetActive(true);
+        targetFound = true;
+        if (targetLostCo != null)
+        {
+            StopCoroutine( targetLostCo );
+            targetLostCo = null;
+        }
+    }
     IEnumerator TryToFindTarget(float duration=2)
     {
         yield return new WaitForSeconds(duration);
@@ -72,9 +83,9 @@ public class Victreebel : Enemy
             {
                 if (target != null && playerInField)
                 {
-                    lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));
-                    RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position,
-                        this.transform.position + new Vector3(0, 1) + lineOfSight, finalMask);
+                    // lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));
+                    RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position + new Vector3(0, 1),
+                        target.position + new Vector3(0, 1), finalMask);
 
                     if (playerInfo.collider != null && playerInfo.collider.gameObject.CompareTag("Player"))
                     {
@@ -88,13 +99,15 @@ public class Victreebel : Enemy
                         }
                     }
                     //* PLAYER IS OUT OF SIGHT, BUT STILL WITHIN FOV
-                    else if (playerInfo.collider != null && !playerInfo.collider.gameObject.CompareTag("Player") && IsGrounded())
+                    else if (playerInfo.collider != null && !playerInfo.collider.gameObject.CompareTag("Player") && IsGrounded() 
+                        && body.velocity.y <= 0)
                         CallChildOnTargetLost();
                     if (isTargeting)
                         LookAtTarget();
                 }
                 //* PLAYER IS OUT OF FOV
-                else if (target != null && !playerInField && IsGrounded())
+                else if (target != null && !playerInField && IsGrounded() 
+                    && body.velocity.y <= 0)
                     CallChildOnTargetLost();
             }
 
@@ -195,8 +208,8 @@ public class Victreebel : Enemy
 
     public void RAZOR_LEAF()
     {
-        if (alwaysAttackPlayer)
-            lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));
+        // if (alwaysAttackPlayer)
+        lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));
         if (razorLeafSpawn != null && hp > 0)
         {
             var obj = Instantiate(razorLeaf, razorLeafSpawn.position, razorLeaf.transform.rotation);

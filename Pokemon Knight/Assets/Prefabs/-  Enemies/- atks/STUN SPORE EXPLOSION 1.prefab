@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atkDmg: 10
   kbForce: 5
+  ignoreInvincible: 0
   destoryOnPlayerCollision: 0
   destoryOnWallCollision: 0
   explosion: {fileID: 0}
@@ -120,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98ad6b04ce2ae4f3cbbe6cbf098d305d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 3
+  time: 4
 --- !u!1001 &844369656397070567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -175,6 +176,14 @@ PrefabInstance:
     - target: {fileID: 427198, guid: 14346164c6cb045848dcd0033d801130, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19844430, guid: 14346164c6cb045848dcd0033d801130, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 19844430, guid: 14346164c6cb045848dcd0033d801130, type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14346164c6cb045848dcd0033d801130, type: 3}

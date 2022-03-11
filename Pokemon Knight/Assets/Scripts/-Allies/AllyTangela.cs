@@ -43,7 +43,7 @@ public class AllyTangela : Ally
             return absorbDefaultPos;
         
         float distance = Mathf.Infinity;
-        List<Transform> enemies = detection.DetectEnemies();
+        List<Transform> enemies = detection.detected;
 
         if (enemies == null || enemies.Count == 0)
             return absorbDefaultPos;
@@ -52,7 +52,7 @@ public class AllyTangela : Ally
         for (int i=0 ; i<enemies.Count ; i++)
         {
             float distToSelf = Mathf.Abs(Vector2.Distance(this.transform.position + new Vector3(0,1), enemies[i].position));
-            if (distToSelf < distance)
+            if (distToSelf < distance && EnemyInLineOfSight(enemies[i]))
             {
                 distance = distToSelf;
                 ind = i;
@@ -65,9 +65,8 @@ public class AllyTangela : Ally
     }
     private bool EnemyInLineOfSight(Transform target)
     {
-        Vector3 lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));
         RaycastHit2D sightInfo = Physics2D.Linecast(this.transform.position + new Vector3(0, 1),
-            this.transform.position + new Vector3(0, 1) + lineOfSight, finalMask);
+            target.position + new Vector3(0, 0.3f), finalMask);
         return (sightInfo.collider != null && sightInfo.collider.gameObject.CompareTag("Enemy"));
     }
 

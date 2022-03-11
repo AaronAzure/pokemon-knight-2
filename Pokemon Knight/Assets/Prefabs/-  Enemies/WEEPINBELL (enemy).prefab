@@ -333,6 +333,7 @@ MonoBehaviour:
   contactKb: 10
   projectileDmg: 10
   isSmart: 1
+  isEvenSmarter: 0
   renderers:
   - {fileID: 6410697866412512817}
   - {fileID: 129171046759193507}
@@ -391,6 +392,7 @@ MonoBehaviour:
   bossBattleBegin: 0
   spawner: {fileID: 0}
   alert: {fileID: 3803489936706705490}
+  isTargeting: 0
   playerInField: 0
   playerInSight: 0
   playerInCloseRange: 0
@@ -400,6 +402,7 @@ MonoBehaviour:
   movingLeft: 0
   movingRight: 0
   aquatic: 0
+  dontGetHitTwice: {fileID: 0}
   canUseBuffs: 0
   buffDuration: 5
   beforeNextUse: 5
@@ -410,8 +413,8 @@ MonoBehaviour:
   increaseDef: {fileID: 0}
   increaseSpd: {fileID: 0}
   spawnedByWave: 0
-  moveSpeed: 2
-  jumpForce: 15
+  moveSpeed: 2.5
+  jumpForce: 16
   canPivot: 1
   canJump: 1
   target: {fileID: 0}
@@ -425,6 +428,7 @@ MonoBehaviour:
   offset: {x: -6, y: 0, z: 0}
   lineOfSight: {x: 0, y: 0, z: 0}
   missCount: 0
+  moving: 0
 --- !u!1 &5190738569146184716
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,7 +1026,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5830227723008166070}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.4, z: 0}
+  m_LocalPosition: {x: -1.4, y: 0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5190738569146184719}

@@ -814,6 +814,7 @@ MonoBehaviour:
   contactKb: 10
   projectileDmg: 10
   isSmart: 0
+  isEvenSmarter: 0
   renderers:
   - {fileID: 2898470727433739090}
   - {fileID: 2898470727900494169}
@@ -885,6 +886,7 @@ MonoBehaviour:
   movingLeft: 0
   movingRight: 0
   aquatic: 0
+  dontGetHitTwice: {fileID: 0}
   canUseBuffs: 0
   buffDuration: 8
   beforeNextUse: 8
@@ -902,6 +904,8 @@ MonoBehaviour:
   leapForce: 25
   jumpForce: 12
   target: {fileID: 0}
+  targetFound: 0
+  stopSearching: 0
   groundDetection: {fileID: 3169936182238718495}
   distanceDetect: 0.5
   razorLeaf: {fileID: 2919362440723818951, guid: 6697d454920314c3e98bb884553496bc, type: 3}
@@ -1742,6 +1746,10 @@ PrefabInstance:
       propertyPath: enemy
       value: 
       objectReference: {fileID: 3169936182238718489}
+    - target: {fileID: 6683841495794669745, guid: 518c9c745c5ae4cb3b2ba46f6c890536, type: 3}
+      propertyPath: delaySearch
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6921896803643534708, guid: 518c9c745c5ae4cb3b2ba46f6c890536, type: 3}
       propertyPath: m_Size.x
       value: 24

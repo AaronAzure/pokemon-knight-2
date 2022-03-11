@@ -35,6 +35,11 @@ public class SnorlaxBoss : Enemy
         playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
         target = playerControls.transform.position;
     }
+    public override void CallChildOnDamaged()
+    {
+        if (anim != null)
+            anim.SetTrigger("attacked");
+    }
 
     public override void CallChildOnRoar()
     {

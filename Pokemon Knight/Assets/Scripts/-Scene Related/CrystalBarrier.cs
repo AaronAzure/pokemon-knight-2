@@ -22,7 +22,7 @@ public class CrystalBarrier : MonoBehaviour
 
     void Start() 
     {
-        roomName = SceneManager.GetActiveScene().name + " " + this.name;
+        roomName = SceneManager.GetActiveScene().name + " " + this.transform.parent.gameObject.name;
             
         if (PlayerPrefsElite.VerifyArray("crystalsBroken" + PlayerPrefsElite.GetInt("gameNumber")))
         {

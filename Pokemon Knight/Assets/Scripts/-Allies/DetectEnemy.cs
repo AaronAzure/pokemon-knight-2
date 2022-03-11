@@ -4,7 +4,7 @@ using UnityEngine;
 public class DetectEnemy : MonoBehaviour
 {
     // public Collider2D col;
-    [SerializeField] private List<Transform> detected = new List<Transform>();
+    public List<Transform> detected = new List<Transform>();
 
     public List<Transform> DetectEnemies()
     {

@@ -65,7 +65,7 @@ public class EnemyProjectile : MonoBehaviour
                     obj.moveMaster = this.moveMaster;
                     obj.hpRecover = hpRecover;
                 }
-                else
+                else if (moveMaster.hp > 0)
                 {
                     if ((moveMaster.hp + hpRecover) < moveMaster.maxHp)
                         moveMaster.hp += hpRecover;

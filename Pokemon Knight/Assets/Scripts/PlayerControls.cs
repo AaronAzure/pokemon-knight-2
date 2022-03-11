@@ -86,6 +86,7 @@ public class PlayerControls : MonoBehaviour
     [Space] [SerializeField] private AllyTeamUI butterfree;
     [Space] [SerializeField] private AllyTeamUI oddish;
     [Space] [SerializeField] private AllyTeamUI tangela;
+    [Space] [SerializeField] private AllyTeamUI bellsprout;
 
 
 
@@ -289,12 +290,17 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private ParticleSystem[] pEffects;
     [SerializeField] private SpriteRenderer face;
     [SerializeField] private Sprite sleepFace;
+    [SerializeField] private GameObject paralysisEffectUiHolder;
+    [SerializeField] private ParticleSystem[] paralysisEffectsUi;
+    [SerializeField] private GameObject sleepEffectUiHolder;
+    [SerializeField] private ParticleSystem[] sleepEffectsUi;
 
     
     [Header("CHEATS")]
     [SerializeField] private float dmgMultiplier = 1;
     [SerializeField] private float expMultiplier = 1;
     [SerializeField] private bool noCoolDown;
+    [SerializeField] private bool cannotTakeDmg;
     [SerializeField] private bool infiniteGauge;
     public bool extraRange;
 
@@ -525,6 +531,12 @@ public class PlayerControls : MonoBehaviour
                         pokemonInTeamBenchSettings[i].img.sprite = tangela.sprite;
                         pokemonInTeamBenchSettings[i].ally = tangela.summonable;
                         partyPokemonsUI[i].sprite = tangela.sprite;
+                        break;
+                    case "bellsprout":
+                        allies[i] = bellsprout.summonable;
+                        pokemonInTeamBenchSettings[i].img.sprite = bellsprout.sprite;
+                        pokemonInTeamBenchSettings[i].ally = bellsprout.summonable;
+                        partyPokemonsUI[i].sprite = bellsprout.sprite;
                         break;
                     case "":
                         pokemonInTeamBenchSettings[i].img.sprite = emptySprite;
@@ -773,7 +785,8 @@ public class PlayerControls : MonoBehaviour
                 if (itemFoundlSound != null) 
                     itemFoundlSound.Play();
             }
-            else if (grounded && canDodge && player.GetButtonDown("ZR") && !canRest && !canEnter && currentItem == null)
+            else if (grounded && body.velocity.y == 0 && canDodge && player.GetButtonDown("ZR") 
+                && !canRest && !canEnter && currentItem == null)
             {
                 canDodge = false;
                 StartCoroutine( Dodge() );
@@ -1443,7 +1456,7 @@ public class PlayerControls : MonoBehaviour
     
     public void TakeDamage(int dmg=0, Transform opponent=null, float force=0, bool ignoreInvinciblity=false)
     {
-        if (hp > 0 && (!isInvincible || ignoreInvinciblity) )
+        if (hp > 0 && (!isInvincible || ignoreInvinciblity) && !cannotTakeDmg)
         {
             Debug.Log("<color=#FF8800>Took " + dmg + " dmg</color>");
             anim.SetBool("isDrinking", false);
@@ -1512,6 +1525,8 @@ public class PlayerControls : MonoBehaviour
         body.velocity = Vector2.zero;
         receivingKnockback = false;
     }
+    
+    
     public void PutToSleep(float delay=0)
     {
         if (!hasGotStatusEffect)
@@ -1528,11 +1543,30 @@ public class PlayerControls : MonoBehaviour
             sleepingEffect.gameObject.SetActive(true);
             sleepingEffect.Play();
         }
+        if (sleepEffectUiHolder != null)
+            sleepEffectUiHolder.SetActive(true);
+        foreach (ParticleSystem se in sleepEffectsUi)
+        {
+            se.Play();
+            var emission = se.emission;
+            emission.rateOverTime = 5;
+        }
         yield return new WaitForSeconds(delay + 0.5f);
 
         if (isSleeping || hp <= 0)
             yield break;
         isSleeping = true;
+        if (ledgeGrabbing)
+        {
+            body.gravityScale = origGrav;
+            ledgeGrabbing = false;
+        }
+
+        foreach (ParticleSystem se in sleepEffectsUi)
+        {
+            var emission = se.emission;
+            emission.rateOverTime = 20;
+        }
 
         anim.SetBool("isWalking", false);
         anim.SetBool("isGrounded", true);
@@ -1548,10 +1582,13 @@ public class PlayerControls : MonoBehaviour
             face.sprite = origFace;
         if (sleepingEffect != null)
             sleepingEffect.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        foreach (ParticleSystem se in sleepEffectsUi)
+        {
+            se.Stop(false, ParticleSystemStopBehavior.StopEmitting);
+        }
         
         yield return new WaitForSeconds(1);
-        hasGotStatusEffect = false;
-        isSleeping = false;
+        SleepOver();
     }
     
     public void Paralysed(float delay=0)
@@ -1566,11 +1603,20 @@ public class PlayerControls : MonoBehaviour
     }
     IEnumerator Paralysis(float delay)
     {
+        if (paralysisEffectUiHolder != null)
+            paralysisEffectUiHolder.SetActive(true);
         if (paralysisEffect != null)
         {
             paralysisEffect.gameObject.SetActive(true);
             paralysisEffect.Play();
             foreach (ParticleSystem pe in pEffects)
+            {
+                pe.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
+                var main = pe.main;
+                main.duration = 0.8f;
+                pe.Play();
+            }
+            foreach (ParticleSystem pe in paralysisEffectsUi)
             {
                 pe.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
                 var main = pe.main;
@@ -1596,7 +1642,19 @@ public class PlayerControls : MonoBehaviour
                 main.duration = 0.2f;
                 pe.Play();
             }
+            foreach (ParticleSystem pe in paralysisEffectsUi)
+            {
+                pe.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
+                var main = pe.main;
+                main.duration = 0.2f;
+                pe.Play();
+            }
             isParalysed = true;
+            if (ledgeGrabbing)
+            {
+                body.gravityScale = origGrav;
+                ledgeGrabbing = false;
+            }
 
             anim.SetBool("isWalking", false);
             anim.SetBool("isGrounded", true);
@@ -1614,15 +1672,43 @@ public class PlayerControls : MonoBehaviour
                 main.duration = 0.8f;
                 pe.Play();
             }
+            foreach (ParticleSystem pe in paralysisEffectsUi)
+            {
+                pe.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
+                var main = pe.main;
+                main.duration = 0.8f;
+                pe.Play();
+            }
             isParalysed = false;
         }
 
-        if (paralysisEffect != null)
-            paralysisEffect.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-        
+        ParalysisOver();
+    }
+    private void SleepOver()
+    {
+        foreach (ParticleSystem se in sleepEffectsUi)
+            se.Stop(false, ParticleSystemStopBehavior.StopEmitting);
         hasGotStatusEffect = false;
-        paralysisCo = null;
+        isSleeping = false;
         ConditionFinished();
+    }
+    private void ParalysisOver()
+    {
+        if (paralysisCo != null)
+        {
+            if (paralysisEffect != null)
+                paralysisEffect.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            
+            if (paralysisEffectUiHolder != null)
+                paralysisEffectUiHolder.SetActive(false);
+
+            hasGotStatusEffect = false;
+            ConditionFinished();
+
+            if (paralysisCo != null)
+                StopCoroutine( paralysisCo );
+            paralysisCo = null;
+        }
     }
 
     protected void ShowStatEffect(Sprite statimg)
@@ -1635,7 +1721,8 @@ public class PlayerControls : MonoBehaviour
     }
     protected void ConditionFinished()
     {
-        nCondition--;
+        if (nCondition > 0)
+            nCondition--;
         for (int i=0 ; i<statusConditions.Length - 1 ; i++)
             statusConditions[i].sprite = statusConditions[i+1].sprite;
     }
@@ -1790,18 +1877,9 @@ public class PlayerControls : MonoBehaviour
         isParalysed = false;
         inCutscene = false;
         ledgeGrabbing = false;
-        hasGotStatusEffect = false;
 
-        if (paralysisCo != null)
-        {
-            StopCoroutine( paralysisCo );
-            if (paralysisEffect != null)
-                paralysisEffect.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-            
-            hasGotStatusEffect = false;
-            paralysisCo = null;
-            ConditionFinished();
-        }
+        ParalysisOver();
+        SleepOver();
 
         if (transitionAnim != null)
             transitionAnim.SetTrigger("fromBlack");
@@ -2197,9 +2275,12 @@ public class PlayerControls : MonoBehaviour
             case "tangela": 
                 CaughtAPokemon("tangela");
                 break;
+            case "bellsprout": 
+                CaughtAPokemon("bellsprout");
+                break;
             default:
-                CaughtAPokemon(powerupName);
-                Debug.LogError("PlayerControls.GainPowerup - unregistered powerup (ADD TO SWITCH CASE)");
+                if (CaughtAPokemon(powerupName))
+                    Debug.LogError("PlayerControls.GainPowerup - unregistered powerup (ADD TO SWITCH CASE)");
                 break;
         }
         body.velocity = Vector2.zero;
@@ -2288,6 +2369,8 @@ public class PlayerControls : MonoBehaviour
         }
         nMoomooMilkLeft = moomooUi.Length;
         enemyDefeated.Clear(); PlayerPrefsElite.SetStringArray("enemyDefeated", new string[0]);
+
+        ParalysisOver();
 
         SaveState();
     }
@@ -2416,7 +2499,7 @@ public class PlayerControls : MonoBehaviour
         return -1;
     }
 
-    public void CaughtAPokemon(string pokemonName)
+    public bool CaughtAPokemon(string pokemonName)
     {
         if (PlayerPrefsElite.VerifyArray("pokemonsCaught" + gameNumber))
         {
@@ -2440,7 +2523,9 @@ public class PlayerControls : MonoBehaviour
                 Debug.LogError("PlayerControls.CaughtAPokemon - unregistered pokemon (ADD TO boxPokemonsToActivate)");
 
             CheckEquippablePokemon();
+            return foundMatch;
         }
+        return false;
     }
     public void CheckEquippablePokemon()
     {

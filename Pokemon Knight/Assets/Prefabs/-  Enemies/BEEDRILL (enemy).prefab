@@ -278,11 +278,14 @@ MonoBehaviour:
   playerInSight: 0
   playerInCloseRange: 0
   alwaysAttackPlayer: 0
+  isInRoom: 0
   cannotMove: 0
   movingLeft: 0
   movingRight: 0
   aquatic: 0
   canUseBuffs: 0
+  buffDuration: 5
+  beforeNextUse: 5
   statusConditions:
   - {fileID: 2823755857484436524}
   - {fileID: 2322951596667139496}
@@ -842,6 +845,10 @@ PrefabInstance:
       propertyPath: enemy
       value: 
       objectReference: {fileID: 5798721009978950976}
+    - target: {fileID: 6683841495794669745, guid: 518c9c745c5ae4cb3b2ba46f6c890536, type: 3}
+      propertyPath: delaySearch
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 518c9c745c5ae4cb3b2ba46f6c890536, type: 3}
 --- !u!4 &1191160428394989627 stripped

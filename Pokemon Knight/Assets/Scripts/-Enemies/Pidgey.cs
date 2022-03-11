@@ -62,7 +62,8 @@ public class Pidgey : Enemy
     }
     public override void CallChildOnBossDeath()
     {
-        StopCoroutine(co);
+        if (co != null)
+            StopCoroutine(co);
         if (aiPath != null)
             aiPath.canMove = false;
         body.gravityScale = 3;

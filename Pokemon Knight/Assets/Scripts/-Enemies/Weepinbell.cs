@@ -24,7 +24,7 @@ public class Weepinbell : Enemy
     public Vector3 offset;
     public Vector3 lineOfSight;
     [Space] public int missCount=1;
-    private bool moving;
+    public bool moving;
 
     private RaycastHit2D playerInfo;
     // private RaycastHit2D frontInfo;
@@ -39,6 +39,13 @@ public class Weepinbell : Enemy
             
         if (target == null && playerControls != null)
             target = playerControls.transform;
+
+        if (alwaysAttackPlayer)
+        {
+            isTargeting = true;
+            alert.gameObject.SetActive(true);
+            LookAtTarget();
+        }
     }
 
     public override void CallChildOnTargetFound()
@@ -63,13 +70,16 @@ public class Weepinbell : Enemy
     void FixedUpdate() 
     {
         //* JUMP AROUND
-        if (!keepAttacking)
+        if (!keepAttacking && !alwaysAttackPlayer)
         {
 
         }
         //* PURSUE PLAYER
         else if (!receivingKnockback && hp > 0)
         {
+            if (alwaysAttackPlayer && !alert.activeSelf)
+                alert.SetActive(true);
+
             if (isTargeting && !moving)
                 LookAtPlayer();
 
@@ -100,34 +110,37 @@ public class Weepinbell : Enemy
             canJump = true;
 
         //* MONITOR FOR PLAYER
-        if (target != null && playerInField)
+        if (!alwaysAttackPlayer)
         {
-            Vector3 lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));
-            playerInfo = Physics2D.Linecast(this.transform.position + new Vector3(0, 1),
-                this.transform.position + new Vector3(0, 1) + lineOfSight, finalMask);
-
-            //* PLAYER IS IN SIGHT, AND WITHIN FOV
-            if (playerInfo.collider != null && playerInfo.collider.gameObject.CompareTag("Player"))
+            if (target != null && playerInField)
             {
-                keepAttacking = true;
-                isTargeting = true;
-                if (alert != null) alert.gameObject.SetActive(true);
-                if (targetLostCo != null)
+                Vector3 lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));
+                playerInfo = Physics2D.Linecast(this.transform.position + new Vector3(0, 1),
+                    this.transform.position + new Vector3(0, 1) + lineOfSight, finalMask);
+
+                //* PLAYER IS IN SIGHT, AND WITHIN FOV
+                if (playerInfo.collider != null && playerInfo.collider.gameObject.CompareTag("Player"))
                 {
-                    StopCoroutine( targetLostCo );
-                    targetLostCo = null;
+                    keepAttacking = true;
+                    isTargeting = true;
+                    if (alert != null) alert.gameObject.SetActive(true);
+                    if (targetLostCo != null)
+                    {
+                        StopCoroutine( targetLostCo );
+                        targetLostCo = null;
+                    }
                 }
-            }
-            //* PLAYER IS OUT OF SIGHT, BUT STILL WITHIN FOV
-            else if (playerInfo.collider != null && !playerInfo.collider.gameObject.CompareTag("Player") && IsGrounded())
-            {
-                CallChildOnTargetLost();
-            }
+                //* PLAYER IS OUT OF SIGHT, BUT STILL WITHIN FOV
+                else if (playerInfo.collider != null && !playerInfo.collider.gameObject.CompareTag("Player") && IsGrounded())
+                {
+                    CallChildOnTargetLost();
+                }
 
+            }
+            //* PLAYER IS OUT OF FOV
+            else if (target != null && !playerInField && IsGrounded())
+                CallChildOnTargetLost();
         }
-        //* PLAYER IS OUT OF FOV
-        else if (target != null && !playerInField && IsGrounded())
-            CallChildOnTargetLost();
         
     }
     private void OnDrawGizmosSelected() 
@@ -158,15 +171,15 @@ public class Weepinbell : Enemy
     }
     public void NEXT_ACTION()
     {
-        if (keepAttacking && missCount % 3 != 0)
+        if ((keepAttacking || alwaysAttackPlayer) && missCount % 3 != 0)
         {
             mainAnim.SetTrigger("attack");
             JumpChance();
         }
         // CHASE
-        else if (keepAttacking)
+        else if ((keepAttacking || alwaysAttackPlayer))
         {
-            if (transform.eulerAngles.y != 0)    // right
+            if (model.transform.eulerAngles.y != 0)    // right
             {
                 movingRight = true;
                 movingLeft = false;

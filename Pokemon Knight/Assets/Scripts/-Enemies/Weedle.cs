@@ -150,7 +150,7 @@ public class Weedle : Enemy
     }
     public void POISON_STING()
     {
-        if (poisonSting != null && hp > 0)
+        if (poisonSting != null && hp > 0 && playerInField)
         {
             LookAtPlayer();
             CALCULATE_TRAJECTORY();
