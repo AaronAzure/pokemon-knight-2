@@ -1486,7 +1486,7 @@ public class PlayerControls : MonoBehaviour
     private void ToggleMap()
     {
         mapMenu.SetActive(!mapMenu.activeSelf);
-        Debug.Log(lastScene.parentRect.localPosition + " : " + lastScene.rect.localPosition);
+        // Debug.Log(lastScene.parentRect.localPosition + " : " + lastScene.rect.localPosition);
         if (mapMenu.activeSelf)
             mapMenuRect.localPosition = -lastScene.rect.localPosition + (Vector3) mapOffset;
     }
