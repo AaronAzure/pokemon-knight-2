@@ -36,8 +36,8 @@ public class Victreebel : Enemy
         if (alert != null) alert.gameObject.SetActive(false);
         maxAtkPattern = Random.Range(4,7);
         
-        if (GameObject.Find("PLAYER") != null && target == null)
-            target = GameObject.Find("PLAYER").gameObject.transform;
+        if (target == null)
+            target = playerControls.transform;
 
         if (leafTornado != null)
             leafTornado.atkDmg = Mathf.RoundToInt( (this.projectileDmg + this.calcExtraProjectileDmg) / 2);

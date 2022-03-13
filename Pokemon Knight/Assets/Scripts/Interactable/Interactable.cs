@@ -6,7 +6,7 @@ public class Interactable : MonoBehaviour
     // [SerializeField] private GameObject textbox;
     public TextMeshPro text;
 
-    private void Start() 
+    private void OnEnable() 
     {
         text.gameObject.SetActive(false);
     }

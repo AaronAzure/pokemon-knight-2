@@ -6,7 +6,6 @@ using Cinemachine;
 
 public class WaveRoom : MonoBehaviour
 {
-    // [SerializeField] private Enemy boss;
     [SerializeField] private string roomName;
     [SerializeField] private GameObject[] walls;
     private bool once;
@@ -30,7 +29,6 @@ public class WaveRoom : MonoBehaviour
     void Start() 
     {
         roomName = SceneManager.GetActiveScene().name + " " + this.name;
-        roomsBeaten = new string[100];
         defeatedSpawners = new List<WaveSpawner>();
 
         if (newRoom != null)
@@ -52,6 +50,8 @@ public class WaveRoom : MonoBehaviour
             }
 
         }
+        else
+           PlayerPrefsElite.SetStringArray("roomsBeaten" + PlayerPrefsElite.GetInt("gameNumber"), new string[0]); 
         foreach (WaveSpawner ws in waveSpawners)
             ws.waveManager = this;
 

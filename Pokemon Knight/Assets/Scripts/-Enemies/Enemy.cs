@@ -109,6 +109,9 @@ public abstract class Enemy : MonoBehaviour
 
     [Space] [Header("Waves Related")]
     [HideInInspector] public WaveSpawner spawner;
+    [Space] [Header("Horde Related")]
+    [HideInInspector] public HordeManager horde;
+    [HideInInspector] public bool partOfHorde;
 
     
     [Space] [Header("Support / Mechanics")]
@@ -431,6 +434,9 @@ public abstract class Enemy : MonoBehaviour
             {
                 if (spawner != null && !isBoss)
                     spawner.SpawnedDefeated();
+                
+                if (horde != null)
+                    horde.RemoveFromEnemies(this);
 
                 if (playerControls != null && attackedByPlayer)
                 {

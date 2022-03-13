@@ -23,8 +23,8 @@ public class Gloom : Enemy
     public override void Setup()
     {
         // StartCoroutine( Attack() );
-        if (GameObject.Find("PLAYER") != null)
-            target = GameObject.Find("PLAYER").transform;
+        if (target == null)
+            target = playerControls.transform;
 
         finalMask = (whatIsPlayer | whatIsGround);
     }

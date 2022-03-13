@@ -23,6 +23,9 @@ public class SceneMap : MonoBehaviour
         rect = this.GetComponent<RectTransform>();
         parentRect = this.transform.parent.GetComponent<RectTransform>();
 
+        if (player == null)
+            Debug.LogError("PlayerControls not registered!! FOR " + this.gameObject.name, this.gameObject);
+
         if (player.sceneMaps == null)
             player.sceneMaps = new Dictionary<string, SceneMap>();
 

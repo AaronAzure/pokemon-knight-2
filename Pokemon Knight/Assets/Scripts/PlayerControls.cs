@@ -17,6 +17,17 @@ public class PlayerControls : MonoBehaviour
     private int gameNumber;
     
 
+    [Space] [Header("Player data")]
+    public int maxHp;
+    public int hp;  // current hp
+    public int extraHp=0;
+    private int lastHp;
+    public int lv=1;
+    [Space] [SerializeField] private int expNeeded=100;
+    [SerializeField] private int exp;  // current exp
+    [SerializeField] private int expJustGained;
+
+
     [Space] [Header("Ui")]
     public Image hpEffectImg;
     public Image hpImg;
@@ -103,6 +114,9 @@ public class PlayerControls : MonoBehaviour
     
     [Space] [SerializeField] private BoxPokemonButton[] boxPokemonsToActivate;
     [Space] [SerializeField] private ItemUi[] itemsToActivate;
+    [Space] [SerializeField] private SubwayStopButton[] subWayStopsToActivate;
+    [Space] [SerializeField] private GameObject subWayUi;
+    
 
     [Space] [SerializeField] private Button[] partyPokemonButtons;
     [SerializeField] private Button[] boxPokemonButtons;
@@ -125,33 +139,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private Animator damageIndicatorAnim;
 
 
-    [Space]
-    [Header("Player data")]
-    public int maxHp;
-    public int hp;  // current hp
-    public int extraHp=0;
-    private int lastHp;
-    public int lv=1;
-    [Space] [SerializeField] private int expNeeded=100;
-    [SerializeField] private int exp;  // current exp
-    [SerializeField] private int expJustGained;
-    [SerializeField] private TextMeshProUGUI expGainText;
-    [Space] [SerializeField] private GameObject levelUpEffect;
-    [SerializeField] private GameObject levelUpObj;
-    [SerializeField] private AudioSource levelUpSound;
-    [SerializeField] private GameObject playerUi;
-    [Space] [SerializeField] private List<string> visitedScenes;
-    [Space] [SerializeField] private List<string> roomsBeaten;
-    [Space] [SerializeField] private List<string> crystalsBroken;
-    [Space] [SerializeField] private List<string> pokemonsCaught;
-    [Space] [SerializeField] private List<string> itemsObtained;
-    [Space] [SerializeField] private List<string> berriesCollected;
-    [Space] [SerializeField] private List<string> spareKeychainCollected;
-    [Space] [SerializeField] private List<string> enemyDefeated = new List<string>();
-    public Item currentItem;
-    public Berry currentBerry;
-    public SpareKeychain currentKeychain;
-    public int nBerries;
+
 
 
     [Space] [Header("Platformer Mechanics")]
@@ -163,6 +151,26 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float jumpHeight = 10;
     [SerializeField] private float jumpTimer = 0.35f;
     private float jumpTimerCounter = 0;
+    
+    [Space] [SerializeField] private TextMeshProUGUI expGainText;
+    [SerializeField] private GameObject levelUpEffect;
+    [SerializeField] private GameObject levelUpObj;
+    [SerializeField] private AudioSource levelUpSound;
+    [SerializeField] private AudioSource trainSound;
+    [SerializeField] private GameObject playerUi;
+    [Space] [SerializeField] private List<string> visitedScenes;
+    [Space] [SerializeField] private List<string> roomsBeaten;
+    [Space] [SerializeField] private List<string> subwaysCleared;
+    [Space] [SerializeField] private List<string> crystalsBroken;
+    [Space] [SerializeField] private List<string> pokemonsCaught;
+    [Space] [SerializeField] private List<string> itemsObtained;
+    [Space] [SerializeField] private List<string> berriesCollected;
+    [Space] [SerializeField] private List<string> spareKeychainCollected;
+    [Space] [SerializeField] private List<string> enemyDefeated = new List<string>();
+    public Item currentItem;
+    public Berry currentBerry;
+    public SpareKeychain currentKeychain;
+    public int nBerries;
     private Sprite origFace;
 
 
@@ -226,6 +234,7 @@ public class PlayerControls : MonoBehaviour
     public bool resting;
     public Transform restBench;
     [Space] public bool canEnter;
+    [Space] public bool canTakeSubway;
     public string newSceneName;
     public Vector2 newScenePos;
     [Tooltip("true = moving left\nfalse = moving right")] public bool moveLeftFromDoor; 
@@ -329,6 +338,9 @@ public class PlayerControls : MonoBehaviour
         gameNumber = PlayerPrefsElite.GetInt("gameNumber");
         origFace = face.sprite;
 
+        foreach (SubwayStopButton stop in subWayStopsToActivate)
+            stop.gameObject.SetActive(false);
+
         PlayerPrefsElite.SetStringArray("enemyDefeated", new string[0]);
 
         // Last save
@@ -386,7 +398,7 @@ public class PlayerControls : MonoBehaviour
         if (sceneMaps.ContainsKey(sceneName))
             lastScene = sceneMaps[sceneName];
         else
-            Debug.LogError("CANNOT FIND MATCHING MAP NAME : for " + sceneName);
+            Debug.Log("<color=red>CANNOT FIND MATCHING MAP NAME : for " + sceneName + "</color>");
 
         if (PlayerPrefsElite.VerifyVector3("checkpointPos" + gameNumber))
             this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos" + gameNumber);
@@ -591,6 +603,27 @@ public class PlayerControls : MonoBehaviour
             PlayerPrefsElite.SetStringArray("equippedItems" + gameNumber, equippedItemNames.ToArray());
             SaveEquippedItems();
         }
+        
+        if (PlayerPrefsElite.VerifyArray("subwaysCleared" + gameNumber))
+        {
+            subwaysCleared = new List<string>( PlayerPrefsElite.GetStringArray("subwaysCleared" + gameNumber) );
+            
+            HashSet<SubwayStopButton> stopsSet = new HashSet<SubwayStopButton>(subWayStopsToActivate);
+            foreach (SubwayStopButton stop in stopsSet)
+            {
+                Debug.Log("-- " + stop.areaName);
+                if (subwaysCleared.Contains(stop.areaName))
+                    stop.UnlockStop();
+            }
+            
+            SaveSubwayCleared();
+        }
+        else
+        {
+            subwaysCleared = new List<string>();
+            PlayerPrefsElite.SetStringArray("subwaysCleared" + gameNumber, subwaysCleared.ToArray());
+            SaveSubwayCleared();
+        }
 
         
         CheckEquippablePokemon();
@@ -609,6 +642,7 @@ public class PlayerControls : MonoBehaviour
 
 
         mapMenu.SetActive(false);
+        subWayUi.SetActive(false);
         weightText.text = currentWeight + "/" + (maxWeight + extraWeight);
     }
     IEnumerator CannotChangeSceneAgain()
@@ -621,7 +655,18 @@ public class PlayerControls : MonoBehaviour
     }
     void Update()
     {
-        if (player.GetButtonDown("START") && !settings.gameObject.activeSelf && 
+        if (subWayUi.activeSelf)
+        {
+            if (player.GetButtonDown("B") || player.GetButtonDown("START"))
+            {
+                subWayUi.SetActive(false);
+                Time.timeScale = 1;
+                inCutscene = false;
+            }
+            // canNavigate = true;
+            // isClosing = false;
+        }
+        else if (player.GetButtonDown("START") && !settings.gameObject.activeSelf && 
             !equimentSettings.gameObject.activeSelf && !returningToTitle)
         {
             Time.timeScale = 0;
@@ -741,16 +786,31 @@ public class PlayerControls : MonoBehaviour
             if (!ledgeGrabbing)
                 ledgeGrabbing = CheckLedgeGrab();
 
-            if (canRest && Interact())
-                RestOnBench();
-
-            if (canEnter && Interact())
-                StartCoroutine( EnteringDoor() );
-
             if (player.GetButtonDown("R"))
                 SwitchPokemonSet();
 
-            if (currentBerry != null && Interact())
+
+            if (Interact() && canRest)
+                RestOnBench();
+
+            else if (Interact() && canEnter)
+                StartCoroutine( EnteringDoor() );
+                
+            else if (Interact() && canTakeSubway)
+            {
+                subWayUi.SetActive(true);
+                Time.timeScale = 0;
+                foreach (SubwayStopButton stop in subWayStopsToActivate)
+                {
+                    if (stop.gameObject.activeSelf && stop.destination == SceneManager.GetActiveScene().name)
+                    {
+                        stop.button.Select();
+                        break;
+                    }
+                }
+            }
+                    // StartCoroutine( Take() );
+            else if (currentBerry != null && Interact())
             {
                 body.velocity = Vector2.zero;
                 inCutscene = true;
@@ -1926,7 +1986,8 @@ public class PlayerControls : MonoBehaviour
             }
             if (sceneMaps.ContainsKey(sceneName))
             {
-                lastScene.LeftScene();
+                if (lastScene != null)
+                    lastScene.LeftScene();
                 sceneMaps[sceneName].EnterScene();
                 lastScene = sceneMaps[sceneName];
             }
@@ -1993,6 +2054,19 @@ public class PlayerControls : MonoBehaviour
         canEnter = false;
         body.velocity = Vector2.zero;
     }
+    IEnumerator NoWalkingOut()  // Moving 
+    {
+        yield return new WaitForEndOfFrame();
+        anim.SetBool("isGrounded", true);
+        anim.SetBool("isFalling", false);
+        anim.SetTrigger("reset");
+
+        yield return new WaitForSeconds(0.5f);
+        inCutscene = false;
+        canEnter = false;
+        canTakeSubway = false;
+        body.velocity = Vector2.zero;
+    }
     IEnumerator ExitingDoor()  // Moving left
     {
         yield return new WaitForEndOfFrame();
@@ -2018,7 +2092,8 @@ public class PlayerControls : MonoBehaviour
                 transitionAnim.SetTrigger("toBlack");
 
             yield return new WaitForSeconds(1);
-            SceneManager.LoadScene(newSceneName); Debug.Log("<color=#0EB8BF>" + newSceneName + "</color>");
+            SceneManager.LoadScene(newSceneName); 
+            // Debug.Log("<color=#0EB8BF>" + newSceneName + "</color>");
             body.velocity = Vector2.zero;
 
             yield return new WaitForEndOfFrame();
@@ -2042,6 +2117,115 @@ public class PlayerControls : MonoBehaviour
             }
         }
     }
+    
+
+    public void SELECT_DEFAULT_STATION()
+    {
+        if (!canTakeSubway)
+            return;
+        foreach (SubwayStopButton stop in subWayStopsToActivate)
+        {
+            if (stop.gameObject.activeSelf && stop.destination == SceneManager.GetActiveScene().name)
+            {
+                stop.button.Select();
+                break;
+            }
+        }
+    }
+    public void TakeTheTrain()
+    {
+        subWayUi.SetActive(false);
+        Time.timeScale = 1;
+        inCutscene = false;
+        if (musicManager != null)
+            StartCoroutine( musicManager.LowerMusic(musicManager.currentMusic, 0.5f) );
+        StartCoroutine( TakingTheSubway() );
+    }
+    
+    public IEnumerator TakingTheSubway()
+    {
+        if (!inCutscene)
+        {
+            body.velocity = Vector2.zero;
+            inCutscene = true;
+
+            if (transitionAnim != null)
+                transitionAnim.SetTrigger("toBlack");
+
+            yield return new WaitForSeconds(1);
+            trainSound.Play();
+            SceneManager.LoadScene(newSceneName);
+            // body.velocity = Vector2.zero;
+
+            yield return new WaitForEndOfFrame();
+            this.transform.position = newScenePos;
+
+            yield return new WaitForSeconds(2f);
+            string sceneName = SceneManager.GetActiveScene().name;
+            if (!visitedScenes.Contains(sceneName))
+            {
+                visitedScenes.Add(sceneName);
+                PlayerPrefsElite.SetStringArray("visitedScenes" + gameNumber, visitedScenes.ToArray());
+                if (sceneMaps.ContainsKey(sceneName))
+                    sceneMaps[sceneName].Visited();
+                else
+                    Debug.Log("<color=#FF8800>" + sceneName + " map has not been added" +"</color>");
+            }
+            if (sceneMaps.ContainsKey(sceneName))
+            {
+                if (lastScene != null)
+                    lastScene.LeftScene();
+                sceneMaps[sceneName].EnterScene();
+                lastScene = sceneMaps[sceneName];
+            }
+            
+            string newSceneFirstWord = sceneName.Split(' ')[0];
+            if (newSceneFirstWord != PlayerPrefsElite.GetString("currentArea" + gameNumber))
+            {
+                PlayerPrefsElite.SetString("currentArea" + gameNumber, newSceneFirstWord);
+                if (musicManager != null)
+                    StartingMusic(newSceneFirstWord);
+            }
+            if (transitionAnim != null)
+                transitionAnim.SetTrigger("fromBlack");
+
+            if (mapMenu.activeSelf)
+                mapMenuRect.localPosition = -lastScene.rect.localPosition + (Vector3) mapOffset;
+            
+            yield return new WaitForSeconds(0.4f);
+            AllPokemonReturned();
+         
+            StartCoroutine( NoWalkingOut() );
+        }
+    }
+    // public IEnumerator TakingTheSubway()
+    // {
+    //     if (!inCutscene)
+    //     {
+    //         body.velocity = Vector2.zero;
+    //         inCutscene = true;
+
+    //         if (transitionAnim != null)
+    //             transitionAnim.SetTrigger("toBlack");
+
+    //         yield return new WaitForSeconds(1);
+    //         trainSound.Play();
+    //         SceneManager.LoadScene(newSceneName); 
+    //         // Debug.Log("<color=#0EB8BF>" + newSceneName + "</color>");
+    //         body.velocity = Vector2.zero;
+
+    //         yield return new WaitForEndOfFrame();
+    //         this.transform.position = newScenePos;
+
+    //         yield return new WaitForSeconds(2.1f);
+    //         if (transitionAnim != null)
+    //             transitionAnim.SetTrigger("fromBlack");
+            
+    //         yield return new WaitForSeconds(0.4f);
+
+    //         StartCoroutine( NoWalkingOut() );
+    //     }
+    // }
 
     public void CUTSCENE_EVENT_ON()
     {
@@ -2427,6 +2611,8 @@ public class PlayerControls : MonoBehaviour
             PlayerPrefsElite.SetStringArray("pokemonsCaught" + gameNumber, pokemonsCaught.ToArray());
         if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber))
             PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber, itemsObtained.ToArray());
+        if (PlayerPrefsElite.VerifyArray("subwaysCleared" + gameNumber))
+            PlayerPrefsElite.SetStringArray("subwaysCleared" + gameNumber, subwaysCleared.ToArray());
         if (PlayerPrefsElite.VerifyArray("berriesCollected" + gameNumber))
             PlayerPrefsElite.SetStringArray("berriesCollected" + gameNumber, berriesCollected.ToArray());
         if (PlayerPrefsElite.VerifyArray("spareKeychain" + gameNumber))
@@ -2444,6 +2630,7 @@ public class PlayerControls : MonoBehaviour
 
         CheckEquippablePokemon();
         CheckObtainedItems();
+        CheckSubwaysCleared();
 
         enemyDefeated.Clear(); PlayerPrefsElite.SetStringArray("enemyDefeated", new string[0]);
     }
@@ -2464,6 +2651,8 @@ public class PlayerControls : MonoBehaviour
             pokemonsCaught = new List<string>( PlayerPrefsElite.GetStringArray("pokemonsCaught" + gameNumber) );
         if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber))
             itemsObtained = new List<string>( PlayerPrefsElite.GetStringArray("itemsObtained" + gameNumber) );
+        if (PlayerPrefsElite.VerifyArray("subwaysCleared" + gameNumber))
+            subwaysCleared = new List<string>( PlayerPrefsElite.GetStringArray("subwaysCleared" + gameNumber) );
         if (PlayerPrefsElite.VerifyArray("berriesCollected" + gameNumber))
             berriesCollected = new List<string>( PlayerPrefsElite.GetStringArray("berriesCollected" + gameNumber) );
         if (PlayerPrefsElite.VerifyArray("spareKeychain" + gameNumber))
@@ -2486,6 +2675,10 @@ public class PlayerControls : MonoBehaviour
     private void SaveEquippedItems()
     {
         PlayerPrefsElite.SetStringArray("equippedItems" + gameNumber, equippedItemNames.ToArray());
+    }
+    private void SaveSubwayCleared()
+    {
+        PlayerPrefsElite.SetStringArray("subwaysCleared" + gameNumber, subwaysCleared.ToArray());
     }
 
     //* REMEMBER SPECIAL POKEMON SLOTS (DYNAMIC PROGRAMMING) 
@@ -2576,6 +2769,24 @@ public class PlayerControls : MonoBehaviour
         else
         {
             PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber, new string[0]);
+        }
+    }
+    public void CheckSubwaysCleared()
+    {
+        if (PlayerPrefsElite.VerifyArray("subwaysCleared" + gameNumber))
+        {
+            subwaysCleared = new List<string>( PlayerPrefsElite.GetStringArray("subwaysCleared" + gameNumber) );
+            
+            HashSet<SubwayStopButton> stopsSet = new HashSet<SubwayStopButton>(subWayStopsToActivate);
+            foreach (SubwayStopButton stop in stopsSet)
+                if (subwaysCleared.Contains(stop.areaName))
+                    stop.UnlockStop();
+                else
+                    stop.LockStop();
+        }
+        else
+        {
+            PlayerPrefsElite.SetStringArray("subwaysCleared" + gameNumber, new string[0]);
         }
     }
 
