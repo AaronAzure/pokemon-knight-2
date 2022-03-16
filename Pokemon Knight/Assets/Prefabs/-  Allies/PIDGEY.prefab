@@ -655,6 +655,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 7683898162574173712}
+  pokemonName: pidgey
+  extraLevel: 0
   anim: {fileID: 7683898162395236361}
   hitbox: {fileID: 0}
   atkDmg: 30
@@ -684,9 +686,11 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
+  feetBox: {x: 0, y: 0}
+  feetOffset: {x: 0, y: 0}
   feetRadius: 0.1
   atkPos: {fileID: 7683898162395236401}
-  gust: {fileID: 491219381366719844, guid: 87379f7b8743d483684bde21f519c600, type: 3}
+  gust: {fileID: 7011715991304629414, guid: 87379f7b8743d483684bde21f519c600, type: 3}
 --- !u!1 &7683898162574173712
 GameObject:
   m_ObjectHideFlags: 0

@@ -491,6 +491,7 @@ GameObject:
   - component: {fileID: 5132741295536627786}
   - component: {fileID: 8378938705710331896}
   - component: {fileID: 4695170927560479832}
+  - component: {fileID: 7797744347745066198}
   m_Layer: 8
   m_Name: SNORLAX BOSS (enemy)
   m_TagString: Enemy
@@ -678,7 +679,10 @@ MonoBehaviour:
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
   spawner: {fileID: 0}
+  horde: {fileID: 0}
+  partOfHorde: 0
   alert: {fileID: 0}
+  isTargeting: 0
   playerInField: 0
   playerInSight: 0
   playerInCloseRange: 0
@@ -689,6 +693,7 @@ MonoBehaviour:
   movingRight: 0
   aquatic: 0
   dontGetHitTwice: {fileID: 0}
+  performingBuff: 0
   canUseBuffs: 0
   buffDuration: 5
   beforeNextUse: 5
@@ -703,6 +708,7 @@ MonoBehaviour:
   increaseDef: {fileID: 21300000, guid: 803d0478c00c541368ad3d9588c08a5e, type: 3}
   increaseSpd: {fileID: 21300000, guid: dc912f0b2b3a04e8e9249ae5607abeab, type: 3}
   spawnedByWave: 0
+  loot: {fileID: 7797744347745066198}
   moveSpeed: 2.5
   jumpHeight: 20
   groundDetect: {fileID: 6347547858869078385}
@@ -712,6 +718,25 @@ MonoBehaviour:
   anim: {fileID: 8378938705710331896}
   glint: {fileID: 0}
   bodySlamExplosion: {fileID: 1277558913905751261}
+--- !u!114 &7797744347745066198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6347547860042096051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loots:
+  - item: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
+    quantity: 10
+  - item: {fileID: 6231101655905951431, guid: 3154a023cb73842f6b4b377e97abffd7, type: 3}
+    quantity: 4
+  - item: {fileID: 1856295254583195530, guid: d27018a99e7b54de48824b3e1560cb92, type: 3}
+    quantity: 2
 --- !u!1 &8422231551138923261
 GameObject:
   m_ObjectHideFlags: 0
@@ -1162,11 +1187,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21839c8bb8537054c855321a11c68a11, type: 3}
---- !u!1 &5986628167979688879 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1534639363344604, guid: 21839c8bb8537054c855321a11c68a11, type: 3}
-  m_PrefabInstance: {fileID: 5985764557666823027}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &5895409272879681131 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 198446838495520024, guid: 21839c8bb8537054c855321a11c68a11, type: 3}
@@ -1175,6 +1195,11 @@ ParticleSystem:
 --- !u!4 &5980974554891332937 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4791181815318074, guid: 21839c8bb8537054c855321a11c68a11, type: 3}
+  m_PrefabInstance: {fileID: 5985764557666823027}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5986628167979688879 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1534639363344604, guid: 21839c8bb8537054c855321a11c68a11, type: 3}
   m_PrefabInstance: {fileID: 5985764557666823027}
   m_PrefabAsset: {fileID: 0}
 --- !u!210 &560192828719531149
@@ -1682,14 +1707,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6dbfe9ab44054723a942f2cb14d2834, type: 3}
---- !u!1 &8365389850214731242 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1465899634756489508, guid: d6dbfe9ab44054723a942f2cb14d2834, type: 3}
-  m_PrefabInstance: {fileID: 6935611923425402062}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8365389850214551982 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1465899634756832608, guid: d6dbfe9ab44054723a942f2cb14d2834, type: 3}
+  m_PrefabInstance: {fileID: 6935611923425402062}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8365389850214731242 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1465899634756489508, guid: d6dbfe9ab44054723a942f2cb14d2834, type: 3}
   m_PrefabInstance: {fileID: 6935611923425402062}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8010826741509112268

@@ -1026,6 +1026,7 @@ GameObject:
   - component: {fileID: 8902483740686796635}
   - component: {fileID: 6454011142893915875}
   - component: {fileID: 6454011142893915872}
+  - component: {fileID: 1789991777464209985}
   m_Layer: 8
   m_Name: VILEPLUME (enemy)
   m_TagString: Enemy
@@ -1142,7 +1143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lv: 20
   chapterLevel: 2
-  maxHp: 200
+  maxHp: 300
   hp: 0
   mainAnim: {fileID: 6454011142893915875}
   contactDmg: 5
@@ -1166,7 +1167,7 @@ MonoBehaviour:
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
   bossRoom: {fileID: 0}
-  extraHp: 35
+  extraHp: 45
   extraDmg: 5
   extraProjectileDmg: 4
   perLv: 2
@@ -1215,6 +1216,8 @@ MonoBehaviour:
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
   spawner: {fileID: 0}
+  horde: {fileID: 0}
+  partOfHorde: 0
   alert: {fileID: 3262663828271737939}
   isTargeting: 0
   playerInField: 0
@@ -1227,6 +1230,7 @@ MonoBehaviour:
   movingRight: 0
   aquatic: 0
   dontGetHitTwice: {fileID: 0}
+  performingBuff: 0
   canUseBuffs: 0
   buffDuration: 5
   beforeNextUse: 5
@@ -1241,12 +1245,15 @@ MonoBehaviour:
   increaseDef: {fileID: 21300000, guid: 803d0478c00c541368ad3d9588c08a5e, type: 3}
   increaseSpd: {fileID: 21300000, guid: dc912f0b2b3a04e8e9249ae5607abeab, type: 3}
   spawnedByWave: 0
-  jumpForce: 10
+  loot: {fileID: 1789991777464209985}
+  moveSpeed: 3
+  jumpForce: 15
   target: {fileID: 0}
   targetFound: 0
   stopSearching: 0
+  moving: 0
   groundDetection: {fileID: 7343922905473793213}
-  distanceDetect: 0.5
+  distanceDetect: 1.5
   poisonPowder: {fileID: 6543823460546405717, guid: 18041cdd5e361441789c06c073bbbdd9, type: 3}
   sludgeBomb: {fileID: 3066352489987038474, guid: c7115e7712d964158a11fb06aa26d091, type: 3}
   leafTornado: {fileID: 0}
@@ -1257,6 +1264,21 @@ MonoBehaviour:
   trajectory: 0
   lineOfSight: {x: 0, y: 0, z: 0}
   fovCol: {fileID: 0}
+--- !u!114 &1789991777464209985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6454011142893915874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loots:
+  - item: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
+    quantity: 20
 --- !u!1 &7071205998087417165
 GameObject:
   m_ObjectHideFlags: 0
@@ -1535,7 +1557,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 895878953975697454, guid: dacb470f1ab3243d89ef03011e5f3c61, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.34
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 895878953975697454, guid: dacb470f1ab3243d89ef03011e5f3c61, type: 3}
       propertyPath: m_LocalPosition.z

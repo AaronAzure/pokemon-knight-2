@@ -599,7 +599,7 @@ Transform:
   m_GameObject: {fileID: 6347547858869078386}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 2723475706248323214}
   m_Father: {fileID: 6347547860042096048}
@@ -688,6 +688,7 @@ MonoBehaviour:
   hitbox: {fileID: 0}
   atkDmg: 0
   atkForce: 0
+  spBonus: 0
   extraDmg: 0
   perLevel: 1
   outTime: 0.5
@@ -716,6 +717,8 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 0
+  feetBox: {x: 0, y: 0}
+  feetOffset: {x: 0, y: 0}
   feetRadius: 0.1
 --- !u!1 &7344627102729884007
 GameObject:

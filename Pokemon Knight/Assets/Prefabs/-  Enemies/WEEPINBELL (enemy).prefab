@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: 5190738568925567535}
   - component: {fileID: 2136142339847862491}
   - component: {fileID: 1482746041171250567}
+  - component: {fileID: 6271023477514305207}
   m_Layer: 8
   m_Name: WEEPINBELL (enemy)
   m_TagString: Enemy
@@ -343,8 +344,8 @@ MonoBehaviour:
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
   bossRoom: {fileID: 0}
   extraHp: 20
-  extraDmg: 3
-  extraProjectileDmg: 5
+  extraDmg: 4
+  extraProjectileDmg: 4
   perLv: 2
   calcExtraProjectileDmg: 0
   expPossess: 25
@@ -391,6 +392,8 @@ MonoBehaviour:
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
   spawner: {fileID: 0}
+  horde: {fileID: 0}
+  partOfHorde: 0
   alert: {fileID: 3803489936706705490}
   isTargeting: 0
   playerInField: 0
@@ -403,6 +406,7 @@ MonoBehaviour:
   movingRight: 0
   aquatic: 0
   dontGetHitTwice: {fileID: 0}
+  performingBuff: 0
   canUseBuffs: 0
   buffDuration: 5
   beforeNextUse: 5
@@ -413,6 +417,7 @@ MonoBehaviour:
   increaseDef: {fileID: 0}
   increaseSpd: {fileID: 0}
   spawnedByWave: 0
+  loot: {fileID: 6271023477514305207}
   moveSpeed: 2.5
   jumpForce: 16
   canPivot: 1
@@ -429,6 +434,21 @@ MonoBehaviour:
   lineOfSight: {x: 0, y: 0, z: 0}
   missCount: 0
   moving: 0
+--- !u!114 &6271023477514305207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5190738568925567528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loots:
+  - item: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
+    quantity: 10
 --- !u!1 &5190738569146184716
 GameObject:
   m_ObjectHideFlags: 0

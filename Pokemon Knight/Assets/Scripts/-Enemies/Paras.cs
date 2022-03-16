@@ -196,7 +196,7 @@ public class Paras : Enemy
 
     public void STUN_SPORE()
     {
-        if (stunSpore != null)
+        if (stunSpore != null && hp > 0)
         {
             var obj = Instantiate(stunSpore, this.transform.position, stunSpore.transform.rotation);
             obj.atkDmg = (projectileDmg + calcExtraProjectileDmg);

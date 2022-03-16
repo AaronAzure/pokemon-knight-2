@@ -730,6 +730,7 @@ GameObject:
   - component: {fileID: 9176231504721097512}
   - component: {fileID: 6530007894587127881}
   - component: {fileID: 5074059084330990211}
+  - component: {fileID: 4818201274477923607}
   m_Layer: 8
   m_Name: TANGELA (enemy)
   m_TagString: Enemy
@@ -854,6 +855,7 @@ MonoBehaviour:
   contactKb: 10
   projectileDmg: 5
   isSmart: 1
+  isEvenSmarter: 0
   renderers:
   - {fileID: 1031410587226232904}
   - {fileID: 5485312537736016903}
@@ -917,16 +919,24 @@ MonoBehaviour:
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
   spawner: {fileID: 0}
+  horde: {fileID: 0}
+  partOfHorde: 0
   alert: {fileID: 2996076087178614816}
+  isTargeting: 0
   playerInField: 0
   playerInSight: 0
   playerInCloseRange: 0
   alwaysAttackPlayer: 0
+  isInRoom: 0
   cannotMove: 0
   movingLeft: 0
   movingRight: 0
   aquatic: 0
+  dontGetHitTwice: {fileID: 0}
+  performingBuff: 0
   canUseBuffs: 0
+  buffDuration: 5
+  beforeNextUse: 5
   statusConditions:
   - {fileID: 7794675116893522763}
   - {fileID: 7727905854549093071}
@@ -938,6 +948,7 @@ MonoBehaviour:
   increaseDef: {fileID: 21300000, guid: 803d0478c00c541368ad3d9588c08a5e, type: 3}
   increaseSpd: {fileID: 21300000, guid: dc912f0b2b3a04e8e9249ae5607abeab, type: 3}
   spawnedByWave: 0
+  loot: {fileID: 4818201274477923607}
   moveSpeed: 2
   distanceDetect: 1
   groundDetection: {fileID: 7005814167754721486}
@@ -947,6 +958,21 @@ MonoBehaviour:
   spawnedHolder: {fileID: 2299243147025881872}
   absorbSpawns: []
   attacking: 0
+--- !u!114 &4818201274477923607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6720000477191158417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loots:
+  - item: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
+    quantity: 8
 --- !u!1 &7418136976851294526
 GameObject:
   m_ObjectHideFlags: 0
@@ -1736,6 +1762,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &371123508448817594 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8181078561444662038, guid: d20f75ad4b74e41c68f2c521dcb67ad9, type: 3}
+  m_PrefabInstance: {fileID: 8408072372600076972}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7784875283598828338 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1776133033594329502, guid: d20f75ad4b74e41c68f2c521dcb67ad9, type: 3}
+  m_PrefabInstance: {fileID: 8408072372600076972}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7727905854549093071 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2274441130275049571, guid: d20f75ad4b74e41c68f2c521dcb67ad9, type: 3}
@@ -1747,13 +1783,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &7784875283598828338 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1776133033594329502, guid: d20f75ad4b74e41c68f2c521dcb67ad9, type: 3}
-  m_PrefabInstance: {fileID: 8408072372600076972}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &371123508448817594 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8181078561444662038, guid: d20f75ad4b74e41c68f2c521dcb67ad9, type: 3}
-  m_PrefabInstance: {fileID: 8408072372600076972}
-  m_PrefabAsset: {fileID: 0}

@@ -5,13 +5,15 @@ using UnityEngine;
 public class Vileplume : Enemy
 {
     [Space] [Header("Vileplume")]  
-    public float jumpForce=10;
+    public float moveSpeed=3;
+    public float jumpForce=15;
     private bool jumpLeft=false;
     private bool goingToJump;
     private LayerMask finalMask;
     public Transform target;
     public bool targetFound;
     public bool stopSearching;
+    public bool moving;
     [Space] public Transform groundDetection;
     public float distanceDetect=0.5f;
     [Space] [SerializeField] private EnemyAttack poisonPowder;
@@ -26,7 +28,7 @@ public class Vileplume : Enemy
     [Space] public BoxCollider2D fovCol;
     private Coroutine targetLostCo;
     // private bool moving;
-
+    private bool canUsePoisonPowder=true;
     private RaycastHit2D groundInfo;
     
 
@@ -111,12 +113,46 @@ public class Vileplume : Enemy
                     CallChildOnTargetLost();
             }
 
-            if (!receivingKnockback && !goingToJump && body.velocity.y <= 0 && IsGrounded())
+            if (moving && !receivingKnockback)
+            {
+                if (movingLeft)
+                {
+                    if (!PlayerIsToTheLeft())
+                    {
+                        STOP_MOVING();
+                        CONTINUE_FOLLOWING();
+                    }
+                    body.velocity = new Vector2(-moveSpeed, body.velocity.y);
+
+                }
+                else if (movingRight)
+                {
+                    if (PlayerIsToTheLeft())
+                    {
+                        STOP_MOVING();
+                        CONTINUE_FOLLOWING();
+                    }
+                    body.velocity = new Vector2(+moveSpeed, body.velocity.y);
+                }
+
+                RaycastHit2D frontInfo;
+
+                if (model.transform.eulerAngles.y > 0) // right
+                    frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect * 2, whatIsGround);
+                else // left
+                    frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect * 2, whatIsGround);
+
+                if ((!groundInfo || frontInfo) && IsBelowTarget() && body.velocity.y == 0)
+                    Jump();
+            }
+
+            groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsGround);
+
+            if (!receivingKnockback && !moving && body.velocity.y <= 0 && IsGrounded())
                 body.velocity *= new Vector2(0,1);
             // else if (goingToJump && body.velocity.y <= 0 && IsGrounded())
             //     mainAnim.SetTrigger("idle");
             
-            groundInfo = Physics2D.Raycast(this.transform.position, Vector2.down, 0.5f, whatIsGround);
         }
     }
 
@@ -134,6 +170,12 @@ public class Vileplume : Enemy
 
     }
 
+
+    bool IsBelowTarget()
+    {
+        return (this.transform.position.y - target.transform.position.y) < -0.1f;
+    }
+
     public void NEXT_ACTION()
     {
         if (playerInField && targetFound)
@@ -143,20 +185,20 @@ public class Vileplume : Enemy
             else if (atkPattern < maxAtkPattern)
             {
                 atkPattern++;
-                if (playerInCloseRange)
+                if (playerInCloseRange && canUsePoisonPowder)
                 {
                     mainAnim.SetTrigger("poisonPowder");
+                    StartCoroutine( PoisonPowderCooldown() );
                 }
                 else
                 {
                     mainAnim.SetTrigger("sludgeBomb");
-                    // JUMP_CHANCE();
                 }
             }
-            else if (atkPattern != maxAtkPattern)
+            else if (atkPattern != maxAtkPattern + 1)
             {
                 atkPattern++;
-                // mainAnim.SetTrigger("jump");
+                WalkTowards();
             }
             else
             {
@@ -167,10 +209,48 @@ public class Vileplume : Enemy
         }
             // StartCoroutine( RestBeforeNextAttack() );
     }
+    IEnumerator PoisonPowderCooldown()
+    {
+        canUsePoisonPowder = false;
+        yield return new WaitForSeconds(6);
+        canUsePoisonPowder = true;
+    }
+
+    private void Jump()
+    {
+        if (IsGrounded() && body.velocity.y == 0 && hp > 0)
+        {
+            // mainAnim.SetTrigger("jump");
+            body.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+    }
+
+    public void WalkTowards()
+    {
+        STOP_FOLLOWING();
+        mainAnim.SetBool("isWalking", true);
+        LookAtTarget();
+        if (PlayerIsToTheLeft())
+        {
+            movingLeft = true;
+            movingRight = false;
+        }
+        else
+        {
+            movingLeft = false;
+            movingRight = true;
+        }
+        moving = true;
+    }
 
     public void DONE_JUMPING()
     {
         goingToJump = false;
+    }
+    public void STOP_MOVING()
+    {
+        moving = false;
+        mainAnim.SetBool("isWalking", false);
     }
     public void STOP_FOLLOWING()
     {
@@ -203,19 +283,32 @@ public class Vileplume : Enemy
             body.AddForce(new Vector2(0, jumpForce + 5), ForceMode2D.Impulse);
     }
 
-    public void ULT_ATTACK()
+    public void ULT_ATTACK(int version)
     {
         if (hp > 0)
         {
             if (sludgeBomb != null && atkPos != null)
             {
-                var obj = Instantiate(sludgeBomb, atkPos.position, sludgeBomb.transform.rotation);
-                obj.body.gravityScale = 3;
-                obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
-                obj.direction = new Vector2(
-                    Random.Range(3,11) * ( Random.Range(0,2) == 0 ? -1 : 1),
-                    Random.Range(16, 21)
-                );
+                if (version == 0)
+                {
+                    for (int i=0 ; i<7 ; i++)
+                    {
+                        var obj = Instantiate(sludgeBomb, atkPos.position, sludgeBomb.transform.rotation);
+                        obj.body.gravityScale = 3;
+                        obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
+                        obj.direction = new Vector2(-15 + 5*i, 17.5f);
+                    }
+                }
+                else
+                {
+                    for (int i=0 ; i<6 ; i++)
+                    {
+                        var obj = Instantiate(sludgeBomb, atkPos.position, sludgeBomb.transform.rotation);
+                        obj.body.gravityScale = 3;
+                        obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
+                        obj.direction = new Vector2(-12.5f + 5*i, 17.5f);
+                    }
+                }
             }
         }
     }
@@ -255,16 +348,16 @@ public class Vileplume : Enemy
     }
 
 
-    public void FLIP()
-    {
-        if (model.transform.eulerAngles.y > 0)  // right
-            model.transform.eulerAngles = new Vector3(0,0);
-        else  // left
-            model.transform.eulerAngles = new Vector3(0,180);
+    // public void FLIP()
+    // {
+    //     if (model.transform.eulerAngles.y > 0)  // right
+    //         model.transform.eulerAngles = new Vector3(0,0);
+    //     else  // left
+    //         model.transform.eulerAngles = new Vector3(0,180);
 
-        if (movingLeft)
-            { movingLeft = false; movingRight = true; }
-        else if (movingRight)
-            { movingLeft = true; movingRight = false; }
-    }
+    //     if (movingLeft)
+    //         { movingLeft = false; movingRight = true; }
+    //     else if (movingRight)
+    //         { movingLeft = true; movingRight = false; }
+    // }
 }

@@ -4931,8 +4931,9 @@ GameObject:
   - component: {fileID: 5850416406816429718}
   - component: {fileID: 5850416406816429714}
   - component: {fileID: 5850416406816429715}
-  - component: {fileID: 5850416406816429723}
   - component: {fileID: 7241809505544309795}
+  - component: {fileID: 5850416406816429723}
+  - component: {fileID: 3662468729622258163}
   m_Layer: 8
   m_Name: METAPOD (enemy)
   m_TagString: Enemy
@@ -5015,6 +5016,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!95 &7241809505544309795
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5850416406816429716}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7a266a8f436334cda9381b6b6055de72, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &5850416406816429723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5036,6 +5056,7 @@ MonoBehaviour:
   contactKb: 10
   projectileDmg: 5
   isSmart: 0
+  isEvenSmarter: 0
   renderers:
   - {fileID: 8959013983781483722}
   defeatedMat: {fileID: 0}
@@ -5060,6 +5081,12 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
+  whatIsBounds:
+    serializedVersion: 2
+    m_Bits: 0
+  whatIsTree:
+    serializedVersion: 2
+    m_Bits: 0
   statusBar: {fileID: 688795535926388655}
   hpEffectImg: {fileID: 5772875385975865877}
   hpImg: {fileID: 2152001487630288090}
@@ -5085,13 +5112,24 @@ MonoBehaviour:
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
   spawner: {fileID: 0}
+  horde: {fileID: 0}
+  partOfHorde: 0
   alert: {fileID: 0}
+  isTargeting: 0
   playerInField: 0
   playerInSight: 0
+  playerInCloseRange: 0
   alwaysAttackPlayer: 0
+  isInRoom: 0
+  cannotMove: 0
   movingLeft: 0
   movingRight: 0
+  aquatic: 0
+  dontGetHitTwice: {fileID: 0}
+  performingBuff: 0
   canUseBuffs: 0
+  buffDuration: 5
+  beforeNextUse: 5
   statusConditions:
   - {fileID: 696446644331728854}
   - {fileID: 1061002739547074130}
@@ -5102,26 +5140,24 @@ MonoBehaviour:
   increaseAtk: {fileID: 21300000, guid: e6aa1c7ac5d224f13baa80336f2fa589, type: 3}
   increaseDef: {fileID: 21300000, guid: 803d0478c00c541368ad3d9588c08a5e, type: 3}
   increaseSpd: {fileID: 21300000, guid: dc912f0b2b3a04e8e9249ae5607abeab, type: 3}
+  spawnedByWave: 0
+  loot: {fileID: 3662468729622258163}
   distanceDetect: 10
---- !u!95 &7241809505544309795
-Animator:
-  serializedVersion: 3
+--- !u!114 &3662468729622258163
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5850416406816429716}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7a266a8f436334cda9381b6b6055de72, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loots:
+  - item: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
+    quantity: 2
 --- !u!1 &7766297111936708759
 GameObject:
   m_ObjectHideFlags: 0

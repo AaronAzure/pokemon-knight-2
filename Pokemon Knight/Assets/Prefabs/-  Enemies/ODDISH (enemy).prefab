@@ -522,8 +522,9 @@ GameObject:
   - component: {fileID: 1210750820205220004}
   - component: {fileID: 8587678589928221810}
   - component: {fileID: 6059486759220388701}
-  - component: {fileID: 7907085212256002918}
   - component: {fileID: 5798675815866953818}
+  - component: {fileID: 7907085212256002918}
+  - component: {fileID: 7935767185365052515}
   m_Layer: 8
   m_Name: ODDISH (enemy)
   m_TagString: Enemy
@@ -594,6 +595,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.75, y: 0.75}
   m_EdgeRadius: 0
+--- !u!50 &5798675815866953818
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5249119507078783117}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 3
+  m_Material: {fileID: 6200000, guid: 4635c528ab87143a28474f897496146b, type: 2}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!114 &7907085212256002918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -615,6 +637,7 @@ MonoBehaviour:
   contactKb: 10
   projectileDmg: 4
   isSmart: 1
+  isEvenSmarter: 0
   renderers:
   - {fileID: 5478942814163688623}
   - {fileID: 2335878881091891655}
@@ -677,16 +700,24 @@ MonoBehaviour:
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
   spawner: {fileID: 0}
+  horde: {fileID: 0}
+  partOfHorde: 0
   alert: {fileID: 0}
+  isTargeting: 0
   playerInField: 0
   playerInSight: 0
   playerInCloseRange: 0
   alwaysAttackPlayer: 0
+  isInRoom: 0
   cannotMove: 0
   movingLeft: 0
   movingRight: 0
   aquatic: 0
+  dontGetHitTwice: {fileID: 0}
+  performingBuff: 0
   canUseBuffs: 0
+  buffDuration: 5
+  beforeNextUse: 5
   statusConditions:
   - {fileID: 8770370005866762583}
   - {fileID: 9125889177834057939}
@@ -698,6 +729,7 @@ MonoBehaviour:
   increaseDef: {fileID: 21300000, guid: 803d0478c00c541368ad3d9588c08a5e, type: 3}
   increaseSpd: {fileID: 21300000, guid: dc912f0b2b3a04e8e9249ae5607abeab, type: 3}
   spawnedByWave: 0
+  loot: {fileID: 7935767185365052515}
   moveSpeed: 2
   distanceDetect: 1
   groundDetection: {fileID: 8404566178504463058}
@@ -714,27 +746,21 @@ MonoBehaviour:
   target: {fileID: 0}
   visionCol: {fileID: 1884754462771420046}
   colOffset: {x: -2.5, y: 0}
---- !u!50 &5798675815866953818
-Rigidbody2D:
-  serializedVersion: 4
+--- !u!114 &7935767185365052515
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5249119507078783117}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 3
-  m_Material: {fileID: 6200000, guid: 4635c528ab87143a28474f897496146b, type: 2}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loots:
+  - item: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
+    quantity: 4
 --- !u!1 &6834304160540669383
 GameObject:
   m_ObjectHideFlags: 0

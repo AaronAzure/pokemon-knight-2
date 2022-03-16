@@ -10137,6 +10137,7 @@ GameObject:
   - component: {fileID: 7907085212256002918}
   - component: {fileID: 5798675815866953818}
   - component: {fileID: 3828433975160120042}
+  - component: {fileID: -5496985925362056002}
   m_Layer: 8
   m_Name: ODDISH (mini boss)
   m_TagString: Enemy
@@ -10231,6 +10232,7 @@ MonoBehaviour:
   contactKb: 10
   projectileDmg: 5
   isSmart: 0
+  isEvenSmarter: 0
   renderers:
   - {fileID: 5478942814163688623}
   - {fileID: 2335878881091891655}
@@ -10293,16 +10295,23 @@ MonoBehaviour:
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
   spawner: {fileID: 0}
+  horde: {fileID: 0}
+  partOfHorde: 0
   alert: {fileID: 0}
+  isTargeting: 0
   playerInField: 0
   playerInSight: 0
   playerInCloseRange: 0
   alwaysAttackPlayer: 0
+  isInRoom: 0
   cannotMove: 0
   movingLeft: 0
   movingRight: 0
   aquatic: 0
+  dontGetHitTwice: {fileID: 0}
   canUseBuffs: 0
+  buffDuration: 5
+  beforeNextUse: 5
   statusConditions: []
   nCondition: 0
   empty: {fileID: 0}
@@ -10310,6 +10319,7 @@ MonoBehaviour:
   increaseDef: {fileID: 0}
   increaseSpd: {fileID: 0}
   spawnedByWave: 0
+  loot: {fileID: -5496985925362056002}
   moveSpeed: 2
   distanceDetect: 1
   groundDetection: {fileID: 8404566178504463058}
@@ -10358,6 +10368,22 @@ SortingGroup:
   m_SortingLayerID: 480402825
   m_SortingLayer: 1
   m_SortingOrder: 0
+--- !u!114 &-5496985925362056002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5249119507078783117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loots:
+  - item: {fileID: 6231101655905951431, guid: 3154a023cb73842f6b4b377e97abffd7, type: 3}
+    minQuantity: 1
+    maxQuantity: 1
 --- !u!1 &5545332425521020352
 GameObject:
   m_ObjectHideFlags: 0

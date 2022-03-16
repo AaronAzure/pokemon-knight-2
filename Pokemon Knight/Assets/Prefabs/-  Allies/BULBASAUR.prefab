@@ -474,6 +474,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 4319595061820776096}
+  pokemonName: bulbasaur
+  extraLevel: 0
   anim: {fileID: 4319595063331818080}
   hitbox: {fileID: 4319595062940671707}
   atkDmg: 25
@@ -500,6 +502,8 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
+  feetBox: {x: 0, y: 0}
+  feetOffset: {x: 0, y: 0}
   feetRadius: 0.1
   ultAtk: {fileID: 1973030686368377439}
 --- !u!50 &4319595063331818108

@@ -129,7 +129,8 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected bool movingRight;
     private bool downToHalfHp;
     [Space] public bool aquatic;
-    public AllyAttack dontGetHitTwice;
+    [HideInInspector] public AllyAttack dontGetHitTwice;
+    public bool performingBuff;
 
 
     [Space] [Header("Buffs / Debuffs")]
@@ -150,6 +151,10 @@ public abstract class Enemy : MonoBehaviour
     private enum HpEffect { none, heal, lost };
     private HpEffect healthStatus = HpEffect.none;
     [HideInInspector] public bool spawnedByWave;
+    
+    
+    [Space] [Header("Loot")]
+    public DropItems loot;
 
 
 
@@ -162,8 +167,13 @@ public abstract class Enemy : MonoBehaviour
             if (PlayerPrefsElite.VerifyArray("enemyDefeated"))
             {
                 HashSet<string> names = new HashSet<string>(PlayerPrefsElite.GetStringArray("enemyDefeated"));
+
                 if (names.Contains(enemyId))
+                {
+                    if (horde != null)  
+                        horde.RemoveFromEnemies(this);
                     Destroy(this.gameObject);
+                }
             }
         }
 
@@ -403,7 +413,7 @@ public abstract class Enemy : MonoBehaviour
             // if (isEvenSmarter && force > 0)
             //     LookAtPlayer();
             CallChildOnDamaged();
-            if (isSmart && force > 0)
+            if (isSmart && force > 0 && hp > 0)
                 LookAtPlayer();
 
             // Dramatic Boss Finisher
@@ -437,6 +447,12 @@ public abstract class Enemy : MonoBehaviour
                 
                 if (horde != null)
                     horde.RemoveFromEnemies(this);
+
+                if (loot != null)
+                        loot.DropLoot();
+                    // if (isBoss && !isMiniBoss)
+                    //     loot.DropLoot(Mathf.CeilToInt((lv + 1) / 10));
+                    // else
 
                 if (playerControls != null && attackedByPlayer)
                 {

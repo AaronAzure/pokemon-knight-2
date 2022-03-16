@@ -599,7 +599,7 @@ Transform:
   m_GameObject: {fileID: 6347547858869078386}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 2723475706248323214}
   - {fileID: 1914570878131250789}
@@ -734,6 +734,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 6347547858869078386}
+  pokemonName: butterfree
+  extraLevel: 0
   anim: {fileID: 2822853350419490634}
   hitbox: {fileID: 9120931980484673826}
   atkDmg: 12
@@ -767,6 +769,8 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
+  feetBox: {x: 0, y: 0}
+  feetOffset: {x: 0, y: 0}
   feetRadius: 0
   atkPos: {fileID: 5911292703825832904}
   poisonPowder: {fileID: 7017939098926669067, guid: 025ede7482c1c473cbfa0ad97184a87b, type: 3}
@@ -818,6 +822,7 @@ MonoBehaviour:
   atkDmg: 0
   atkForce: 0
   spBonus: 0
+  registerOneHitOnly: 0
   spawnEffectObj: {fileID: 184316, guid: 31e2c99c44c0141a98500a5fbaef1402, type: 3}
   spawnEffect: 1
   velocity: 0

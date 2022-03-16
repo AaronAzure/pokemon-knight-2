@@ -5,6 +5,9 @@ using UnityEngine;
 public abstract class Ally : MonoBehaviour
 {
     [Space] [SerializeField] protected GameObject model;
+    public string pokemonName;
+    
+    [Space] public int extraLevel;
     [Space] [SerializeField] protected Animator anim;
     [Space] [Tooltip("Collider within obj, not spawned")] public AllyAttack hitbox;  // Separate gameobject with collider
     public int atkDmg;
@@ -41,7 +44,9 @@ public abstract class Ally : MonoBehaviour
     private bool hitWater;
     private Coroutine co;
     [Space] [SerializeField] protected LayerMask whatIsGround;
-    [SerializeField] private float feetRadius=0.01f;
+    public Vector2 feetBox;
+    public Vector2 feetOffset;
+    [Space] public float feetRadius=0.01f;
     private bool once;
     private bool returning=false;
     private bool shrinking;
@@ -53,7 +58,7 @@ public abstract class Ally : MonoBehaviour
     {
         // Strength grows per level
         if (trainer != null)
-            atkDmg += ( extraDmg * Mathf.CeilToInt(((trainer.lv - 1) / perLevel)) );
+            atkDmg += ( extraDmg * Mathf.CeilToInt(((trainer.lv - 1) + (3 * extraLevel) / perLevel)) );
         if (trainer != null && trainer.crisisCharm && trainer.hpImg.fillAmount <= 0.25f)
             atkDmg *= 2;
         else if (trainer != null && trainer.crisisCharm && trainer.hpImg.fillAmount <= 0.5f)
@@ -80,15 +85,29 @@ public abstract class Ally : MonoBehaviour
 
     public virtual string ExtraDesc(int playerLv) { return ""; }
 
+    public virtual void CallChildOnLanded() { once = true; }
+    public virtual void CallChildIsGrounded() 
+    {
+        RaycastHit2D groundInfo = Physics2D.Raycast(this.transform.position, Vector2.down, feetRadius, whatIsGround);
+        if (groundInfo && body != null && body.velocity.y <= 0)
+        {
+            body.velocity = Vector2.zero;
+            CallChildOnLanded();
+        }
+    }
 
     void LateUpdate() 
     {
         if (!once)
-        {
-            RaycastHit2D groundInfo = Physics2D.Raycast(this.transform.position, Vector2.down, feetRadius, whatIsGround);
-            if (groundInfo && body != null)
-                body.velocity = Vector2.zero;
-        }
+            CallChildIsGrounded();
+    }
+
+    private void OnDrawGizmosSelected() 
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(this.transform.position, this.transform.position + (Vector3.down * feetRadius));
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(this.transform.position + (Vector3)feetOffset, feetBox);
     }
 
     private void OnTriggerEnter2D(Collider2D other) 
@@ -102,6 +121,11 @@ public abstract class Ally : MonoBehaviour
     }
 
     protected virtual void ExtraTrailEffects(FollowTowards ft) {}
+
+    public void IMMEDIATE_RETURN_TO_BALL()
+    {
+        StartCoroutine( ImmediateBackToBall() );
+    }
 
     protected IEnumerator ImmediateBackToBall()
     {

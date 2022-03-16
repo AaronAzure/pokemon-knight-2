@@ -55,5 +55,6 @@ public class AllySquirtle : Ally
         obj.spawnedPos = this.transform.position;
         if (this.transform.localScale.x < 0 || this.transform.eulerAngles.y == 180)    // looking left
             obj.velocity *= -1;
+
     }
 }

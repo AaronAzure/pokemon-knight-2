@@ -19,6 +19,7 @@ public class ButterfreeBoss : Enemy
     [SerializeField] private Transform stunSporePos;
     private int atkCount;
     private bool canMove=true;
+    public bool performingPoisonPowder;
 
 
     public override void Setup()

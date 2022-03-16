@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
@@ -18,9 +19,17 @@ public class HighlightedButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI coolDown;
     
     
-    [Space] [Header("Pokemon Menu")]
+    [Space] [Header("Item Menu")]
     public bool itemMenu;
     [SerializeField] private ItemUi[] items;
+    
+    
+    [Space] [Header("Enhance Menu")]
+    public bool enhanceMenu;
+    [SerializeField] private EnhancePokemonUi[] enhancePokemonUis;
+    public Image[] enhanceImg;
+    public GameObject canEnhanceObj;
+    public TextMeshProUGUI enhancementCostTxt;
 
 
     [Space] [Header("UI (tmpro)")]
@@ -50,7 +59,9 @@ public class HighlightedButton : MonoBehaviour
                             header.text = pokemonButton.ally.moveName;
 
                             float atkDmg = pokemonButton.ally.atkDmg;
-                            atkDmg += ( pokemonButton.ally.extraDmg * Mathf.CeilToInt(((player.lv - 1) / pokemonButton.ally.perLevel)) );
+                            atkDmg += ( pokemonButton.ally.extraDmg * Mathf.CeilToInt(
+                                ((player.lv - 1) + (3 * pokemonButton.ally.extraLevel) / pokemonButton.ally.perLevel)) 
+                            );
                             atkpower.text = atkDmg.ToString();
                             if (pokemonButton.ally.multiHit > 1)
                             {
@@ -111,6 +122,72 @@ public class HighlightedButton : MonoBehaviour
                     desc.text = "";
                 }
             }
+        
+            else if (enhanceMenu)
+            {
+                RefreshEnhanceMenu();
+            }
+        
         }
     }
+
+    public void RefreshEnhanceMenu()
+    {
+        if (enhancePokemonUis != null)
+        {
+            foreach (EnhancePokemonUi epu in enhancePokemonUis)
+            {
+                if (epu != null && epu.pokemon != null && newlyHighlighted.name == epu.name)
+                {
+                    header.text = epu.pokemon.name;
+                    float atkDmg = epu.pokemon.atkDmg;
+                    atkDmg += ( epu.pokemon.extraDmg * Mathf.CeilToInt(
+                        ((player.lv - 1) + (3 * epu.pokemon.extraLevel) / epu.pokemon.perLevel)) 
+                    );
+                    atkpower.text = atkDmg.ToString();
+                    if (epu.pokemon.multiHit > 1)
+                    {
+                        float temp = atkDmg;
+                        atkDmg *= epu.pokemon.multiHit;
+                        atkpower.text = atkDmg.ToString() + " (" + temp + "×" + epu.pokemon.multiHit + ")";
+                    }
+                    atkpower.text = atkDmg.ToString() + "<color=#8FFF78> (+" + (3*epu.pokemon.extraDmg*epu.pokemon.multiHit) + ")</color>";
+
+                    float resummonTime = epu.pokemon.resummonTime;
+                    coolDown.text = resummonTime.ToString();
+
+                    int extraLv = epu.pokemon.extraLevel;
+                    for (int i=0 ; i<enhanceImg.Length ; i++)
+                    {
+                        if (extraLv == i)
+                        {
+                            enhanceImg[i].color = new Color(1,1,1,0.3f);
+                        }
+                        else if (extraLv > i)
+                        {
+                            enhanceImg[i].color = new Color(1,1,1,1f);
+                        }
+                        else
+                        {
+                            enhanceImg[i].color = new Color(1,1,1,0f);
+                        }
+                    }
+
+                    int enhancementCost = Mathf.RoundToInt(Mathf.Min( 10000, 100 * Mathf.Pow(2, extraLv) ));
+                    if (player.currency < enhancementCost || extraLv > 7)
+                        canEnhanceObj.SetActive(false);
+                    else
+                        canEnhanceObj.SetActive(true);
+
+                    if (extraLv <= 7)
+                        enhancementCostTxt.text = enhancementCost.ToString();
+                    else
+                        enhancementCostTxt.text = "Maxed";
+
+                    break;
+                }
+            }
+        }
+    }
+
 }

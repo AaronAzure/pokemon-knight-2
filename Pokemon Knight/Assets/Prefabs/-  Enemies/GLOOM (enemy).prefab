@@ -941,8 +941,9 @@ GameObject:
   - component: {fileID: 4723499407535618369}
   - component: {fileID: 5036056118465129030}
   - component: {fileID: 5262776919767863634}
-  - component: {fileID: 270095424}
   - component: {fileID: 9176231504721097512}
+  - component: {fileID: 270095424}
+  - component: {fileID: 3947589835165703949}
   m_Layer: 8
   m_Name: GLOOM (enemy)
   m_TagString: Enemy
@@ -1034,6 +1035,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!210 &9176231504721097512
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6720000477191158417}
+  m_Enabled: 1
+  m_SortingLayerID: 480402825
+  m_SortingLayer: 1
+  m_SortingOrder: 0
 --- !u!114 &270095424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1053,7 +1065,7 @@ MonoBehaviour:
   mainAnim: {fileID: 5262776919767863634}
   contactDmg: 5
   contactKb: 10
-  projectileDmg: 10
+  projectileDmg: 5
   isSmart: 1
   isEvenSmarter: 0
   renderers:
@@ -1073,7 +1085,7 @@ MonoBehaviour:
   bossRoom: {fileID: 0}
   extraHp: 20
   extraDmg: 3
-  extraProjectileDmg: 4
+  extraProjectileDmg: 3
   perLv: 2
   calcExtraProjectileDmg: 0
   expPossess: 20
@@ -1120,6 +1132,8 @@ MonoBehaviour:
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
   spawner: {fileID: 0}
+  horde: {fileID: 0}
+  partOfHorde: 0
   alert: {fileID: 2996076087178614816}
   isTargeting: 0
   playerInField: 0
@@ -1132,6 +1146,7 @@ MonoBehaviour:
   movingRight: 0
   aquatic: 0
   dontGetHitTwice: {fileID: 0}
+  performingBuff: 0
   canUseBuffs: 0
   buffDuration: 5
   beforeNextUse: 5
@@ -1142,6 +1157,7 @@ MonoBehaviour:
   increaseDef: {fileID: 0}
   increaseSpd: {fileID: 0}
   spawnedByWave: 0
+  loot: {fileID: 3947589835165703949}
   moveSpeed: 2
   distanceDetect: 1
   groundDetection: {fileID: 7005814167754721486}
@@ -1151,17 +1167,21 @@ MonoBehaviour:
   sludgeBombPos: {fileID: 5244226065140975443}
   target: {fileID: 0}
   multiplier: -1
---- !u!210 &9176231504721097512
-SortingGroup:
+--- !u!114 &3947589835165703949
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6720000477191158417}
   m_Enabled: 1
-  m_SortingLayerID: 480402825
-  m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loots:
+  - item: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
+    quantity: 10
 --- !u!1 &6989724527666361835
 GameObject:
   m_ObjectHideFlags: 0

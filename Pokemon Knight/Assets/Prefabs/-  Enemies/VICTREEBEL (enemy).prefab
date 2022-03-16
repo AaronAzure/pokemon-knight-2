@@ -691,6 +691,7 @@ GameObject:
   - component: {fileID: 3169936182238718493}
   - component: {fileID: 3169936182238718491}
   - component: {fileID: 3169936182238718489}
+  - component: {fileID: -6519002053372558055}
   m_Layer: 8
   m_Name: VICTREEBEL (enemy)
   m_TagString: Enemy
@@ -807,7 +808,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lv: 20
   chapterLevel: 2
-  maxHp: 200
+  maxHp: 300
   hp: 0
   mainAnim: {fileID: 3169936182238718491}
   contactDmg: 5
@@ -827,7 +828,7 @@ MonoBehaviour:
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
   bossRoom: {fileID: 0}
-  extraHp: 35
+  extraHp: 45
   extraDmg: 5
   extraProjectileDmg: 4
   perLv: 2
@@ -876,6 +877,8 @@ MonoBehaviour:
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
   spawner: {fileID: 0}
+  horde: {fileID: 0}
+  partOfHorde: 0
   alert: {fileID: 6286005702413019232}
   isTargeting: 0
   playerInField: 0
@@ -888,6 +891,7 @@ MonoBehaviour:
   movingRight: 0
   aquatic: 0
   dontGetHitTwice: {fileID: 0}
+  performingBuff: 0
   canUseBuffs: 0
   buffDuration: 8
   beforeNextUse: 8
@@ -902,6 +906,7 @@ MonoBehaviour:
   increaseDef: {fileID: 21300000, guid: 803d0478c00c541368ad3d9588c08a5e, type: 3}
   increaseSpd: {fileID: 21300000, guid: dc912f0b2b3a04e8e9249ae5607abeab, type: 3}
   spawnedByWave: 0
+  loot: {fileID: -6519002053372558055}
   leapForce: 25
   jumpForce: 12
   target: {fileID: 0}
@@ -918,6 +923,21 @@ MonoBehaviour:
   hasAattacked: 0
   lineOfSight: {x: 0, y: 0, z: 0}
   fovCol: {fileID: 5203605616653289571}
+--- !u!114 &-6519002053372558055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3169936182238718490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loots:
+  - item: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
+    quantity: 20
 --- !u!1 &3169936182585181246
 GameObject:
   m_ObjectHideFlags: 0

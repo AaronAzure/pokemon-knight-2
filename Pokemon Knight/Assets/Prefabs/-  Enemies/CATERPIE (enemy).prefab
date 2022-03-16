@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 8531754209341023285}
   - component: {fileID: 6948537191354315187}
   - component: {fileID: 1568939497178970862}
+  - component: {fileID: 1452307455988770854}
   m_Layer: 8
   m_Name: CATERPIE (enemy)
   m_TagString: Enemy
@@ -330,6 +331,7 @@ MonoBehaviour:
   contactKb: 10
   projectileDmg: 5
   isSmart: 0
+  isEvenSmarter: 0
   renderers:
   - {fileID: 2455935601881136845}
   - {fileID: 2837079854620121518}
@@ -338,7 +340,7 @@ MonoBehaviour:
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
   bossRoom: {fileID: 0}
-  extraHp: 5
+  extraHp: 3
   extraDmg: 3
   extraProjectileDmg: 0
   perLv: 1
@@ -355,10 +357,10 @@ MonoBehaviour:
     m_Bits: 128
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   whatIsBounds:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   whatIsTree:
     serializedVersion: 2
     m_Bits: 2048
@@ -387,16 +389,23 @@ MonoBehaviour:
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
   spawner: {fileID: 0}
+  horde: {fileID: 0}
+  partOfHorde: 0
   alert: {fileID: 0}
+  isTargeting: 0
   playerInField: 0
   playerInSight: 0
   playerInCloseRange: 0
   alwaysAttackPlayer: 0
+  isInRoom: 0
   cannotMove: 0
   movingLeft: 0
   movingRight: 0
   aquatic: 0
+  dontGetHitTwice: {fileID: 0}
   canUseBuffs: 0
+  buffDuration: 5
+  beforeNextUse: 5
   statusConditions: []
   nCondition: 0
   empty: {fileID: 0}
@@ -404,11 +413,28 @@ MonoBehaviour:
   increaseDef: {fileID: 0}
   increaseSpd: {fileID: 0}
   spawnedByWave: 0
+  loot: {fileID: 1452307455988770854}
   moveSpeed: 1
   distanceDetect: 0.5
   groundDetection: {fileID: 2690864748907692025}
   forwardDetect: 0.5
   face: {fileID: 2690864748907692025}
+--- !u!114 &1452307455988770854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8531754209341023282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loots:
+  - item: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
+    minQuantity: 1
+    maxQuantity: 1
 --- !u!1 &8531754209428490774
 GameObject:
   m_ObjectHideFlags: 0

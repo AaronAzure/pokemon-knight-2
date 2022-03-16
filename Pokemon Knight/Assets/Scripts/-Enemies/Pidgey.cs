@@ -87,8 +87,8 @@ public class Pidgey : Enemy
     {
         if (isMiniBoss)
         {
-            aiPath.maxSpeed *= 1.5f;
-            aiPath.maxAcceleration *= 1.5f;
+            aiPath.maxSpeed *= 1.25f;
+            aiPath.maxAcceleration *= 1.25f;
         }
     }
 

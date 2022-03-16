@@ -5987,7 +5987,7 @@ Transform:
   m_GameObject: {fileID: 6347547858869078386}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 6284788807071692393}
   m_Father: {fileID: 6347547860042096048}
@@ -6005,8 +6005,9 @@ GameObject:
   - component: {fileID: 6347547860042096049}
   - component: {fileID: 3172262714034576942}
   - component: {fileID: 5132741295536627786}
-  - component: {fileID: 1699156640}
   - component: {fileID: 1602186293996210103}
+  - component: {fileID: 1699156640}
+  - component: {fileID: 2228040895552500425}
   m_Layer: 8
   m_Name: BUTTERFREE BOSS (enemy)
   m_TagString: Enemy
@@ -6092,6 +6093,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!95 &1602186293996210103
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6347547860042096051}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 11f5ab746ad7c44f9a51b3cbddcbfe8e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &1699156640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6113,6 +6133,7 @@ MonoBehaviour:
   contactKb: 25
   projectileDmg: 12
   isSmart: 0
+  isEvenSmarter: 0
   renderers:
   - {fileID: 6201443634278078878}
   - {fileID: 5635582273553281161}
@@ -6146,6 +6167,12 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 0
+  whatIsBounds:
+    serializedVersion: 2
+    m_Bits: 0
+  whatIsTree:
+    serializedVersion: 2
+    m_Bits: 0
   statusBar: {fileID: 4672863145310562608}
   hpEffectImg: {fileID: 1822568298117876874}
   hpImg: {fileID: 6092031458691811909}
@@ -6171,13 +6198,24 @@ MonoBehaviour:
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
   spawner: {fileID: 0}
+  horde: {fileID: 0}
+  partOfHorde: 0
   alert: {fileID: 0}
+  isTargeting: 0
   playerInField: 0
   playerInSight: 0
+  playerInCloseRange: 0
   alwaysAttackPlayer: 0
+  isInRoom: 0
+  cannotMove: 0
   movingLeft: 0
   movingRight: 0
-  canUseBuffs: 0
+  aquatic: 0
+  dontGetHitTwice: {fileID: 0}
+  performingBuff: 0
+  canUseBuffs: 1
+  buffDuration: 5
+  beforeNextUse: 5
   statusConditions:
   - {fileID: 4682627807172591945}
   - {fileID: 5183432034435932365}
@@ -6188,6 +6226,8 @@ MonoBehaviour:
   increaseAtk: {fileID: 21300000, guid: e6aa1c7ac5d224f13baa80336f2fa589, type: 3}
   increaseDef: {fileID: 21300000, guid: 803d0478c00c541368ad3d9588c08a5e, type: 3}
   increaseSpd: {fileID: 21300000, guid: dc912f0b2b3a04e8e9249ae5607abeab, type: 3}
+  spawnedByWave: 0
+  loot: {fileID: 2228040895552500425}
   moveSpeed: 4
   dashSpeed: 25
   player: {fileID: 0}
@@ -6195,25 +6235,26 @@ MonoBehaviour:
   glint: {fileID: 6840497885434885370}
   stunSpore: {fileID: 6543823460546405717, guid: 7ed5b4a6b0d3346f59dd15bd8410872c, type: 3}
   stunSporePos: {fileID: 8094515171724798975}
---- !u!95 &1602186293996210103
-Animator:
-  serializedVersion: 3
+  performingPoisonPowder: 0
+--- !u!114 &2228040895552500425
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6347547860042096051}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 11f5ab746ad7c44f9a51b3cbddcbfe8e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loots:
+  - item: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
+    quantity: 10
+  - item: {fileID: 6231101655905951431, guid: 3154a023cb73842f6b4b377e97abffd7, type: 3}
+    quantity: 2
+  - item: {fileID: 1856295254583195530, guid: d27018a99e7b54de48824b3e1560cb92, type: 3}
+    quantity: 1
 --- !u!1 &7344627102729884007
 GameObject:
   m_ObjectHideFlags: 0

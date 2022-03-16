@@ -5,7 +5,7 @@ public class AllyPidgey : Ally
 {
     [Space] [Header("Pidgey")] 
     [SerializeField] private Transform atkPos;
-    [SerializeField] private AllyProjectile gust;
+    [SerializeField] private AllyAttack gust;
 
     protected override void Setup() 
     {
@@ -24,7 +24,7 @@ public class AllyPidgey : Ally
         {
             body.velocity = Vector2.zero;
             var obj = Instantiate(gust, this.transform.position - new Vector3(0,1), gust.transform.rotation);
-            obj.spawnedPos = this.transform.position;
+            // obj.spawnedPos = this.transform.position;
         }
     }
 }

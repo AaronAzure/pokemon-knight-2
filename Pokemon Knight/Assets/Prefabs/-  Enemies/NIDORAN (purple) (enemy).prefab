@@ -736,8 +736,9 @@ GameObject:
   - component: {fileID: 8531754209341023280}
   - component: {fileID: 8531754209341023284}
   - component: {fileID: 8531754209341023285}
-  - component: {fileID: 3255676435370749789}
   - component: {fileID: 4237969926322932405}
+  - component: {fileID: 3255676435370749789}
+  - component: {fileID: 5711037277257930456}
   m_Layer: 8
   m_Name: NIDORAN (purple) (enemy)
   m_TagString: Enemy
@@ -821,6 +822,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!95 &4237969926322932405
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8531754209341023282}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b52c72cf63b994103a7f2110d420098b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &3255676435370749789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -842,6 +862,7 @@ MonoBehaviour:
   contactKb: 10
   projectileDmg: 5
   isSmart: 1
+  isEvenSmarter: 0
   renderers:
   - {fileID: 4828055844510435944}
   - {fileID: 1481009667464366617}
@@ -904,16 +925,24 @@ MonoBehaviour:
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
   spawner: {fileID: 0}
+  horde: {fileID: 0}
+  partOfHorde: 0
   alert: {fileID: 3348568934580730668}
+  isTargeting: 0
   playerInField: 0
   playerInSight: 0
   playerInCloseRange: 0
   alwaysAttackPlayer: 0
+  isInRoom: 0
   cannotMove: 0
   movingLeft: 0
   movingRight: 0
   aquatic: 0
+  dontGetHitTwice: {fileID: 0}
+  performingBuff: 0
   canUseBuffs: 0
+  buffDuration: 5
+  beforeNextUse: 5
   statusConditions: []
   nCondition: 0
   empty: {fileID: 0}
@@ -921,12 +950,13 @@ MonoBehaviour:
   increaseDef: {fileID: 0}
   increaseSpd: {fileID: 0}
   spawnedByWave: 0
+  loot: {fileID: 5711037277257930456}
   anim: {fileID: 4237969926322932405}
   moveSpeed: 2
-  chaseSpeed: 5
+  chaseSpeed: 3.5
   canJump: 1
   jumpHeight: 12
-  maxSpeed: 5.5
+  maxSpeed: 5
   distanceDetect: 1
   groundDetection: {fileID: 2690864748907692025}
   grounded: 1
@@ -934,25 +964,21 @@ MonoBehaviour:
   feetBox: {x: 0.5, y: 0.2}
   target: {fileID: 0}
   chasing: 0
---- !u!95 &4237969926322932405
-Animator:
-  serializedVersion: 3
+--- !u!114 &5711037277257930456
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8531754209341023282}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b52c72cf63b994103a7f2110d420098b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loots:
+  - item: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
+    quantity: 10
 --- !u!1 &8531754209428490774
 GameObject:
   m_ObjectHideFlags: 0

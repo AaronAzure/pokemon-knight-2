@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 1322604523807765806}
   - component: {fileID: 5232327576601908253}
   - component: {fileID: 1150939272780168618}
+  - component: {fileID: 2602407053018546319}
   m_Layer: 8
   m_Name: PIDGEY (enemy)
   m_TagString: Enemy
@@ -169,6 +170,7 @@ MonoBehaviour:
   contactKb: 10
   projectileDmg: 5
   isSmart: 0
+  isEvenSmarter: 0
   renderers:
   - {fileID: 7553216793388265724}
   - {fileID: 7553216793287676651}
@@ -181,7 +183,7 @@ MonoBehaviour:
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
   bossRoom: {fileID: 0}
   extraHp: 15
-  extraDmg: 5
+  extraDmg: 3
   extraProjectileDmg: 0
   perLv: 1
   calcExtraProjectileDmg: 0
@@ -198,6 +200,12 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
+  whatIsBounds:
+    serializedVersion: 2
+    m_Bits: 0
+  whatIsTree:
+    serializedVersion: 2
+    m_Bits: 0
   statusBar: {fileID: 7289436988311817265}
   hpEffectImg: {fileID: 4376091608892778891}
   hpImg: {fileID: 8177180407939198788}
@@ -223,13 +231,24 @@ MonoBehaviour:
   mustDmgBeforeFight: 0
   bossBattleBegin: 0
   spawner: {fileID: 0}
+  horde: {fileID: 0}
+  partOfHorde: 0
   alert: {fileID: 2335059610090457758}
+  isTargeting: 0
   playerInField: 0
   playerInSight: 0
+  playerInCloseRange: 0
   alwaysAttackPlayer: 0
+  isInRoom: 0
+  cannotMove: 0
   movingLeft: 0
   movingRight: 0
+  aquatic: 0
+  dontGetHitTwice: {fileID: 0}
+  performingBuff: 0
   canUseBuffs: 0
+  buffDuration: 5
+  beforeNextUse: 5
   statusConditions:
   - {fileID: 7281222436015105096}
   - {fileID: 7070422634433103308}
@@ -240,6 +259,8 @@ MonoBehaviour:
   increaseAtk: {fileID: 21300000, guid: e6aa1c7ac5d224f13baa80336f2fa589, type: 3}
   increaseDef: {fileID: 21300000, guid: 803d0478c00c541368ad3d9588c08a5e, type: 3}
   increaseSpd: {fileID: 21300000, guid: dc912f0b2b3a04e8e9249ae5607abeab, type: 3}
+  spawnedByWave: 0
+  loot: {fileID: 2602407053018546319}
   anim: {fileID: 5232327576601908253}
   moveSpeed: 1
   chaseSpeed: 2
@@ -254,6 +275,21 @@ MonoBehaviour:
   aiPath: {fileID: 0}
   spawnedHolder: {fileID: 0}
   rayCast: 
+--- !u!114 &2602407053018546319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322604523807765801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loots:
+  - item: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
+    quantity: 5
 --- !u!1 &1397024916157971945
 GameObject:
   m_ObjectHideFlags: 0

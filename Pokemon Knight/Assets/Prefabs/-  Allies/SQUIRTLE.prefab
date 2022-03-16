@@ -534,6 +534,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 4788065970439772728}
+  pokemonName: squirtle
+  extraLevel: 0
   anim: {fileID: 6355108767162457428}
   hitbox: {fileID: 0}
   atkDmg: 15
@@ -565,6 +567,8 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
+  feetBox: {x: 0, y: 0}
+  feetOffset: {x: 0, y: 0}
   feetRadius: 0.1
   watergunObj: {fileID: 3746478155411923182, guid: c2f66f7d9f67143d794c292db200d248, type: 3}
   atkPos: {fileID: 9068800195842741658}
