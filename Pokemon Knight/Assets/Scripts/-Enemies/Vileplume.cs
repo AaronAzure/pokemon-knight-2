@@ -296,7 +296,7 @@ public class Vileplume : Enemy
                         var obj = Instantiate(sludgeBomb, atkPos.position, sludgeBomb.transform.rotation);
                         obj.body.gravityScale = 3;
                         obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
-                        obj.direction = new Vector2(-15 + 5*i, 17.5f);
+                        obj.direction = new Vector2(-18 + 6*i, 17.5f);
                     }
                 }
                 else
@@ -306,7 +306,7 @@ public class Vileplume : Enemy
                         var obj = Instantiate(sludgeBomb, atkPos.position, sludgeBomb.transform.rotation);
                         obj.body.gravityScale = 3;
                         obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
-                        obj.direction = new Vector2(-12.5f + 5*i, 17.5f);
+                        obj.direction = new Vector2(-15 + 6*i, 17.5f);
                     }
                 }
             }

@@ -266,10 +266,13 @@ public class Butterfree : Enemy
     }
     public void POISON_POWDER()
     {
-        var obj = Instantiate(poisonPowder, poisonPowderPos.position, Quaternion.identity);
-        obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
-        
-        Destroy(obj.gameObject, 4.5f);
+        if (hp > 0)
+        {
+            var obj = Instantiate(poisonPowder, poisonPowderPos.position, Quaternion.identity);
+            obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
+            
+            Destroy(obj.gameObject, 4.5f);
+        }
     }
 
     public void AGILITY()

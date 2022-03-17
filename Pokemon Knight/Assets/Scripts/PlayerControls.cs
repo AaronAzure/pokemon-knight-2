@@ -539,7 +539,6 @@ public class PlayerControls : MonoBehaviour
                         allies[i] = squirtle.summonable;
                         if (PlayerPrefsElite.VerifyInt("squirtleLv" + gameNumber))
                             squirtle.summonable.extraLevel = PlayerPrefsElite.GetInt("squirtleLv" + gameNumber);
-                        squirtle.summonable.extraLevel = 8;
                         pokemonInTeamBenchSettings[i].img.sprite = squirtle.sprite;
                         pokemonInTeamBenchSettings[i].ally = squirtle.summonable;
                         partyPokemonsUI[i].sprite = squirtle.sprite;
@@ -1196,6 +1195,7 @@ public class PlayerControls : MonoBehaviour
             currency -= enhancementCost;
             currencyEnhanceTxt.text = currency.ToString();
             currencyTxt.text = currency.ToString();
+            levelUpSound.Play();
         }
     }
 
@@ -2781,6 +2781,7 @@ public class PlayerControls : MonoBehaviour
 
         SavePokemonTeam();
         SaveEquippedItems();
+        SaveState();
     }
 
     // todo ------------------------------------------------------------------------------------
