@@ -194,11 +194,32 @@ public class TitleFunctions : MonoBehaviour
         if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber.ToString()))
             PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber.ToString(), new string[0]);
         
+        if (PlayerPrefsElite.VerifyArray("subwaysCleared" + gameNumber.ToString()))
+            PlayerPrefsElite.SetStringArray("subwaysCleared" + gameNumber.ToString(), new string[0]);
+        
+        if (PlayerPrefsElite.VerifyArray("crystalsBroken" + gameNumber.ToString()))
+            PlayerPrefsElite.SetStringArray("crystalsBroken" + gameNumber.ToString(), new string[0]);
+        
         if (PlayerPrefsElite.VerifyArray("berriesCollected" + gameNumber.ToString()))
             PlayerPrefsElite.SetStringArray("berriesCollected" + gameNumber.ToString(), new string[0]);
         
         if (PlayerPrefsElite.VerifyArray("spareKeychain" + gameNumber.ToString()))
             PlayerPrefsElite.SetStringArray("spareKeychain" + gameNumber.ToString(), new string[0]);
+
+
+        PlayerPrefsElite.SetInt("currency" + gameNumber, 0);
+        PlayerPrefsElite.SetInt("bulbasaurLv" + gameNumber, 0);
+        PlayerPrefsElite.SetInt("squirtleLv" + gameNumber, 0);
+        PlayerPrefsElite.SetInt("charmanderLv" + gameNumber, 0);
+        PlayerPrefsElite.SetInt("pidgeyLv" + gameNumber, 0);
+        PlayerPrefsElite.SetInt("oddishLv" + gameNumber, 0);
+        PlayerPrefsElite.SetInt("butterfreeLv" + gameNumber, 0);
+        PlayerPrefsElite.SetInt("tangelaLv" + gameNumber, 0);
+        PlayerPrefsElite.SetInt("bellsproutLv" + gameNumber, 0);
+        PlayerPrefsElite.SetInt("snorlaxLv" + gameNumber, 0);
+
+
+
 
         PlayerPrefsElite.SetInt("gameNumber", gameNumber);
         StartCoroutine( FadeToGame() );
