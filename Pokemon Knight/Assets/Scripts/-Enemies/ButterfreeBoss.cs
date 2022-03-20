@@ -65,7 +65,7 @@ public class ButterfreeBoss : Enemy
     public override void CallChildOnRage() 
     {
         count = 0;
-        newAttackPattern = 3;
+        // newAttackPattern = 3;
         moveSpeed *= 1.5f;
     }
 
@@ -122,6 +122,7 @@ public class ButterfreeBoss : Enemy
         else
             yield return new WaitForSeconds(0.8f);
         // cannotRecieveKb = true;
+        target = player.transform.position + new Vector3(0,1);
         Vector3 dir = (target - body.transform.position).normalized;
         if (!inCutscene) 
             body.AddForce(dir*dashSpeed, ForceMode2D.Impulse);
