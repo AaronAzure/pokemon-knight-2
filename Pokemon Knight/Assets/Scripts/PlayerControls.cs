@@ -145,7 +145,12 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private Material flashMat;
     [SerializeField] private Material origMat;
     [SerializeField] private Animator damageIndicatorAnim;
-    [SerializeField] private DropItems dropItems;
+    // [SerializeField] private DropItems dropItems;
+    [SerializeField] private CandyBag droppedBag;
+    public bool hasLostBag;
+    public Vector3 lostBagPos;
+    public string lostBagScene;
+    public int candiesLost;
 
 
 
@@ -178,6 +183,7 @@ public class PlayerControls : MonoBehaviour
     public Item currentItem;
     public Berry currentBerry;
     public SpareKeychain currentKeychain;
+    public CandyBag currentBag;
     public int nBerries;
     private Sprite origFace;
 
@@ -316,6 +322,7 @@ public class PlayerControls : MonoBehaviour
     [Header("CHEATS")]
     [SerializeField] private float dmgMultiplier = 1;
     [SerializeField] private float expMultiplier = 1;
+    [SerializeField] private float candyMultiplier = 1;
     [SerializeField] private bool noCoolDown;
     [SerializeField] private bool cannotTakeDmg;
     [SerializeField] private bool infiniteGauge;
@@ -399,7 +406,7 @@ public class PlayerControls : MonoBehaviour
         {
             StartCoroutine( CannotChangeSceneAgain() ); inCutscene = true;
             sceneName = PlayerPrefsElite.GetString("checkpointScene" + gameNumber);
-            SceneManager.LoadScene(sceneName);
+            StartCoroutine( LoadSceneAndCheckLostBag(sceneName) );
             // Debug.Log("<color=#0EB8BF>"+PlayerPrefsElite.GetString("checkpointScene" + gameNumber)+"</color>");
         }
         else 
@@ -494,6 +501,19 @@ public class PlayerControls : MonoBehaviour
             PlayerPrefsElite.SetStringArray("spareKeychain" + gameNumber, spareKeychainCollected.ToArray());
         }
 
+
+        // LOST BAG
+        if (PlayerPrefsElite.VerifyBoolean("hasLostBag" + gameNumber))
+            hasLostBag = PlayerPrefsElite.GetBoolean("hasLostBag" + gameNumber);
+        else
+            PlayerPrefsElite.SetBoolean("hasLostBag" + gameNumber, false);
+        
+        if (PlayerPrefsElite.VerifyVector3("lostBagPos" + gameNumber))
+            lostBagPos = PlayerPrefsElite.GetVector3("lostBagPos" + gameNumber);
+        if (PlayerPrefsElite.VerifyString("lostBagScene" + gameNumber))
+            lostBagScene = PlayerPrefsElite.GetString("lostBagScene" + gameNumber);
+        if (PlayerPrefsElite.VerifyInt("candiesLost" + gameNumber))
+            candiesLost = PlayerPrefsElite.GetInt("candiesLost" + gameNumber);
         
         if (transitionAnim != null)
         {
@@ -887,6 +907,19 @@ public class PlayerControls : MonoBehaviour
                 anim.speed = 1;
                 anim.SetTrigger("pickup");
                 currentKeychain = null;
+                if (itemFoundlSound != null) 
+                    itemFoundlSound.Play();
+            }
+            else if (currentBag != null && Interact())
+            {
+                if (currentBag.player == null)
+                    currentBag.player = this;
+                body.velocity = Vector2.zero;
+                inCutscene = true;
+                currentBag.Pickup();
+                anim.speed = 1;
+                anim.SetTrigger("pickup");
+                currentBag = null;
                 if (itemFoundlSound != null) 
                     itemFoundlSound.Play();
             }
@@ -1709,7 +1742,7 @@ public class PlayerControls : MonoBehaviour
     
     public void TakeDamage(int dmg=0, Transform opponent=null, float force=0, bool ignoreInvinciblity=false)
     {
-        if (hp > 0 && (!isInvincible || ignoreInvinciblity) && !cannotTakeDmg)
+        if (hp > 0 && (!isInvincible || ignoreInvinciblity) && !movingToDifferentScene && !cannotTakeDmg)
         {
             Debug.Log("<color=#FF8800>Took " + dmg + " dmg</color>");
             anim.SetBool("isDrinking", false);
@@ -1840,7 +1873,7 @@ public class PlayerControls : MonoBehaviour
             se.Stop(false, ParticleSystemStopBehavior.StopEmitting);
         }
         
-        yield return new WaitForSeconds(1);
+        // yield return new WaitForSeconds(1);
         SleepOver();
     }
     
@@ -2014,7 +2047,7 @@ public class PlayerControls : MonoBehaviour
 
     public void GainCandy(int amount)
     {
-        currency += amount;
+        currency += Mathf.RoundToInt(amount * candyMultiplier);
         currencyTxt.text = currency.ToString();
         currencyEnhanceTxt.text = currency.ToString();
         currencySound.Play();
@@ -2078,14 +2111,24 @@ public class PlayerControls : MonoBehaviour
         anim.SetTrigger("died");
 
         // DEATH PENALTY
-        currency = Mathf.FloorToInt(currency / 2f);
+        candiesLost = Mathf.CeilToInt(currency / 2f);
+        PlayerPrefsElite.SetInt("candiesLost" + gameNumber, candiesLost);
+        currency -= candiesLost;
         currencyTxt.text = currency.ToString();
         currencyEnhanceTxt.text = currency.ToString();
-        if (dropItems != null)
+        if (droppedBag != null)
         {
-            int amountLost = Mathf.CeilToInt(currency / 2f);
-            dropItems.DropSpecificItems(amountLost);
+            var obj = Instantiate(droppedBag, this.transform.position, droppedBag.transform.rotation);
+            obj.body.AddForce(Vector2.up * 10, ForceMode2D.Impulse);
         }
+        PlayerPrefsElite.SetBoolean("hasLostBag" + gameNumber, true);
+        hasLostBag = true;
+        PlayerPrefsElite.SetVector3("lostBagPos" + gameNumber, this.transform.position + new Vector3(0,0.2f));
+        lostBagPos = this.transform.position + new Vector3(0,0.2f);
+        PlayerPrefsElite.SetString("lostBagScene" + gameNumber, SceneManager.GetActiveScene().name);
+        lostBagScene = SceneManager.GetActiveScene().name;
+
+
         if (PlayerPrefsElite.VerifyInt("currency" + gameNumber))
             PlayerPrefsElite.SetInt("currency" + gameNumber, currency);
 
@@ -2134,6 +2177,24 @@ public class PlayerControls : MonoBehaviour
         }
             
         ReloadState();
+
+        if (PlayerPrefsElite.VerifyString("checkpointScene" + gameNumber) 
+            && PlayerPrefsElite.VerifyVector3("checkpointPos" + gameNumber))
+        {
+            string sceneName = PlayerPrefsElite.GetString("checkpointScene" + gameNumber);
+            SceneManager.LoadScene(sceneName);
+            this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos" + gameNumber);
+            
+            //* WAIT TILL SCENE LOADS
+            while (SceneManager.GetActiveScene().name != sceneName)
+                yield return null;
+            yield return new WaitForSeconds(0.2f);
+            BagLostInScene(sceneName);
+
+        }
+        else
+            Debug.LogError("CHECK THIS", this.gameObject);
+    
         face.sprite = origFace;
 
         Invincible(false);
@@ -2151,6 +2212,7 @@ public class PlayerControls : MonoBehaviour
         isParalysed = false;
         inCutscene = false;
         ledgeGrabbing = false;
+        movingToDifferentScene = false;
 
         ParalysisOver();
         SleepOver();
@@ -2163,6 +2225,7 @@ public class PlayerControls : MonoBehaviour
     {
         if (!inCutscene)
         {
+            movingToDifferentScene = true;
             if (dodging)
                 dodgingThruScene = true;
             else
@@ -2181,8 +2244,13 @@ public class PlayerControls : MonoBehaviour
             bool walkingRight = (body.velocity.x > 0);
 
             yield return new WaitForSeconds(1);
-            SceneManager.LoadScene(nextArea); Debug.Log("<color=#0EB8BF>" + nextArea + "</color> - " + sceneChanger);
+            SceneManager.LoadScene(nextArea); 
             body.velocity = Vector2.zero;
+
+            //* WAIT TILL SCENE LOADS
+            while (SceneManager.GetActiveScene().name != nextArea)
+                yield return null;
+            BagLostInScene(nextArea);
 
             yield return new WaitForEndOfFrame();
             this.transform.position = newPos;
@@ -2222,6 +2290,7 @@ public class PlayerControls : MonoBehaviour
             yield return new WaitForSeconds(0.4f);
             AllPokemonReturned();
 
+            movingToDifferentScene = false;
             if (!exitingDoor)
             {
                 if (!walkingRight)
@@ -2307,7 +2376,12 @@ public class PlayerControls : MonoBehaviour
 
             yield return new WaitForSeconds(1);
             SceneManager.LoadScene(newSceneName); 
-            // Debug.Log("<color=#0EB8BF>" + newSceneName + "</color>");
+
+            //* WAIT TILL SCENE LOADS
+            while (SceneManager.GetActiveScene().name != newSceneName)
+                yield return null;
+            BagLostInScene(newSceneName);
+                
             body.velocity = Vector2.zero;
 
             yield return new WaitForEndOfFrame();
@@ -2330,6 +2404,29 @@ public class PlayerControls : MonoBehaviour
                 StartCoroutine( WalkingRight() );
             }
         }
+    }
+
+    public void BagLostInScene(string sceneName)
+    {
+        if (hasLostBag)
+        {
+            if (sceneName.Equals(lostBagScene))
+            {
+                Debug.Log("ITEM BAG!! in " + sceneName);
+                var obj = Instantiate(droppedBag, lostBagPos, droppedBag.transform.rotation);
+                obj.player = this;
+                obj.quantity = candiesLost;
+            }
+        }
+    }
+    public IEnumerator LoadSceneAndCheckLostBag(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+        
+        //* WAIT TILL SCENE LOADS
+        while (SceneManager.GetActiveScene().name != sceneName)
+            yield return null;
+        BagLostInScene(sceneName);
     }
     
 
@@ -2369,6 +2466,11 @@ public class PlayerControls : MonoBehaviour
             yield return new WaitForSeconds(1);
             trainSound.Play();
             SceneManager.LoadScene(newSceneName);
+            
+            //* WAIT TILL SCENE LOADS
+            while (SceneManager.GetActiveScene().name != newSceneName)
+                yield return null;
+            BagLostInScene(newSceneName);
             // body.velocity = Vector2.zero;
 
             yield return new WaitForEndOfFrame();
@@ -2412,34 +2514,6 @@ public class PlayerControls : MonoBehaviour
             StartCoroutine( NoWalkingOut() );
         }
     }
-    // public IEnumerator TakingTheSubway()
-    // {
-    //     if (!inCutscene)
-    //     {
-    //         body.velocity = Vector2.zero;
-    //         inCutscene = true;
-
-    //         if (transitionAnim != null)
-    //             transitionAnim.SetTrigger("toBlack");
-
-    //         yield return new WaitForSeconds(1);
-    //         trainSound.Play();
-    //         SceneManager.LoadScene(newSceneName); 
-    //         // Debug.Log("<color=#0EB8BF>" + newSceneName + "</color>");
-    //         body.velocity = Vector2.zero;
-
-    //         yield return new WaitForEndOfFrame();
-    //         this.transform.position = newScenePos;
-
-    //         yield return new WaitForSeconds(2.1f);
-    //         if (transitionAnim != null)
-    //             transitionAnim.SetTrigger("fromBlack");
-            
-    //         yield return new WaitForSeconds(0.4f);
-
-    //         StartCoroutine( NoWalkingOut() );
-    //     }
-    // }
 
     public void CUTSCENE_EVENT_ON()
     {
@@ -2787,7 +2861,7 @@ public class PlayerControls : MonoBehaviour
     // todo ------------------------------------------------------------------------------------
     // todo -----------------  P R E F S  ------------------------------------------------------
 
-    public void ReloadState()
+    void ReloadState()
     {
         nMoomooMilkLeft = moomooUi.Length;
         // UI indication
@@ -2799,26 +2873,8 @@ public class PlayerControls : MonoBehaviour
             canDoubleJump = PlayerPrefsElite.GetBoolean("canDoubleJump" + gameNumber);
         if (PlayerPrefsElite.VerifyBoolean("canDash" + gameNumber))
             canDash = PlayerPrefsElite.GetBoolean("canDash" + gameNumber);
-        // if (PlayerPrefsElite.VerifyInt("playerLevel" + gameNumber))
-        // {
-        //     lv = PlayerPrefsElite.GetInt("playerLevel" + gameNumber);
-        //     CalculateMaxHp();
-        //     if (lvText != null)
-        //          lvText.text = "Lv. " + lv;
-        // }
-        // expNeeded = (int) (100 * Mathf.Pow(1.2f, lv - 1));
-
-        // if (PlayerPrefsElite.VerifyInt("playerExp" + gameNumber))
-        //     exp = PlayerPrefsElite.GetInt("playerExp" + gameNumber);
 
         hp = maxHp;
-
-        if (PlayerPrefsElite.VerifyString("checkpointScene" + gameNumber) && PlayerPrefsElite.VerifyVector3("checkpointPos" + gameNumber))
-        {
-            SceneManager.LoadScene(PlayerPrefsElite.GetString("checkpointScene" + gameNumber));
-            this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos" + gameNumber);
-            Debug.Log("<color=#0EB8BF>Reload " + PlayerPrefsElite.GetString("checkpointScene" + gameNumber) + "</color>");
-        }
 
         if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber))
             PlayerPrefsElite.SetStringArray("roomsBeaten" + gameNumber, roomsBeaten.ToArray());

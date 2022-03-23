@@ -37,6 +37,7 @@ public class SnorlaxBoss : Enemy
     }
     public override void CallChildOnDamaged()
     {
+        //* CALLED ONCE
         if (anim != null)
             anim.SetTrigger("attacked");
     }

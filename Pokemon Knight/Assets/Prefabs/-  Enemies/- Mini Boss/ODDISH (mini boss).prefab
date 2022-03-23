@@ -10309,6 +10309,7 @@ MonoBehaviour:
   movingRight: 0
   aquatic: 0
   dontGetHitTwice: {fileID: 0}
+  performingBuff: 0
   canUseBuffs: 0
   buffDuration: 5
   beforeNextUse: 5
@@ -10380,10 +10381,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rewardSize: 25
   loots:
   - item: {fileID: 6231101655905951431, guid: 3154a023cb73842f6b4b377e97abffd7, type: 3}
-    minQuantity: 1
-    maxQuantity: 1
+    quantity: 1
 --- !u!1 &5545332425521020352
 GameObject:
   m_ObjectHideFlags: 0

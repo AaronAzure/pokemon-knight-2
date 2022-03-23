@@ -57,6 +57,7 @@ public class TitleFunctions : MonoBehaviour
                     fileNames[i].fontSize = 45;
                 }
         }
+        canCancel = false;
     }
 
     private void Update() 
@@ -78,6 +79,10 @@ public class TitleFunctions : MonoBehaviour
             firstStartMenuButton.Select();
         else if (loadedGameFileButton.IsInteractable())
             loadedGameFileButton.Select();
+    }
+    public void SELECT_BUTTON(Button button)
+    {
+        button.Select();
     }
 
     public void BACK()
@@ -206,6 +211,7 @@ public class TitleFunctions : MonoBehaviour
         if (PlayerPrefsElite.VerifyArray("spareKeychain" + gameNumber.ToString()))
             PlayerPrefsElite.SetStringArray("spareKeychain" + gameNumber.ToString(), new string[0]);
 
+        PlayerPrefsElite.SetBoolean("hasLostBag" + PlayerPrefsElite.GetInt("gameNumber"), false);
 
         PlayerPrefsElite.SetInt("currency" + gameNumber, 0);
         PlayerPrefsElite.SetInt("bulbasaurLv" + gameNumber, 0);

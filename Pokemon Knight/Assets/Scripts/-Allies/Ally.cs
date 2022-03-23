@@ -58,7 +58,7 @@ public abstract class Ally : MonoBehaviour
     {
         // Strength grows per level
         if (trainer != null)
-            atkDmg += ( extraDmg * Mathf.CeilToInt(((trainer.lv - 1) + (3 * extraLevel) / perLevel)) );
+            atkDmg += ( extraDmg * Mathf.CeilToInt(((trainer.lv - 1) + ExtraEnhancedDmg() / perLevel)) );
         if (trainer != null && trainer.crisisCharm && trainer.hpImg.fillAmount <= 0.25f)
             atkDmg *= 2;
         else if (trainer != null && trainer.crisisCharm && trainer.hpImg.fillAmount <= 0.5f)
@@ -79,6 +79,30 @@ public abstract class Ally : MonoBehaviour
 
         Setup();
         co = StartCoroutine( BackToBallAfterAction() );
+    }
+
+    public int ExtraEnhancedDmg()
+    {
+        int extraEnhancedDmg = 0;
+        for (int i=0 ; i<extraLevel ; i++)
+        {
+            if (i >= 5)
+                extraEnhancedDmg += 7;
+            else if (i >= 2)
+                extraEnhancedDmg += 5;
+            else 
+                extraEnhancedDmg += 3;
+        }
+
+        return extraEnhancedDmg;
+    }
+    public int EnhanceDmgBonus()
+    {
+        if (extraLevel >= 5)
+            return 7;
+        else if (extraLevel >= 2)
+            return 5;
+        return 3;
     }
 
     protected virtual void Setup() { }

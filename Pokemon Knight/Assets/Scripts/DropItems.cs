@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class DropItems : MonoBehaviour
 {
+    [Space] public int rewardSize;
     public Loot[] loots;
 
     public void DropLoot(int bonus=1)
@@ -9,6 +10,7 @@ public class DropItems : MonoBehaviour
         // Debug.Log("<color=cyan>Dropping Loot</color>");
         foreach (Loot loot in loots)
         {
+            // int spawnAmount = (rewardSize * bonus);
             int spawnAmount = (loot.quantity * bonus);
             for (int i=0 ; i<spawnAmount ; i++)
             {

@@ -28,8 +28,8 @@ public abstract class Enemy : MonoBehaviour
 
     [Space] [Header("Damage Related")]
     public int contactDmg=5;
-    public float contactKb=10;
     public int projectileDmg=5;
+    public float contactKb=10;
     [Space] public bool isSmart;    // Turns if attacked from behind;
     [Space] public bool isEvenSmarter;    // Turns if attacked from behind;
     
@@ -373,7 +373,7 @@ public abstract class Enemy : MonoBehaviour
     }
 
     public void TakeDamage(int dmg, Vector3 hitPos, float force=0, bool attackedByPlayer=true, int spBonus=0, 
-        AllyAttack registerAttack=null)
+        AllyAttack registerAttack=null, bool ignoreDef=false)
     {
         if (dontGetHitTwice != null && dontGetHitTwice == registerAttack) {}
         else if (!inCutscene && hp > 0)
@@ -383,7 +383,7 @@ public abstract class Enemy : MonoBehaviour
                 dontGetHitTwice = registerAttack;
             if (hp > 0)
             {
-                if (defenseStage == 0)
+                if (defenseStage == 0 || ignoreDef)
                     hp -= dmg;
                 else
                     hp -= Mathf.FloorToInt( Mathf.Pow(0.7f, defenseStage) * dmg);
@@ -449,9 +449,9 @@ public abstract class Enemy : MonoBehaviour
                     horde.RemoveFromEnemies(this);
 
                 if (loot != null)
-                        loot.DropLoot();
-                    // if (isBoss && !isMiniBoss)
-                    //     loot.DropLoot(Mathf.CeilToInt((lv + 1) / 10));
+                        // loot.DropLoot();
+                    if (!isBoss && !isMiniBoss)
+                        loot.DropLoot(Mathf.CeilToInt((lv + 1) / 10));
                     // else
 
                 if (playerControls != null && attackedByPlayer)

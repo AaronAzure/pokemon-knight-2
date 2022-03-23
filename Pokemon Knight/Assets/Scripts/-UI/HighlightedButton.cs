@@ -60,7 +60,7 @@ public class HighlightedButton : MonoBehaviour
 
                             float atkDmg = pokemonButton.ally.atkDmg;
                             atkDmg += ( pokemonButton.ally.extraDmg * Mathf.CeilToInt(
-                                ((player.lv - 1) + (3 * pokemonButton.ally.extraLevel) / pokemonButton.ally.perLevel)) 
+                                ((player.lv - 1) + (pokemonButton.ally.ExtraEnhancedDmg()) / pokemonButton.ally.perLevel)) 
                             );
                             atkpower.text = atkDmg.ToString();
                             if (pokemonButton.ally.multiHit > 1)
@@ -142,7 +142,7 @@ public class HighlightedButton : MonoBehaviour
                     header.text = epu.pokemon.name;
                     float atkDmg = epu.pokemon.atkDmg;
                     atkDmg += ( epu.pokemon.extraDmg * Mathf.CeilToInt(
-                        ((player.lv - 1) + (3 * epu.pokemon.extraLevel) / epu.pokemon.perLevel)) 
+                        ((player.lv - 1) + (epu.pokemon.ExtraEnhancedDmg()) / epu.pokemon.perLevel)) 
                     );
                     atkpower.text = atkDmg.ToString();
                     if (epu.pokemon.multiHit > 1)
@@ -151,7 +151,8 @@ public class HighlightedButton : MonoBehaviour
                         atkDmg *= epu.pokemon.multiHit;
                         atkpower.text = atkDmg.ToString() + " (" + temp + "×" + epu.pokemon.multiHit + ")";
                     }
-                    atkpower.text = atkDmg.ToString() + "<color=#8FFF78> (+" + (3*epu.pokemon.extraDmg*epu.pokemon.multiHit) + ")</color>";
+                    atkpower.text = atkDmg.ToString() + "<color=#8FFF78> (+" + 
+                        (epu.pokemon.extraDmg*epu.pokemon.EnhanceDmgBonus()*epu.pokemon.multiHit) + ")</color>";
 
                     float resummonTime = epu.pokemon.resummonTime;
                     coolDown.text = resummonTime.ToString();
