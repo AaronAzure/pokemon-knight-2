@@ -163,21 +163,21 @@ public class SnorlaxBoss : Enemy
 
     public void YAWN_AGAIN()
     {
-        if (inRage && yawnCount == 0)
-        {
-            yawnCount++;
-            LookAtPlayer();
-            anim.SetTrigger("yawn");
-        }
-        else if (inRage && yawnCount > 0)
-        {
-            yawnCount = 0;
-            PERFORMED_ACTION();
-        }
-        else if (!inRage)
-        {
-            PERFORMED_ACTION();
-        }
+        // if (inRage && yawnCount == 0)
+        // {
+        //     yawnCount++;
+        //     LookAtPlayer();
+        //     anim.SetTrigger("yawn");
+        // }
+        // else if (inRage && yawnCount > 0)
+        // {
+        //     yawnCount = 0;
+        //     PERFORMED_ACTION();
+        // }
+        // else if (!inRage)
+        // {
+        // }
+        PERFORMED_ACTION();
     }
     public void YAWN()
     {

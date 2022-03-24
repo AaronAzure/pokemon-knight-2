@@ -973,7 +973,9 @@ public class PlayerControls : MonoBehaviour
 
                 if (dashes > 0)
                 {
-                    if (grounded && player.GetButtonDown("B"))
+                    if (!inWater && grounded && player.GetButtonDown("B"))
+                        Jump();
+                    else if (inWater && CheckAtWaterSurface() && player.GetButtonDown("B"))
                         Jump();
                     //* Double Jump (mid air jump)
                     if (canDoubleJump)
@@ -983,12 +985,12 @@ public class PlayerControls : MonoBehaviour
                             nExtraJumpsLeft--;
                             MidairJump();
                         }
-                        else if (inWater && !butterfreeOut && nExtraJumpsLeft > 0 && CheckAtWaterSurface()
-                            && player.GetButtonDown("B"))
-                        {
-                            nExtraJumpsLeft--;
-                            MidairJump();
-                        }
+                        // else if (inWater && !butterfreeOut && nExtraJumpsLeft > 0 && CheckAtWaterSurface()
+                        //     && player.GetButtonDown("B"))
+                        // {
+                        //     nExtraJumpsLeft--;
+                        //     MidairJump();
+                        // }
                     }
 
                     if (player.GetButton("B") && jumping)

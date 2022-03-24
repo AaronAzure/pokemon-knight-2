@@ -6126,12 +6126,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lv: 12
   chapterLevel: 0
-  maxHp: 1000
-  hp: 0
   mainAnim: {fileID: 1602186293996210103}
-  contactDmg: 30
-  contactKb: 25
+  maxHp: 900
+  hp: 0
+  contactDmg: 25
   projectileDmg: 12
+  contactKb: 25
+  extraHp: 0
+  extraDmg: 0
+  extraProjectileDmg: 0
+  perLv: 1
+  expPossess: 500
+  extraExp: 0
   isSmart: 0
   isEvenSmarter: 0
   renderers:
@@ -6149,13 +6155,7 @@ MonoBehaviour:
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
   bossRoom: {fileID: 0}
-  extraHp: 0
-  extraDmg: 0
-  extraProjectileDmg: 0
-  perLv: 1
   calcExtraProjectileDmg: 0
-  expPossess: 500
-  extraExp: 0
   col: {fileID: 3172262714034576942}
   body: {fileID: 5132741295536627786}
   model: {fileID: 6347547858869078386}

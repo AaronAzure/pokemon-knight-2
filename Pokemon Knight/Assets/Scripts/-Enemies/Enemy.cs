@@ -19,17 +19,27 @@ public abstract class Enemy : MonoBehaviour
     private int lvBreak=10;  // Additional bonus
     [HideInInspector] public enum ChapterLevel { one, two, three, four, five, six, seven };
     public ChapterLevel chapterLevel = ChapterLevel.one;
-    [Space] public int maxHp=100;
-    public int hp;
     protected PlayerControls playerControls;
     [Space] [SerializeField] protected Animator mainAnim;
     private bool inPlayMode;
     
 
-    [Space] [Header("Damage Related")]
-    public int contactDmg=5;
+    [Space] [Header("Stats")]
+    
+    public int maxHp=100;
+    public int hp;
+    [Space] public int contactDmg=5;
     public int projectileDmg=5;
     public float contactKb=10;
+    [Space] public int extraHp=2;   // Bonus
+    public int extraDmg=2;  // Bonus
+    public int extraProjectileDmg=0;  // Bonus
+    public int perLv=1;  // Bonus
+    [Space] public int expPossess=5;
+    public int extraExp=2;  // Additional bonus
+
+    [Space] [Header("Ai")]
+
     [Space] public bool isSmart;    // Turns if attacked from behind;
     [Space] public bool isEvenSmarter;    // Turns if attacked from behind;
     
@@ -41,19 +51,12 @@ public abstract class Enemy : MonoBehaviour
     private bool canCatch;
 
 
-    [Space] [Header("Level Bonus")]
-    public int extraHp=2;   // Bonus
-    public int extraDmg=2;  // Bonus
-    public int extraProjectileDmg=0;  // Bonus
-    public int perLv=1;  // Bonus
+    [Space] [Header("Damage Related")]
     [SerializeField] protected int calcExtraProjectileDmg=0;
     
     protected int origContactDmg;
     protected float origContactKb;
     protected int origTotalExtraDmg;
-
-    [Space] public int expPossess=5;
-    public int extraExp=2;  // Additional bonus
     
     //// [SerializeField] private GameObject emptyHolder;
     //// [SerializeField] private TextMeshPro dmgText;
