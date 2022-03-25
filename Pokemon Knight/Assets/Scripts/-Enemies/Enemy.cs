@@ -452,10 +452,10 @@ public abstract class Enemy : MonoBehaviour
                     horde.RemoveFromEnemies(this);
 
                 if (loot != null)
-                        // loot.DropLoot();
                     if (!isBoss && !isMiniBoss)
-                        loot.DropLoot(Mathf.CeilToInt((lv + 1) / 10));
-                    // else
+                        loot.DropLoot( Mathf.FloorToInt((lv + 11) / 10) );
+                    else
+                        loot.DropLoot();
 
                 if (playerControls != null && attackedByPlayer)
                 {

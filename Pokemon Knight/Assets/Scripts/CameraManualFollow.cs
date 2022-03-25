@@ -1,15 +1,32 @@
 ﻿using UnityEngine;
+using Cinemachine;
 
 public class CameraManualFollow : MonoBehaviour
 {
     public Transform target;
-    [SerializeField] private Vector3 offset;
-    [SerializeField] private float smoothSpeed=10f;
-
-    private void FixedUpdate() 
+    public CinemachineVirtualCamera main_camera;
+    
+    void Update()
     {
-        Vector3 desiredPos = target.position + offset;
-        Vector3 smoothPos = Vector3.Lerp(this.transform.position, desiredPos, smoothSpeed * Time.deltaTime);
-        transform.position = smoothPos;
+        if (target != null)
+        {
+            float target_x = target.position.x;
+            float target_y = target.position.y;
+
+            float rounded_x = RoundToNearestPixel(target_x);
+            float rounded_y = RoundToNearestPixel(target_y);
+
+            Vector3 new_pos = new Vector3(rounded_x, rounded_y, -10.0f); // this is 2d, so my camera is that far from the screen.
+            main_camera.transform.position = new_pos;
+        }
+    }
+    public float pixelToUnits = 128f;
+    
+    public float RoundToNearestPixel(float unityUnits)
+    {
+        float valueInPixels = unityUnits * pixelToUnits;
+        valueInPixels = Mathf.Round(valueInPixels);
+        float roundedUnityUnits = valueInPixels * (1 / pixelToUnits);
+        return roundedUnityUnits;
     }
 }

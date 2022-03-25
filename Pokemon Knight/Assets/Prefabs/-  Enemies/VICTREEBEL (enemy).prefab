@@ -808,12 +808,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lv: 20
   chapterLevel: 2
+  mainAnim: {fileID: 3169936182238718491}
   maxHp: 300
   hp: 0
-  mainAnim: {fileID: 3169936182238718491}
   contactDmg: 5
-  contactKb: 20
   projectileDmg: 10
+  contactKb: 20
+  extraHp: 45
+  extraDmg: 4
+  extraProjectileDmg: 4
+  perLv: 2
+  expPossess: 40
+  extraExp: 25
   isSmart: 0
   isEvenSmarter: 0
   renderers:
@@ -828,13 +834,7 @@ MonoBehaviour:
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
   bossRoom: {fileID: 0}
-  extraHp: 45
-  extraDmg: 4
-  extraProjectileDmg: 4
-  perLv: 2
   calcExtraProjectileDmg: 0
-  expPossess: 40
-  extraExp: 25
   col: {fileID: 3169936182238718492}
   body: {fileID: 3169936182238718493}
   model: {fileID: 3169936182585181246}
@@ -936,9 +936,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardSize: 20
-  loots:
-  - item: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
-    quantity: 20
+  expL: {fileID: 1856295254583195530, guid: d27018a99e7b54de48824b3e1560cb92, type: 3}
+  expM: {fileID: 6231101655905951431, guid: 3154a023cb73842f6b4b377e97abffd7, type: 3}
+  expS: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
 --- !u!1 &3169936182585181246
 GameObject:
   m_ObjectHideFlags: 0

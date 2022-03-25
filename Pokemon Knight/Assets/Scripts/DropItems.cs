@@ -3,61 +3,49 @@ using UnityEngine;
 public class DropItems : MonoBehaviour
 {
     [Space] public int rewardSize;
-    public Loot[] loots;
+    // public Loot[] loots;
+    public Currency expL;
+    public Currency expM;
+    public Currency expS;
 
     public void DropLoot(int bonus=1)
     {
-        // Debug.Log("<color=cyan>Dropping Loot</color>");
-        foreach (Loot loot in loots)
-        {
-            // int spawnAmount = (rewardSize * bonus);
-            int spawnAmount = (loot.quantity * bonus);
-            for (int i=0 ; i<spawnAmount ; i++)
-            {
-                var obj = Instantiate(loot.item, 
-                    transform.position + new Vector3(0,0.2f), 
-                    Quaternion.Euler(0,0,Random.Range(0,361))
-                );
-                obj.body.AddForce( new Vector2(Random.Range(-5,6), Random.Range(5,16)) , ForceMode2D.Impulse);
-            }
-        }
-    }
+        bonus = Mathf.Max(1, bonus);
+        int spawnAmount = (rewardSize * bonus);
 
-    public void DropSpecificItems(int amount)
-    {
-        // Debug.Log("<color=cyan>Dropping Loot</color>");
-        int candyL = Mathf.FloorToInt( amount / 125 ); 
-        int candyM = Mathf.FloorToInt( (candyL % 125) / 25 ); 
-        int candyS = candyL % 25; 
+        // Debug.Log("amount = " + spawnAmount + ", bonus = "+ bonus);
+        int nCandyL = Mathf.FloorToInt(spawnAmount / 100);
+        int nCandyM = Mathf.FloorToInt( (spawnAmount % 100) / 10);
+        int nCandyS = spawnAmount % 10;
+        // Debug.Log("sml = " + nCandyS + ", med = " + nCandyM + ", lrg = " + nCandyL);
 
-        int maxCandySSpawn = Mathf.Min(candyS, 25);
-        for (int i=0 ; i<maxCandySSpawn ; i++)
+        for (int i=0; i<nCandyL ; i++)
         {
-            var obj = Instantiate(loots[0].item, 
-                transform.position, 
+            var obj = Instantiate(
+                expL, 
+                transform.position + new Vector3(0,0.2f), 
                 Quaternion.Euler(0,0,Random.Range(0,361))
             );
-            obj.body.AddForce( new Vector2(Random.Range(-5,6), Random.Range(10,16)) , ForceMode2D.Impulse);
+            obj.body.AddForce( new Vector2(Random.Range(-5,6), Random.Range(5,16)) , ForceMode2D.Impulse);
         }
-        int maxCandyMSpawn = Mathf.Min(candyM, 25);
-        for (int i=0 ; i<maxCandyMSpawn ; i++)
+        for (int i=0; i<nCandyM ; i++)
         {
-            var obj = Instantiate(loots[1].item, 
-                transform.position, 
+            var obj = Instantiate(
+                expM, 
+                transform.position + new Vector3(0,0.2f), 
                 Quaternion.Euler(0,0,Random.Range(0,361))
             );
-            obj.body.AddForce( new Vector2(Random.Range(-5,6), Random.Range(10,16)) , ForceMode2D.Impulse);
+            obj.body.AddForce( new Vector2(Random.Range(-5,6), Random.Range(5,16)) , ForceMode2D.Impulse);
         }
-        int maxCandyLSpawn = Mathf.Min(candyL, 25);
-        for (int i=0 ; i<maxCandyLSpawn ; i++)
+        for (int i=0; i<nCandyS ; i++)
         {
-            var obj = Instantiate(loots[2].item, 
-                transform.position, 
+            var obj = Instantiate(
+                expS, 
+                transform.position + new Vector3(0,0.2f), 
                 Quaternion.Euler(0,0,Random.Range(0,361))
             );
-            obj.body.AddForce( new Vector2(Random.Range(-5,6), Random.Range(10,16)) , ForceMode2D.Impulse);
+            obj.body.AddForce( new Vector2(Random.Range(-5,6), Random.Range(5,16)) , ForceMode2D.Impulse);
         }
-
     }
 }
 

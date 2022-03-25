@@ -2249,13 +2249,13 @@ public class PlayerControls : MonoBehaviour
             SceneManager.LoadScene(nextArea); 
             body.velocity = Vector2.zero;
 
+            yield return new WaitForEndOfFrame();
+            this.transform.position = newPos;
+
             //* WAIT TILL SCENE LOADS
             while (SceneManager.GetActiveScene().name != nextArea)
                 yield return null;
             BagLostInScene(nextArea);
-
-            yield return new WaitForEndOfFrame();
-            this.transform.position = newPos;
 
             yield return new WaitForSeconds(0.5f);
             string sceneName = SceneManager.GetActiveScene().name;
