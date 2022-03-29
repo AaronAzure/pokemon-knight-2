@@ -279,7 +279,8 @@ public class PlayerControls : MonoBehaviour
 
     //* Powerups
     [Header("Powerups")]
-    [SerializeField] private Animator doubleJumpScreen;
+    public Animator descriptionAnim;
+    [Space] [SerializeField] private Animator doubleJumpScreen;
     public bool canDoubleJump;
     private int nExtraJumps = 1;
     private int nExtraJumpsLeft = 1;
@@ -942,7 +943,7 @@ public class PlayerControls : MonoBehaviour
             }
 
 
-            grounded = Physics2D.OverlapBox(feetPos.position, feetBox, 0, whatIsGround);
+            grounded = (Physics2D.OverlapBox(feetPos.position, feetBox, 0, whatIsGround) && !inWater);
             // Touched floor
             if (body.velocity.y == 0 && grounded)
             {
@@ -1445,9 +1446,9 @@ public class PlayerControls : MonoBehaviour
 
     bool Interact()
     {
-        return player.GetButtonDown("ZR");
-        // float yValue = Mathf.Abs( player.GetAxis("Move Vertical") );
-        // return (yValue > 0.5f);
+        // return player.GetButtonDown("ZR");
+        float yValue = Mathf.Abs( player.GetAxis("Move Vertical") );
+        return (yValue > 0.5f);
     }
     private void Walk(float xValue)
     {
@@ -2827,6 +2828,21 @@ public class PlayerControls : MonoBehaviour
     {
         inCutscene = false;
     }
+
+    public void PAUSE_GAME()
+    {
+        inCutscene = true;
+        Time.timeScale = 0;
+    }
+    public void UNPAUSE_GAME()
+    {
+        inCutscene = false;
+        Time.timeScale = 1;
+        if (descriptionAnim != null)
+            descriptionAnim.gameObject.SetActive(false);
+        descriptionAnim = null;
+    }
+
 
     public void RestOnBench()
     {

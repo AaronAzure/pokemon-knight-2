@@ -175,7 +175,18 @@ public class BellsproutBoss : Enemy
                 body.velocity = new Vector2( chaseSpeed, body.velocity.y);
 
         if (jumped && isGrounded && body.velocity.y <= 0)
+        {
+            UpdatePath();
+            for (int i=Mathf.Max(1,currentWaypoint) ; i<path.vectorPath.Count ; i++)
+            {
+                if (Mathf.Abs( path.vectorPath[i].x - path.vectorPath[currentWaypoint].x) >= maxWayPointDistDiff)
+                {
+                    currentWaypoint = i; 
+                    break;
+                }
+            }
             jumped = false;
+        }
         
         // Direction Graphics Handling
         LookWhereYoureGoing();
