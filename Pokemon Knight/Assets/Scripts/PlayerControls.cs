@@ -279,7 +279,7 @@ public class PlayerControls : MonoBehaviour
 
     //* Powerups
     [Header("Powerups")]
-    public Animator descriptionAnim;
+    public Animator descAnim;
     [Space] [SerializeField] private Animator doubleJumpScreen;
     public bool canDoubleJump;
     private int nExtraJumps = 1;
@@ -689,7 +689,7 @@ public class PlayerControls : MonoBehaviour
 
         
         CheckEquippablePokemon();
-        CheckObtainedItems();
+        CheckObtainedItems(false);
 
         string sceneFirstWord = PlayerPrefsElite.GetString("checkpointScene" + gameNumber).Split(' ')[0];
         PlayerPrefsElite.SetString("currentArea" + gameNumber, sceneFirstWord);
@@ -717,7 +717,12 @@ public class PlayerControls : MonoBehaviour
     }
     void Update()
     {
-        if (subWayUi.activeSelf)
+        if (descAnim != null && descAnim.gameObject.activeSelf)
+        {
+            if (player.GetButtonDown("A"))
+                descAnim.SetTrigger("close");
+        }
+        else if (subWayUi.activeSelf)
         {
             if (player.GetButtonDown("B") || player.GetButtonDown("START"))
             {
@@ -2834,13 +2839,13 @@ public class PlayerControls : MonoBehaviour
         inCutscene = true;
         Time.timeScale = 0;
     }
-    public void UNPAUSE_GAME()
+    public void CLOSE_DESC_AND_RESUME()
     {
         inCutscene = false;
         Time.timeScale = 1;
-        if (descriptionAnim != null)
-            descriptionAnim.gameObject.SetActive(false);
-        descriptionAnim = null;
+        if (descAnim != null)
+            descAnim.gameObject.SetActive(false);
+        descAnim = null;
     }
 
 
@@ -2920,7 +2925,7 @@ public class PlayerControls : MonoBehaviour
         
 
         CheckEquippablePokemon();
-        CheckObtainedItems();
+        CheckObtainedItems(false);
         CheckSubwaysCleared();
 
         enemyDefeated.Clear(); PlayerPrefsElite.SetStringArray("enemyDefeated", new string[0]);
@@ -3052,7 +3057,7 @@ public class PlayerControls : MonoBehaviour
     }
     
     //* Set all obtained items gameObject (buttons) active - Start(), GainItem()
-    public void CheckObtainedItems()
+    public void CheckObtainedItems(bool newItem=true)
     {
         if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber))
         {
@@ -3060,10 +3065,16 @@ public class PlayerControls : MonoBehaviour
             var set = new HashSet<string>(itemsObtained);
             foreach (ItemUi heldItem in itemsToActivate)
             {
-                if (set.Contains(heldItem.itemName))
+                if (set.Contains(heldItem.itemName) && !heldItem.transform.parent.gameObject.activeSelf)
                 {
                     heldItem.transform.parent.gameObject.SetActive(true);
                     heldItem.gameObject.SetActive(true);
+                    if (newItem && heldItem.itemAnimDesc != null)
+                    {
+                        descAnim = heldItem.itemAnimDesc;
+                        descAnim.gameObject.SetActive(true);
+                        inCutscene = true;
+                    }
                 }
                 else
                 {

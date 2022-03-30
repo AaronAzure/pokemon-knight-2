@@ -11,8 +11,10 @@ public class BoxPokemonButton : MonoBehaviour
     public string pokemonName = "N/A";
     public Sprite sprite;
     [Space] public Button button;
-
-
+    
+    
+    [Space] [Header("Canvas - On Acquire")]
+    public Animator pokemonDesc;
 
 
 

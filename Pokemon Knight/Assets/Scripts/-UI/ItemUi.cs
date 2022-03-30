@@ -14,6 +14,11 @@ public class ItemUi : MonoBehaviour
     [Space] public Button button;
     [TextArea(15,20)] public string itemDesc;
 
+
+
+    [Space] [Header("Canvas - On Acquire")]
+    public Animator itemAnimDesc;
+
     void Start() 
     {
         string temp = "";
