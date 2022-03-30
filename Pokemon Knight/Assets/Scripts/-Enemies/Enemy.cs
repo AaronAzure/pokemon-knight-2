@@ -379,6 +379,10 @@ public abstract class Enemy : MonoBehaviour
         AllyAttack registerAttack=null, bool ignoreDef=false)
     {
         if (dontGetHitTwice != null && dontGetHitTwice == registerAttack) {}
+        else if (inCutscene && hp > 1)
+        {
+            hp--;
+        }
         else if (!inCutscene && hp > 0)
         {
             //* PREVENTS GETTING HIT BY VINE WHIP TWICE
@@ -423,12 +427,8 @@ public abstract class Enemy : MonoBehaviour
             if (isBoss && hp <= 0 && !isDefeated)
             {
                 if (defeatedMat != null)
-                {
                     foreach (SpriteRenderer renderer in renderers)
-                    {
                         renderer.material = defeatedMat;
-                    }
-                }
                 isDefeated = true;
                 if (mainAnim != null)
                     mainAnim.speed = 0.3f;
@@ -475,8 +475,6 @@ public abstract class Enemy : MonoBehaviour
                     foreach (SpriteRenderer renderer in renderers)
                         if (flashMat != null)
                             renderer.material = flashMat;
-                    // Destroy(this.gameObject);
-                    // StartCoroutine( Fainted() );
                 }
                 else if (playerControls != null)
                     playerControls.BossBattleOver();

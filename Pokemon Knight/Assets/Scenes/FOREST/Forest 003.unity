@@ -173,7 +173,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Hold L \nto Drink Milk\n(heal)"
+  m_text: 'Hold <sprite=16>
+
+    to Drink Milk
+
+    (heal)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b94edc951cdad4c0b9684e82cf30030d, type: 2}
   m_sharedMaterial: {fileID: -1698028554778917790, guid: b94edc951cdad4c0b9684e82cf30030d, type: 2}
@@ -192,7 +196,7 @@ MonoBehaviour:
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
+  m_spriteAsset: {fileID: 11400000, guid: aeed7b5ea97fa4a94b654fc06102cf07, type: 2}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
   m_TextStyleHashCode: -1183493901
@@ -1806,7 +1810,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5850416406816429713, guid: d3058c52158474a839b39317a23a736c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.21
+      value: 6.407
       objectReference: {fileID: 0}
     - target: {fileID: 5850416406816429713, guid: d3058c52158474a839b39317a23a736c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1872,7 +1876,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5850416406816429713, guid: d3058c52158474a839b39317a23a736c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.23
+      value: 6.47
       objectReference: {fileID: 0}
     - target: {fileID: 5850416406816429713, guid: d3058c52158474a839b39317a23a736c, type: 3}
       propertyPath: m_LocalPosition.z
