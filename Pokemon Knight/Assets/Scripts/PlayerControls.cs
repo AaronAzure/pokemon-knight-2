@@ -260,7 +260,7 @@ public class PlayerControls : MonoBehaviour
     public Image[] equippedItems;
     public List<string> equippedItemNames;
     [SerializeField] private Animator weightAnim;
-    [SerializeField] private AudioSource itemFoundlSound;
+    // [SerializeField] private AudioSource itemFoundlSound;
     public int nEquipped;
     public int currentWeight=0; 
     public int maxWeight=3; 
@@ -271,6 +271,7 @@ public class PlayerControls : MonoBehaviour
     public bool crisisCharm;
     public bool graciousHeartCharm;
     public bool milkAddictCharm;
+    public bool sturdyCharm;
     [SerializeField] private GameObject furyYellowObj;
     [SerializeField] private GameObject furyRedObj;
     public bool dualCharm;
@@ -279,8 +280,11 @@ public class PlayerControls : MonoBehaviour
 
     //* Powerups
     [Header("Powerups")]
+    public Animator berryUpgradeAnim;
+    public Animator keychainUpgradeAnim;
     public Animator descAnim;
-    [Space] [SerializeField] private Animator doubleJumpScreen;
+    public Animator subseqAnim;
+    // [Space] [SerializeField] private Animator doubleJumpScreen;
     public bool canDoubleJump;
     private int nExtraJumps = 1;
     private int nExtraJumpsLeft = 1;
@@ -896,12 +900,12 @@ public class PlayerControls : MonoBehaviour
             {
                 body.velocity = Vector2.zero;
                 inCutscene = true;
-                currentBerry.PickupBerry();
+                StartCoroutine( currentBerry.PickupBerry() );
+                currentBerry = null;
                 anim.speed = 1;
                 anim.SetTrigger("pickup");
-                currentBerry = null;
-                if (itemFoundlSound != null) 
-                    itemFoundlSound.Play();
+                // if (itemFoundlSound != null) 
+                //     itemFoundlSound.Play();
             }
             else if (currentKeychain != null && Interact())
             {
@@ -909,12 +913,12 @@ public class PlayerControls : MonoBehaviour
                     currentKeychain.player = this;
                 body.velocity = Vector2.zero;
                 inCutscene = true;
-                currentKeychain.PickupSpareKeychain();
+                StartCoroutine( currentKeychain.PickupSpareKeychain() );
+                currentKeychain = null;
                 anim.speed = 1;
                 anim.SetTrigger("pickup");
-                currentKeychain = null;
-                if (itemFoundlSound != null) 
-                    itemFoundlSound.Play();
+                // if (itemFoundlSound != null) 
+                //     itemFoundlSound.Play();
             }
             else if (currentBag != null && Interact())
             {
@@ -926,19 +930,19 @@ public class PlayerControls : MonoBehaviour
                 anim.speed = 1;
                 anim.SetTrigger("pickup");
                 currentBag = null;
-                if (itemFoundlSound != null) 
-                    itemFoundlSound.Play();
+                // if (itemFoundlSound != null) 
+                //     itemFoundlSound.Play();
             }
             else if (currentItem != null && Interact())
             {
                 body.velocity = Vector2.zero;
                 inCutscene = true;
-                currentItem.PickupItem();
+                StartCoroutine( currentItem.PickupItem() );
                 anim.speed = 1;
                 anim.SetTrigger("pickup");
                 currentItem = null;
-                if (itemFoundlSound != null) 
-                    itemFoundlSound.Play();
+                // if (itemFoundlSound != null) 
+                //     itemFoundlSound.Play();
             }
             else if (grounded && body.velocity.y == 0 && canDodge && player.GetButtonDown("ZR") 
                 && !canRest && !canEnter && currentItem == null)
@@ -1064,11 +1068,11 @@ public class PlayerControls : MonoBehaviour
         }
         
         //* Powerup or new pokemon cutscene
-        else if (inCutscene && doubleJumpScreen.gameObject.activeSelf)
-        {
-            if (PressedStandardButton())
-                doubleJumpScreen.SetTrigger("confirm");
-        }
+        // else if (inCutscene && doubleJumpScreen.gameObject.activeSelf)
+        // {
+        //     if (PressedStandardButton())
+        //         doubleJumpScreen.SetTrigger("confirm");
+        // }
     }
 
     private void SummonPokemon(int slot, string button)
@@ -1367,7 +1371,9 @@ public class PlayerControls : MonoBehaviour
             if (healthStatus == HpEffect.heal)
             {
                 if (hpImg.fillAmount < hpEffectImg.fillAmount)
-                    if (hp > 0)
+                    if (resting)
+                        hpImg.fillAmount += (effectSpeed*4);
+                    else if (hp > 0)
                         hpImg.fillAmount += effectSpeed;
                     else
                         hpImg.fillAmount += (effectSpeed/2);
@@ -1671,7 +1677,7 @@ public class PlayerControls : MonoBehaviour
     {
         foreach (ItemUi iu in itemsToActivate)
         {
-            if (iu.gameObject.activeSelf && iu.transform.parent.gameObject.activeSelf)
+            if (iu.gameObject.activeSelf)
             {
                 iu.button.Select();
                 break;
@@ -1754,7 +1760,11 @@ public class PlayerControls : MonoBehaviour
         {
             Debug.Log("<color=#FF8800>Took " + dmg + " dmg</color>");
             anim.SetBool("isDrinking", false);
-            hp -= dmg;
+            if (sturdyCharm && hp > 1)
+                hp = Mathf.Max(1, hp - dmg);
+            else
+                hp -= dmg;
+
             if (dmg > 0 && hp > 0)
             {
                 StartCoroutine( Flash() );
@@ -2743,8 +2753,8 @@ public class PlayerControls : MonoBehaviour
             case "butterfree": 
                 canDoubleJump = true;
                 PlayerPrefsElite.SetBoolean("canDoubleJump" + gameNumber, canDoubleJump);
-                inCutscene = true;
-                doubleJumpScreen.gameObject.SetActive(true);
+                // inCutscene = true;
+                // doubleJumpScreen.gameObject.SetActive(true);
                 CaughtAPokemon("butterfree");
                 break;
             case "pidgey": 
@@ -2839,13 +2849,24 @@ public class PlayerControls : MonoBehaviour
         inCutscene = true;
         Time.timeScale = 0;
     }
-    public void CLOSE_DESC_AND_RESUME()
+    public void CLOSE_DESC_AND_RESUME(bool canMoveAfterAnimation)
     {
-        inCutscene = false;
-        Time.timeScale = 1;
-        if (descAnim != null)
-            descAnim.gameObject.SetActive(false);
-        descAnim = null;
+        if (subseqAnim == null)
+        {
+            inCutscene = canMoveAfterAnimation;
+            Time.timeScale = 1;
+            if (descAnim != null)
+                descAnim.gameObject.SetActive(false);
+            descAnim = null;
+        }
+        else
+        {
+            if (descAnim != null)
+                descAnim.gameObject.SetActive(false);
+            descAnim = subseqAnim;
+            subseqAnim = null;
+            descAnim.gameObject.SetActive(true);
+        }
     }
 
 
@@ -3002,11 +3023,19 @@ public class PlayerControls : MonoBehaviour
             bool foundMatch = false;
             foreach (BoxPokemonButton boxPokemon in boxPokemonsToActivate)
             {
-                if (set.Contains(boxPokemon.pokemonName))
+                if (set.Contains(boxPokemon.pokemonName) && !boxPokemon.gameObject.activeSelf)
                 {
                     foundMatch = true;
-                    boxPokemon.transform.parent.gameObject.SetActive(true);
                     boxPokemon.gameObject.SetActive(true);
+                    if (boxPokemon.pokemonAcqDesc != null && boxPokemon.pokemonAcqDesc.anim != null)
+                    {
+                        descAnim = boxPokemon.pokemonAcqDesc.anim;
+                        boxPokemon.ShowDescriptionOfAcquired();
+                        descAnim.gameObject.SetActive(true);
+                        inCutscene = true;
+                        if (boxPokemon.subseqAcqDesc != null)
+                            subseqAnim = boxPokemon.subseqAcqDesc;
+                    }
                 }
             }
             foreach (EnhancePokemonUi epu in enhancePokemonsToActivate)
@@ -3019,7 +3048,7 @@ public class PlayerControls : MonoBehaviour
             if (!foundMatch)
                 Debug.LogError("PlayerControls.CaughtAPokemon - unregistered pokemon (ADD TO boxPokemonsToActivate)");
 
-            CheckEquippablePokemon();
+            // CheckEquippablePokemon();
             return foundMatch;
         }
         return false;
@@ -3037,12 +3066,10 @@ public class PlayerControls : MonoBehaviour
             {
                 if (boxPokemon.pokemonName != null && set.Contains(boxPokemon.pokemonName))
                 {
-                    boxPokemon.transform.parent.gameObject.SetActive(true);
                     boxPokemon.gameObject.SetActive(true);
                 }
                 else
                 {
-                    boxPokemon.transform.parent.gameObject.SetActive(false);
                     boxPokemon.gameObject.SetActive(false);
                 }
             }
@@ -3065,20 +3092,18 @@ public class PlayerControls : MonoBehaviour
             var set = new HashSet<string>(itemsObtained);
             foreach (ItemUi heldItem in itemsToActivate)
             {
-                if (set.Contains(heldItem.itemName) && !heldItem.transform.parent.gameObject.activeSelf)
+                if (set.Contains(heldItem.itemName) && !heldItem.gameObject.activeSelf)
                 {
-                    heldItem.transform.parent.gameObject.SetActive(true);
                     heldItem.gameObject.SetActive(true);
-                    if (newItem && heldItem.itemAnimDesc != null)
+                    if (newItem && heldItem.itemAcqDesc != null && heldItem.itemAcqDesc.anim != null)
                     {
-                        descAnim = heldItem.itemAnimDesc;
-                        descAnim.gameObject.SetActive(true);
-                        inCutscene = true;
+                        descAnim = heldItem.itemAcqDesc.anim;
+                        heldItem.ShowDescriptionOfAcquired();
+                        StartCoroutine( ShowDescriptionOfAcquiredCo() );
                     }
                 }
                 else
                 {
-                    heldItem.transform.parent.gameObject.SetActive(false);
                     heldItem.gameObject.SetActive(false);
                 }
             }
@@ -3107,6 +3132,33 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
+    IEnumerator ShowDescriptionOfAcquiredCo()
+    {
+        yield return new WaitForSeconds(0.33f);
+        descAnim.gameObject.SetActive(true);
+        inCutscene = true;
+    }
+    public void PickupBerryCo()
+    {
+        StartCoroutine( ShowUpgradeAcquiredCo(false) );
+    }
+    public void PickupKeychainCo()
+    {
+        StartCoroutine( ShowUpgradeAcquiredCo(true) );
+    }
+    IEnumerator ShowUpgradeAcquiredCo(bool keychainUpgrade)
+    {
+        yield return new WaitForSeconds(0.33f);
+        inCutscene = true;
+        
+        if (keychainUpgrade)
+            descAnim = keychainUpgradeAnim;
+        else
+            descAnim = berryUpgradeAnim;
+        descAnim.gameObject.SetActive(true);
+    }
+
+
     // todo ------------------------------------------------------------------------------------
 
     public enum SpecialPokemon { none, butterfree, alakazam, starmie };
@@ -3114,7 +3166,6 @@ public class PlayerControls : MonoBehaviour
     {
         if (pokemonSummoned == butterfree.summonable)
         {
-            
             return SpecialPokemon.butterfree;
         }
         return SpecialPokemon.none;

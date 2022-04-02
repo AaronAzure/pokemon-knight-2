@@ -1,14 +1,13 @@
 using UnityEngine;
-using TMPro;
+// using TMPro;
+using System.Collections;
 using System.Collections.Generic;
 
 public class Item : MonoBehaviour
 {
     private  PlayerControls player;
     public string itemName;
-
-    // [SerializeField] private bool increaseMaxPokemonOut;
-    [Space] [SerializeField] private Animator anim;
+    private bool once;
     
    
     private void Start() 
@@ -20,24 +19,24 @@ public class Item : MonoBehaviour
             if (set.Contains(itemName))
                 Destroy(this.gameObject);
         }
-
-        if (anim != null)
-            anim.gameObject.SetActive(false);
     } 
 
-    public void PickupItem()
+    public IEnumerator PickupItem()
     {
-        anim.gameObject.transform.parent = null;
-        anim.gameObject.SetActive(true);
-
-        List<string> temp = new List<string>( 
-            PlayerPrefsElite.GetStringArray("itemsObtained" + PlayerPrefsElite.GetInt("gameNumber")) 
-        );
-        temp.Add(itemName);
-        PlayerPrefsElite.SetStringArray("itemsObtained" + PlayerPrefsElite.GetInt("gameNumber"), temp.ToArray());
-        player.CheckObtainedItems();
-        
-        Destroy(this.gameObject);
+        if (!once)
+        {
+            once = true;
+            yield return new WaitForSeconds(0.33f);
+            
+            List<string> temp = new List<string>( 
+                PlayerPrefsElite.GetStringArray("itemsObtained" + PlayerPrefsElite.GetInt("gameNumber")) 
+            );
+            temp.Add(itemName);
+            PlayerPrefsElite.SetStringArray("itemsObtained" + PlayerPrefsElite.GetInt("gameNumber"), temp.ToArray());
+            player.CheckObtainedItems();
+            
+            Destroy(this.gameObject);
+        }
     }
     
     private void OnTriggerEnter2D(Collider2D other) 

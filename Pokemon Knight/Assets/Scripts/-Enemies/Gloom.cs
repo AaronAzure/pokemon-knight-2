@@ -38,11 +38,14 @@ public class Gloom : Enemy
         else    // left
             frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
             
-        if ((!groundInfo || frontInfo) && canFlip && body.velocity.y >= 0)
+        if (!receivingKnockback)
         {
-            canFlip = false;
-            WalkTheOtherWay();
-            StartCoroutine( ResetFlipTimer() );
+            if ((!groundInfo || frontInfo) && canFlip && body.velocity.y >= 0 && !isAttacking)
+            {
+                canFlip = false;
+                WalkTheOtherWay();
+                StartCoroutine( ResetFlipTimer() );
+            }
         }
 
         if (playerInField && target != null)

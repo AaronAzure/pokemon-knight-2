@@ -89,9 +89,12 @@ public class Tangela : Enemy
                 }
             }
                 
-            if ((!groundInfo || frontInfo) && canFlip && body.velocity.y >= 0 && (movingLeft || movingRight))
-                Flip();
-
+            if (!receivingKnockback)
+            {
+                if ((!groundInfo || frontInfo) && canFlip && body.velocity.y >= 0 
+                    && (movingLeft || movingRight) && !isAttacking)
+                    Flip();
+            }
             if (playerInField && target != null)
             {
                 Vector3 lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));

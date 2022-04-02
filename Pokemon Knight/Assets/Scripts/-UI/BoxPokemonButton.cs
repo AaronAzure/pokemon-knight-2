@@ -14,10 +14,17 @@ public class BoxPokemonButton : MonoBehaviour
     
     
     [Space] [Header("Canvas - On Acquire")]
-    public Animator pokemonDesc;
+    public AcquiredDescUi pokemonAcqDesc;
+    public Animator subseqAcqDesc;
 
 
 
+    public void ShowDescriptionOfAcquired()
+    {
+        pokemonAcqDesc.descTxt.text = "<b>" + ally.moveName + "</b>\n" + ally.moveDesc;
+        pokemonAcqDesc.headerTxt.text = ally.pokemonName;
+        pokemonAcqDesc.acqImg.sprite = this.sprite;
+    }
 
     public void SetNewAlly()
     {

@@ -48,6 +48,7 @@ public class ButterfreeBoss : Enemy
     }
     public override void CallChildOnRageCutsceneFinished()
     {
+        count = newAttackPattern;
         atkCount = 0;
     }
 
@@ -112,9 +113,9 @@ public class ButterfreeBoss : Enemy
     {
         count = 0;
         newAttackPattern = 4;
-        moveSpeed *= 1.5f;
+        moveSpeed *= 1.25f;
         // chaseSpeed *= 1.5f;
-        maxSpeed *= 1.5f;
+        maxSpeed *= 1.25f;
     }
     public override void CallChildOnBossDeath() 
     {

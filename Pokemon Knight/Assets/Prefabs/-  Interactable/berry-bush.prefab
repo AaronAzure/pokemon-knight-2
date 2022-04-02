@@ -92,7 +92,6 @@ GameObject:
   m_Component:
   - component: {fileID: 316627596908520326}
   - component: {fileID: 316627596908520327}
-  - component: {fileID: 316627596908520324}
   m_Layer: 0
   m_Name: berry-bush
   m_TagString: Untagged
@@ -168,17 +167,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!210 &316627596908520324
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 316627596908520328}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!1 &316627597786644179
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,7 +293,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomName: 
   berries: []
-  anim: {fileID: 3351532703939215783}
 --- !u!114 &6600634705590660829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,7 +537,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3351532703939215787
 RectTransform:
   m_ObjectHideFlags: 0

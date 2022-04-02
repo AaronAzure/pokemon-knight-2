@@ -17,11 +17,17 @@ public class ItemUi : MonoBehaviour
 
 
     [Space] [Header("Canvas - On Acquire")]
-    public Animator itemAnimDesc;
+    public AcquiredDescUi itemAcqDesc;
 
     void Start() 
     {
+        GetCamelisedName();
+    }
+
+    void GetCamelisedName()
+    {
         string temp = "";
+        //*  "crisisCharm"  ->  "Crisis Charm"
         for (int i=0 ; i<itemName.Length ; i++)
         {
             char letter = itemName[i];
@@ -34,6 +40,14 @@ public class ItemUi : MonoBehaviour
                     temp += letter;
         }
         camelisedItemName = temp;
+    }
+
+    public void ShowDescriptionOfAcquired()
+    {
+        GetCamelisedName();
+        itemAcqDesc.descTxt.text = itemDesc;
+        itemAcqDesc.headerTxt.text = camelisedItemName;
+        itemAcqDesc.acqImg.sprite = this.sprite;
     }
 
     private bool CanEquip(int itemWeight)
@@ -85,6 +99,9 @@ public class ItemUi : MonoBehaviour
                     playerControls.milkAddictCharm = false;
                     playerControls.DecreaseNumberOfMoomooMilk();
                     break;
+                case "sturdyCharm":
+                    playerControls.sturdyCharm = false;
+                    break;
                 default:
                     Debug.LogError("ItemUi.itemName is not yet registered to a matching item");
                     break;
@@ -125,6 +142,9 @@ public class ItemUi : MonoBehaviour
                 case "milkAddictCharm":
                     playerControls.milkAddictCharm = true;
                     playerControls.IncreaseNumberOfMoomooMilk();
+                    break;
+                case "sturdyCharm":
+                    playerControls.sturdyCharm = true;
                     break;
                 default:
                     Debug.LogError("ItemUi.itemName is not yet registered to a matching item");

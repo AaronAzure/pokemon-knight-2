@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,7 +9,7 @@ public class Berry : MonoBehaviour
     [SerializeField] private string roomName;
     [Space] [SerializeField] private List<string> berries;
     [SerializeField] private HashSet<string> berriesSet;
-    [Space] [SerializeField] private Animator anim;
+    private bool once;
    
     private void Start() 
     {
@@ -25,21 +26,17 @@ public class Berry : MonoBehaviour
             if (berriesSet.Contains(roomName))
                 Destroy(this.gameObject);
         }
-
-        if (anim != null)
-            anim.gameObject.SetActive(false);
     } 
 
-    public void PickupBerry()
+    public IEnumerator PickupBerry()
     {
-        if (anim != null)
+        if (player != null && !once)
         {
-            anim.gameObject.transform.parent = null;
-            anim.gameObject.SetActive(true);
-        }
-        if (player != null)
-        {
+            once = true;
+            yield return new WaitForSeconds(0.33f);
+
             player.nBerries++;
+            player.PickupBerryCo();
             berries.Add(roomName);
             PlayerPrefsElite.SetStringArray("berriesCollected" + PlayerPrefsElite.GetInt("gameNumber"), berries.ToArray());
 

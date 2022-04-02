@@ -1,16 +1,25 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AcquiredDescUi : MonoBehaviour
 {
-    public PlayerControls player;
-    public Animator subsequentDesc;
+    public Animator anim;
+    public bool canMoveAfterAnimation;
+
+    [Space] public PlayerControls player;
+    public Image acqImg;
+    public TextMeshProUGUI headerTxt;
+    public TextMeshProUGUI descTxt;
+    [Space] public Animator subsequentDesc;
     
+
     public void PAUSE()
     {
         player.PAUSE_GAME();
     }
 
-    
+
     public void RESUME()
     {
         this.gameObject.SetActive(false);
@@ -18,7 +27,7 @@ public class AcquiredDescUi : MonoBehaviour
         if (subsequentDesc == null)
         {
             Time.timeScale = 1;
-            player.CLOSE_DESC_AND_RESUME();
+            player.CLOSE_DESC_AND_RESUME(!canMoveAfterAnimation);
         }
         else
         {

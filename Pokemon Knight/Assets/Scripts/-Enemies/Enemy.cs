@@ -119,6 +119,7 @@ public abstract class Enemy : MonoBehaviour
     
     [Space] [Header("Support / Mechanics")]
     public GameObject alert;
+    public bool isAttacking;    // SET BY ANIMATION
     public bool isTargeting;
     [HideInInspector] protected bool canFlip=true ;
     public bool playerInField;
