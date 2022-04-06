@@ -5,6 +5,7 @@ public class CandyBag : MonoBehaviour
     public PlayerControls player;
     public int quantity;
     public Rigidbody2D body;
+    public TextHolder holder;
    
     private void Start() 
     {
@@ -14,9 +15,11 @@ public class CandyBag : MonoBehaviour
     {
         if (player != null)
         {
-            player.GainCandy(quantity);
+            player.GainCandy(quantity, true);
             player.hasLostBag = false;
             PlayerPrefsElite.SetBoolean("hasLostBag" + PlayerPrefsElite.GetInt("gameNumber"), false);
+            var obj = Instantiate(holder, this.transform.position + new Vector3(0,2), Quaternion.identity);
+            obj.text.text = "+" + quantity.ToString();
 
             Destroy(this.gameObject);
         }

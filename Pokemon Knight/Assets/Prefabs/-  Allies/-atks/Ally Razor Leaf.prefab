@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5060060065747389920}
   - component: {fileID: -2450099253754840806}
   - component: {fileID: 3233546541790471183}
+  - component: {fileID: 2046730521861863131}
   m_Layer: 0
   m_Name: Ally Razor Leaf
   m_TagString: Untagged
@@ -48,7 +49,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1374343792732718}
   serializedVersion: 7
-  lengthInSec: 2
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
@@ -4877,7 +4878,7 @@ MonoBehaviour:
   trailObj: {fileID: 0}
   explosionObj: {fileID: 1715348460980390, guid: 89a63f7c92ea14656a6c8539425f90df, type: 3}
   destoryOnCollision: 1
-  velocity: 17.5
+  velocity: 15
   customTrajectory: 1
   body: {fileID: 5060060065747389920}
   explosiveHitbox: 0
@@ -4888,6 +4889,19 @@ MonoBehaviour:
   player: {fileID: 0}
   absorbReturnObj: {fileID: 0}
   maxDrain: 5
+--- !u!114 &2046730521861863131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1374343792732718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98ad6b04ce2ae4f3cbbe6cbf098d305d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 1.25
 --- !u!1 &1410327870102828
 GameObject:
   m_ObjectHideFlags: 0
@@ -4928,7 +4942,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1410327870102828}
   serializedVersion: 7
-  lengthInSec: 2
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
@@ -9730,7 +9744,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1401557460691346301}
   serializedVersion: 7
-  lengthInSec: 2
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
@@ -14501,7 +14515,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4337978458257804681}
   serializedVersion: 7
-  lengthInSec: 2
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
@@ -19303,7 +19317,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7398040337221695595}
   serializedVersion: 7
-  lengthInSec: 2
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3

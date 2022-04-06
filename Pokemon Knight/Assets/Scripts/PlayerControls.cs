@@ -103,6 +103,8 @@ public class PlayerControls : MonoBehaviour
     [Space] public AllyTeamUI tangela;
     [Space] public AllyTeamUI bellsprout;
     [Space] public AllyTeamUI snorlax;
+    [Space] public AllyTeamUI flareon;
+    [Space] public AllyTeamUI eevee;
 
 
 
@@ -260,7 +262,7 @@ public class PlayerControls : MonoBehaviour
     public Image[] equippedItems;
     public List<string> equippedItemNames;
     [SerializeField] private Animator weightAnim;
-    // [SerializeField] private AudioSource itemFoundlSound;
+    [SerializeField] private AudioSource itemFoundlSound;
     public int nEquipped;
     public int currentWeight=0; 
     public int maxWeight=3; 
@@ -616,6 +618,22 @@ public class PlayerControls : MonoBehaviour
                         pokemonInTeamBenchSettings[i].ally = snorlax.summonable;
                         partyPokemonsUI[i].sprite = snorlax.sprite;
                         break;
+                    case "flareon":
+                        allies[i] = flareon.summonable;
+                        if (PlayerPrefsElite.VerifyInt("flareonLv" + gameNumber))
+                            flareon.summonable.extraLevel = PlayerPrefsElite.GetInt("flareonLv" + gameNumber);
+                        pokemonInTeamBenchSettings[i].img.sprite = flareon.sprite;
+                        pokemonInTeamBenchSettings[i].ally = flareon.summonable;
+                        partyPokemonsUI[i].sprite = flareon.sprite;
+                        break;
+                    case "eevee":
+                        allies[i] = eevee.summonable;
+                        if (PlayerPrefsElite.VerifyInt("eeveeLv" + gameNumber))
+                            eevee.summonable.extraLevel = PlayerPrefsElite.GetInt("eeveeLv" + gameNumber);
+                        pokemonInTeamBenchSettings[i].img.sprite = eevee.sprite;
+                        pokemonInTeamBenchSettings[i].ally = eevee.summonable;
+                        partyPokemonsUI[i].sprite = eevee.sprite;
+                        break;
                     case "":
                         pokemonInTeamBenchSettings[i].img.sprite = emptySprite;
                         pokemonInTeamBenchSettings[i].ally = null;
@@ -832,7 +850,7 @@ public class PlayerControls : MonoBehaviour
             }
         }
         //* DRINKING MOOMOO MILK
-        else if (nMoomooMilkLeft > 0 && hp != maxHp && hp > 0 && player.GetButtonDown("L"))
+        else if (nMoomooMilkLeft > 0 && hp != maxHp && hp > 0 && !dodging && player.GetButtonDown("L"))
         {
             DrinkingMoomooMilk();
         }
@@ -930,8 +948,8 @@ public class PlayerControls : MonoBehaviour
                 anim.speed = 1;
                 anim.SetTrigger("pickup");
                 currentBag = null;
-                // if (itemFoundlSound != null) 
-                //     itemFoundlSound.Play();
+                if (itemFoundlSound != null) 
+                    itemFoundlSound.Play();
             }
             else if (currentItem != null && Interact())
             {
@@ -1137,6 +1155,12 @@ public class PlayerControls : MonoBehaviour
         else if (ally == snorlax.summonable)
             if (PlayerPrefsElite.VerifyInt("snorlaxLv" + gameNumber))
                 return PlayerPrefsElite.GetInt("snorlaxLv" + gameNumber);
+        else if (ally == flareon.summonable)
+            if (PlayerPrefsElite.VerifyInt("flareonLv" + gameNumber))
+                return PlayerPrefsElite.GetInt("flareonLv" + gameNumber);
+        else if (ally == eevee.summonable)
+            if (PlayerPrefsElite.VerifyInt("eeveeLv" + gameNumber))
+                return PlayerPrefsElite.GetInt("eeveeLv" + gameNumber);
         return 0;
     }
     public void EnhanceAllyPokemonLevel(Ally ally, int enhancementCost)
@@ -1150,7 +1174,7 @@ public class PlayerControls : MonoBehaviour
                     PlayerPrefsElite.GetInt("bulbasaurLv" + gameNumber) + 1);
             else
                 PlayerPrefsElite.SetInt("bulbasaurLv" + gameNumber, 1);
-            bulbasaur.summonable.extraLevel = PlayerPrefsElite.GetInt("bulbasaurLv" + gameNumber);
+            bulbasaur.summonable.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("bulbasaurLv" + gameNumber) );
         }
         else if (ally == squirtle.summonable)
         {
@@ -1160,7 +1184,7 @@ public class PlayerControls : MonoBehaviour
                     PlayerPrefsElite.GetInt("squirtleLv" + gameNumber) + 1);
             else
                 PlayerPrefsElite.SetInt("squirtleLv" + gameNumber, 1);
-            squirtle.summonable.extraLevel = PlayerPrefsElite.GetInt("squirtleLv" + gameNumber);
+            squirtle.summonable.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("squirtleLv" + gameNumber) );
         }
         else if (ally == charmander.summonable)
         {
@@ -1170,7 +1194,7 @@ public class PlayerControls : MonoBehaviour
                     PlayerPrefsElite.GetInt("charmanderLv" + gameNumber) + 1);
             else
                 PlayerPrefsElite.SetInt("charmanderLv" + gameNumber, 1);
-            charmander.summonable.extraLevel = PlayerPrefsElite.GetInt("charmanderLv" + gameNumber);
+            charmander.summonable.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("charmanderLv" + gameNumber) );
         }
         else if (ally == pidgey.summonable)
         {
@@ -1180,7 +1204,7 @@ public class PlayerControls : MonoBehaviour
                     PlayerPrefsElite.GetInt("pidgeyLv" + gameNumber) + 1);
             else
                 PlayerPrefsElite.SetInt("pidgeyLv" + gameNumber, 1);
-            pidgey.summonable.extraLevel = PlayerPrefsElite.GetInt("pidgeyLv" + gameNumber);
+            pidgey.summonable.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("pidgeyLv" + gameNumber) );
         }
         else if (ally == oddish.summonable)
         {
@@ -1190,7 +1214,7 @@ public class PlayerControls : MonoBehaviour
                     PlayerPrefsElite.GetInt("oddishLv" + gameNumber) + 1);
             else
                 PlayerPrefsElite.SetInt("oddishLv" + gameNumber, 1);
-            oddish.summonable.extraLevel = PlayerPrefsElite.GetInt("oddishLv" + gameNumber);
+            oddish.summonable.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("oddishLv" + gameNumber) );
         }
         else if (ally == butterfree.summonable)
         {
@@ -1200,7 +1224,7 @@ public class PlayerControls : MonoBehaviour
                     PlayerPrefsElite.GetInt("butterfreeLv" + gameNumber) + 1);
             else
                 PlayerPrefsElite.SetInt("butterfreeLv" + gameNumber, 1);
-            butterfree.summonable.extraLevel = PlayerPrefsElite.GetInt("butterfreeLv" + gameNumber);
+            butterfree.summonable.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("butterfreeLv" + gameNumber) );
         }
         else if (ally == tangela.summonable)
         {
@@ -1210,7 +1234,7 @@ public class PlayerControls : MonoBehaviour
                     PlayerPrefsElite.GetInt("tangelaLv" + gameNumber) + 1);
             else
                 PlayerPrefsElite.SetInt("tangelaLv" + gameNumber, 1);
-            tangela.summonable.extraLevel = PlayerPrefsElite.GetInt("tangelaLv" + gameNumber);
+            tangela.summonable.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("tangelaLv" + gameNumber) );
         }
         else if (ally == bellsprout.summonable)
         {
@@ -1220,7 +1244,7 @@ public class PlayerControls : MonoBehaviour
                     PlayerPrefsElite.GetInt("bellsproutLv" + gameNumber) + 1);
             else
                 PlayerPrefsElite.SetInt("bellsproutLv" + gameNumber, 1);
-            bellsprout.summonable.extraLevel = PlayerPrefsElite.GetInt("bellsproutLv" + gameNumber);
+            bellsprout.summonable.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("bellsproutLv" + gameNumber) );
         }
         else if (ally == snorlax.summonable)
         {
@@ -1230,7 +1254,27 @@ public class PlayerControls : MonoBehaviour
                     PlayerPrefsElite.GetInt("snorlaxLv" + gameNumber) + 1);
             else
                 PlayerPrefsElite.SetInt("snorlaxLv" + gameNumber, 1);
-            snorlax.summonable.extraLevel = PlayerPrefsElite.GetInt("snorlaxLv" + gameNumber);
+            snorlax.summonable.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("snorlaxLv" + gameNumber) );
+        }
+        else if (ally == flareon.summonable)
+        {
+            found = true;
+            if (PlayerPrefsElite.VerifyInt("flareonLv" + gameNumber))
+                PlayerPrefsElite.SetInt("flareonLv" + gameNumber, 
+                    PlayerPrefsElite.GetInt("flareonLv" + gameNumber) + 1);
+            else
+                PlayerPrefsElite.SetInt("flareonLv" + gameNumber, 1);
+            flareon.summonable.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("flareonLv" + gameNumber) );
+        }
+        else if (ally == eevee.summonable)
+        {
+            found = true;
+            if (PlayerPrefsElite.VerifyInt("eeveeLv" + gameNumber))
+                PlayerPrefsElite.SetInt("eeveeLv" + gameNumber, 
+                    PlayerPrefsElite.GetInt("eeveeLv" + gameNumber) + 1);
+            else
+                PlayerPrefsElite.SetInt("eeveeLv" + gameNumber, 1);
+            eevee.summonable.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("eeveeLv" + gameNumber) );
         }
         else 
             Debug.Log("<color=red>Pokemon not registered to be Enhanced</color>");
@@ -2063,12 +2107,14 @@ public class PlayerControls : MonoBehaviour
             exp = 0;
     }
 
-    public void GainCandy(int amount)
+    public void GainCandy(int amount, bool save=false)
     {
         currency += Mathf.RoundToInt(amount * candyMultiplier);
         currencyTxt.text = currency.ToString();
         currencyEnhanceTxt.text = currency.ToString();
         currencySound.Play();
+        if (save)
+            PlayerPrefsElite.SetInt("currency" + gameNumber, currency);
     }
 
     public void FillGauge(int spGained)
@@ -2241,7 +2287,7 @@ public class PlayerControls : MonoBehaviour
 
     public void SetNextArea(string nextArea, Vector2 newPos, bool exitingDoor=false, string sceneChanger="")
     {
-        if (!inCutscene)
+        if (!inCutscene && hp > 0)
         {
             movingToDifferentScene = true;
             if (dodging)
@@ -2256,12 +2302,14 @@ public class PlayerControls : MonoBehaviour
     }
     public IEnumerator MovingToNextArea(string nextArea, Vector2 newPos, bool exitingDoor, string sceneChanger="")
     {
-        if (!inCutscene)
+        if (!inCutscene && hp > 0)
         {
             inCutscene = true;
             bool walkingRight = (body.velocity.x > 0);
 
             yield return new WaitForSeconds(1);
+            if (hp <= 0)
+                yield break;
             SceneManager.LoadScene(nextArea); 
             body.velocity = Vector2.zero;
 
@@ -2685,31 +2733,37 @@ public class PlayerControls : MonoBehaviour
                 allies[0] = newAllyToEquip; partyPokemonsUI[0].sprite = newAllySpriteToEquip; 
                 pokemonInTeamBenchSettings[0].img.sprite = newAllySpriteToEquip; 
                 pokemonInTeamBenchSettings[0].ally = newAllyToEquip;
+                // newAllyToEquip.imgs.Add( pokemonInTeamBenchSettings[0].img );
                 break;
             case "X1": 
                 allies[1] = newAllyToEquip; partyPokemonsUI[1].sprite = newAllySpriteToEquip; 
                 pokemonInTeamBenchSettings[1].img.sprite = newAllySpriteToEquip; 
                 pokemonInTeamBenchSettings[1].ally = newAllyToEquip;
+                // newAllyToEquip.imgs.Add( pokemonInTeamBenchSettings[1].img );
                 break;
             case "A1": 
                 allies[2] = newAllyToEquip; partyPokemonsUI[2].sprite = newAllySpriteToEquip; 
                 pokemonInTeamBenchSettings[2].img.sprite = newAllySpriteToEquip; 
                 pokemonInTeamBenchSettings[2].ally = newAllyToEquip;
+                // newAllyToEquip.imgs.Add( pokemonInTeamBenchSettings[2].img );
                 break;
             case "Y2": 
                 allies[3] = newAllyToEquip; partyPokemonsUI[3].sprite = newAllySpriteToEquip; 
                 pokemonInTeamBenchSettings[3].img.sprite = newAllySpriteToEquip; 
                 pokemonInTeamBenchSettings[3].ally = newAllyToEquip;
+                // newAllyToEquip.imgs.Add( pokemonInTeamBenchSettings[3].img );
                 break;
             case "X2": 
                 allies[4] = newAllyToEquip; partyPokemonsUI[4].sprite = newAllySpriteToEquip; 
                 pokemonInTeamBenchSettings[4].img.sprite = newAllySpriteToEquip; 
                 pokemonInTeamBenchSettings[4].ally = newAllyToEquip;
+                // newAllyToEquip.imgs.Add( pokemonInTeamBenchSettings[4].img );
                 break;
             case "A2": 
                 allies[5] = newAllyToEquip; partyPokemonsUI[5].sprite = newAllySpriteToEquip; 
                 pokemonInTeamBenchSettings[5].img.sprite = newAllySpriteToEquip; 
                 pokemonInTeamBenchSettings[5].ally = newAllyToEquip;
+                // newAllyToEquip.imgs.Add( pokemonInTeamBenchSettings[5].img );
                 break;
         }
 
@@ -3396,6 +3450,12 @@ public class PlayerControls : MonoBehaviour
 
         PlayerPrefsElite.SetInt("snorlaxLv" + gameNumber, 0);
         snorlax.summonable.extraLevel = 0;
+
+        PlayerPrefsElite.SetInt("flareonLv" + gameNumber, 0);
+        flareon.summonable.extraLevel = 0;
+
+        PlayerPrefsElite.SetInt("eeveeLv" + gameNumber, 0);
+        eevee.summonable.extraLevel = 0;
     }
 
 }

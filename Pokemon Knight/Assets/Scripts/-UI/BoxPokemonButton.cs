@@ -9,15 +9,17 @@ public class BoxPokemonButton : MonoBehaviour
 
     public Image img;
     public string pokemonName = "N/A";
-    public Sprite sprite;
+    
+    [Space] public Sprite sprite;
+    public Sprite evolveSprite1;
+    public Sprite evolveSprite2;
+    
     [Space] public Button button;
     
     
     [Space] [Header("Canvas - On Acquire")]
     public AcquiredDescUi pokemonAcqDesc;
     public Animator subseqAcqDesc;
-
-
 
     public void ShowDescriptionOfAcquired()
     {
@@ -32,7 +34,12 @@ public class BoxPokemonButton : MonoBehaviour
             Debug.LogError(this.gameObject.name +  "  -  ally is null", this.gameObject);
         if (sprite == null)
             Debug.LogError(this.gameObject.name +  "  -  sprite is not serialised", this.gameObject);
-        // Debug.Log(this.ally.gameObject.name + "  _  " + this.sprite.name);
-        playerControls.SetNewAlly(this.ally, this.sprite, this.button);
+        
+        if      (ally.extraLevel >= 5 && evolveSprite2 != null)
+            playerControls.SetNewAlly(this.ally, this.evolveSprite2, this.button);
+        else if (ally.extraLevel >= 2 && evolveSprite1 != null)
+            playerControls.SetNewAlly(this.ally, this.evolveSprite1, this.button);
+        else
+            playerControls.SetNewAlly(this.ally, this.sprite, this.button);
     }
 }

@@ -223,11 +223,11 @@ public class TitleFunctions : MonoBehaviour
         PlayerPrefsElite.SetInt("tangelaLv" + gameNumber, 0);
         PlayerPrefsElite.SetInt("bellsproutLv" + gameNumber, 0);
         PlayerPrefsElite.SetInt("snorlaxLv" + gameNumber, 0);
+        PlayerPrefsElite.SetInt("flareonLv" + gameNumber, 0);
+        PlayerPrefsElite.SetInt("eeveeLv" + gameNumber, 0);
         
         
         PlayerPrefsElite.SetStringArray("hiddenRooms" + gameNumber, new string[0]);
-
-
 
 
         PlayerPrefsElite.SetInt("gameNumber", gameNumber);

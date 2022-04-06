@@ -122,7 +122,7 @@ public class FollowTowards : MonoBehaviour
             yield return new WaitForSeconds(0.25f);
             Destroy(this.gameObject);
         }
-        else if (isAbsorbEffect && moveMaster != null)
+        else if (isAbsorbEffect && moveMaster != null && moveMaster.hp > 0)
         {
             if (hpRecover > 0 && healObj != null)
                 Instantiate(healObj, moveMaster.transform.position, healObj.transform.rotation);

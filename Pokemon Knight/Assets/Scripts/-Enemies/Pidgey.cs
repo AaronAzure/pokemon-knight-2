@@ -148,12 +148,12 @@ public class Pidgey : Enemy
 
             if (target != null && playerInField)
             {
-                if (canUseBuffs)
-                {
-                    canUseBuffs = false;
-                    anim.SetTrigger("agility");
-                    inAnimation = true;
-                }
+                // if (canUseBuffs)
+                // {
+                //     canUseBuffs = false;
+                //     anim.SetTrigger("agility");
+                //     inAnimation = true;
+                // }
                 
                 lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position);
                 RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position,
@@ -164,6 +164,15 @@ public class Pidgey : Enemy
                 {
                     chasing = true;
                     anim.speed = chaseSpeed;
+                    
+                    //* BUFF
+                    if (canUseBuffs)
+                    {
+                        canUseBuffs = false;
+                        anim.SetTrigger("agility");
+                        inAnimation = true;
+                    }
+
                     if (alert != null) alert.gameObject.SetActive(true);
                     if (targetLostCo != null)
                     {

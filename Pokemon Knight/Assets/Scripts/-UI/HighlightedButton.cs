@@ -174,13 +174,13 @@ public class HighlightedButton : MonoBehaviour
                         }
                     }
 
-                    int enhancementCost = Mathf.RoundToInt(Mathf.Min( 10000, 100 * Mathf.Pow(2, extraLv) ));
-                    if (player.currency < enhancementCost || extraLv > 7)
+                    int enhancementCost = Mathf.RoundToInt(Mathf.Min( 10000, 100 * Mathf.Pow(3, extraLv) ));
+                    if (player.currency < enhancementCost || extraLv > 5)
                         canEnhanceObj.SetActive(false);
                     else
                         canEnhanceObj.SetActive(true);
 
-                    if (extraLv <= 7)
+                    if (extraLv <= 5)
                         enhancementCostTxt.text = enhancementCost.ToString();
                     else
                         enhancementCostTxt.text = "Maxed";

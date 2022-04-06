@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Ally : MonoBehaviour
 {
@@ -17,6 +18,13 @@ public abstract class Ally : MonoBehaviour
     public int perLevel=1;
     [Space] public float outTime = 0.5f;    // Time pokemon appears in the overworld
     public float resummonTime = 0.5f;    // Delay before calling pokemon again
+
+    
+    [Space] [Header("Evolution")]
+    public Ally evolvedForm1;
+    public Sprite evolvedSprite1;
+    public Ally evolvedForm2;
+    public Sprite evolvedSprite2;
 
     [Space] public Rigidbody2D body;
     [Space] public bool useUlt;
@@ -47,15 +55,40 @@ public abstract class Ally : MonoBehaviour
     public Vector2 feetBox;
     public Vector2 feetOffset;
     [Space] public float feetRadius=0.01f;
-    private bool once;
+    protected bool once;
     private bool returning=false;
     private bool shrinking;
+
+    [Space][Header("UI")]
+    public List<Image> imgs;
     
 
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        //* POKEMON EVOLUTION
+        if (extraLevel >= 5 && evolvedForm1 != null)
+        {
+            
+        }
+        else if (extraLevel >= 2 && evolvedForm1 != null)
+        {
+            var obj = Instantiate(evolvedForm1, this.transform.position, Quaternion.identity);
+            obj.extraLevel = this.extraLevel;
+            obj.atkDmg = this.atkDmg;
+            obj.atkForce = this.atkForce;
+            obj.body.velocity = this.body.velocity;
+            obj.trainer = this.trainer;
+            obj.button = this.button;
+
+            if (this.transform.eulerAngles.y > 0)
+                    obj.transform.eulerAngles = new Vector3(0,-180);
+
+            Destroy(this.gameObject);
+        }
+
+
         // Strength grows per level
         if (trainer != null)
             atkDmg += ( extraDmg * Mathf.CeilToInt(((trainer.lv - 1) + ExtraEnhancedDmg() / perLevel)) );
@@ -104,6 +137,18 @@ public abstract class Ally : MonoBehaviour
             return 5;
         return 3;
     }
+
+    public void ENHANCE_POKEMON(int newLevel)
+    {
+        extraLevel = newLevel;
+        if (extraLevel >= 5 && evolvedSprite2 != null)
+            foreach (Image img in imgs)
+                img.sprite = evolvedSprite2;
+        else if (extraLevel >= 2 && evolvedSprite1 != null)
+            foreach (Image img in imgs)
+                img.sprite = evolvedSprite1;
+    }
+
 
     protected virtual void Setup() { }
 

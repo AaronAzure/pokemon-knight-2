@@ -10,8 +10,8 @@ public class EnhancePokemonUi : MonoBehaviour
 
     public void ENHANCE_POKEMON()
     {
-        int cost = Mathf.RoundToInt(Mathf.Min( 10000, 100 * Mathf.Pow(2, pokemon.extraLevel) ));
-        if (player.currency >= cost && pokemon.extraLevel < 7)
+        int cost = Mathf.RoundToInt(Mathf.Min( 10000, 100 * Mathf.Pow(3, pokemon.extraLevel) ));
+        if (player.currency >= cost && pokemon.extraLevel < 5)
         {
             player.EnhanceAllyPokemonLevel(pokemon, cost);
             desc.RefreshEnhanceMenu();

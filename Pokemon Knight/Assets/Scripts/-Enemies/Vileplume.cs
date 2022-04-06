@@ -316,7 +316,8 @@ public class Vileplume : Enemy
     {
         if (hp > 0)
         {
-            if (sludgeBomb != null && atkPos != null)
+            if (sludgeBomb != null && atkPos != null 
+                && Mathf.Abs(target.position.x - this.transform.position.x) < 15f)
             {
                 var obj = Instantiate(sludgeBomb, atkPos.position, sludgeBomb.transform.rotation);
                 obj.body.gravityScale = 3;

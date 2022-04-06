@@ -762,11 +762,11 @@ MonoBehaviour:
   mainAnim: {fileID: 8882194057900721412}
   maxHp: 60
   hp: 0
-  contactDmg: 5
+  contactDmg: 10
   projectileDmg: 5
   contactKb: 10
   extraHp: 10
-  extraDmg: 5
+  extraDmg: 3
   extraProjectileDmg: 4
   perLv: 2
   expPossess: 10
@@ -789,7 +789,7 @@ MonoBehaviour:
   body: {fileID: 7875437770724249730}
   model: {fileID: 7875437770543234721}
   cannotRecieveKb: 0
-  kbDefense: 1
+  kbDefense: 0.3
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
@@ -830,6 +830,7 @@ MonoBehaviour:
   horde: {fileID: 0}
   partOfHorde: 0
   alert: {fileID: 3843061528959258523}
+  isAttacking: 0
   isTargeting: 0
   playerInField: 0
   playerInSight: 0

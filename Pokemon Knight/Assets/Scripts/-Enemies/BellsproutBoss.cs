@@ -163,7 +163,7 @@ public class BellsproutBoss : Enemy
         }
 
         //* Movement
-        if (isGrounded && body.velocity.y <= 0)
+        if (isGrounded && body.velocity.y <= 0 && !receivingKnockback)
             if (moveDir.x > 0)  // right
                 body.velocity = new Vector2(chaseSpeed, body.velocity.y);
             else  // left
@@ -242,7 +242,7 @@ public class BellsproutBoss : Enemy
 
     public void STUN_SPORE()
     {
-        if (stunSpore != null)
+        if (stunSpore != null && hp > 0)
         {
             var obj = Instantiate(stunSpore, this.transform.position, 
                 stunSpore.transform.rotation, spawnedHolder.transform);

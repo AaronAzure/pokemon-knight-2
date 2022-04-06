@@ -812,8 +812,8 @@ MonoBehaviour:
   maxHp: 300
   hp: 0
   contactDmg: 5
-  projectileDmg: 10
-  contactKb: 20
+  projectileDmg: 15
+  contactKb: 15
   extraHp: 45
   extraDmg: 4
   extraProjectileDmg: 4
@@ -880,6 +880,7 @@ MonoBehaviour:
   horde: {fileID: 0}
   partOfHorde: 0
   alert: {fileID: 6286005702413019232}
+  isAttacking: 0
   isTargeting: 0
   playerInField: 0
   playerInSight: 0
