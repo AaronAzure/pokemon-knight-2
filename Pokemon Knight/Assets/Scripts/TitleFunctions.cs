@@ -21,7 +21,7 @@ public class TitleFunctions : MonoBehaviour
     [Space] [SerializeField] private Animator anim;
     [SerializeField] private Button firstSaveGameButton;
     [SerializeField] private Button firstStartMenuButton;
-    [Space] [SerializeField] private Button[] newGameButtons;
+    // [Space] [SerializeField] private Button[] newGameButtons;
     [SerializeField] private TextMeshProUGUI[] fileNames;
     
     [Space] [SerializeField] private Button loadedGameFileButton;
