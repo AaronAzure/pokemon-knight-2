@@ -91,6 +91,7 @@
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CustomSlider.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/Window.cs" />
      <Compile Include="Assets/Scripts/-Enemies/Enemy.cs" />
+     <Compile Include="Assets/Scripts/-UI/ScrollViewSelect.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/TileObjectBehaviour.cs" />
      <Compile Include="Assets/Scripts/-Allies/AllyCharmander.cs" />
      <Compile Include="Assets/Scripts/-Enemies/Nidoran.cs" />
@@ -156,6 +157,7 @@
      <Compile Include="Assets/Game2DWaterKit/Runtime/Scripts/Ripples/WaterConstantRipplesModule.cs" />
      <Compile Include="Assets/Scripts/-Enemies/Weedle.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Utils/TilemapUtils.cs" />
+     <Compile Include="Assets/Scripts/-UI/DialogueBox.cs" />
      <Compile Include="Assets/Scripts/-Allies/AllyFlareon.cs" />
      <Compile Include="Assets/Forest Sprite Pack/Scenes/Playable Demo Scene/2D Character Controller/Scripts/PlatformController.cs" />
      <Compile Include="Assets/Scripts/ConditionalFieldAttribute.cs" />
@@ -239,6 +241,7 @@
      <Compile Include="Assets/Forest Sprite Pack/Scenes/Playable Demo Scene/2D Character Controller/Scripts/RaycastController.cs" />
      <Compile Include="Assets/Scripts/Water.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Extensions/ProCamera2DGeometryBoundaries.cs" />
+     <Compile Include="Assets/Scripts/-Scene Related/PlayerInArea.cs" />
      <Compile Include="Assets/Scripts/-UI/AcquiredDescUi.cs" />
      <Compile Include="Assets/Rewired/Examples/CustomControllersTouch/Scripts/CustomControllerDemo.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIImageHelper.cs" />
@@ -335,6 +338,7 @@
      <Compile Include="Assets/Ferr/Path/PathUtil.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CanvasScalerFitter.cs" />
      <Compile Include="Assets/PlayerPrefsElite/Examples/CSharp/VectorTest.cs" />
+     <Compile Include="Assets/Scripts/-Add Ons/NPC.cs" />
      <Compile Include="Assets/Game2DWaterKit/Runtime/Scripts/AttachedComponents/WaterfallAttatchedComponentsModule.cs" />
      <Compile Include="Assets/Ferr/2D/Scripts/poly2tri/Triangulation/Util/PointGenerator.cs" />
      <Compile Include="Assets/Rewired/Examples/SimpleControlRemapping/Scripts/SimpleControlRemapping.cs" />
@@ -464,15 +468,12 @@
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UISliderControl.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ScrollbarVisibilityHelper.cs" />
      <Compile Include="Assets/Scripts/-Allies/AllyOddish.cs" />
-     <Compile Include="Assets/Forest Sprite Pack/Scenes/Playable Demo Scene/2D Character Controller/Scripts/PlayerInput.cs" />
-     <Compile Include="Assets/ProCamera2D/Code/Core/IPostMover.cs" />
-     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIGroup.cs" />
-     <Compile Include="Assets/Ferr/Common/Scripts/EditInIsolation.cs" />
-     <Compile Include="Assets/Scripts/-UI/ScrollViewSelect.cs" />
-     <Compile Include="Assets/Scripts/-Scene Related/PlayerInArea.cs" />
      <Compile Include="Assets/Scripts/-UI/ShopButton.cs" />
-     <Compile Include="Assets/Scripts/-UI/DialogueBox.cs" />
-     <Compile Include="Assets/Scripts/-Add Ons/NPC.cs" />
+     <Compile Include="Assets/Forest Sprite Pack/Scenes/Playable Demo Scene/2D Character Controller/Scripts/PlayerInput.cs" />
+     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIGroup.cs" />
+     <Compile Include="Assets/ProCamera2D/Code/Core/IPostMover.cs" />
+     <Compile Include="Assets/Ferr/Common/Scripts/EditInIsolation.cs" />
+     <Compile Include="Assets/Scripts/-Allies/AllyVaporeon.cs" />
      <None Include="Assets/Ferr/Common/Shaders/UnlitSolidColor.shader" />
      <None Include="Assets/Game2DWaterKit/Runtime/Shaders/Game2DWaterKit Waterfall PixelLit.shader" />
      <None Include="Assets/Ferr/2DTerrain/Shaders/LitColoredTransparent.shader" />

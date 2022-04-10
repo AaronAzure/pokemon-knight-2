@@ -138,7 +138,7 @@ public class SnorlaxBoss : Enemy
         if (playerControls != null)
             xTargetPos = (playerControls.transform.position.x - this.transform.position.x);
         xTargetPos += bodySlamOffset[ Random.Range(0, bodySlamOffset.Length) ];
-        contactDmg = 50;
+        // contactDmg = 50;
 
         anim.SetTrigger("bodySlam");
         body.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
@@ -151,7 +151,7 @@ public class SnorlaxBoss : Enemy
         performingNextAtk = false;
         body.gravityScale = 3;
         anim.speed = 1;
-        contactDmg = origContactDmg;
+        // contactDmg = origContactDmg;
         atkCount++;
         if (atkCount > newAttackPattern)
             atkCount = 0;

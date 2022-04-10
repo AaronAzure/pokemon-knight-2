@@ -105,6 +105,7 @@ public class PlayerControls : MonoBehaviour
     [Space] public AllyTeamUI snorlax;
     [Space] public AllyTeamUI flareon;
     [Space] public AllyTeamUI eevee;
+    [Space] public AllyTeamUI vaporeon;
 
 
 
@@ -646,6 +647,14 @@ public class PlayerControls : MonoBehaviour
                         pokemonInTeamBenchSettings[i].ally = eevee.summonable;
                         partyPokemonsUI[i].sprite = eevee.sprite;
                         break;
+                    case "vaporeon":
+                        allies[i] = vaporeon.summonable;
+                        if (PlayerPrefsElite.VerifyInt("vaporeonLv" + gameNumber))
+                            vaporeon.summonable.extraLevel = PlayerPrefsElite.GetInt("vaporeonLv" + gameNumber);
+                        pokemonInTeamBenchSettings[i].img.sprite = vaporeon.sprite;
+                        pokemonInTeamBenchSettings[i].ally = vaporeon.summonable;
+                        partyPokemonsUI[i].sprite = vaporeon.sprite;
+                        break;
                     case "":
                         pokemonInTeamBenchSettings[i].img.sprite = emptySprite;
                         pokemonInTeamBenchSettings[i].ally = null;
@@ -1180,6 +1189,9 @@ public class PlayerControls : MonoBehaviour
         else if (ally == eevee.summonable)
             if (PlayerPrefsElite.VerifyInt("eeveeLv" + gameNumber))
                 return PlayerPrefsElite.GetInt("eeveeLv" + gameNumber);
+        else if (ally == vaporeon.summonable)
+            if (PlayerPrefsElite.VerifyInt("vaporeonLv" + gameNumber))
+                return PlayerPrefsElite.GetInt("vaporeonLv" + gameNumber);
         return 0;
     }
     public void EnhanceAllyPokemonLevel(Ally ally, int enhancementCost)
@@ -1294,6 +1306,16 @@ public class PlayerControls : MonoBehaviour
             else
                 PlayerPrefsElite.SetInt("eeveeLv" + gameNumber, 1);
             eevee.summonable.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("eeveeLv" + gameNumber) );
+        }
+        else if (ally == vaporeon.summonable)
+        {
+            found = true;
+            if (PlayerPrefsElite.VerifyInt("vaporeonLv" + gameNumber))
+                PlayerPrefsElite.SetInt("vaporeonLv" + gameNumber, 
+                    PlayerPrefsElite.GetInt("vaporeonLv" + gameNumber) + 1);
+            else
+                PlayerPrefsElite.SetInt("vaporeonLv" + gameNumber, 1);
+            vaporeon.summonable.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("vaporeonLv" + gameNumber) );
         }
         else 
             Debug.Log("<color=red>Pokemon not registered to be Enhanced</color>");
@@ -3502,6 +3524,9 @@ public class PlayerControls : MonoBehaviour
 
         PlayerPrefsElite.SetInt("eeveeLv" + gameNumber, 0);
         eevee.summonable.extraLevel = 0;
+        
+        PlayerPrefsElite.SetInt("vaporeonLv" + gameNumber, 0);
+        vaporeon.summonable.extraLevel = 0;
     }
 
 }
