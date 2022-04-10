@@ -107,6 +107,7 @@ public abstract class Enemy : MonoBehaviour
     [Tooltip("Prefabs/- Enemies/- effects/-can catch")] public GameObject canCatchEffect;
     [HideInInspector] public bool mustDmgBeforeFight;
     [HideInInspector] public bool bossBattleBegin;
+    [HideInInspector] public bool playerInBossRoom;
 
 
 
@@ -119,7 +120,8 @@ public abstract class Enemy : MonoBehaviour
     
     [Space] [Header("Support / Mechanics")]
     public GameObject alert;
-    public bool isAttacking;    // SET BY ANIMATION
+    public GameObject eyes;
+    [Space] public bool isAttacking;    // SET BY ANIMATION
     public bool isTargeting;
     [HideInInspector] protected bool canFlip=true ;
     public bool playerInField;
@@ -135,6 +137,7 @@ public abstract class Enemy : MonoBehaviour
     [Space] public bool aquatic;
     [HideInInspector] public AllyAttack dontGetHitTwice;
     public bool performingBuff;
+    protected bool dead=false;
 
 
     [Space] [Header("Buffs / Debuffs")]
@@ -299,7 +302,8 @@ public abstract class Enemy : MonoBehaviour
             else
                 hpImg.color = new Color(0f, 0.85f, 0f);
         }
-        if (hp <= 0 && !isBoss)
+        // STRINK
+        if (dead && !isBoss)
         {
             t += Time.deltaTime / ShrinkDuration;
 
@@ -386,6 +390,10 @@ public abstract class Enemy : MonoBehaviour
         }
         else if (!inCutscene && hp > 0)
         {
+            // Player attacking outside of area
+            if (mustDmgBeforeFight  && !bossBattleBegin && !playerInBossRoom)
+                return;
+
             //* PREVENTS GETTING HIT BY VINE WHIP TWICE
             if (registerAttack != null)
                 dontGetHitTwice = registerAttack;
@@ -446,6 +454,8 @@ public abstract class Enemy : MonoBehaviour
             // Player Gains exp
             if (hp <= 0)
             {
+                if (eyes != null)
+                    eyes.SetActive(false);
                 if (spawner != null && !isBoss)
                     spawner.SpawnedDefeated();
                 
@@ -454,7 +464,7 @@ public abstract class Enemy : MonoBehaviour
 
                 if (loot != null)
                     if (!isBoss && !isMiniBoss)
-                        loot.DropLoot( Mathf.FloorToInt((lv + 11) / 10) );
+                        loot.DropLoot( Mathf.FloorToInt(lv / 10) );
                     else
                         loot.DropLoot();
 
@@ -467,6 +477,7 @@ public abstract class Enemy : MonoBehaviour
                 if (!isBoss)
                 {
                     CallChildOnDeath();
+                    dead = true;
                     if (body != null) 
                     {
                         body.gravityScale = 0;
@@ -488,7 +499,7 @@ public abstract class Enemy : MonoBehaviour
                 StartCoroutine( ActivateRageMode() );
             }
         }
-        if (mustDmgBeforeFight && !bossBattleBegin)
+        if (mustDmgBeforeFight && !bossBattleBegin && playerInBossRoom)
         {
             StartBossBattle();
         }

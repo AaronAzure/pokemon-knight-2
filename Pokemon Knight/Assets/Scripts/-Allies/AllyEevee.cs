@@ -14,11 +14,13 @@ public class AllyEevee : Ally
     [Space] [SerializeField] private LayerMask whatIsEnemy;
     [SerializeField] private LayerMask finalMask;
     [Space] public Vector2 quickAtkOffset;
+    [SerializeField] private GameObject cannotFind;
     
 
     protected override void Setup() 
     {
         finalMask = (whatIsEnemy | whatIsGround);
+        cannotFind.SetActive(false);
         
         if (useUlt && anim != null)
         {
@@ -58,29 +60,34 @@ public class AllyEevee : Ally
         anim.SetTrigger("atk");
         body.gravityScale = 0;
         body.velocity = Vector2.zero;
+
         if (this.transform.eulerAngles.y > 0)   // attacking from left
-        {
             this.transform.position = targetPos.position + new Vector3( quickAtkOffset.x, quickAtkOffset.y);
-            body.AddForce(Vector2.left * quickAtkForce, ForceMode2D.Impulse);
-        }
         else   // attacking from right
-        {
             this.transform.position = targetPos.position + new Vector3(-quickAtkOffset.x, quickAtkOffset.y);
-            body.AddForce(Vector2.right * quickAtkForce, ForceMode2D.Impulse);
-        }
+
+        Vector2 dir = (targetPos.position - transform.position).normalized;
+        body.AddForce(dir * quickAtkForce, ForceMode2D.Impulse);
+
         once = false;
     }
 
     private void ClosestEnemy()
     {
         if (detection == null)
+        {
+            CannotFindTarget();
             return;
+        }
         
         float distance = Mathf.Infinity;
         List<Transform> enemies = detection.detected;
 
         if (enemies == null || enemies.Count == 0)
+        {
+            CannotFindTarget();
             return;
+        }
         
         int ind = -1;
         for (int i=0 ; i<enemies.Count ; i++)
@@ -93,7 +100,10 @@ public class AllyEevee : Ally
             }
         }
         if (ind == -1)
+        {
+            CannotFindTarget();
             return;
+        }
 
         targetPos = enemies[ind];
         if (targetPos != null)
@@ -107,5 +117,11 @@ public class AllyEevee : Ally
         RaycastHit2D sightInfo = Physics2D.Linecast(this.transform.position + new Vector3(0, 1),
             target.position + new Vector3(0, 0.3f), finalMask);
         return (sightInfo.collider != null && sightInfo.collider.gameObject.CompareTag("Enemy"));
+    }
+
+
+    private void CannotFindTarget()
+    {
+        cannotFind.SetActive(true);
     }
 }

@@ -52,6 +52,8 @@ public class BellsproutBoss : Enemy
     [Space] [SerializeField] private EnemyProjectile stunSpore;
     [SerializeField] private Transform razorLeafSpawn;
     public bool lookAtTarget;
+    [SerializeField] private Transform center;
+    [SerializeField] private float cannotjumpHeight;
     
     
 
@@ -89,6 +91,9 @@ public class BellsproutBoss : Enemy
 
     private void OnDrawGizmosSelected() 
     {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(center.position, center.position + new Vector3(0, cannotjumpHeight));
+
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireCube(feetOffset + body.position, feetSize);
 
@@ -147,19 +152,24 @@ public class BellsproutBoss : Enemy
 
 
         //* Jump
-        if (isGrounded && body.velocity.y == 0)
+        if (!jumped && moveDir.y > jumpHeightReq && isGrounded && body.velocity.y == 0)
         {
-            if (moveDir.y > jumpHeightReq && (
-                (moveDir.x >= 0 && moveDir.x < distToJumpReq) || moveDir.x <= 0 && moveDir.x > -distToJumpReq)
-            )
+            RaycastHit2D sightInfo = Physics2D.Linecast(center.position,
+                center.position + new Vector3(0, cannotjumpHeight), finalMask);
+            if (sightInfo.collider == null || 
+                sightInfo.collider != null && !sightInfo.collider.gameObject.CompareTag("Ground"))
             {
-                body.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                jumped = true;
-                if (moveDir.x > 0)  // right
-                    jumpLeft = false;
-                else  // left
-                    jumpLeft = true;
+                if ((moveDir.x >= 0 && moveDir.x < distToJumpReq) || (moveDir.x <= 0 && moveDir.x > -distToJumpReq))
+                {
+                    body.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                    jumped = true;
+                    if (moveDir.x > 0)  // right
+                        jumpLeft = false;
+                    else  // left
+                        jumpLeft = true;
+                }
             }
+
         }
 
         //* Movement

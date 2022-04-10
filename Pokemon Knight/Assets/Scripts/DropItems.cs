@@ -8,16 +8,14 @@ public class DropItems : MonoBehaviour
     public Currency expM;
     public Currency expS;
 
-    public void DropLoot(int bonus=1)
+    public void DropLoot(int bonus=0)
     {
-        bonus = Mathf.Max(1, bonus);
-        int spawnAmount = (rewardSize * bonus);
+        bonus = Mathf.Max(0, bonus);
+        int spawnAmount = Mathf.RoundToInt( rewardSize * Mathf.Pow( 1.5f , bonus ) );
 
-        // Debug.Log("amount = " + spawnAmount + ", bonus = "+ bonus);
         int nCandyL = Mathf.FloorToInt(spawnAmount / 100);
         int nCandyM = Mathf.FloorToInt( (spawnAmount % 100) / 10);
         int nCandyS = spawnAmount % 10;
-        // Debug.Log("sml = " + nCandyS + ", med = " + nCandyM + ", lrg = " + nCandyL);
 
         for (int i=0; i<nCandyL ; i++)
         {

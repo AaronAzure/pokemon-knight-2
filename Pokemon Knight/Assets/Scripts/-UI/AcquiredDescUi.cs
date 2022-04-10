@@ -11,7 +11,15 @@ public class AcquiredDescUi : MonoBehaviour
     public Image acqImg;
     public TextMeshProUGUI headerTxt;
     public TextMeshProUGUI descTxt;
-    [Space] public Animator subsequentDesc;
+    // [Space] public Animator subsequentDesc;
+    public AudioSource soundEffect;
+
+    private void OnEnable() 
+    {
+        if (soundEffect != null)
+            soundEffect.Play();
+        StartCoroutine( player.AllowReadDescriptionOfAcquiredTime() );
+    }
     
 
     public void PAUSE()
@@ -24,15 +32,7 @@ public class AcquiredDescUi : MonoBehaviour
     {
         this.gameObject.SetActive(false);
 
-        if (subsequentDesc == null)
-        {
-            Time.timeScale = 1;
-            player.CLOSE_DESC_AND_RESUME(!canMoveAfterAnimation);
-        }
-        else
-        {
-            subsequentDesc.gameObject.SetActive(true);
-            player.descAnim = subsequentDesc;
-        }
+        Time.timeScale = 1;
+        player.CLOSE_DESC_AND_RESUME(!canMoveAfterAnimation);
     }
 }

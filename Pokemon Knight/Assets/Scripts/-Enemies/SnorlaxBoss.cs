@@ -130,7 +130,7 @@ public class SnorlaxBoss : Enemy
         else
         {
             yield return new WaitForSeconds(0.5f);
-            anim.speed = 1.5f;
+            anim.speed = 1.3f;
         }
         LookAtPlayer();
 

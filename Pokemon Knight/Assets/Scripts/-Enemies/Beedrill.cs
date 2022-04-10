@@ -254,7 +254,7 @@ public class Beedrill : Enemy
     }
     public void CHARGE()
     {
-        contactDmg = Mathf.RoundToInt(contactDmg * 1.5f);
+        contactDmg = projectileDmg;
 
         chargeX = 0;
         chargeY = 0;

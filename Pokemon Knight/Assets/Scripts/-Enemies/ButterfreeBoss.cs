@@ -24,6 +24,7 @@ public class ButterfreeBoss : Enemy
     private bool canMove=true;
     public bool performingPoisonPowder;
     [SerializeField] private GameObject spawnHolder;
+    private bool tackledAgain;
 
 
     public override void Setup()
@@ -168,25 +169,33 @@ public class ButterfreeBoss : Enemy
         body.velocity = Vector2.zero;
 
         glint.SetActive(false);
-        yield return new WaitForEndOfFrame();
+        // yield return new WaitForEndOfFrame();
         glint.SetActive(true);
         
-        if (inRage)
-            yield return new WaitForSeconds(0.5f);
-        else
-            yield return new WaitForSeconds(0.8f);
-        // cannotRecieveKb = true;
-        // targetPos = player.transform.position + new Vector3(0,1);
+        LocatePlayer();
+        
+        yield return new WaitForSeconds(0.8f);
+        
         Vector3 dir = (targetPos - body.transform.position).normalized;
         if (!inCutscene) 
             body.AddForce(dir*dashSpeed, ForceMode2D.Impulse);
 
         // resting
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.4f);
         // cannotRecieveKb = false;
-        count = 0;
-        LocatePlayer();
-        StartCoroutine( TrackPlayer() );
+        body.velocity = Vector2.zero;
+        if (inRage && !tackledAgain)
+        {
+            StartCoroutine( Tackle() );
+            tackledAgain = true;
+        }
+        else
+        {
+            tackledAgain = false;
+            count = 0;
+            LocatePlayer();
+            StartCoroutine( TrackPlayer() );
+        }
     }
     IEnumerator PoisonPowder()
     {

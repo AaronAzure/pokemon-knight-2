@@ -58,7 +58,8 @@ public class CameraManualFollow : MonoBehaviour
             // );
 
             Vector3 new_pos = new Vector3(rounded_x, rounded_y, -10.0f); // this is 2d, so my camera is that far from the screen.
-            main_camera.transform.position = new_pos;
+            if (main_camera != null)
+                main_camera.transform.position = new_pos;
         }
     }
     public float pixelToUnits = 128f;

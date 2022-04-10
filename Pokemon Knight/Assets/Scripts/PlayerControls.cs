@@ -168,10 +168,6 @@ public class PlayerControls : MonoBehaviour
     private float jumpTimerCounter = 0;
     
     [Space] [SerializeField] private TextMeshProUGUI expGainText;
-    [SerializeField] private GameObject levelUpEffect;
-    [SerializeField] private GameObject levelUpObj;
-    [SerializeField] private AudioSource levelUpSound;
-    [SerializeField] private AudioSource trainSound;
     [SerializeField] private GameObject playerUi;
     [Space] [SerializeField] private List<string> visitedScenes;
     [Space] [SerializeField] private List<string> roomsBeaten;
@@ -182,12 +178,26 @@ public class PlayerControls : MonoBehaviour
     [Space] [SerializeField] private List<string> berriesCollected;
     [Space] [SerializeField] private List<string> spareKeychainCollected;
     [Space] [SerializeField] private List<string> enemyDefeated = new List<string>();
+    public int nBerries;
+
+    [Space] [Header("Sound")]
+    [SerializeField] private GameObject levelUpEffect;
+    [SerializeField] private GameObject levelUpObj;
+    [SerializeField] private AudioSource levelUpSound;
+    [SerializeField] private AudioSource trainSound;
+    [SerializeField] private AudioSource pokemonAcquireSound;
+    [SerializeField] private AudioSource itemAcquireSound;
+    [SerializeField] private AudioSource abilityAcquireSound;
+    [SerializeField] private AudioSource upgradeAcquireSound;
+
+
+    [Space] [Header("Interactable")]
     public Item currentItem;
     public Berry currentBerry;
     public SpareKeychain currentKeychain;
     public CandyBag currentBag;
-    public int nBerries;
-    private Sprite origFace;
+    public DialogueBox dialogue;
+    public bool talkingToNpc;
 
 
     [Space]
@@ -285,6 +295,7 @@ public class PlayerControls : MonoBehaviour
     public Animator berryUpgradeAnim;
     public Animator keychainUpgradeAnim;
     public Animator descAnim;
+    public bool cannotExitDesc;
     public Animator subseqAnim;
     // [Space] [SerializeField] private Animator doubleJumpScreen;
     public bool canDoubleJump;
@@ -319,6 +330,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private ParticleSystem paralysisEffect;
     [SerializeField] private ParticleSystem[] pEffects;
     [SerializeField] private SpriteRenderer face;
+    private Sprite origFace;
     [SerializeField] private Sprite sleepFace;
     [SerializeField] private GameObject paralysisEffectUiHolder;
     [SerializeField] private ParticleSystem[] paralysisEffectsUi;
@@ -739,10 +751,16 @@ public class PlayerControls : MonoBehaviour
     }
     void Update()
     {
-        if (descAnim != null && descAnim.gameObject.activeSelf)
+        if (!cannotExitDesc && descAnim != null && descAnim.gameObject.activeSelf)
         {
             if (player.GetButtonDown("A"))
                 descAnim.SetTrigger("close");
+        }
+        else if (inCutscene && dialogue != null && player.GetButtonDown("B"))
+        {
+            dialogue.CloseDialogue();
+            inCutscene = false;
+            Time.timeScale = 1;
         }
         else if (subWayUi.activeSelf)
         {
@@ -752,8 +770,6 @@ public class PlayerControls : MonoBehaviour
                 Time.timeScale = 1;
                 inCutscene = false;
             }
-            // canNavigate = true;
-            // isClosing = false;
         }
         else if (player.GetButtonDown("START") && !settings.gameObject.activeSelf && 
             !equimentSettings.gameObject.activeSelf && !returningToTitle)
@@ -861,7 +877,7 @@ public class PlayerControls : MonoBehaviour
                 LeaveBench();
         }
         
-        else if (dodging)
+        else if (dodging && hp > 0)
         {
             if (holder.transform.eulerAngles.y < 180)   // right
                 body.velocity = new Vector2(dodgeSpeed, body.velocity.y);
@@ -869,7 +885,7 @@ public class PlayerControls : MonoBehaviour
                 body.velocity = new Vector2(-dodgeSpeed, body.velocity.y);
         }
         //* Walking, Dashing, Summoning, jumping, Interacting
-        else if (hp > 0 && !inCutscene && !dodging && !isSleeping && !isParalysed)
+        else if (!inCutscene && !dodging && !isSleeping && !isParalysed && hp > 0)
         {
             if (!crouching && player.GetAxis("Move Vertical") <= -0.75f && grounded)
             {
@@ -893,8 +909,9 @@ public class PlayerControls : MonoBehaviour
             if (player.GetButtonDown("R"))
                 SwitchPokemonSet();
 
+            if (!grounded) {}
 
-            if (Interact() && canRest)
+            else if (Interact() && canRest)
                 RestOnBench();
 
             else if (Interact() && canEnter)
@@ -903,6 +920,7 @@ public class PlayerControls : MonoBehaviour
             else if (Interact() && canTakeSubway)
             {
                 subWayUi.SetActive(true);
+                inCutscene = true;
                 Time.timeScale = 0;
                 foreach (SubwayStopButton stop in subWayStopsToActivate)
                 {
@@ -913,7 +931,15 @@ public class PlayerControls : MonoBehaviour
                     }
                 }
             }
-                    // StartCoroutine( Take() );
+            else if (dialogue != null && Interact())
+            {
+                body.velocity = Vector2.zero;
+                inCutscene = true;
+                dialogue.OpenDialogue(this);
+                anim.speed = 1;
+                // Time.timeScale = 0;
+                anim.SetTrigger("reset");
+            }
             else if (currentBerry != null && Interact())
             {
                 body.velocity = Vector2.zero;
@@ -962,8 +988,8 @@ public class PlayerControls : MonoBehaviour
                 // if (itemFoundlSound != null) 
                 //     itemFoundlSound.Play();
             }
-            else if (grounded && body.velocity.y == 0 && canDodge && player.GetButtonDown("ZR") 
-                && !canRest && !canEnter && currentItem == null)
+            
+            if (grounded && body.velocity.y == 0 && canDodge && player.GetButtonDown("ZR") )
             {
                 canDodge = false;
                 StartCoroutine( Dodge() );
@@ -1084,13 +1110,6 @@ public class PlayerControls : MonoBehaviour
                 }
             }
         }
-        
-        //* Powerup or new pokemon cutscene
-        // else if (inCutscene && doubleJumpScreen.gameObject.activeSelf)
-        // {
-        //     if (PressedStandardButton())
-        //         doubleJumpScreen.SetTrigger("confirm");
-        // }
     }
 
     private void SummonPokemon(int slot, string button)
@@ -1503,7 +1522,7 @@ public class PlayerControls : MonoBehaviour
     {
         // return player.GetButtonDown("ZR");
         float yValue = Mathf.Abs( player.GetAxis("Move Vertical") );
-        return (yValue > 0.5f);
+        return (yValue > 0.75f);
     }
     private void Walk(float xValue)
     {
@@ -1881,7 +1900,7 @@ public class PlayerControls : MonoBehaviour
         {
             hasGotStatusEffect = true;
             ShowStatEffect( sleepStatImg );
-            StartCoroutine( Sleeping(delay, Random.Range(0,3)) );   // sleep for 2 - 4 seconds
+            StartCoroutine( Sleeping(delay, Random.Range(1,3)) );   // sleep for 2 - 4 seconds
         }
     }
     IEnumerator Sleeping(float delay, float duration)
@@ -2908,6 +2927,9 @@ public class PlayerControls : MonoBehaviour
         if (subseqAnim == null)
         {
             inCutscene = canMoveAfterAnimation;
+            if (talkingToNpc)
+                inCutscene = false;
+
             Time.timeScale = 1;
             if (descAnim != null)
                 descAnim.gameObject.SetActive(false);
@@ -2974,20 +2996,20 @@ public class PlayerControls : MonoBehaviour
 
         hp = maxHp;
 
-        if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber))
-            PlayerPrefsElite.SetStringArray("roomsBeaten" + gameNumber, roomsBeaten.ToArray());
-        if (PlayerPrefsElite.VerifyArray("crystalsBroken" + gameNumber))
-            PlayerPrefsElite.SetStringArray("crystalsBroken" + gameNumber, crystalsBroken.ToArray());
-        if (PlayerPrefsElite.VerifyArray("pokemonsCaught" + gameNumber))
-            PlayerPrefsElite.SetStringArray("pokemonsCaught" + gameNumber, pokemonsCaught.ToArray());
-        if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber))
-            PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber, itemsObtained.ToArray());
-        if (PlayerPrefsElite.VerifyArray("subwaysCleared" + gameNumber))
-            PlayerPrefsElite.SetStringArray("subwaysCleared" + gameNumber, subwaysCleared.ToArray());
-        if (PlayerPrefsElite.VerifyArray("berriesCollected" + gameNumber))
-            PlayerPrefsElite.SetStringArray("berriesCollected" + gameNumber, berriesCollected.ToArray());
-        if (PlayerPrefsElite.VerifyArray("spareKeychain" + gameNumber))
-            PlayerPrefsElite.SetStringArray("spareKeychain" + gameNumber, spareKeychainCollected.ToArray());
+        // if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber))
+        //     PlayerPrefsElite.SetStringArray("roomsBeaten" + gameNumber, roomsBeaten.ToArray());
+        // if (PlayerPrefsElite.VerifyArray("crystalsBroken" + gameNumber))
+        //     PlayerPrefsElite.SetStringArray("crystalsBroken" + gameNumber, crystalsBroken.ToArray());
+        // if (PlayerPrefsElite.VerifyArray("pokemonsCaught" + gameNumber))
+        //     PlayerPrefsElite.SetStringArray("pokemonsCaught" + gameNumber, pokemonsCaught.ToArray());
+        // if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber))
+        //     PlayerPrefsElite.SetStringArray("itemsObtained" + gameNumber, itemsObtained.ToArray());
+        // if (PlayerPrefsElite.VerifyArray("subwaysCleared" + gameNumber))
+        //     PlayerPrefsElite.SetStringArray("subwaysCleared" + gameNumber, subwaysCleared.ToArray());
+        // if (PlayerPrefsElite.VerifyArray("berriesCollected" + gameNumber))
+        //     PlayerPrefsElite.SetStringArray("berriesCollected" + gameNumber, berriesCollected.ToArray());
+        // if (PlayerPrefsElite.VerifyArray("spareKeychain" + gameNumber))
+        //     PlayerPrefsElite.SetStringArray("spareKeychain" + gameNumber, spareKeychainCollected.ToArray());
         
         var berriesSet = new HashSet<string>(berriesCollected);
         if (berriesSet.Contains(""))
@@ -3005,10 +3027,13 @@ public class PlayerControls : MonoBehaviour
 
         enemyDefeated.Clear(); PlayerPrefsElite.SetStringArray("enemyDefeated", new string[0]);
     }
-    public void SaveState()
+    public void SaveState(bool savePos=true)
     {
-        PlayerPrefsElite.SetString("checkpointScene" + gameNumber, SceneManager.GetActiveScene().name);
-        PlayerPrefsElite.SetVector3("checkpointPos" + gameNumber, this.transform.position + new Vector3(0,0.5f));
+        if (savePos)
+        {
+            PlayerPrefsElite.SetString("checkpointScene" + gameNumber, SceneManager.GetActiveScene().name);
+            PlayerPrefsElite.SetVector3("checkpointPos" + gameNumber, this.transform.position + new Vector3(0,0.5f));
+        }
         PlayerPrefsElite.SetInt("playerExp" + gameNumber, exp);
         PlayerPrefsElite.SetInt("playerLevel" + gameNumber, lv);
         PlayerPrefsElite.SetInt("currency" + gameNumber, currency);
@@ -3083,6 +3108,7 @@ public class PlayerControls : MonoBehaviour
                     boxPokemon.gameObject.SetActive(true);
                     if (boxPokemon.pokemonAcqDesc != null && boxPokemon.pokemonAcqDesc.anim != null)
                     {
+                        PAUSE_GAME();
                         descAnim = boxPokemon.pokemonAcqDesc.anim;
                         boxPokemon.ShowDescriptionOfAcquired();
                         descAnim.gameObject.SetActive(true);
@@ -3192,18 +3218,38 @@ public class PlayerControls : MonoBehaviour
         descAnim.gameObject.SetActive(true);
         inCutscene = true;
     }
+
+    public IEnumerator AllowReadDescriptionOfAcquiredTime()
+    {
+        cannotExitDesc = true;
+        yield return new WaitForSecondsRealtime(1);
+        cannotExitDesc = false;
+    }
+
     public void PickupBerryCo()
     {
         StartCoroutine( ShowUpgradeAcquiredCo(false) );
     }
-    public void PickupKeychainCo()
+    public void PickupKeychainCo(float delay=0.33f)
     {
-        StartCoroutine( ShowUpgradeAcquiredCo(true) );
+        StartCoroutine( ShowUpgradeAcquiredCo(true, delay) );
     }
-    IEnumerator ShowUpgradeAcquiredCo(bool keychainUpgrade)
+    IEnumerator ShowUpgradeAcquiredCo(bool keychainUpgrade, float delay=0.33f)
     {
-        yield return new WaitForSeconds(0.33f);
+        if (delay > 0)
+            yield return new WaitForSeconds(0.33f);
         inCutscene = true;
+        
+        if (keychainUpgrade)
+            descAnim = keychainUpgradeAnim;
+        else
+            descAnim = berryUpgradeAnim;
+        descAnim.gameObject.SetActive(true);
+    }
+
+    public void ShowUpgradeAcquired(bool keychainUpgrade)
+    {
+        inCutscene = false;
         
         if (keychainUpgrade)
             descAnim = keychainUpgradeAnim;

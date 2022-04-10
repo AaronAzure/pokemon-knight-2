@@ -127,7 +127,8 @@ public class Pidgey : Enemy
         if (!inCutscene && !isMiniBoss)
         {
             if (!chasing || inAnimation) { 
-                body.velocity = Vector2.zero;
+                if (!receivingKnockback)
+                    body.velocity = Vector2.zero;
 
                 if (timer < flipTimer)
                     timer += Time.fixedDeltaTime;

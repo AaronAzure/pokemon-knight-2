@@ -196,7 +196,7 @@ public abstract class Ally : MonoBehaviour
         StartCoroutine( ImmediateBackToBall() );
     }
 
-    protected IEnumerator ImmediateBackToBall()
+    private IEnumerator ImmediateBackToBall()
     {
         // CALL ONCE
 

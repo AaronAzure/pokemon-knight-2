@@ -13,6 +13,7 @@ public class AllyTangela : Ally
     [SerializeField] private int extraDrainDmg=1;
     [Space] [SerializeField] private LayerMask whatIsEnemy;
     [SerializeField] private LayerMask finalMask;
+    [SerializeField] private GameObject cannotFind;
 
     protected override void Setup() 
     {
@@ -27,6 +28,7 @@ public class AllyTangela : Ally
             absorb.maxDrain = this.totalMaxDrain;
         }
         finalMask = (whatIsEnemy | whatIsGround);
+        cannotFind.SetActive(false);
     }   
 
     public override string ExtraDesc(int playerLv)
@@ -40,13 +42,13 @@ public class AllyTangela : Ally
     private Transform ClosestEnemy()
     {
         if (detection == null)
-            return absorbDefaultPos;
+            return null;
         
         float distance = Mathf.Infinity;
         List<Transform> enemies = detection.detected;
 
         if (enemies == null || enemies.Count == 0)
-            return absorbDefaultPos;
+            return null;
         
         int ind = -1;
         for (int i=0 ; i<enemies.Count ; i++)
@@ -59,7 +61,7 @@ public class AllyTangela : Ally
             }
         }
         if (ind == -1)
-            return absorbDefaultPos;
+            return null;
 
         return enemies[ind];
     }
@@ -74,8 +76,23 @@ public class AllyTangela : Ally
     {
         if (absorb != null)
         {
-            var obj = Instantiate(absorb, ClosestEnemy().position + new Vector3(0,1), absorb.transform.rotation);
+            Transform target = ClosestEnemy();
+            if (target == null)
+            {
+                StartCoroutine( CannotFindTarget() );
+                return;
+            }
+            var obj = Instantiate(absorb, target.position + new Vector3(0,1), absorb.transform.rotation);
             obj.player = trainer;
         }
+    }
+
+    IEnumerator CannotFindTarget()
+    {
+        cannotFind.SetActive(true);
+        anim.SetTrigger("done");
+
+        yield return new WaitForSeconds(1f);
+        IMMEDIATE_RETURN_TO_BALL();
     }
 }
