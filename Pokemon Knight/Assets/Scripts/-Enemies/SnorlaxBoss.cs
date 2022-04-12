@@ -66,10 +66,11 @@ public class SnorlaxBoss : Enemy
     {
         performingNextAtk = false;
         body.gravityScale = 3;
-        anim.speed = 1;
+        anim.speed = 0.3f;
         anim.SetTrigger("reset");
         if (co != null)
             StopCoroutine(co);
+        StopAllCoroutines();
     }
 
 

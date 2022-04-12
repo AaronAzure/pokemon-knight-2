@@ -2848,8 +2848,6 @@ public class PlayerControls : MonoBehaviour
             case "butterfree": 
                 canDoubleJump = true;
                 PlayerPrefsElite.SetBoolean("canDoubleJump" + gameNumber, canDoubleJump);
-                // inCutscene = true;
-                // doubleJumpScreen.gameObject.SetActive(true);
                 CaughtAPokemon("butterfree");
                 break;
             case "pidgey": 
@@ -3147,8 +3145,8 @@ public class PlayerControls : MonoBehaviour
                     epu.gameObject.SetActive(true);
                 }
             }
-            if (!foundMatch)
-                Debug.LogError("PlayerControls.CaughtAPokemon - unregistered pokemon (ADD TO boxPokemonsToActivate)");
+            // if (!foundMatch)
+            //     Debug.LogError("PlayerControls.CaughtAPokemon - unregistered pokemon (ADD TO boxPokemonsToActivate)");
 
             // CheckEquippablePokemon();
             return foundMatch;

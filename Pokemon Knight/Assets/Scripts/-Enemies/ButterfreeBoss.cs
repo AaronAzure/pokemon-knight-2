@@ -53,6 +53,21 @@ public class ButterfreeBoss : Enemy
         atkCount = 0;
     }
 
+    public override void CallChildOnRage() 
+    {
+        count = 0;
+        newAttackPattern = 4;
+        moveSpeed *= 1.25f;
+        // chaseSpeed *= 1.5f;
+        maxSpeed *= 1.25f;
+    }
+    public override void CallChildOnBossDeath() 
+    {
+        if (spawnHolder != null)
+            Destroy(spawnHolder);
+        StopAllCoroutines();
+    }
+
     void FixedUpdate()
     {
         if (!inCutscene && !inRageCutscene && canMove && hp > 0)
@@ -109,20 +124,6 @@ public class ButterfreeBoss : Enemy
         body.velocity = new Vector2(cappedSpeedX, cappedSpeedY);
     }
 
-
-    public override void CallChildOnRage() 
-    {
-        count = 0;
-        newAttackPattern = 4;
-        moveSpeed *= 1.25f;
-        // chaseSpeed *= 1.5f;
-        maxSpeed *= 1.25f;
-    }
-    public override void CallChildOnBossDeath() 
-    {
-        if (spawnHolder != null)
-            Destroy(spawnHolder);
-    }
 
     private void LocatePlayer()
     {

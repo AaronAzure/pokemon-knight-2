@@ -24772,11 +24772,15 @@ MonoBehaviour:
   hitbox: {fileID: 5633393307971751639}
   atkDmg: 120
   atkForce: 20
-  spBonus: 15
+  spBonus: 18
   extraDmg: 10
   perLevel: 1
   outTime: 6
   resummonTime: 10
+  evolvedForm1: {fileID: 0}
+  evolvedSprite1: {fileID: 0}
+  evolvedForm2: {fileID: 0}
+  evolvedSprite2: {fileID: 0}
   body: {fileID: 5132741295536627786}
   useUlt: 0
   trailObj: {fileID: 1133196975338173599, guid: 68d6e6c0a5773413db7e478ab4425d98, type: 3}
@@ -24800,6 +24804,7 @@ MonoBehaviour:
   feetBox: {x: 1.9, y: 0.1}
   feetOffset: {x: 0, y: 0}
   feetRadius: 0.1
+  imgs: []
   slamHitbox: {fileID: 5669703769139011485}
   ultAtk: {fileID: 0}
   jumpHeight: 20

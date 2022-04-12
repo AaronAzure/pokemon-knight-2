@@ -531,7 +531,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 480402825
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: -1
 --- !u!61 &3172262714034576942
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -613,7 +613,7 @@ MonoBehaviour:
   lv: 25
   chapterLevel: 0
   mainAnim: {fileID: 8378938705710331896}
-  maxHp: 9000
+  maxHp: 6000
   hp: 0
   contactDmg: 50
   projectileDmg: 5
@@ -734,7 +734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rewardSize: 425
+  rewardSize: 475
   expL: {fileID: 1856295254583195530, guid: d27018a99e7b54de48824b3e1560cb92, type: 3}
   expM: {fileID: 6231101655905951431, guid: 3154a023cb73842f6b4b377e97abffd7, type: 3}
   expS: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
@@ -1424,10 +1424,6 @@ PrefabInstance:
     - target: {fileID: 4977202971957210169, guid: 3478b11d00e234591805b17e5528ede7, type: 3}
       propertyPath: atkDmg
       value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 4977202971957210171, guid: 3478b11d00e234591805b17e5528ede7, type: 3}
-      propertyPath: m_Size.y
-      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3478b11d00e234591805b17e5528ede7, type: 3}
