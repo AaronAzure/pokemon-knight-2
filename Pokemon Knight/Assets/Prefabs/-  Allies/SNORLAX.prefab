@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 1656071097848833688}
   - component: {fileID: 5669703769139011485}
   - component: {fileID: 4949079605057533409}
+  - component: {fileID: 7821443609070755999}
   m_Layer: 0
   m_Name: Body Slam Explosion
   m_TagString: Untagged
@@ -209,6 +210,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 1.5
+--- !u!50 &7821443609070755999
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277558913905751261}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &1277558914734560190
 GameObject:
   m_ObjectHideFlags: 0
@@ -24686,7 +24708,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 480402825
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: -1
 --- !u!61 &3172262714034576942
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -24788,7 +24810,7 @@ MonoBehaviour:
   button: 
   moveName: Body Slam
   multiHit: 1
-  moveDesc: 
+  moveDesc: Drops onto foes with its full body weight.
   renderers:
   - {fileID: 8872536232741552601}
   - {fileID: 1394145410244117664}

@@ -74,8 +74,9 @@ public class HighlightedButton : MonoBehaviour
                             coolDown.text = resummonTime.ToString();
                             if (player != null && player.quickCharm)
                             {
-                                resummonTime *= 0.7f;
-                                coolDown.text = resummonTime.ToString() + "s (" + pokemonButton.ally.resummonTime + "s)";
+                                resummonTime *= player.coolDownSpeed;
+                                coolDown.text = resummonTime.ToString() + "s <size=16>";
+                                coolDown.text += "(" + pokemonButton.ally.resummonTime + "s)</size>";
                             }
 
                             desc.text = pokemonButton.ally.moveDesc;

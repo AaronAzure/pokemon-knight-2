@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using Cinemachine;
 
@@ -16,9 +17,20 @@ public class BossRoom : MonoBehaviour
             boss.bossRoom = this;
             if (!autoStartFight)
                 boss.mustDmgBeforeFight = true;    
+            StartCoroutine( DoubleCheck() );
         }
         // BOSS ALREADY DEFEATED
         else if (boss == null)
+        {
+            Walls(false);
+            this.enabled = false;
+        }
+    }
+
+    IEnumerator DoubleCheck()
+    {
+        yield return new WaitForSeconds(0.5f);
+        if (boss == null)
         {
             Walls(false);
             this.enabled = false;
@@ -47,22 +59,25 @@ public class BossRoom : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if (!once && autoStartFight && other.CompareTag("Player"))    
+        if ( boss != null )
         {
-            once = true;
-            if (boss == null)
-                return;
-            boss.StartBossBattle();
-            Walls(true);
-        }
-        else if (!once && !autoStartFight && other.CompareTag("Player"))
-        {
-            ChangeCameraPriority(true);
+            if (!once && autoStartFight && other.CompareTag("Player"))    
+            {
+                once = true;
+                if (boss == null)
+                    return;
+                boss.StartBossBattle();
+                Walls(true);
+            }
+            else if (!once && !autoStartFight && other.CompareTag("Player"))
+            {
+                ChangeCameraPriority(true);
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D other) 
     {
-        if (!once && !autoStartFight && other.CompareTag("Player"))
+        if (!once && !autoStartFight && boss != null && other.CompareTag("Player"))
         {
             ChangeCameraPriority(false);
         }

@@ -35,9 +35,9 @@ public class BoxPokemonButton : MonoBehaviour
         if (sprite == null)
             Debug.LogError(this.gameObject.name +  "  -  sprite is not serialised", this.gameObject);
         
-        if      (ally.extraLevel >= 5 && evolveSprite2 != null)
+        if      (ally.extraLevel >= 6 && evolveSprite2 != null)
             playerControls.SetNewAlly(this.ally, this.evolveSprite2, this.button);
-        else if (ally.extraLevel >= 2 && evolveSprite1 != null)
+        else if (ally.extraLevel >= 3 && evolveSprite1 != null)
             playerControls.SetNewAlly(this.ally, this.evolveSprite1, this.button);
         else
             playerControls.SetNewAlly(this.ally, this.sprite, this.button);

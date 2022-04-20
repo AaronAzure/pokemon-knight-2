@@ -15,6 +15,11 @@ public class ShopButton : MonoBehaviour, ISelectHandler
     [Space] public bool isPokemonItem=true;
     [Space] public PurchaseType type=PurchaseType.pokemonType;
     [Space] public Ally ally;
+    [Space] public ItemUi item;
+
+    [Space] [SerializeField] protected RectTransform contentPanel;
+    [Space] [SerializeField] protected RectTransform panel;
+    [SerializeField] private Vector2 anchorOffset;
 
 
 
@@ -55,6 +60,10 @@ public class ShopButton : MonoBehaviour, ISelectHandler
 
     public void OnSelect(BaseEventData eventData) 
     {
+        contentPanel.anchoredPosition = new Vector2( contentPanel.anchoredPosition.x , Mathf.Abs(panel.anchoredPosition.y));
+        contentPanel.anchoredPosition += anchorOffset;
+        // Debug.Log(panel.position + " " + panel.anchoredPosition + " " + panel.localPosition);
+
         if (dialogueBox != null)
         {
             switch (type)
@@ -65,6 +74,9 @@ public class ShopButton : MonoBehaviour, ISelectHandler
                     dialogueBox.costTxt.text = purchaseCost.ToString();
                     break;
                 case PurchaseType.itemType:
+                    dialogueBox.header.text = item.camelisedItemName;
+                    dialogueBox.desc.text = item.itemDesc;
+                    dialogueBox.costTxt.text = purchaseCost.ToString();
                     break;
                 case PurchaseType.spareKeychain:
                     dialogueBox.header.text = "Spare Keychain";

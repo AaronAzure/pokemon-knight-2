@@ -17,7 +17,7 @@ public class EnemyTriggerCollision : MonoBehaviour
     {
         if (parentScript != null && !parentScript.aquatic && other.CompareTag("Underwater"))  
         {
-            parentScript.TakeDamage(parentScript.maxHp, this.transform.position, 0 , false, 0, null, true);
+            parentScript.TakeDamage(parentScript.maxHp, this.transform.position, 0 , true, 0, null, true);
         }  
     }
     private void OnTriggerStay2D(Collider2D other) 

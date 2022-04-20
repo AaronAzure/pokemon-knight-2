@@ -37,6 +37,7 @@ public abstract class Enemy : MonoBehaviour
     public int perLv=1;  // Bonus
     [Space] public int expPossess=5;
     public int extraExp=2;  // Additional bonus
+    [Space] public int secondDmg=5;
 
     [Space] [Header("Ai")]
 
@@ -121,6 +122,7 @@ public abstract class Enemy : MonoBehaviour
     [Space] [Header("Support / Mechanics")]
     public GameObject alert;
     public GameObject eyes;
+    public GameObject eyes2;
     [Space] public bool isAttacking;    // SET BY ANIMATION
     public bool isTargeting;
     [HideInInspector] protected bool canFlip=true ;
@@ -241,6 +243,8 @@ public abstract class Enemy : MonoBehaviour
     public virtual void CallChildOnTargetLost() {}  // VIA EnemyFieldOfVision
     public virtual void CallChildOnTargetFound() {}  // VIA EnemyFieldOfVision
     public virtual void CallChildOnDamaged() {}
+    public virtual void CallChildOnKnockbackStart() {}
+    public virtual void CallChildOnKnockbackFinish() {}
     
     public virtual void CallChildOnHalfHealth() {}  
     public virtual void CallChildOnIncreaseSpd() {}  
@@ -319,6 +323,11 @@ public abstract class Enemy : MonoBehaviour
     }
 
 
+    protected bool IsLookingLeft()
+    {
+        //* LOOKING LEFT
+        return (model.transform.eulerAngles.y == 0);
+    }
     protected void WalkTheOtherWay()
     {
         //* LOOKING RIGHT
@@ -456,6 +465,8 @@ public abstract class Enemy : MonoBehaviour
             {
                 if (eyes != null)
                     eyes.SetActive(false);
+                if (eyes2 != null)
+                    eyes2.SetActive(false);
                 if (spawner != null && !isBoss)
                     spawner.SpawnedDefeated();
                 
@@ -520,12 +531,15 @@ public abstract class Enemy : MonoBehaviour
     {
         if (hp > 0)
         {
+            CallChildOnKnockbackStart();
             receivingKnockback = true;
             Vector2 direction = (hitPos - this.transform.position).normalized;
             direction *= new Vector2(1,0);
             body.velocity = -direction * force * kbDefense;
-            yield return new WaitForSeconds(0.1f);
             
+            yield return new WaitForSeconds(0.1f);
+            CallChildOnKnockbackFinish();
+
             if (hp > 0)
                 if (body.gravityScale != 0)
                     body.velocity = new Vector2(0, Mathf.Min(0, body.velocity.y));

@@ -2,9 +2,6 @@
 
 public class AllyAttack : MonoBehaviour
 {
-    // public Transform atkPos;
-    // public LayerMask whatIsEnemy;
-    // public float atkRange;
     public int atkDmg;
     public int atkForce;    // knockback force
     public int spBonus;

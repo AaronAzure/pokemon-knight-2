@@ -68,11 +68,11 @@ public abstract class Ally : MonoBehaviour
     protected virtual void Start()
     {
         //* POKEMON EVOLUTION
-        if (extraLevel >= 5 && evolvedForm1 != null)
+        if (extraLevel >= 6 && evolvedForm1 != null)
         {
             
         }
-        else if (extraLevel >= 2 && evolvedForm1 != null)
+        else if (extraLevel >= 3 && evolvedForm1 != null)
         {
             var obj = Instantiate(evolvedForm1, this.transform.position, Quaternion.identity);
             obj.extraLevel = this.extraLevel;
@@ -108,7 +108,7 @@ public abstract class Ally : MonoBehaviour
         if (useUlt)
             resummonTime = 1;
         if (trainer != null && trainer.quickCharm)
-            resummonTime *= 0.7f;
+            resummonTime *= trainer.coolDownSpeed;
 
         Setup();
         co = StartCoroutine( BackToBallAfterAction() );
@@ -141,10 +141,10 @@ public abstract class Ally : MonoBehaviour
     public void ENHANCE_POKEMON(int newLevel)
     {
         extraLevel = newLevel;
-        if (extraLevel >= 5 && evolvedSprite2 != null)
+        if (extraLevel >= 6 && evolvedSprite2 != null)
             foreach (Image img in imgs)
                 img.sprite = evolvedSprite2;
-        else if (extraLevel >= 2 && evolvedSprite1 != null)
+        else if (extraLevel >= 3 && evolvedSprite1 != null)
             foreach (Image img in imgs)
                 img.sprite = evolvedSprite1;
     }

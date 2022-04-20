@@ -95,7 +95,7 @@ public class ItemUi : MonoBehaviour
                     playerControls.CalculateMaxHp();
                     playerControls.RecalculateHp();
                     break;
-                case "milkAddictCharm":
+                case "milkLoverCharm":
                     playerControls.milkAddictCharm = false;
                     playerControls.DecreaseNumberOfMoomooMilk();
                     break;
@@ -139,7 +139,7 @@ public class ItemUi : MonoBehaviour
                     playerControls.CalculateMaxHp();
                     playerControls.FullRestore();
                     break;
-                case "milkAddictCharm":
+                case "milkLoverCharm":
                     playerControls.milkAddictCharm = true;
                     playerControls.IncreaseNumberOfMoomooMilk();
                     break;

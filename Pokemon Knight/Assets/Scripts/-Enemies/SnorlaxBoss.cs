@@ -16,6 +16,7 @@ public class SnorlaxBoss : Enemy
     [SerializeField] private ParticleSystem yawnEffect;
     [SerializeField] private EnemyProjectile yawnAtk;
     [SerializeField] private Transform yawnPos;
+    [SerializeField] private GameObject spawnHolder;
 
 
     [Header("Attacks")]
@@ -27,13 +28,26 @@ public class SnorlaxBoss : Enemy
     private bool bodySlamming;
     private RaycastHit2D groundInfo;
     private int yawnCount;
+    private int gigaImpactCount;
+    public float gigaImpactForce = 30;
+    public float gigaImpactDuration = 1f;
 
     public override void Setup()
     {
+        if (PlayerPrefsElite.VerifyBoolean("canUseUlt" + PlayerPrefsElite.GetInt("gameNumber")))
+            if (PlayerPrefsElite.GetBoolean("canUseUlt" + PlayerPrefsElite.GetInt("gameNumber")))
+            {
+                if (bossRoom != null)
+                    bossRoom.Walls(false);
+                Destroy( this.gameObject );
+            }
         if (statusBar != null)
             statusBar.SetActive(false);
         playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
         target = playerControls.transform.position;
+        
+        if (spawnHolder != null)
+            spawnHolder.transform.parent = null;
     }
     public override void CallChildOnDamaged()
     {
@@ -71,6 +85,13 @@ public class SnorlaxBoss : Enemy
         if (co != null)
             StopCoroutine(co);
         StopAllCoroutines();
+        if (spawnHolder != null)
+            Destroy( spawnHolder );
+    }
+    public override void CallChildOnRageCutsceneFinished()
+    {
+        atkCount = 0;
+        gigaImpactCount = 0;
     }
 
 
@@ -96,7 +117,9 @@ public class SnorlaxBoss : Enemy
             else if (!performingNextAtk)
             {
                 performingNextAtk = true;
-                if (atkCount  != newAttackPattern)
+                if (inRage && atkCount == gigaImpactCount)
+                    co = StartCoroutine( GigaImpact() );
+                else if (atkCount  != newAttackPattern)
                     co = StartCoroutine( BodySlam() );
                 else
                 {
@@ -145,6 +168,27 @@ public class SnorlaxBoss : Enemy
         body.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
         body.AddForce(Vector2.right * xTargetPos, ForceMode2D.Impulse);
     }
+    IEnumerator GigaImpact()
+    {
+        LookAtPlayer();
+        anim.SetTrigger("gigaImpact");
+        anim.speed = 1;
+        
+        yield return new WaitForSeconds(1.5f);
+        
+        this.transform.position += new Vector3(0, 0.3f); // AVOID STOP ON GROUND
+        int tempDmg = contactDmg;
+        contactDmg = secondDmg;
+
+        if (IsLookingLeft())
+            body.AddForce(Vector2.left * gigaImpactForce, ForceMode2D.Impulse);
+        else
+            body.AddForce(Vector2.right * gigaImpactForce, ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds( gigaImpactDuration );
+        contactDmg = tempDmg;
+        body.velocity = new Vector2(0, body.velocity.y);
+    }
 
 
     public void PERFORMED_ACTION()
@@ -155,7 +199,11 @@ public class SnorlaxBoss : Enemy
         // contactDmg = origContactDmg;
         atkCount++;
         if (atkCount > newAttackPattern)
+        {
             atkCount = 0;
+            if (inRage)
+                gigaImpactCount = Random.Range(0, newAttackPattern);
+        }
     }
     public void BODY_SLAMMING()
     {
@@ -184,6 +232,8 @@ public class SnorlaxBoss : Enemy
     {
         LookAtPlayer();
         var obj = Instantiate(yawnAtk, yawnPos.position, yawnAtk.transform.rotation);
+        if (spawnHolder != null)
+            obj.transform.parent = spawnHolder.transform;
         Vector2 dir = (playerControls.transform.position + new Vector3(0,2f) - yawnPos.position).normalized;
         obj.direction = dir;
 

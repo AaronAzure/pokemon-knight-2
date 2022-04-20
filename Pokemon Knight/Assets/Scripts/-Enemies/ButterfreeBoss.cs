@@ -213,7 +213,7 @@ public class ButterfreeBoss : Enemy
             var obj = Instantiate(stunSpore, stunSporePos.position, Quaternion.identity, spawnHolder.transform);
             obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
             if (inRage)
-                obj.transform.localScale *= 1.75f;
+                obj.transform.localScale *= 1.5f;
             Destroy(obj.gameObject, 4.5f);
         }
 

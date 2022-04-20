@@ -5,8 +5,8 @@ using UnityEngine;
 public class MusicManager : MonoBehaviour
 {
     public AudioSource 
-        titleMusic, forestMusic, swampMusic, bossIntroMusic, bossOutroMusic, 
-        accoladeIntroMusic, accoladeOutroMusic;
+        titleMusic, forestMusic, swampMusic, mansionMusic, bossIntroMusic, bossOutroMusic, 
+        accoladeIntroMusic, accoladeOutroMusic, hordeMusic;
     [Space][Space] public AudioSource currentMusic;
     public AudioSource previousMusic;
     private Dictionary<AudioSource, float> origVolumes = new Dictionary<AudioSource, float>();
@@ -21,10 +21,12 @@ public class MusicManager : MonoBehaviour
         origVolumes.Add(titleMusic, titleMusic.volume);
         origVolumes.Add(forestMusic, forestMusic.volume);
         origVolumes.Add(swampMusic, swampMusic.volume);
+        origVolumes.Add(mansionMusic, mansionMusic.volume);
         origVolumes.Add(bossIntroMusic, bossIntroMusic.volume);
         origVolumes.Add(bossOutroMusic, bossOutroMusic.volume);
         origVolumes.Add(accoladeIntroMusic, accoladeIntroMusic.volume);
         origVolumes.Add(accoladeOutroMusic, accoladeOutroMusic.volume);
+        origVolumes.Add(hordeMusic, hordeMusic.volume);
     }
 
     public void BackToTitle()

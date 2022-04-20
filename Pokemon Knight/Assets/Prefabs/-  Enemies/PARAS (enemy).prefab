@@ -50,7 +50,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 480402825
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 6
 --- !u!61 &3518313580975055858
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -141,8 +141,9 @@ MonoBehaviour:
   extraDmg: 3
   extraProjectileDmg: 3
   perLv: 2
-  expPossess: 5
-  extraExp: 2
+  expPossess: 20
+  extraExp: 10
+  secondDmg: 5
   isSmart: 1
   isEvenSmarter: 0
   renderers:

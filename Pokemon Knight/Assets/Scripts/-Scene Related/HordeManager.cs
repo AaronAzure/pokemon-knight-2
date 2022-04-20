@@ -11,6 +11,9 @@ public class HordeManager : MonoBehaviour
     private List<string> subwaysCleared;
     [Space] [SerializeField] private Collider2D benchCol;
     [SerializeField] private List<Enemy> enemies;
+    private bool beaten;
+    private bool started;
+
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +34,7 @@ public class HordeManager : MonoBehaviour
             if (subwaysCleared.Contains(roomName))
             {
                 subwayDoorHolder.gameObject.SetActive(true);
+                beaten = true;
                 if (benchCol != null)
                     benchCol.enabled = true;
                 foreach (Enemy enemy in enemies)
@@ -49,6 +53,7 @@ public class HordeManager : MonoBehaviour
         foreach (Enemy enemy in enemies)
             enemy.horde = this;
         playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
+        started = true;
     }
 
     
@@ -69,10 +74,33 @@ public class HordeManager : MonoBehaviour
             ); 
 
             playerControls.CheckSubwaysCleared();
+            beaten = true;
 
             if (benchCol != null)
                 benchCol.enabled = true;
             this.enabled = false;
+
+            if (playerControls != null)
+                playerControls.BossBattleOver();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if (!beaten && started && other.CompareTag("Player"))    
+        {
+            if (playerControls == null)
+                playerControls = other.GetComponent<PlayerControls>();
+            playerControls.StartHordeBattleMusic();
+        }
+    }
+    private void OnTriggerExit2D(Collider2D other) 
+    {
+        if (!beaten && started && other.CompareTag("Player"))    
+        {
+            if (playerControls == null)
+                playerControls = other.GetComponent<PlayerControls>();
+            playerControls.BossBattleOver();
         }
     }
 }

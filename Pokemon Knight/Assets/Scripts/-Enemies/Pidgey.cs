@@ -118,6 +118,16 @@ public class Pidgey : Enemy
         anim.speed = 1;
     }
 
+    public override void CallChildOnKnockbackStart()
+    {
+        if (aiPath != null)
+            aiPath.canMove = false;
+    }
+    public override void CallChildOnKnockbackFinish()
+    {
+        if (aiPath != null)
+            aiPath.canMove = true;
+    }
 
 
     // Start is called before the first frame update
@@ -195,7 +205,13 @@ public class Pidgey : Enemy
             // }
         }
         if (isMiniBoss && hp > 0)
+        {
+            // if (!receivingKnockback && !aiPath.canMove)
+            //     aiPath.canMove = true;
+            // else if (receivingKnockback && aiPath.canMove)
+            //     aiPath.canMove = false;
             LookAtTarget();
+        }
     }
 
 

@@ -24,7 +24,7 @@ public class DropItems : MonoBehaviour
                 transform.position + new Vector3(0,0.2f), 
                 Quaternion.Euler(0,0,Random.Range(0,361))
             );
-            obj.body.AddForce( new Vector2(Random.Range(-5,6), Random.Range(5,16)) , ForceMode2D.Impulse);
+            obj.body.AddForce( new Vector2(Random.Range(-3,4), Random.Range(8,14)) , ForceMode2D.Impulse);
         }
         for (int i=0; i<nCandyM ; i++)
         {
@@ -33,7 +33,7 @@ public class DropItems : MonoBehaviour
                 transform.position + new Vector3(0,0.2f), 
                 Quaternion.Euler(0,0,Random.Range(0,361))
             );
-            obj.body.AddForce( new Vector2(Random.Range(-5,6), Random.Range(5,16)) , ForceMode2D.Impulse);
+            obj.body.AddForce( new Vector2(Random.Range(-3,4), Random.Range(8,14)) , ForceMode2D.Impulse);
         }
         for (int i=0; i<nCandyS ; i++)
         {
@@ -42,7 +42,7 @@ public class DropItems : MonoBehaviour
                 transform.position + new Vector3(0,0.2f), 
                 Quaternion.Euler(0,0,Random.Range(0,361))
             );
-            obj.body.AddForce( new Vector2(Random.Range(-5,6), Random.Range(5,16)) , ForceMode2D.Impulse);
+            obj.body.AddForce( new Vector2(Random.Range(-3,4), Random.Range(8,14)) , ForceMode2D.Impulse);
         }
     }
 }

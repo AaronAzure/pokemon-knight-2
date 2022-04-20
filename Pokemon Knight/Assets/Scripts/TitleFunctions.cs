@@ -32,18 +32,36 @@ public class TitleFunctions : MonoBehaviour
     [SerializeField] private Button doneNamingButton;
 
     [Space] public int fileNumber;
+    public Button selectedFile;
+    public TextMeshProUGUI controlsTxt;
     // public string fileName;
+    public bool nintendoControls=true;
 
     private void Awake() 
     {
-        for (int i=0; i<4 ; i++)
+        for (int i=0; i<10 ; i++)
             if (!PlayerPrefsElite.VerifyString("gameName" + i))
                 PlayerPrefsElite.SetString("gameName" + i, "");
+    }
+
+    public void CHANGE_CONTROLS()
+    {
+        nintendoControls = !nintendoControls;
+        // PlayerPrefsElite.SetBoolean("nintendoControls", nintendoControls);
+        if (controlsTxt != null)
+            if (nintendoControls)
+                controlsTxt.text = "Nintendo";
+            else
+                controlsTxt.text = "Xbox";
     }
 
     void Start() 
     {
         player = ReInput.players.GetPlayer(0);
+
+        PlayerPrefsElite.SetBoolean("nintendoControls", nintendoControls);
+        if (controlsTxt != null)
+            controlsTxt.text = "Nintendo";
 
         // GAME STARTED GETS NEW GAME BUTTON
         for (int i=0 ; i<fileNames.Length ; i++)
@@ -115,15 +133,23 @@ public class TitleFunctions : MonoBehaviour
         gameNumber = fileNumber;
         PlayerPrefsElite.SetInt("gameNumber", gameNumber);
         PlayerPrefsElite.SetBoolean("game-file-" + gameNumber, true);
+        PlayerPrefsElite.SetBoolean("nintendoControls", nintendoControls);
         StartCoroutine( FadeToGame() );
     }
     public void FILE_SELECTED(int gameNumber)
     {
         fileNumber = gameNumber;
-        fileNames[fileNumber].text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + fileNumber))
-            + " " + PlayerPrefsElite.GetString("gameName" + fileNumber);
-        fileNameTxt.text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + fileNumber))
-            + " " + PlayerPrefsElite.GetString("gameName" + fileNumber);
+        if (PlayerPrefsElite.GetInt("playerLevel" + fileNumber) > 0)
+        {
+            fileNames[fileNumber].text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + fileNumber))
+                + " " + PlayerPrefsElite.GetString("gameName" + fileNumber);
+            fileNameTxt.text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + fileNumber))
+                + " " + PlayerPrefsElite.GetString("gameName" + fileNumber);
+        }
+        if (PlayerPrefsElite.VerifyString("gameName" + fileNumber))
+            nameField.text = PlayerPrefsElite.GetString("gameName" + fileNumber);
+        else
+            nameField.text = "";
         fileNumTxt.text = (fileNumber+1).ToString() + ".";
         loadedGameFileButton.Select();
         anim.SetTrigger("next");
@@ -149,10 +175,13 @@ public class TitleFunctions : MonoBehaviour
         loadedGameFileButton.Select();
         PlayerPrefsElite.SetString("gameName" + fileNumber, newName);
         nameField.text = newName;
-        fileNames[fileNumber].text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + fileNumber))
-            + " " + PlayerPrefsElite.GetString("gameName" + fileNumber);
-        fileNameTxt.text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + fileNumber))
-            + " " + PlayerPrefsElite.GetString("gameName" + fileNumber);
+        if (PlayerPrefsElite.GetInt("playerLevel" + fileNumber) > 0)
+        {
+            fileNames[fileNumber].text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + fileNumber))
+                + " " + PlayerPrefsElite.GetString("gameName" + fileNumber);
+            fileNameTxt.text = "Lv." + (PlayerPrefsElite.GetInt("playerLevel" + fileNumber))
+                + " " + PlayerPrefsElite.GetString("gameName" + fileNumber);
+        }
     }
     public void DisplayOptions()
     {
@@ -164,30 +193,22 @@ public class TitleFunctions : MonoBehaviour
         PlayerPrefsElite.SetBoolean("game-file-" + gameNumber, true);
         PlayerPrefsElite.SetString("gameName" + gameNumber, enteredNameTxt.text);
 
-        if (PlayerPrefsElite.VerifyBoolean("canDoubleJump" + gameNumber.ToString()))
-            PlayerPrefsElite.SetBoolean("canDoubleJump" + gameNumber.ToString(), false);
-            
-        if (PlayerPrefsElite.VerifyBoolean("canDash" + gameNumber.ToString()))
-            PlayerPrefsElite.SetBoolean("canDash" + gameNumber.ToString(), false);
-            
-        if (PlayerPrefsElite.VerifyInt("playerLevel" + gameNumber.ToString()))
-            PlayerPrefsElite.SetInt("playerLevel" + gameNumber.ToString(), 1);
-            
-        if (PlayerPrefsElite.VerifyInt("playerExp" + gameNumber.ToString()))
-            PlayerPrefsElite.SetInt("playerExp" + gameNumber.ToString(), 0);
-
-        if (PlayerPrefsElite.VerifyString("checkpointScene" + gameNumber.ToString()))
-            PlayerPrefsElite.DeleteKey("checkpointScene" + gameNumber.ToString());
+        PlayerPrefsElite.SetBoolean("canDoubleJump" + gameNumber.ToString(), false);
+        PlayerPrefsElite.SetBoolean("canUseUlt" + gameNumber.ToString(), false);
         
-        if (PlayerPrefsElite.VerifyVector3("checkpointPos" + gameNumber.ToString()))
-            PlayerPrefsElite.DeleteKey("checkpointPos" + gameNumber.ToString());
+        PlayerPrefsElite.SetBoolean("canDash" + gameNumber.ToString(), false);
+        
+        PlayerPrefsElite.SetInt("playerLevel" + gameNumber.ToString(), 1);
+        
+        PlayerPrefsElite.SetInt("playerExp" + gameNumber.ToString(), 0);
+
+        PlayerPrefsElite.DeleteKey("checkpointScene" + gameNumber.ToString());
+    
+        PlayerPrefsElite.DeleteKey("checkpointPos" + gameNumber.ToString());
 
         // PLAYER EQUIPPED PREFERENCES
-        if (PlayerPrefsElite.VerifyArray("buttonAllocatedPokemons" + gameNumber.ToString()))
-            PlayerPrefsElite.DeleteKey("buttonAllocatedPokemons" + gameNumber.ToString());
-        
-        if (PlayerPrefsElite.VerifyArray("equippedItems" + gameNumber.ToString()))
-            PlayerPrefsElite.DeleteKey("equippedItems" + gameNumber.ToString());
+        PlayerPrefsElite.DeleteKey("buttonAllocatedPokemons" + gameNumber.ToString());
+        PlayerPrefsElite.DeleteKey("equippedItems" + gameNumber.ToString());
 
         // ACHIEVEMENTS OR UNLOCKABLES
         if (PlayerPrefsElite.VerifyArray("pokemonsCaught" + gameNumber.ToString()))
@@ -228,12 +249,14 @@ public class TitleFunctions : MonoBehaviour
         PlayerPrefsElite.SetInt("snorlaxLv" + gameNumber, 0);
         PlayerPrefsElite.SetInt("flareonLv" + gameNumber, 0);
         PlayerPrefsElite.SetInt("eeveeLv" + gameNumber, 0);
+        PlayerPrefsElite.SetInt("vaporeonLv" + gameNumber, 0);
         
         
         PlayerPrefsElite.SetStringArray("hiddenRooms" + gameNumber, new string[0]);
 
 
         PlayerPrefsElite.SetInt("gameNumber", gameNumber);
+        PlayerPrefsElite.SetBoolean("nintendoControls", nintendoControls);
         StartCoroutine( FadeToGame() );
     }
     public void QuitGame()

@@ -58,7 +58,15 @@ public class Gloom : Enemy
             {
                 playerInSight = true;
                 alert.SetActive(true);
-                if (!trigger)
+                if (canUseBuffs)
+                {
+                    // INCREASE_DEF();
+                    mainAnim.speed = 1;
+                    mainAnim.SetTrigger("growth");
+                    performingBuff = true;
+                    body.velocity = new Vector2(0, body.velocity.y);
+                }
+                else if (!trigger)
                 {
                     trigger = true;
                     mainAnim.SetTrigger("attack");

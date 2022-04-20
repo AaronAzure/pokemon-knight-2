@@ -8,7 +8,8 @@ public class SceneMap : MonoBehaviour
     public string sceneName;
     public PlayerControls player;
     [Space] public GameObject playerHead;
-    public RectTransform parentRect;
+    [Space] public GameObject lostBag;
+    [Space] public RectTransform parentRect;
     public RectTransform rect;
 
 
@@ -68,6 +69,22 @@ public class SceneMap : MonoBehaviour
         
         serialisedObj.ApplyModifiedProperties();
     }
+    
+    public void GetBagChild()
+    {
+        var serialisedObj = new SerializedObject(this);
+        // playerHead = this.gameObject.transform.GetChild(0).gameObject;
+        RectTransform[] childs = this.gameObject.GetComponentsInChildren<RectTransform>();
+        if (lostBag == null)
+            serialisedObj.FindProperty("lostBag").objectReferenceValue = 
+                this.gameObject.transform.GetChild(childs.Length - 1).gameObject;
+        // childs[ childs.Length - 1 ].anchoredPosition = Vector2.zero;
+        childs[ childs.Length - 1 ].anchorMax = new Vector2(0.5f , 0.9f);
+        childs[ childs.Length - 1 ].anchorMin = new Vector2(0.5f , 0.9f);
+        // serialisedObj.FindProperty("sceneName").stringValue = this.gameObject.name;
+        
+        serialisedObj.ApplyModifiedProperties();
+    }
 }
 
 
@@ -76,12 +93,16 @@ public class SceneMapEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        DrawDefaultInspector();
-
         SceneMap myScript = (SceneMap)target;
 
         if (GUILayout.Button("Set Player Head"))
             myScript.GetPlayerHead();
+        
+        EditorGUILayout.Space();
+        if (GUILayout.Button("Set Bag"))
+            myScript.GetBagChild();
 
+        EditorGUILayout.Space();
+        DrawDefaultInspector();
     }
 }

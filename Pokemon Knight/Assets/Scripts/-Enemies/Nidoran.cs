@@ -8,9 +8,9 @@ public class Nidoran : Enemy
     public Animator anim;
     public float moveSpeed=2;
     public float chaseSpeed=5;
+    public float maxSpeed=6f;
     public bool canJump=true;
     public float jumpHeight=16;
-    public float maxSpeed=6f;
     public float distanceDetect=1f;
     public Transform groundDetection;
 
@@ -26,6 +26,7 @@ public class Nidoran : Enemy
     [SerializeField] private Coroutine targetLostCo;
     private LayerMask finalMask;    // detect Player, Ground, ignores Enemy, Bounds
     private RaycastHit2D playerInfo;
+    [Space] public bool speedVariant;
 
 
 
@@ -37,6 +38,8 @@ public class Nidoran : Enemy
             alert.gameObject.SetActive(false);
         if (target == null && playerControls != null)
             target = playerControls.transform;
+        if (speedVariant)
+            maxSpeed *= Random.Range(0.9f, 1.1f);
     }
 
     public override void CallChildOnTargetFound()

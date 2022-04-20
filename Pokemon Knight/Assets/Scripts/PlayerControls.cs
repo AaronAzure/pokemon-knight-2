@@ -12,9 +12,13 @@ public class PlayerControls : MonoBehaviour
 {
     private Rewired.Player player;
     public int playerID = 0;
+    [SerializeField] private bool nintendoControls;
     [SerializeField] private GameObject rewiredInputSystem;
     [SerializeField] private GameObject lookTarget;
     private int gameNumber;
+    
+    [Space] public Rewired.InputManager switchInputs;
+    public Rewired.InputManager xboxInputs;
     
 
     [Space] [Header("Player data")]
@@ -285,6 +289,8 @@ public class PlayerControls : MonoBehaviour
     public bool graciousHeartCharm;
     public bool milkAddictCharm;
     public bool sturdyCharm;
+    public bool swiftCharm;
+    [Space] [Range(0f,1f)] public float coolDownSpeed=0.7f;
     [SerializeField] private GameObject furyYellowObj;
     [SerializeField] private GameObject furyRedObj;
     public bool dualCharm;
@@ -306,6 +312,10 @@ public class PlayerControls : MonoBehaviour
     [Space] public bool canDash;
     public bool canSwim;
     public bool canUseUlt;
+    public bool canGroundPound;
+    public float groundPoundSpeed=10;
+    public GameObject groundPoundEffect;
+    [Space] public bool isGroundPounding;
     private MusicManager musicManager;
     
 
@@ -350,7 +360,6 @@ public class PlayerControls : MonoBehaviour
 
     private static PlayerControls playerInstance;   // There can only be one
 
-    
          
     private void Awake() {
         DontDestroyOnLoad(this.gameObject);
@@ -366,9 +375,16 @@ public class PlayerControls : MonoBehaviour
 
     void Start()
     {
+        nintendoControls = PlayerPrefsElite.GetBoolean("nintendoControls");
+        if (!nintendoControls)
+        {
+            switchInputs.gameObject.SetActive(false);
+            xboxInputs.gameObject.SetActive(true);
+        }
         
         equippedItemNames = new List<string>();
         player = ReInput.players.GetPlayer(playerID);
+
 
         gameNumber = PlayerPrefsElite.GetInt("gameNumber");
         origFace = face.sprite;
@@ -385,7 +401,10 @@ public class PlayerControls : MonoBehaviour
         if (PlayerPrefsElite.VerifyBoolean("canUseUlt" + gameNumber))
             canUseUlt = PlayerPrefsElite.GetBoolean("canUseUlt" + gameNumber);
         if (canUseUlt)
+        {
+            canGroundPound = true;
             gaugesHolder.SetActive(true);
+        }
         else
             gaugesHolder.SetActive(false);
         gaugeImg.fillAmount = 0;
@@ -527,13 +546,17 @@ public class PlayerControls : MonoBehaviour
             hasLostBag = PlayerPrefsElite.GetBoolean("hasLostBag" + gameNumber);
         else
             PlayerPrefsElite.SetBoolean("hasLostBag" + gameNumber, false);
-        
+
         if (PlayerPrefsElite.VerifyVector3("lostBagPos" + gameNumber))
             lostBagPos = PlayerPrefsElite.GetVector3("lostBagPos" + gameNumber);
         if (PlayerPrefsElite.VerifyString("lostBagScene" + gameNumber))
             lostBagScene = PlayerPrefsElite.GetString("lostBagScene" + gameNumber);
         if (PlayerPrefsElite.VerifyInt("candiesLost" + gameNumber))
             candiesLost = PlayerPrefsElite.GetInt("candiesLost" + gameNumber);
+        
+        //* SHOW LOST BAG ON MAP
+        if (hasLostBag)
+            ShowLostBagInMap(lostBagScene);
         
         if (transitionAnim != null)
         {
@@ -734,13 +757,14 @@ public class PlayerControls : MonoBehaviour
         CheckEquippablePokemon();
         CheckObtainedItems(false);
 
+        string startSceneName = PlayerPrefsElite.GetString("checkpointScene" + gameNumber);
         string sceneFirstWord = PlayerPrefsElite.GetString("checkpointScene" + gameNumber).Split(' ')[0];
         PlayerPrefsElite.SetString("currentArea" + gameNumber, sceneFirstWord);
         
         if (musicManager == null && GameObject.Find("Music Manager") != null)
         {
             musicManager = GameObject.Find("Music Manager").GetComponent<MusicManager>();
-            StartingMusic(sceneFirstWord);
+            StartingMusic(sceneFirstWord, startSceneName == "Forest 000 (House)");
             if (titleScreenObj != null)
                 titleScreenObj.musicManager = this.musicManager;
         }
@@ -758,14 +782,22 @@ public class PlayerControls : MonoBehaviour
         inCutscene = false;
         col.enabled = true;
     }
+    public bool YES()
+    {
+        return (nintendoControls && player.GetButtonDown("A") || !nintendoControls && player.GetButtonDown("B"));
+    }
+    public bool NO()
+    {
+        return (nintendoControls && player.GetButtonDown("B") || !nintendoControls && player.GetButtonDown("A"));
+    }
     void Update()
     {
         if (!cannotExitDesc && descAnim != null && descAnim.gameObject.activeSelf)
         {
-            if (player.GetButtonDown("A"))
+            if (YES())
                 descAnim.SetTrigger("close");
         }
-        else if (inCutscene && dialogue != null && player.GetButtonDown("B"))
+        else if (inCutscene && dialogue != null && NO())
         {
             dialogue.CloseDialogue();
             inCutscene = false;
@@ -773,7 +805,7 @@ public class PlayerControls : MonoBehaviour
         }
         else if (subWayUi.activeSelf)
         {
-            if (player.GetButtonDown("B") || player.GetButtonDown("START"))
+            if (NO() || player.GetButtonDown("START"))
             {
                 subWayUi.SetActive(false);
                 Time.timeScale = 1;
@@ -813,7 +845,7 @@ public class PlayerControls : MonoBehaviour
             if (resting)
             {
                 // EXIT MENU
-                if (player.GetButtonDown("START") || player.GetButtonDown("B"))
+                if (player.GetButtonDown("START") || NO())
                     EXIT_EQUIPMENT_MENU();
                 else if (player.GetButtonDown("L") && canNavigate)
                 {
@@ -850,7 +882,7 @@ public class PlayerControls : MonoBehaviour
             else
             {
                 // EXIT MENU
-                if (player.GetButtonDown("START") || player.GetButtonDown("B"))
+                if (player.GetButtonDown("START") || NO())
                     EXIT_PAUSE_MENU();
 
             }
@@ -875,18 +907,28 @@ public class PlayerControls : MonoBehaviour
             }
         }
         //* DRINKING MOOMOO MILK
-        else if (nMoomooMilkLeft > 0 && hp != maxHp && hp > 0 && !dodging && player.GetButtonDown("L"))
+        else if (grounded && !dodging && nMoomooMilkLeft > 0 && hp != maxHp && hp > 0 && player.GetButtonDown("L"))
         {
             DrinkingMoomooMilk();
         }
         //* RESTING
         else if (resting)
         {
-            if (player.GetButtonDown("B"))
+            if (NO())
                 LeaveBench();
         }
         
-        else if (dodging && hp > 0)
+        else if (isGroundPounding && !isSleeping && !isParalysed && hp > 0)
+        {
+            body.velocity = new Vector2(0, -groundPoundSpeed);
+            grounded = (Physics2D.OverlapBox(feetPos.position, feetBox, 0, whatIsGround) && !inWater);
+            if (grounded || inWater)
+            {
+                isGroundPounding = false;
+                groundPoundEffect.SetActive(false);
+            }
+        }
+        else if (dodging && !isSleeping && !isParalysed && hp > 0)
         {
             if (holder.transform.eulerAngles.y < 180)   // right
                 body.velocity = new Vector2(dodgeSpeed, body.velocity.y);
@@ -982,6 +1024,9 @@ public class PlayerControls : MonoBehaviour
                 currentBag.Pickup();
                 anim.speed = 1;
                 anim.SetTrigger("pickup");
+                //* SHOW LOST BAG ON MAP
+                ShowLostBagInMap(lostBagScene, false);
+                // if (hasLostBag)
                 currentBag = null;
                 if (itemFoundlSound != null) 
                     itemFoundlSound.Play();
@@ -1043,7 +1088,8 @@ public class PlayerControls : MonoBehaviour
                     //* Double Jump (mid air jump)
                     if (canDoubleJump)
                     {
-                        if (!inWater && !butterfreeOut && nExtraJumpsLeft > 0 && !grounded && player.GetButtonDown("B"))
+                        if (!inWater && !butterfreeOut && nExtraJumpsLeft > 0 && !grounded 
+                            && player.GetButtonDown("B") && player.GetAxis("Move Vertical") > -0.8f)
                         {
                             nExtraJumpsLeft--;
                             MidairJump();
@@ -1054,6 +1100,12 @@ public class PlayerControls : MonoBehaviour
                         //     nExtraJumpsLeft--;
                         //     MidairJump();
                         // }
+                    }
+                    if (canGroundPound && !inWater && !grounded && 
+                        player.GetButtonDown("B") && player.GetAxis("Move Vertical") <= -0.8f)
+                    {
+                        isGroundPounding = true;
+                        groundPoundEffect.SetActive(true);
                     }
 
                     if (player.GetButton("B") && jumping)
@@ -1348,6 +1400,7 @@ public class PlayerControls : MonoBehaviour
         //* Paused
         if (settings.gameObject.activeSelf) {}
         else if (ledgeGrabbing) {}
+        else if (ledgeGrabbing) {}
         else if (resting) {}
         else if (hp > 0 && !inCutscene && !dodging && !drinking && !isSleeping && !isParalysed)
         {
@@ -1356,7 +1409,10 @@ public class PlayerControls : MonoBehaviour
             {
                 float yValue = player.GetAxis("Move Vertical");
 
-                body.velocity = new Vector2(xValue, yValue) * moveSpeed;
+                if (swiftCharm)
+                    body.velocity = new Vector2(xValue, yValue) * moveSpeed * 1.25f;
+                else
+                    body.velocity = new Vector2(xValue, yValue) * moveSpeed;
             }
             else if (!crouching)
             {
@@ -1553,7 +1609,10 @@ public class PlayerControls : MonoBehaviour
             xValue = 0;
         }
         if (!receivingKnockback)
-            body.velocity = new Vector2(xValue * moveSpeed, body.velocity.y);
+            if (swiftCharm)
+                body.velocity = new Vector2(xValue * moveSpeed * 1.25f, body.velocity.y);
+            else
+                body.velocity = new Vector2(xValue * moveSpeed, body.velocity.y);
     }
     private void playerDirection(float xValue=0)
     {
@@ -1870,6 +1929,8 @@ public class PlayerControls : MonoBehaviour
 
             if (force > 0 && opponent != null)
             {
+                isGroundPounding = false;
+                groundPoundEffect.SetActive(false);
                 if (hp > 0) StartCoroutine( Invincibility() );
                 StartCoroutine( ApplyKnockback(opponent, force) );
             }
@@ -1922,7 +1983,9 @@ public class PlayerControls : MonoBehaviour
         {
             hasGotStatusEffect = true;
             ShowStatEffect( sleepStatImg );
-            StartCoroutine( Sleeping(delay, Random.Range(1,3)) );   // sleep for 2 - 4 seconds
+            float[] values = { 1.5f, 2f, 2.5f, 3f }; // sleep for 2.0 - 3.5 seconds
+            
+            StartCoroutine( Sleeping( delay, values[ Random.Range( 0 , values.Length ) ] ) );   
         }
     }
     IEnumerator Sleeping(float delay, float duration)
@@ -1941,10 +2004,15 @@ public class PlayerControls : MonoBehaviour
             emission.rateOverTime = 5;
         }
         yield return new WaitForSeconds(delay + 0.5f);
+        //! ASLEEP
 
         if (isSleeping || hp <= 0)
             yield break;
         isSleeping = true;
+        DODGE_ROLL_FINISH();
+        isGroundPounding = false;
+        groundPoundEffect.SetActive(false);
+
         if (ledgeGrabbing)
         {
             body.gravityScale = origGrav;
@@ -1976,7 +2044,8 @@ public class PlayerControls : MonoBehaviour
             se.Stop(false, ParticleSystemStopBehavior.StopEmitting);
         }
         
-        // yield return new WaitForSeconds(1);
+        //! NOT ASLEEP
+        yield return new WaitForSeconds(0.5f);
         SleepOver();
     }
     
@@ -2024,6 +2093,8 @@ public class PlayerControls : MonoBehaviour
             }
 
             yield return new WaitForSeconds(4);
+            //! PARALYSED
+
             foreach (ParticleSystem pe in pEffects)
             {
                 pe.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
@@ -2039,6 +2110,10 @@ public class PlayerControls : MonoBehaviour
                 pe.Play();
             }
             isParalysed = true;
+            DODGE_ROLL_FINISH();
+            isGroundPounding = false;
+            groundPoundEffect.SetActive(false);
+
             if (ledgeGrabbing)
             {
                 body.gravityScale = origGrav;
@@ -2053,6 +2128,7 @@ public class PlayerControls : MonoBehaviour
 
             body.velocity = new Vector2(0, body.velocity.y);
 
+            //! NOT PARALYSED
             yield return new WaitForSeconds(0.75f);
             foreach (ParticleSystem pe in pEffects)
             {
@@ -2168,9 +2244,9 @@ public class PlayerControls : MonoBehaviour
                 sp = spMax;
             // gaugeImg.fillAmount += amount;
             if (gaugeGlow != null)
-                if (gaugeImg.fillAmount < 1)
+                if (sp < spReq)
                     gaugeGlow.SetActive(false);
-                else
+                else if (!gaugeGlow.activeSelf)
                     gaugeGlow.SetActive(true);
 
         }
@@ -2233,6 +2309,9 @@ public class PlayerControls : MonoBehaviour
         PlayerPrefsElite.SetString("lostBagScene" + gameNumber, SceneManager.GetActiveScene().name);
         lostBagScene = SceneManager.GetActiveScene().name;
 
+        //* SHOW LOST BAG ON MAP
+        if (hasLostBag)
+            ShowLostBagInMap(lostBagScene);
 
         if (PlayerPrefsElite.VerifyInt("currency" + gameNumber))
             PlayerPrefsElite.SetInt("currency" + gameNumber, currency);
@@ -2295,7 +2374,7 @@ public class PlayerControls : MonoBehaviour
                 yield return null;
             yield return new WaitForSeconds(0.2f);
             BagLostInScene(sceneName);
-
+            SetPlayerLocationInMap(sceneName);
         }
         else
             Debug.LogError("CHECK THIS", this.gameObject);
@@ -2364,22 +2443,7 @@ public class PlayerControls : MonoBehaviour
 
             yield return new WaitForSeconds(0.5f);
             string sceneName = SceneManager.GetActiveScene().name;
-            if (!visitedScenes.Contains(sceneName))
-            {
-                visitedScenes.Add(sceneName);
-                PlayerPrefsElite.SetStringArray("visitedScenes" + gameNumber, visitedScenes.ToArray());
-                if (sceneMaps.ContainsKey(sceneName))
-                    sceneMaps[sceneName].Visited();
-                else
-                    Debug.Log("<color=#FF8800>" + sceneName + " map has not been added" +"</color>");
-            }
-            if (sceneMaps.ContainsKey(sceneName))
-            {
-                if (lastScene != null)
-                    lastScene.LeftScene();
-                sceneMaps[sceneName].EnterScene();
-                lastScene = sceneMaps[sceneName];
-            }
+            SetPlayerLocationInMap(sceneName);
             
             string newSceneFirstWord = sceneName.Split(' ')[0];
             if (newSceneFirstWord != PlayerPrefsElite.GetString("currentArea" + gameNumber))
@@ -2388,11 +2452,12 @@ public class PlayerControls : MonoBehaviour
                 if (musicManager != null)
                     StartingMusic(newSceneFirstWord);
             }
+            if (mapMenu.activeSelf)
+                mapMenuRect.localPosition = -lastScene.rect.localPosition + (Vector3) mapOffset;
+            
             if (transitionAnim != null)
                 transitionAnim.SetTrigger("fromBlack");
 
-            if (mapMenu.activeSelf)
-                mapMenuRect.localPosition = -lastScene.rect.localPosition + (Vector3) mapOffset;
             
             yield return new WaitForSeconds(0.4f);
             AllPokemonReturned();
@@ -2499,6 +2564,18 @@ public class PlayerControls : MonoBehaviour
                 transitionAnim.SetTrigger("fromBlack");
             
             yield return new WaitForSeconds(0.4f);
+            string sceneName = SceneManager.GetActiveScene().name;
+            SetPlayerLocationInMap(sceneName);
+            
+            string newSceneFirstWord = sceneName.Split(' ')[0];
+            if (newSceneFirstWord != PlayerPrefsElite.GetString("currentArea" + gameNumber))
+            {
+                PlayerPrefsElite.SetString("currentArea" + gameNumber, newSceneFirstWord);
+                if (musicManager != null)
+                    StartingMusic(newSceneFirstWord);
+            }
+            if (mapMenu.activeSelf)
+                mapMenuRect.localPosition = -lastScene.rect.localPosition + (Vector3) mapOffset;
 
             if (moveLeftFromDoor)
             {
@@ -2525,6 +2602,13 @@ public class PlayerControls : MonoBehaviour
                 obj.quantity = candiesLost;
             }
         }
+    }
+    public void ShowLostBagInMap(string sceneName, bool lost=true)
+    {
+        if (sceneMaps.ContainsKey(sceneName))
+            sceneMaps[sceneName].lostBag.SetActive(lost);
+        else
+            Debug.Log("<color=#FF8800>" + sceneName + " map has not been added" +"</color>", this.gameObject);
     }
     public IEnumerator LoadSceneAndCheckLostBag(string sceneName)
     {
@@ -2559,6 +2643,28 @@ public class PlayerControls : MonoBehaviour
             StartCoroutine( musicManager.LowerMusic(musicManager.currentMusic, 0.5f) );
         StartCoroutine( TakingTheSubway() );
     }
+
+    public void SetPlayerLocationInMap(string sceneName)
+    {
+        //* IF NEVER VISITED BEFORE, MAKE VISIBLE
+        if (!visitedScenes.Contains(sceneName))
+        {
+            visitedScenes.Add(sceneName);
+            PlayerPrefsElite.SetStringArray("visitedScenes" + gameNumber, visitedScenes.ToArray());
+            if (sceneMaps.ContainsKey(sceneName))
+                sceneMaps[sceneName].Visited();
+            else
+                Debug.Log("<color=#FF8800>" + sceneName + " map has not been added" +"</color>");
+        }
+        //* CURRENT LOCATION CHANGED
+        if (sceneMaps.ContainsKey(sceneName))
+        {
+            if (lastScene != null)
+                lastScene.LeftScene();
+            sceneMaps[sceneName].EnterScene();
+            lastScene = sceneMaps[sceneName];
+        }
+    }
     
     public IEnumerator TakingTheSubway()
     {
@@ -2585,23 +2691,8 @@ public class PlayerControls : MonoBehaviour
 
             yield return new WaitForSeconds(2f);
             string sceneName = SceneManager.GetActiveScene().name;
-            if (!visitedScenes.Contains(sceneName))
-            {
-                visitedScenes.Add(sceneName);
-                PlayerPrefsElite.SetStringArray("visitedScenes" + gameNumber, visitedScenes.ToArray());
-                if (sceneMaps.ContainsKey(sceneName))
-                    sceneMaps[sceneName].Visited();
-                else
-                    Debug.Log("<color=#FF8800>" + sceneName + " map has not been added" +"</color>");
-            }
-            if (sceneMaps.ContainsKey(sceneName))
-            {
-                if (lastScene != null)
-                    lastScene.LeftScene();
-                sceneMaps[sceneName].EnterScene();
-                lastScene = sceneMaps[sceneName];
-            }
-            
+            SetPlayerLocationInMap(sceneName);
+
             string newSceneFirstWord = sceneName.Split(' ')[0];
             if (newSceneFirstWord != PlayerPrefsElite.GetString("currentArea" + gameNumber))
             {
@@ -2669,12 +2760,12 @@ public class PlayerControls : MonoBehaviour
     // todo ------------------------------------------------------------------------------------
     // todo -----------------  M U S I C  ------------------------------------------------------
     
-    public void StartingMusic(string location="forest")
+    public void StartingMusic(string location="forest", bool startHouse=false)
     {
         if (musicManager != null)
         {
             bool notNull = (locationAnimObj != null && locationName != null);
-            if (notNull)
+            if (notNull && !startHouse)
             {
                 locationAnimObj.SetActive(false);
                 locationAnimObj.SetActive(true);
@@ -2697,6 +2788,12 @@ public class PlayerControls : MonoBehaviour
                     musicManager.previousMusic = musicManager.swampMusic;
                     if (notNull)
                         locationName.text = "Somber Swamplands";
+                    break;
+                case "mansion":
+                    StartCoroutine( musicManager.TransitionMusic(musicManager.mansionMusic) );
+                    musicManager.previousMusic = musicManager.mansionMusic;
+                    if (notNull)
+                        locationName.text = "Murmuring Mansion";
                     break;
                 default:
                     Debug.LogError("Location has not been register in switch PlayerControls.StartingMusic()");
@@ -2738,6 +2835,12 @@ public class PlayerControls : MonoBehaviour
     {
         if (musicManager != null)
             StartCoroutine( musicManager.TransitionMusic(musicManager.accoladeIntroMusic, true) );
+    }
+    
+    public void StartHordeBattleMusic()
+    {
+        if (musicManager != null)
+            StartCoroutine( musicManager.TransitionMusic(musicManager.hordeMusic, true) );
     }
 
     
@@ -2847,8 +2950,16 @@ public class PlayerControls : MonoBehaviour
         {
             case "butterfree": 
                 canDoubleJump = true;
-                PlayerPrefsElite.SetBoolean("canDoubleJump" + gameNumber, canDoubleJump);
+                PlayerPrefsElite.SetBoolean("canDoubleJump" + gameNumber, true);
                 CaughtAPokemon("butterfree");
+                break;
+            case "snorlax": 
+                canUseUlt = true;
+                UnlockGauge(true);
+                PlayerPrefsElite.SetBoolean("canUseUlt" + gameNumber, true);
+                canGroundPound = true;
+                PlayerPrefsElite.SetBoolean("canGroundPound" + gameNumber, true);
+                CaughtAPokemon("snorlax");
                 break;
             case "pidgey": 
                 CaughtAPokemon("pidgey");
@@ -3202,10 +3313,10 @@ public class PlayerControls : MonoBehaviour
                         StartCoroutine( ShowDescriptionOfAcquiredCo() );
                     }
                 }
-                else
-                {
-                    heldItem.gameObject.SetActive(false);
-                }
+                // else
+                // {
+                //     heldItem.gameObject.SetActive(false);
+                // }
             }
         }
         else
@@ -3467,9 +3578,9 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
-    public void UnlockGauge()
+    public void UnlockGauge(bool unlock=false)
     {
-        if (canUseUlt)
+        if (!unlock && canUseUlt)
         {
             canUseUlt = false;
             gaugesHolder.SetActive(false);

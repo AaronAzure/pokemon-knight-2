@@ -92,7 +92,7 @@ public class Beedrill : Enemy
     // Start is called before the first frame update
     void FixedUpdate() 
     {
-        if (!performingFuryAttack)
+        if (!performingFuryAttack && !performingBuff)
         {
             if (!inCutscene && !isMiniBoss)
             {
@@ -155,6 +155,14 @@ public class Beedrill : Enemy
                 if (playerInfo.collider != null && playerInfo.collider.gameObject.CompareTag("Player"))
                 {
                     chasing = true;
+                    if (canUseBuffs)
+                    {
+                        mainAnim.speed = 1;
+                        mainAnim.SetTrigger("buff");
+                        performingBuff = true;
+                        body.velocity = Vector2.zero;
+                        timer = 0;
+                    }
                     if (alert != null) alert.gameObject.SetActive(true);
                     mainAnim.speed = Mathf.Min(2, chaseSpeed);
                     if (targetLostCo != null)
@@ -254,7 +262,7 @@ public class Beedrill : Enemy
     }
     public void CHARGE()
     {
-        contactDmg = projectileDmg;
+        contactDmg = projectileDmg + calcExtraProjectileDmg;
 
         chargeX = 0;
         chargeY = 0;
