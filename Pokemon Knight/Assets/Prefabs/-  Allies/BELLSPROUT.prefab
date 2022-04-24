@@ -794,7 +794,7 @@ MonoBehaviour:
   extraDmg: 10
   perLevel: 1
   outTime: 0.5
-  resummonTime: 2
+  resummonTime: 3
   evolvedForm1: {fileID: 0}
   evolvedSprite1: {fileID: 0}
   evolvedForm2: {fileID: 0}
@@ -833,9 +833,12 @@ MonoBehaviour:
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 256
+  whatIsGhost:
+    serializedVersion: 2
+    m_Bits: 1048576
   finalMask:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 1048960
   cannotFind: {fileID: 2257175238623751565}
 --- !u!1001 &319634397910910115
 PrefabInstance:

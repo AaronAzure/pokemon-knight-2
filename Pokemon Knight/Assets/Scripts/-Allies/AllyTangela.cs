@@ -12,6 +12,7 @@ public class AllyTangela : Ally
     [SerializeField] private int totalMaxDrain;
     [SerializeField] private int extraDrainDmg=1;
     [Space] [SerializeField] private LayerMask whatIsEnemy;
+    [Space] [SerializeField] private LayerMask whatIsGhost;
     [SerializeField] private LayerMask finalMask;
     [SerializeField] private GameObject cannotFind;
 
@@ -27,7 +28,7 @@ public class AllyTangela : Ally
             absorb.spBonus = this.spBonus;
             absorb.maxDrain = this.totalMaxDrain;
         }
-        finalMask = (whatIsEnemy | whatIsGround);
+        finalMask = (whatIsEnemy | whatIsGround | whatIsGhost);
         cannotFind.SetActive(false);
     }   
 

@@ -10,6 +10,7 @@ public class AllyBellsprout : Ally
     [SerializeField] private Transform frontPos;
     [Space] [SerializeField] private DetectEnemy detection;
     [Space] [SerializeField] private LayerMask whatIsEnemy;
+    [Space] [SerializeField] private LayerMask whatIsGhost;
     [SerializeField] private LayerMask finalMask;
     [SerializeField] private GameObject cannotFind;
     
@@ -17,28 +18,46 @@ public class AllyBellsprout : Ally
     {
         if (useUlt && anim != null)
         {
-            outTime = 4f;
+            outTime = 2.5f;
             anim.SetTrigger("ult");
-            ultObj.atkDmg = Mathf.RoundToInt(this.atkDmg / 2);
-            ultObj.atkForce = Mathf.RoundToInt(this.atkForce / 3);
-            ultObj.spawnedPos = this.transform.position;
-        }
-        else
-        {
-            StartCoroutine( RazorLeaf() );
+            if (extraLevel >= 6)
+            {
+                
+            }
+            else if (extraLevel >= 3)
+            {
+                ultObj.atkDmg = Mathf.RoundToInt(this.atkDmg / 2);
+                ultObj.atkForce = Mathf.RoundToInt(this.atkForce / 3);
+                ultObj.spawnedPos = this.transform.position;
+            }
+            else
+            {
+                ultObj.atkDmg = Mathf.RoundToInt(this.atkDmg / 2);
+                ultObj.atkForce = Mathf.RoundToInt(this.atkForce / 3);
+                ultObj.spawnedPos = this.transform.position;
+            }
         }
         cannotFind.SetActive(false);
     }
-    
 
-    IEnumerator RazorLeaf()
+    protected override void OnSecondEvolution()
     {
-        yield return new WaitForSeconds(0.333f);
+        if (!useUlt)
+        {
+            anim.SetTrigger("repeat");
+            outTime *= 2;
+        }
+    }
+
+    public void RAZOR_LEAF()
+    {
+        // yield return new WaitForSeconds(0.333f);
         Vector3 closestEnemy = ClosestEnemy();
 
         //* CANNOT FIND A TARGET
         if (closestEnemy == Vector3.zero)
-            yield break;
+            return;
+            // yield break;
         
         var obj = Instantiate(razorLeafObj, atkPos.position, razorLeafObj.transform.rotation);
         obj.atkDmg = this.atkDmg;

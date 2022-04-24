@@ -38,7 +38,10 @@ public abstract class Enemy : MonoBehaviour
     [Space] public int expPossess=5;
     public int extraExp=2;  // Additional bonus
     [Space] public int secondDmg=5;
-
+    public int secondExtraDmg=3;
+    public bool hasExtraDmg;
+    
+    
     [Space] [Header("Ai")]
 
     [Space] public bool isSmart;    // Turns if attacked from behind;
@@ -126,6 +129,7 @@ public abstract class Enemy : MonoBehaviour
     [Space] public bool isAttacking;    // SET BY ANIMATION
     public bool isTargeting;
     [HideInInspector] protected bool canFlip=true ;
+    public bool keepSearching;
     public bool playerInField;
     public bool playerInSight;
     public bool playerInCloseRange;
@@ -210,6 +214,9 @@ public abstract class Enemy : MonoBehaviour
         if (lv > defaultLv)
             expPossess += Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) );
 
+        if (hasExtraDmg)
+            secondDmg += Mathf.FloorToInt((secondExtraDmg * (lv - defaultLv))/2f);
+
         calcExtraProjectileDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
 
         if (!isBoss || isMiniBoss)
@@ -219,7 +226,7 @@ public abstract class Enemy : MonoBehaviour
             // for (int i=0 ; i<(int)chapterLevel ; i++)
             {
                 maxHp = Mathf.RoundToInt(maxHp * 2f);
-                expPossess = Mathf.RoundToInt(expPossess * 2f);
+                expPossess = Mathf.RoundToInt(expPossess * 1.5f);
             }
         }
 
@@ -245,6 +252,13 @@ public abstract class Enemy : MonoBehaviour
     public virtual void CallChildOnDamaged() {}
     public virtual void CallChildOnKnockbackStart() {}
     public virtual void CallChildOnKnockbackFinish() {}
+    public virtual void CallChildOnDropLoot() 
+    {
+        if (!isBoss && !isMiniBoss)
+                loot.DropLoot( Mathf.FloorToInt(lv / 10) );
+            else
+                loot.DropLoot();
+    }
     
     public virtual void CallChildOnHalfHealth() {}  
     public virtual void CallChildOnIncreaseSpd() {}  
@@ -432,13 +446,13 @@ public abstract class Enemy : MonoBehaviour
             if (dmg > 0 && dmg < hp)
                 StartCoroutine( Flash() );
 
-            if (force > 0 && hitPos != null && !cannotRecieveKb)
+            if (force != 0 && hitPos != null && !cannotRecieveKb)
                 StartCoroutine( ApplyKnockback(hitPos, force) );
 
             // if (isEvenSmarter && force > 0)
             //     LookAtPlayer();
             CallChildOnDamaged();
-            if (isSmart && force > 0 && hp > 0)
+            if (isSmart && force != 0 && hp > 0)
                 LookAtPlayer();
 
             // Dramatic Boss Finisher
@@ -473,11 +487,7 @@ public abstract class Enemy : MonoBehaviour
                 if (horde != null)
                     horde.RemoveFromEnemies(this);
 
-                if (loot != null)
-                    if (!isBoss && !isMiniBoss)
-                        loot.DropLoot( Mathf.FloorToInt(lv / 10) );
-                    else
-                        loot.DropLoot();
+                CallChildOnDropLoot();
 
                 if (playerControls != null && attackedByPlayer)
                 {
@@ -855,27 +865,31 @@ public abstract class Enemy : MonoBehaviour
                 // for (int i=0 ; i<(int)chapterLevel ; i++)
                 {
                     tempHp = Mathf.RoundToInt(tempHp * 2f);
-                    tempExp = Mathf.RoundToInt(tempExp * 2f);
+                    tempExp = Mathf.RoundToInt(tempExp * 1.5f);
                 }
             }
 
             string gap = "          ";
             Debug.Log("<color=yellow>  " + this.name + " <b><i>( Lv. " + this.lv + " )</i></b></color> =   " +
-                "<color=#11FF00> maxHP = " + (tempHp) +  gap +
-                "</color><color=#FF8000> contactDmg = " + (contactDmg + (Mathf.FloorToInt((extraDmg * (lv - defaultLv))/2f))) + gap +
-                "</color><color=#F784FF> projectileDmg = " + 
+                "<color=#11FF00> HP = " + (tempHp) +  gap +
+                "</color><color=#FF8000> c Dmg = " + (contactDmg + (Mathf.FloorToInt((extraDmg * (lv - defaultLv))/2f))) + gap +
+                "</color><color=#F784FF> p Dmg = " + 
                 (projectileDmg + Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv))) + gap +
-                "</color><color=#00E8FF> expGained = " + (tempExp) + "</color>"
+                "</color><color=#00E8FF> exp = " + (tempExp) + "\n" +
+                "</color><color=#F13838> 2nd Dmg = " + (secondDmg + (Mathf.FloorToInt((secondExtraDmg * (lv - defaultLv))/2f)))
+                + "</color>"
             );
         }
         else
         {
             string gap = "          ";
             Debug.Log("<color=yellow>  " + this.name + " <b><i>( Lv. " + this.lv + " )</i></b></color> =   " +
-                "<color=#11FF00> maxHP = " + (maxHp) +  gap +
-                "</color><color=#FF8000> contactDmg = " + (contactDmg) + gap +
-                "</color><color=#F784FF> projectileDmg = " + (projectileDmg + calcExtraProjectileDmg) + gap +
-                "</color><color=#00E8FF> expGained = " + (expPossess) + "</color>"
+                "<color=#11FF00> HP = " + (maxHp) +  gap +
+                "</color><color=#FF8000> c Dmg = " + (contactDmg) + gap +
+                "</color><color=#F784FF> p Dmg = " + (projectileDmg + calcExtraProjectileDmg) + gap +
+                "</color><color=#00E8FF> exp = " + (expPossess) + "\n" +
+                "</color><color=#F13838> 2 Dmg = " + (secondDmg)
+                + "</color>"
             );
         }
     }

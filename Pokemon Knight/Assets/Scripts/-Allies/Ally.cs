@@ -28,6 +28,7 @@ public abstract class Ally : MonoBehaviour
 
     [Space] public Rigidbody2D body;
     [Space] public bool useUlt;
+    public float ultOutTime=1;
     [Space] [Tooltip("PokeballTrail prefab - return back to player")] public FollowTowards trailObj;
     
 
@@ -67,28 +68,7 @@ public abstract class Ally : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        //* POKEMON EVOLUTION
-        if (extraLevel >= 6 && evolvedForm1 != null)
-        {
-            
-        }
-        else if (extraLevel >= 3 && evolvedForm1 != null)
-        {
-            var obj = Instantiate(evolvedForm1, this.transform.position, Quaternion.identity);
-            obj.extraLevel = this.extraLevel;
-            obj.atkDmg = this.atkDmg;
-            obj.atkForce = this.atkForce;
-            obj.body.velocity = this.body.velocity;
-            obj.trainer = this.trainer;
-            obj.button = this.button;
-
-            if (this.transform.eulerAngles.y > 0)
-                    obj.transform.eulerAngles = new Vector3(0,-180);
-
-            Destroy(this.gameObject);
-        }
-
-
+        
         // Strength grows per level
         if (trainer != null)
             atkDmg += ( extraDmg * Mathf.CeilToInt(((trainer.lv - 1) + ExtraEnhancedDmg() / perLevel)) );
@@ -110,9 +90,66 @@ public abstract class Ally : MonoBehaviour
         if (trainer != null && trainer.quickCharm)
             resummonTime *= trainer.coolDownSpeed;
 
+        WhatEvolution();
+
         Setup();
         co = StartCoroutine( BackToBallAfterAction() );
     }
+
+
+
+
+    private void WhatEvolution()
+    {
+        //* POKEMON EVOLUTION
+        if (extraLevel >= 6)
+        {
+            OnThirdEvolution();
+            if (evolvedForm2 != null)
+            {
+                var obj = Instantiate(evolvedForm2, this.transform.position, Quaternion.identity);
+                obj.extraLevel = this.extraLevel;
+                obj.atkDmg = this.atkDmg;
+                obj.atkForce = this.atkForce;
+                obj.body.velocity = this.body.velocity;
+                obj.trainer = this.trainer;
+                obj.button = this.button;
+
+                if (this.transform.eulerAngles.y > 0)
+                        obj.transform.eulerAngles = new Vector3(0,-180);
+
+                Destroy(this.gameObject);
+            }
+        }
+        else if (extraLevel >= 3)
+        {
+            OnSecondEvolution();
+            if (evolvedForm1 != null)
+            {
+                var obj = Instantiate(evolvedForm1, this.transform.position, Quaternion.identity);
+                obj.extraLevel = this.extraLevel;
+                obj.atkDmg = this.atkDmg;
+                obj.atkForce = this.atkForce;
+                obj.body.velocity = this.body.velocity;
+                obj.trainer = this.trainer;
+                obj.button = this.button;
+
+                if (this.transform.eulerAngles.y > 0)
+                        obj.transform.eulerAngles = new Vector3(0,-180);
+
+                Destroy(this.gameObject);
+            }
+        }
+    }
+    protected virtual void OnSecondEvolution()
+    {
+        
+    }
+    protected virtual void OnThirdEvolution()
+    {
+
+    }
+
 
     public int ExtraEnhancedDmg()
     {

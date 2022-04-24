@@ -9175,6 +9175,7 @@ MonoBehaviour:
   currencyTxt: {fileID: 5744975294937805810}
   currencyEnhanceTxt: {fileID: 6977871806197949273}
   currencySound: {fileID: 4819850033255924722}
+  currencyCollectSound: {fileID: 4372191717901672904, guid: 134e25fe1775f4314a460a2214a3aee6, type: 3}
   hpEffectImg: {fileID: 2241457488857083253}
   hpImg: {fileID: 2241457487339488620}
   hpTxt: {fileID: 2771649927283902614}
@@ -9444,6 +9445,7 @@ MonoBehaviour:
   newSceneName: 
   newScenePos: {x: 0, y: 0}
   moveLeftFromDoor: 0
+  exitingAnotherDoor: 0
   equipmentUi: {fileID: 8130133519191828882}
   itemButtons: []
   equippedItems:
@@ -35344,6 +35346,28 @@ MonoBehaviour:
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 19
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 99
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 20
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 98
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
     mouseMaps: []
     customControllerMaps: []
     customControllers: []
@@ -41797,7 +41821,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6991169952984633874}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2f30be0f173194b2895cfb45e010e243, type: 3}

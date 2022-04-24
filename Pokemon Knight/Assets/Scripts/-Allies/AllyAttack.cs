@@ -12,6 +12,7 @@ public class AllyAttack : MonoBehaviour
 
     [Header("Moving projectile")] public float velocity=0;
     public Rigidbody2D body;
+    public Transform origin;
 
 
     private void Start() 
@@ -27,11 +28,19 @@ public class AllyAttack : MonoBehaviour
             foreach (var script in scripts)
             {
                 if (registerOneHitOnly)
-                    script.GetComponent<Enemy>().TakeDamage(
-                        atkDmg, this.transform.position, atkForce, true, spBonus, this);
+                    if (origin != null)
+                        script.GetComponent<Enemy>().TakeDamage(
+                            atkDmg, origin.position, atkForce, true, spBonus, this);
+                    else
+                        script.GetComponent<Enemy>().TakeDamage(
+                            atkDmg, this.transform.position, atkForce, true, spBonus, this);
                 else
-                    script.GetComponent<Enemy>().TakeDamage(
-                        atkDmg, this.transform.position, atkForce, true, spBonus);
+                    if (origin != null)
+                        script.GetComponent<Enemy>().TakeDamage(
+                            atkDmg, origin.position, atkForce, true, spBonus);
+                    else
+                        script.GetComponent<Enemy>().TakeDamage(
+                            atkDmg, this.transform.position, atkForce, true, spBonus);
                 if (spawnEffect && spawnEffectObj != null)
                 {
                     var obj = Instantiate(spawnEffectObj, script.gameObject.transform.position, Quaternion.identity);

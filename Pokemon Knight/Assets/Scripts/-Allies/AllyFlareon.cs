@@ -1,7 +1,14 @@
+using UnityEngine;
 
 public class AllyFlareon : Ally
 {
+    [Header("Flareon")]
     public AllyProjectile fireBlast;
+    public AllyAttack lavaPlume1;
+    public AllyAttack lavaPlume2;
+    public AllyAttack lavaPlume3;
+
+
     protected override void Setup() 
     {
         if (useUlt && anim != null)
@@ -14,7 +21,33 @@ public class AllyFlareon : Ally
                 fireBlast.atkForce = this.atkForce;
             }
         }
-    }   
+    }
+
+    protected override void OnThirdEvolution()
+    {
+        if (lavaPlume1 != null)
+            lavaPlume1.gameObject.SetActive(false);
+        if (lavaPlume3 != null)
+        {
+            lavaPlume3.atkDmg = this.atkDmg;
+            lavaPlume3.atkForce = this.atkForce;
+            lavaPlume3.spBonus = this.spBonus;
+            lavaPlume3.gameObject.SetActive(true);
+        }
+    }
+
+    protected override void OnSecondEvolution()
+    {
+        if (lavaPlume1 != null)
+            lavaPlume1.gameObject.SetActive(false);
+        if (lavaPlume2 != null)
+        {
+            lavaPlume2.atkDmg = this.atkDmg;
+            lavaPlume2.atkForce = this.atkForce;
+            lavaPlume2.spBonus = this.spBonus;
+            lavaPlume2.gameObject.SetActive(true);
+        }
+    }
 
     // public void FIRE_BLAST()
     // {

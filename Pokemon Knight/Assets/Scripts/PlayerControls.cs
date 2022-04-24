@@ -34,6 +34,7 @@ public class PlayerControls : MonoBehaviour
     public TextMeshProUGUI currencyTxt;
     public TextMeshProUGUI currencyEnhanceTxt;
     public AudioSource currencySound;
+    public GameObject currencyCollectSound;
 
 
     [Space] [Header("Ui")]
@@ -269,6 +270,7 @@ public class PlayerControls : MonoBehaviour
     public string newSceneName;
     public Vector2 newScenePos;
     [Tooltip("true = moving left\nfalse = moving right")] public bool moveLeftFromDoor; 
+    [Tooltip("true = moving left\nfalse = moving right")] public bool exitingAnotherDoor; 
 
 
     [Space][Header("Items")] 
@@ -1195,6 +1197,8 @@ public class PlayerControls : MonoBehaviour
                     pokemon.useUlt = true;
                     sp -= spReq;
                     gaugeGlow.SetActive(false);
+                    gaugeIndicator.SetActive(false);
+                    gaugeButton.SetActive(false);
                 }
 
                 PokemonSummonedIndicator(button);
@@ -1448,7 +1452,6 @@ public class PlayerControls : MonoBehaviour
         if (canUseUlt && gaugeImg != null)
         {
             float temp = ((float)sp /(float) spMax);
-            // gaugeImg.fillAmount = ((float)sp /(float) spMax);
             if (gaugeImg.fillAmount < temp)
                 gaugeImg.fillAmount += effectSpeed;
                 if (gaugeImg.fillAmount > temp)
@@ -1457,20 +1460,6 @@ public class PlayerControls : MonoBehaviour
                 gaugeImg.fillAmount -= effectSpeed;
                 if (gaugeImg.fillAmount < temp)
                     gaugeImg.fillAmount = temp;
-
-            if (gaugeGlow != null)
-                if (gaugeImg.fillAmount < 1)
-                {
-                    gaugeGlow.SetActive(false);
-                    gaugeButton.SetActive(false);
-                }
-                else
-                {
-                    gaugeGlow.SetActive(true);
-                    gaugeButton.SetActive(true);
-                    gaugeIndicator.SetActive(false);
-                    gaugeIndicator.SetActive(true);
-                }
         }
 
         //* Exp
@@ -2229,7 +2218,8 @@ public class PlayerControls : MonoBehaviour
         currency += Mathf.RoundToInt(amount * candyMultiplier);
         currencyTxt.text = currency.ToString();
         currencyEnhanceTxt.text = currency.ToString();
-        currencySound.Play();
+        // currencySound.Play();
+        Instantiate(currencyCollectSound, Vector3.zero, Quaternion.identity, transform); 
         if (save)
             PlayerPrefsElite.SetInt("currency" + gameNumber, currency);
     }
@@ -2238,16 +2228,23 @@ public class PlayerControls : MonoBehaviour
     {
         if (canUseUlt)
         {
-            if ((sp + spGained) < spMax)
-                sp += spGained;
-            else
-                sp = spMax;
+            sp = Mathf.Min( spMax , sp + spGained );
             // gaugeImg.fillAmount += amount;
             if (gaugeGlow != null)
+            {
                 if (sp < spReq)
+                {
                     gaugeGlow.SetActive(false);
+                    gaugeIndicator.SetActive(false);
+                    gaugeButton.SetActive(false);
+                }
                 else if (!gaugeGlow.activeSelf)
+                {
                     gaugeGlow.SetActive(true);
+                    gaugeIndicator.SetActive(true);
+                    gaugeButton.SetActive(true);
+                }
+            }
 
         }
     }
@@ -2462,20 +2459,14 @@ public class PlayerControls : MonoBehaviour
             yield return new WaitForSeconds(0.4f);
             AllPokemonReturned();
 
-            movingToDifferentScene = false;
             if (!exitingDoor)
-            {
-                if (!walkingRight)
-                    StartCoroutine( WalkingLeft() );
-                else
-                    StartCoroutine( WalkingRight() );
-            }
+                StartCoroutine( WalkingOut(walkingRight) );
             else
                 StartCoroutine( ExitingDoor() );
         }
     }
 
-    IEnumerator WalkingRight()  // Moving right
+    IEnumerator WalkingOut(bool toRight=true)  // Moving right
     {
         yield return new WaitForEndOfFrame();
         anim.SetBool("isGrounded", true);
@@ -2485,27 +2476,14 @@ public class PlayerControls : MonoBehaviour
         if (dodgingThruScene)
             anim.SetTrigger("dodge");
 
-        body.AddForce(Vector2.right * moveSpeed, ForceMode2D.Impulse);
+        if (toRight)
+            body.AddForce(Vector2.right * moveSpeed, ForceMode2D.Impulse);
+        else
+            body.AddForce(Vector2.left * moveSpeed, ForceMode2D.Impulse);
         
         yield return new WaitForSeconds(0.5f);
         inCutscene = false;
-        canEnter = false;
-        body.velocity = Vector2.zero;
-    }
-    IEnumerator WalkingLeft()  // Moving left
-    {
-        yield return new WaitForEndOfFrame();
-        anim.SetBool("isGrounded", true);
-        anim.SetBool("isFalling", false);
-        anim.SetTrigger("reset");
-        
-        if (dodgingThruScene)
-            anim.SetTrigger("dodge");
-
-        body.AddForce(Vector2.left * moveSpeed, ForceMode2D.Impulse);
-        
-        yield return new WaitForSeconds(0.5f);
-        inCutscene = false;
+        movingToDifferentScene = false;
         canEnter = false;
         body.velocity = Vector2.zero;
     }
@@ -2532,6 +2510,7 @@ public class PlayerControls : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
         inCutscene = false;
+        movingToDifferentScene = false;
         canEnter = false;
         body.velocity = Vector2.zero;
     }
@@ -2542,6 +2521,7 @@ public class PlayerControls : MonoBehaviour
         {
             body.velocity = Vector2.zero;
             inCutscene = true;
+            movingToDifferentScene = true;
 
             if (transitionAnim != null)
                 transitionAnim.SetTrigger("toBlack");
@@ -2576,16 +2556,20 @@ public class PlayerControls : MonoBehaviour
             }
             if (mapMenu.activeSelf)
                 mapMenuRect.localPosition = -lastScene.rect.localPosition + (Vector3) mapOffset;
+            movingToDifferentScene = false;
 
-            if (moveLeftFromDoor)
+            if (exitingAnotherDoor)
             {
-                holder.transform.eulerAngles = new Vector3(0,180);
-                StartCoroutine( WalkingLeft() );
+                exitingAnotherDoor = false;
+                StartCoroutine( ExitingDoor() );
             }
             else
             {
-                holder.transform.eulerAngles = new Vector3(0,0);
-                StartCoroutine( WalkingRight() );
+                StartCoroutine( WalkingOut(!moveLeftFromDoor) );
+                if (moveLeftFromDoor)
+                    holder.transform.eulerAngles = new Vector3(0,180);
+                else
+                    holder.transform.eulerAngles = new Vector3(0,0);
             }
         }
     }

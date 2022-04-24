@@ -12,29 +12,41 @@ public class AllyEevee : Ally
     [SerializeField] private Transform targetPos;
     [Space] [SerializeField] private DetectEnemy detection;
     [Space] [SerializeField] private LayerMask whatIsEnemy;
+    [Space] [SerializeField] private LayerMask whatIsGhost;
     [SerializeField] private LayerMask finalMask;
     [Space] public Vector2 quickAtkOffset;
     [SerializeField] private GameObject cannotFind;
+    [SerializeField] private AllyAttack ultAtk;
+
     
 
     protected override void Setup() 
     {
-        finalMask = (whatIsEnemy | whatIsGround);
+        finalMask = (whatIsEnemy | whatIsGround | whatIsGhost);
         cannotFind.SetActive(false);
         
         if (useUlt && anim != null)
         {
-            outTime = 4f;
+            outTime = ultOutTime;
             anim.SetTrigger("ult");
-            // ultObj.atkDmg = Mathf.RoundToInt(this.atkDmg / 2);
-            // ultObj.atkForce = Mathf.RoundToInt(this.atkForce / 3);
-            // ultObj.spawnedPos = this.transform.position;
+            body.velocity = Vector2.zero;
         }
         else
         {
             StartCoroutine( Detect() );
         }
 
+    }
+
+    protected override void OnSecondEvolution()
+    {
+        if (!useUlt)
+            resummonTime = 0.75f;
+    }
+    protected override void OnThirdEvolution()
+    {
+        if (!useUlt)
+            resummonTime = 0.5f;
     }
 
     public override void CallChildIsGrounded() 
@@ -123,5 +135,23 @@ public class AllyEevee : Ally
     private void CannotFindTarget()
     {
         cannotFind.SetActive(true);
+    }
+
+
+
+    public void ULT_ATK()
+    {
+        if (ultAtk != null)
+        {
+            ultAtk.atkDmg = this.atkDmg * 2;
+            ultAtk.atkForce = this.atkForce * 2;
+            ultAtk.origin = this.transform;
+
+            List<Transform> enemies = detection.detected;
+            foreach (Transform enemy in enemies)
+                if (enemy != null)
+                    Instantiate(ultAtk, enemy.position, ultAtk.transform.rotation);
+
+        }
     }
 }

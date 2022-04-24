@@ -8,6 +8,7 @@ public class EnemyProjectile : MonoBehaviour
     [Space] public bool destoryOnPlayerCollision;
     [Space] public bool destoryOnWallCollision;
     public GameObject explosion;
+    [SerializeField] private GameObject trailObj;
     public Rigidbody2D body;
     public Vector2 direction;
     public float speed;
@@ -78,7 +79,9 @@ public class EnemyProjectile : MonoBehaviour
             {
                 if (explosion != null)
                     Instantiate(explosion, this.transform.position, Quaternion.identity);
-
+                
+                if (trailObj != null) 
+                    trailObj.transform.parent = null;
                 Destroy(this.gameObject);
             }
         }
@@ -86,6 +89,8 @@ public class EnemyProjectile : MonoBehaviour
         {
             if (explosion != null)
                 Instantiate(explosion, this.transform.position, Quaternion.identity);
+            if (trailObj != null) 
+                trailObj.transform.parent = null;
             Destroy(this.gameObject);
         }
     }

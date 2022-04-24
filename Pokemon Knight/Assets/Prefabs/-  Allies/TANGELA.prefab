@@ -730,9 +730,12 @@ MonoBehaviour:
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 256
+  whatIsGhost:
+    serializedVersion: 2
+    m_Bits: 1048576
   finalMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1048960
   cannotFind: {fileID: 5622876164678062141}
 --- !u!95 &4519332239266570387
 Animator:

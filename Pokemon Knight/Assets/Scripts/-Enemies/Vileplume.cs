@@ -190,9 +190,14 @@ public class Vileplume : Enemy
                     mainAnim.SetTrigger("poisonPowder");
                     StartCoroutine( PoisonPowderCooldown() );
                 }
-                else
+                else if (Mathf.Abs(target.position.x - this.transform.position.x) < 15f)
                 {
                     mainAnim.SetTrigger("sludgeBomb");
+                }
+                else
+                {
+                    atkPattern++;
+                    WalkTowards();
                 }
             }
             else if (atkPattern != maxAtkPattern + 1)

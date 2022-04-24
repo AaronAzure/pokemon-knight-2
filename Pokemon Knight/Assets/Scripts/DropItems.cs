@@ -22,7 +22,8 @@ public class DropItems : MonoBehaviour
             var obj = Instantiate(
                 expL, 
                 transform.position + new Vector3(0,0.2f), 
-                Quaternion.Euler(0,0,Random.Range(0,361))
+                Quaternion.Euler(0,0,Random.Range(0,361)),
+                transform.parent
             );
             obj.body.AddForce( new Vector2(Random.Range(-3,4), Random.Range(8,14)) , ForceMode2D.Impulse);
         }
@@ -31,7 +32,8 @@ public class DropItems : MonoBehaviour
             var obj = Instantiate(
                 expM, 
                 transform.position + new Vector3(0,0.2f), 
-                Quaternion.Euler(0,0,Random.Range(0,361))
+                Quaternion.Euler(0,0,Random.Range(0,361)),
+                transform.parent.transform
             );
             obj.body.AddForce( new Vector2(Random.Range(-3,4), Random.Range(8,14)) , ForceMode2D.Impulse);
         }
@@ -40,7 +42,8 @@ public class DropItems : MonoBehaviour
             var obj = Instantiate(
                 expS, 
                 transform.position + new Vector3(0,0.2f), 
-                Quaternion.Euler(0,0,Random.Range(0,361))
+                Quaternion.Euler(0,0,Random.Range(0,361)),
+                transform.parent.transform
             );
             obj.body.AddForce( new Vector2(Random.Range(-3,4), Random.Range(8,14)) , ForceMode2D.Impulse);
         }

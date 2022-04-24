@@ -23,7 +23,11 @@ MonoBehaviour:
   m_tileViews: []
   m_tilesetWidth: 8
   m_tilesetHeight: 8
-  m_brushes: []
+  m_brushes:
+  - Id: 1
+    BrushAsset: {fileID: 11400000, guid: 05320d47bb678430994d25ecb6e81e51, type: 2}
+  - Id: 2
+    BrushAsset: {fileID: 11400000, guid: 9e4fa56e485f04eec85a08e353e230a9, type: 2}
   m_tiles:
   - uv:
       serializedVersion: 2
@@ -1452,5 +1456,6 @@ MonoBehaviour:
   - 
   - 
   m_brushGroupAutotilingMatrix: 01000000020000000400000008000000100000002000000040000000800000000001000000020000000400000008000000100000002000000040000000800000000001000000020000000400000008000000100000002000000040000000800000000001000000020000000400000008000000100000002000000040
-  m_brushTypeMaskOptions: []
+  m_brushTypeMaskOptions:
+  - BrushFortySeven
   m_brushTypeMask: -1
