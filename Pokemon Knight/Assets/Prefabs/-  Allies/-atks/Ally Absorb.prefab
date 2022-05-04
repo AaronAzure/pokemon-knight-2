@@ -4918,15 +4918,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atkDmg: 0
   atkForce: 0
+  spBonus: 0
+  spawnedPos: {x: 0, y: 0, z: 0}
   trailObj: {fileID: 0}
   explosionObj: {fileID: 0}
   destoryOnCollision: 0
   velocity: 0
   customTrajectory: 0
   body: {fileID: 0}
+  anim: {fileID: 8823747247268393092}
+  explosiveHitbox: 0
+  explosiveAtk: 0
+  explosiveKb: 0
+  explosiveHitboxObj: {fileID: 0}
   absorbEffect: 1
   player: {fileID: 0}
   absorbReturnObj: {fileID: 1133196975338173599, guid: 6e9b27035856b44ed953efb3d7ad5eb8, type: 3}
+  maxDrain: 5
 --- !u!1 &180632
 GameObject:
   m_ObjectHideFlags: 0

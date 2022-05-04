@@ -139,7 +139,7 @@ public abstract class Enemy : MonoBehaviour
     [Space] public bool cannotMove;
     [SerializeField] protected bool movingLeft;
     [SerializeField] protected bool movingRight;
-    private bool downToHalfHp;
+    protected bool downToHalfHp;
     [Space] public bool aquatic;
     [HideInInspector] public AllyAttack dontGetHitTwice;
     public bool performingBuff;
@@ -200,11 +200,6 @@ public abstract class Enemy : MonoBehaviour
 
         if (!isBoss)
             model.transform.localScale *= Random.Range(0.9f, 1.1f);
-        if (isMiniBoss)
-        {
-            maxHp *= 5;
-            expPossess *= 5;
-        }
 
 
         if (lv > defaultLv)
@@ -219,6 +214,11 @@ public abstract class Enemy : MonoBehaviour
 
         calcExtraProjectileDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
 
+        if (isMiniBoss)
+        {
+            maxHp *= 5;
+            expPossess *= 5;
+        }
         if (!isBoss || isMiniBoss)
         {
             int nextAreas = (lv / lvBreak);
@@ -869,26 +869,28 @@ public abstract class Enemy : MonoBehaviour
                 }
             }
 
-            string gap = "          ";
-            Debug.Log("<color=yellow>  " + this.name + " <b><i>( Lv. " + this.lv + " )</i></b></color> =   " +
+            // string gap = "          ";
+            string gap = "    ";
+            Debug.Log("<color=yellow>  " + this.name.Split(' ')[0] + " <b><i>( Lv. " + this.lv + " )</i></b></color> =   " +
                 "<color=#11FF00> HP = " + (tempHp) +  gap +
                 "</color><color=#FF8000> c Dmg = " + (contactDmg + (Mathf.FloorToInt((extraDmg * (lv - defaultLv))/2f))) + gap +
                 "</color><color=#F784FF> p Dmg = " + 
                 (projectileDmg + Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv))) + gap +
-                "</color><color=#00E8FF> exp = " + (tempExp) + "\n" +
-                "</color><color=#F13838> 2nd Dmg = " + (secondDmg + (Mathf.FloorToInt((secondExtraDmg * (lv - defaultLv))/2f)))
+                "</color><color=#00E8FF> exp = " + (tempExp) + gap +
+                "</color><color=#F6161F> 2nd Dmg = " + (secondDmg + (Mathf.FloorToInt((secondExtraDmg * (lv - defaultLv))/2f)))
                 + "</color>"
             );
         }
         else
         {
-            string gap = "          ";
-            Debug.Log("<color=yellow>  " + this.name + " <b><i>( Lv. " + this.lv + " )</i></b></color> =   " +
+            // string gap = "          ";
+            string gap = "    ";
+            Debug.Log("<color=yellow>  " + this.name.Split(' ')[0] + " <b><i>( Lv. " + this.lv + " )</i></b></color> =   " +
                 "<color=#11FF00> HP = " + (maxHp) +  gap +
                 "</color><color=#FF8000> c Dmg = " + (contactDmg) + gap +
                 "</color><color=#F784FF> p Dmg = " + (projectileDmg + calcExtraProjectileDmg) + gap +
-                "</color><color=#00E8FF> exp = " + (expPossess) + "\n" +
-                "</color><color=#F13838> 2 Dmg = " + (secondDmg)
+                "</color><color=#00E8FF> exp = " + (expPossess) + gap +
+                "</color><color=#F6161F> 2 Dmg = " + (secondDmg)
                 + "</color>"
             );
         }

@@ -70,6 +70,7 @@ public class Haunter : Enemy
     private float farTime=0;
     public float teleportTimer=1;
     private int origAtkDmg;
+    private bool keepStalking;
 
 
     public override void Setup()
@@ -156,8 +157,8 @@ public class Haunter : Enemy
     {
         if (performingBuff || performingHex || performingShadowPunch)
             return;
-        if (targetLostCo == null)
-            targetLostCo = StartCoroutine( TryToFindTarget(2f) );
+        // if (targetLostCo == null)
+        //     targetLostCo = StartCoroutine( TryToFindTarget(2f) );
     }
     public override void CallChildOnDeath()
     {
@@ -188,27 +189,15 @@ public class Haunter : Enemy
         }
     }
     
-    IEnumerator TryToFindTarget(float duration=2)
-    {
-        yield return new WaitForSeconds(duration);
-        chasing = false;
-        playerInField = false;
-        alert.SetActive(false);
-        body.velocity = Vector2.zero;
-        mainAnim.SetBool("isWisping", false);
-
-        targetLostCo = null;
-    }
-
     private void DontLoseTrackOfPlayer()
     {
-        chasing = true;
-        if (targetLostCo != null)
-        {
-            StopCoroutine( targetLostCo );
-            targetLostCo = null;
-        }
-        if (alert != null) alert.gameObject.SetActive(true);
+        // chasing = true;
+        // if (targetLostCo != null)
+        // {
+        //     StopCoroutine( targetLostCo );
+        //     targetLostCo = null;
+        // }
+        // if (alert != null) alert.gameObject.SetActive(true);
     }
 
     // todo ----------------------------------------------------------------------------------------------------
@@ -256,7 +245,6 @@ public class Haunter : Enemy
                                 mainAnim.SetTrigger("shadowPunch");
                                 shadowPunch.transform.position = shadowPunchPos.position;
                                 body.velocity = Vector2.zero;
-                                DontLoseTrackOfPlayer();
                             }
                         }
                     }
@@ -305,7 +293,6 @@ public class Haunter : Enemy
                         }
                         if (alert != null) alert.gameObject.SetActive(true);
                         mainAnim.speed = Mathf.Min(2, chaseSpeed);
-                        DontLoseTrackOfPlayer();
                     }
                     else if (playerInfo.collider != null && !playerInfo.collider.gameObject.CompareTag("Player"))
                     {
@@ -358,7 +345,6 @@ public class Haunter : Enemy
                         closeTime = 0;
                         mainAnim.speed = 1;
                         body.velocity = Vector2.zero;
-                        DontLoseTrackOfPlayer();
                         mainAnim.SetTrigger("hex");
                     }
                 }
@@ -382,7 +368,7 @@ public class Haunter : Enemy
             //     LookAtTarget();
             // }
             
-            if (target != null && (playerInField || keepSearching))
+            if (!keepStalking && target != null && (playerInField || keepSearching))
             {
                 Vector3 lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));
                 playerInfo = Physics2D.Linecast(this.transform.position + new Vector3(0, 1),
@@ -390,6 +376,7 @@ public class Haunter : Enemy
                 if (playerInfo.collider != null && playerInfo.collider.gameObject.CompareTag("Player"))
                 {
                     chasing = true;
+                    keepStalking = true;
                     if (canUseBuffs)
                     {
                         mainAnim.speed = 1;
@@ -399,17 +386,8 @@ public class Haunter : Enemy
                         timer = 0;
                     }
                     if (alert != null) alert.gameObject.SetActive(true);
-                    DontLoseTrackOfPlayer();
-                }
-                else if (playerInfo.collider != null && !playerInfo.collider.gameObject.CompareTag("Player"))
-                {
-                    CallChildOnTargetLost();
                 }
 
-            }
-            else if (target != null && !playerInField)
-            {
-                CallChildOnTargetLost();
             }
         }
         // else if (variant == Variation.licker)
@@ -452,7 +430,6 @@ public class Haunter : Enemy
         //             }
         //             if (alert != null) alert.gameObject.SetActive(true);
         //             mainAnim.speed = Mathf.Min(2, chaseSpeed);
-        //             DontLoseTrackOfPlayer();
         //         }
         //         else if (playerInfo.collider != null && !playerInfo.collider.gameObject.CompareTag("Player"))
         //         {
@@ -568,8 +545,6 @@ public class Haunter : Enemy
                 break;
         }
         LookAtPlayer();
-        DontLoseTrackOfPlayer();
-        // SlowlyMove();
     }
 
 
@@ -585,7 +560,6 @@ public class Haunter : Enemy
             shadowPunch.transform.position = shadowPunchPos.position;
 
             yield return new WaitForSeconds(0.5f);
-            DontLoseTrackOfPlayer();
             Vector2 dir = ((target.position + Vector3.up) - shadowPunchPos.position).normalized;
             if (model.transform.eulerAngles.y == 0 && dir.x > 0) // facing left
                 dir = Vector2.left;
@@ -594,7 +568,6 @@ public class Haunter : Enemy
             shadowPunch.body.AddForce(shadowPunchForce * dir, ForceMode2D.Impulse);
             
             yield return new WaitForSeconds(shadowPunchDuration);
-            DontLoseTrackOfPlayer();
             shadowPunch.body.velocity = Vector2.zero;
             
             yield return new WaitForSeconds(0.25f);
@@ -603,7 +576,6 @@ public class Haunter : Enemy
             returningShadowPunch = true;
             
             yield return new WaitForSeconds(returnPunchDuration);
-            DontLoseTrackOfPlayer();
             returningShadowPunch = false;
             performingShadowPunch = false;
             closeTime = 0;

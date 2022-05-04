@@ -137,13 +137,15 @@ MonoBehaviour:
   contactDmg: 5
   projectileDmg: 4
   contactKb: 10
-  extraHp: 15
+  extraHp: 10
   extraDmg: 3
   extraProjectileDmg: 3
   perLv: 2
   expPossess: 20
   extraExp: 10
   secondDmg: 5
+  secondExtraDmg: 3
+  hasExtraDmg: 0
   isSmart: 1
   isEvenSmarter: 0
   renderers:
@@ -208,8 +210,10 @@ MonoBehaviour:
   partOfHorde: 0
   alert: {fileID: 5008076152717542460}
   eyes: {fileID: 4220973827971751390}
+  eyes2: {fileID: 0}
   isAttacking: 0
   isTargeting: 0
+  keepSearching: 0
   playerInField: 0
   playerInSight: 0
   playerInCloseRange: 0

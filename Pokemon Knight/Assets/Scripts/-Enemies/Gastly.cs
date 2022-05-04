@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CreativeSpore.SuperTilemapEditor;
 
 public class Gastly : Enemy
 {
@@ -8,6 +9,8 @@ public class Gastly : Enemy
     
     [Space] [Header("Gastly")]  
     public Variation variant;
+    // public TilemapChunk map;
+    public STETilemap map;
     
     
     [Space] [Header("Chaser")]  
@@ -57,6 +60,7 @@ public class Gastly : Enemy
     public float teleportTimer=1;
     private int origAtkDmg;
     public bool performingFuryAttack;
+    [SerializeField] private int nMap;
 
 
     public override void Setup()
@@ -146,21 +150,45 @@ public class Gastly : Enemy
     }
     public override void CallChildOnDropLoot()
     {
-        // if (!Physics2D.Linecast(transform.position - new Vector3(0.1f,0), transform.position + new Vector3(0.1f,0),
-        //     whatIsGround))
-        // if (!Physics2D.BoxCast(this.transform.position, new Vector2(0.1f, 0.1f), 0, Vector2.zero, 0, whatIsGround))
-        // Collider[] cols = Physics.OverlapSphere(transform.position, 0.5f, whatIsGround);
-        // foreach(Collider col in cols)
-        // {
-        //     Debug.Log(col.name);
-        // }
-        if (!Physics2D.OverlapBox(transform.position, new Vector2(0.2f, 0.2f), 0, whatIsGround))
+        bool insideWall = false;
+        if (map != null)
         {
+            int n = map.GetChunkCount();
+            for (int i=0 ; i<n ; i++)
+            {
+
+                if (map.GetChunk(i).GetBounds().Contains(transform.position))
+                {
+                    Debug.Log(map.GetChunk(i).name);
+                    insideWall = true;
+                    break;
+                }
+
+                // Collider2D[] bounds = map.GetChunk(i).GetComponents<Collider2D>();
+                // for (int j=0 ; j<bounds.Length ; j++)
+                // {
+                //     if (bounds[j].bounds.Contains(transform.position))
+                //     {
+                //         insideWall = true;
+                //         break;
+                //     }
+                // }
+                if (insideWall)
+                    break;
+            }
+            if (!insideWall)
+            {
+                if (!isBoss && !isMiniBoss)
+                    loot.DropLoot( Mathf.FloorToInt(lv / 10) );
+                else
+                    loot.DropLoot();
+            }
+        }
+        else
             if (!isBoss && !isMiniBoss)
                 loot.DropLoot( Mathf.FloorToInt(lv / 10) );
             else
                 loot.DropLoot();
-        }
     }
     
     IEnumerator TryToFindTarget(float duration=2)
@@ -183,7 +211,7 @@ public class Gastly : Enemy
         if (!sceneLoaded) {}
         else if (variant == Variation.chaser)   //* Variation.chaser
         {
-            if (!performingFuryAttack && !performingBuff)
+            if (!performingBuff)
             {
                 if (!inCutscene && !isMiniBoss)
                 {
@@ -442,6 +470,10 @@ public class Gastly : Enemy
             // Vector3 lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position);
             Gizmos.DrawLine(this.transform.position,
                 this.transform.position + new Vector3(0, 1) + lineOfSight);
+        }
+        if (map != null && map.GetChunkCount() > nMap && map.GetChunk(nMap) != null)
+        {
+            map.GetChunk(nMap).DrawColliders();
         }
     }
     private void Flip()

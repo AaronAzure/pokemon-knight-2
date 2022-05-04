@@ -79,7 +79,7 @@ namespace CreativeSpore.SuperTilemapEditor
 
         //+++ MeshCollider
         [SerializeField, HideInInspector]
-        private MeshCollider m_meshCollider;
+        public MeshCollider m_meshCollider;
         private static List<Vector3> s_meshCollVertices;
         private static List<int> s_meshCollTriangles;
         //---

@@ -30,7 +30,24 @@ public class AllyTangela : Ally
         }
         finalMask = (whatIsEnemy | whatIsGround | whatIsGhost);
         cannotFind.SetActive(false);
-    }   
+    }
+
+    protected override void OnSecondEvolution()
+    {
+        if (absorb != null && absorb.anim != null)
+        {
+            anim.speed /= (2f/3f);
+            outTime *= (2f/3f);
+        }
+    }
+    protected override void OnThirdEvolution()
+    {
+        if (absorb != null && absorb.anim != null)
+        {
+            anim.speed /= (1f/3f);
+            outTime *= (1f/3f);
+        }
+    }
 
     public override string ExtraDesc(int playerLv)
     {
@@ -84,6 +101,11 @@ public class AllyTangela : Ally
                 return;
             }
             var obj = Instantiate(absorb, target.position + new Vector3(0,1), absorb.transform.rotation);
+            if      (extraLevel >= 6)
+                obj.anim.speed *= 2.5f;
+            else if (extraLevel >= 3)
+                obj.anim.speed *= 1.5f;
+
             obj.player = trainer;
         }
     }

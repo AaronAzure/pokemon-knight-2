@@ -801,8 +801,11 @@ MonoBehaviour:
   extraDmg: 3
   extraProjectileDmg: 4
   perLv: 2
-  expPossess: 10
-  extraExp: 5
+  expPossess: 25
+  extraExp: 11
+  secondDmg: 5
+  secondExtraDmg: 3
+  hasExtraDmg: 0
   isSmart: 0
   isEvenSmarter: 0
   renderers:
@@ -864,8 +867,10 @@ MonoBehaviour:
   partOfHorde: 0
   alert: {fileID: 3843061528959258523}
   eyes: {fileID: 4641631105216177665}
+  eyes2: {fileID: 0}
   isAttacking: 0
   isTargeting: 0
+  keepSearching: 0
   playerInField: 0
   playerInSight: 0
   playerInCloseRange: 0

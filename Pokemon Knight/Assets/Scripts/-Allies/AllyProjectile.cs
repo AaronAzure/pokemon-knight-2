@@ -16,6 +16,7 @@ public class AllyProjectile : MonoBehaviour
     public float velocity=0;
     [SerializeField] private bool customTrajectory;
     public Rigidbody2D body;
+    public Animator anim;
 
 
     [Header("Explosive Hitbox")]
@@ -123,9 +124,4 @@ public class AllyProjectile : MonoBehaviour
                 Destroy(this.gameObject);
         }
     }
-
-    // IEnumerator Detonate()
-    // {
-    //     if (deton)
-    // }
 }

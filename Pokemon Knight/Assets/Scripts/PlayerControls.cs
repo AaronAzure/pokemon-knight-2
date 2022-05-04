@@ -2740,6 +2740,16 @@ public class PlayerControls : MonoBehaviour
             RoarOver();
     }
 
+    // private void OnCollisionEnter2D(Collision2D other) {
+    //     if (other.gameObject.CompareTag("Ground"))
+    //     {
+    //         if (other.gameObject.TryGetComponent(out Collider2D comp))
+    //         {
+    //             Debug.Log("-->  " + comp.name);
+    //         }
+    //     }
+    // }
+
 
     // todo ------------------------------------------------------------------------------------
     // todo -----------------  M U S I C  ------------------------------------------------------

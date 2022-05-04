@@ -20,22 +20,17 @@ public class AllyBellsprout : Ally
         {
             outTime = 2.5f;
             anim.SetTrigger("ult");
+
+            
             if (extraLevel >= 6)
-            {
-                
-            }
+                ultObj.atkDmg = Mathf.RoundToInt(this.atkDmg * 1.5f);
             else if (extraLevel >= 3)
-            {
-                ultObj.atkDmg = Mathf.RoundToInt(this.atkDmg / 2);
-                ultObj.atkForce = Mathf.RoundToInt(this.atkForce / 3);
-                ultObj.spawnedPos = this.transform.position;
-            }
+                ultObj.atkDmg = Mathf.RoundToInt(this.atkDmg);
             else
-            {
                 ultObj.atkDmg = Mathf.RoundToInt(this.atkDmg / 2);
-                ultObj.atkForce = Mathf.RoundToInt(this.atkForce / 3);
-                ultObj.spawnedPos = this.transform.position;
-            }
+
+            ultObj.atkForce = Mathf.RoundToInt(this.atkForce / 3);
+            ultObj.spawnedPos = this.transform.position;
         }
         cannotFind.SetActive(false);
     }
