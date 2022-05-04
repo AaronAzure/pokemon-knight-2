@@ -35,6 +35,7 @@ public class Gastly : Enemy
 
 
     [Space] [Header("Willo Wisp")]  
+    [SerializeField] private GameObject wispHolder;
     [SerializeField] private Transform[] wispSpawns;
     [SerializeField] private EnemyProjectile wispAtk;
     [SerializeField] private List<EnemyProjectile> wisps;
@@ -107,7 +108,10 @@ public class Gastly : Enemy
         if (variant == Variation.willoWisp)
         {
             kbDefense /= 4f;
+            wispHolder.SetActive(true);
         }
+        else
+            wispHolder.SetActive(false);
     }
 
     IEnumerator LoadingIn()

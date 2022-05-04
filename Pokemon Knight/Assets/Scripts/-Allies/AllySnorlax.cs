@@ -22,7 +22,7 @@ public class AllySnorlax : Ally
         }
         else
         {
-            slamHitbox.atkDmg = this.atkDmg;
+            slamHitbox.atkDmg = Mathf.RoundToInt( this.atkDmg * 0.8f );
             slamHitbox.atkForce = this.atkForce;
             body.velocity = new Vector2(body.velocity.x, 0);
             body.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);

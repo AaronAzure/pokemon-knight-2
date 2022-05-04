@@ -1,12 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnhancePokemonUi : MonoBehaviour
 {
     public PlayerControls player;
     public Ally pokemon;
     [Space] public HighlightedButton desc;
+    public Image img;
+
+    private void OnEnable() 
+    {
+        if (pokemon != null && img != null)
+        {
+            img.sprite = pokemon.currentForm;
+        }    
+    }
 
     public void ENHANCE_POKEMON()
     {

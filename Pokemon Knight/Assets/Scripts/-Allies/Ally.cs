@@ -22,10 +22,14 @@ public abstract class Ally : MonoBehaviour
 
     
     [Space] [Header("Evolution")]
-    public Ally evolvedForm1;
-    public Sprite evolvedSprite1;
-    public Ally evolvedForm2;
-    public Sprite evolvedSprite2;
+    public Ally     evolvedForm1;
+    public Sprite   evolvedSprite1;
+    public string   evolvedPokemonName1;
+    
+    [Space]
+    public Ally     evolvedForm2;
+    public Sprite   evolvedSprite2;
+    public string   evolvedPokemonName2;
 
     [Space] public Rigidbody2D body;
     [Space] public bool useUlt;
@@ -101,9 +105,19 @@ public abstract class Ally : MonoBehaviour
     {
         this.extraLevel = lv;
         if      (IsAtThirdEvolution() && evolvedSprite2 != null)
+        {
             currentForm = evolvedSprite2;
+            if (evolvedPokemonName2 != "")
+                pokemonName = evolvedPokemonName2;
+        }
+        
         else if (IsAtSecondEvolution() && evolvedSprite1 != null)
+        {
             currentForm = evolvedSprite1;
+            if (evolvedPokemonName1 != "")
+                pokemonName = evolvedPokemonName1;
+        }
+        
     }
     
     
@@ -120,14 +134,14 @@ public abstract class Ally : MonoBehaviour
             {
                 var obj = Instantiate(evolvedForm2, this.transform.position, Quaternion.identity);
                 obj.extraLevel = this.extraLevel;
-                obj.atkDmg = this.atkDmg;
-                obj.atkForce = this.atkForce;
+                // obj.atkDmg = this.atkDmg;
+                // obj.atkForce = this.atkForce;
                 obj.body.velocity = this.body.velocity;
                 obj.trainer = this.trainer;
                 obj.button = this.button;
 
                 if (this.transform.eulerAngles.y > 0)
-                        obj.transform.eulerAngles = new Vector3(0,-180);
+                    obj.transform.eulerAngles = new Vector3(0,-180);
 
                 Destroy(this.gameObject);
             }
@@ -139,14 +153,14 @@ public abstract class Ally : MonoBehaviour
             {
                 var obj = Instantiate(evolvedForm1, this.transform.position, Quaternion.identity);
                 obj.extraLevel = this.extraLevel;
-                obj.atkDmg = this.atkDmg;
-                obj.atkForce = this.atkForce;
+                // obj.atkDmg = this.atkDmg;
+                // obj.atkForce = this.atkForce;
                 obj.body.velocity = this.body.velocity;
                 obj.trainer = this.trainer;
                 obj.button = this.button;
 
                 if (this.transform.eulerAngles.y > 0)
-                        obj.transform.eulerAngles = new Vector3(0,-180);
+                    obj.transform.eulerAngles = new Vector3(0,-180);
 
                 Destroy(this.gameObject);
             }
@@ -182,7 +196,7 @@ public abstract class Ally : MonoBehaviour
 
     public void ENHANCE_POKEMON(int newLevel)
     {
-        extraLevel = newLevel;
+        SetExtraLevel(newLevel);
         if (IsAtThirdEvolution() && evolvedSprite2 != null)
             foreach (Image img in imgs)
                 img.sprite = evolvedSprite2;

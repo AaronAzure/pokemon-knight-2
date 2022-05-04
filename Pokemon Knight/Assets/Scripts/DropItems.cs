@@ -19,33 +19,39 @@ public class DropItems : MonoBehaviour
 
         for (int i=0; i<nCandyL ; i++)
         {
-            var obj = Instantiate(
-                expL, 
-                transform.position + new Vector3(0,0.2f), 
-                Quaternion.Euler(0,0,Random.Range(0,361)),
-                transform.parent
-            );
-            obj.body.AddForce( new Vector2(Random.Range(-3,4), Random.Range(8,14)) , ForceMode2D.Impulse);
+            if (expL != null)
+            {
+                var obj = Instantiate(expL, 
+                    transform.position + new Vector3(0,0.2f), 
+                    Quaternion.Euler(0,0,Random.Range(0,361)),
+                    transform.parent
+                );
+                obj.body.AddForce( new Vector2(Random.Range(-3,4), Random.Range(8,14)) , ForceMode2D.Impulse);
+            }
         }
         for (int i=0; i<nCandyM ; i++)
         {
-            var obj = Instantiate(
-                expM, 
-                transform.position + new Vector3(0,0.2f), 
-                Quaternion.Euler(0,0,Random.Range(0,361)),
-                transform.parent.transform
-            );
-            obj.body.AddForce( new Vector2(Random.Range(-3,4), Random.Range(8,14)) , ForceMode2D.Impulse);
+            if (expM != null)
+            {
+                var obj = Instantiate(expM, 
+                    transform.position + new Vector3(0,0.2f), 
+                    Quaternion.Euler(0,0,Random.Range(0,361)),
+                    transform.parent
+                );
+                obj.body.AddForce( new Vector2(Random.Range(-3,4), Random.Range(8,14)) , ForceMode2D.Impulse);
+            }
         }
         for (int i=0; i<nCandyS ; i++)
         {
-            var obj = Instantiate(
-                expS, 
-                transform.position + new Vector3(0,0.2f), 
-                Quaternion.Euler(0,0,Random.Range(0,361)),
-                transform.parent.transform
-            );
-            obj.body.AddForce( new Vector2(Random.Range(-3,4), Random.Range(8,14)) , ForceMode2D.Impulse);
+            if (expS != null)
+            {
+                var obj = Instantiate(expS, 
+                    transform.position + new Vector3(0,0.2f), 
+                    Quaternion.Euler(0,0,Random.Range(0,361)),
+                    transform.parent
+                );
+                obj.body.AddForce( new Vector2(Random.Range(-3,4), Random.Range(8,14)) , ForceMode2D.Impulse);
+            }
         }
     }
 }

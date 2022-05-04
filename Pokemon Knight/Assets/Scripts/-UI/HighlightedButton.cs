@@ -140,7 +140,7 @@ public class HighlightedButton : MonoBehaviour
             {
                 if (epu != null && epu.pokemon != null && newlyHighlighted.name == epu.name)
                 {
-                    header.text = epu.pokemon.name;
+                    header.text = epu.pokemon.pokemonName;
                     float atkDmg = epu.pokemon.atkDmg;
                     atkDmg += ( epu.pokemon.extraDmg * Mathf.CeilToInt(
                         ((player.lv - 1) + (epu.pokemon.ExtraEnhancedDmg()) / epu.pokemon.perLevel)) 

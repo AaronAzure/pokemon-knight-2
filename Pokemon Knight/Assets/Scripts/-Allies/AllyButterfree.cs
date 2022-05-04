@@ -6,6 +6,8 @@ public class AllyButterfree : Ally
     [Space] [Header("Butterfree")] 
     [SerializeField] private Transform atkPos;
     [SerializeField] private AllyAttack poisonPowder;
+    [SerializeField] private AllyAttack poisonPowder2;
+    [SerializeField] private AllyAttack poisonPowder3;
 
     protected override void Setup() 
     {
@@ -29,7 +31,16 @@ public class AllyButterfree : Ally
             poisonPowder.spBonus = this.spBonus;
         }
         body.velocity *= 0.5f;
-    }   
+    }
+
+    protected override void OnSecondEvolution()
+    {
+        poisonPowder = poisonPowder2;
+    }
+    protected override void OnThirdEvolution()
+    {
+        poisonPowder = poisonPowder3;
+    }
 
     protected override void ExtraTrailEffects(FollowTowards ft)
     {
