@@ -22,9 +22,9 @@ public class AllyBellsprout : Ally
             anim.SetTrigger("ult");
 
             
-            if (extraLevel >= 6)
+            if      (IsAtThirdEvolution())
                 ultObj.atkDmg = Mathf.RoundToInt(this.atkDmg * 1.5f);
-            else if (extraLevel >= 3)
+            else if (IsAtSecondEvolution())
                 ultObj.atkDmg = Mathf.RoundToInt(this.atkDmg);
             else
                 ultObj.atkDmg = Mathf.RoundToInt(this.atkDmg / 2);

@@ -21,6 +21,12 @@ public class BoxPokemonButton : MonoBehaviour
     public AcquiredDescUi pokemonAcqDesc;
     public Animator subseqAcqDesc;
 
+    private void OnEnable() 
+    {
+        if (img != null && ally != null)
+            img.sprite = ally.currentForm;
+    }
+
     public void ShowDescriptionOfAcquired()
     {
         pokemonAcqDesc.descTxt.text = "<b>" + ally.moveName + "</b>\n" + ally.moveDesc;
@@ -35,9 +41,9 @@ public class BoxPokemonButton : MonoBehaviour
         if (sprite == null)
             Debug.LogError(this.gameObject.name +  "  -  sprite is not serialised", this.gameObject);
         
-        if      (ally.extraLevel >= 6 && evolveSprite2 != null)
+        if      (ally.IsAtThirdEvolution() && evolveSprite2 != null)
             playerControls.SetNewAlly(this.ally, this.evolveSprite2, this.button);
-        else if (ally.extraLevel >= 3 && evolveSprite1 != null)
+        else if (ally.IsAtSecondEvolution() && evolveSprite1 != null)
             playerControls.SetNewAlly(this.ally, this.evolveSprite1, this.button);
         else
             playerControls.SetNewAlly(this.ally, this.sprite, this.button);

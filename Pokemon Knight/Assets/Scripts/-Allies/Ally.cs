@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public abstract class Ally : MonoBehaviour
 {
     [Space] [SerializeField] protected GameObject model;
+    public Sprite currentForm;
     public string pokemonName;
     
     [Space] public int extraLevel;
@@ -68,7 +69,6 @@ public abstract class Ally : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        
         // Strength grows per level
         if (trainer != null)
             atkDmg += ( extraDmg * Mathf.CeilToInt(((trainer.lv - 1) + ExtraEnhancedDmg() / perLevel)) );
@@ -97,12 +97,23 @@ public abstract class Ally : MonoBehaviour
     }
 
 
-
+    public void SetExtraLevel(int lv=0)
+    {
+        this.extraLevel = lv;
+        if      (IsAtThirdEvolution() && evolvedSprite2 != null)
+            currentForm = evolvedSprite2;
+        else if (IsAtSecondEvolution() && evolvedSprite1 != null)
+            currentForm = evolvedSprite1;
+    }
+    
+    
+    public bool IsAtSecondEvolution() { return (extraLevel >= 3); }
+    public bool IsAtThirdEvolution() { return (extraLevel >= 6); }
 
     private void WhatEvolution()
     {
         //* POKEMON EVOLUTION
-        if (extraLevel >= 6)
+        if (IsAtThirdEvolution())
         {
             OnThirdEvolution();
             if (evolvedForm2 != null)
@@ -121,7 +132,7 @@ public abstract class Ally : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
-        else if (extraLevel >= 3)
+        else if (IsAtSecondEvolution())
         {
             OnSecondEvolution();
             if (evolvedForm1 != null)
@@ -141,14 +152,8 @@ public abstract class Ally : MonoBehaviour
             }
         }
     }
-    protected virtual void OnSecondEvolution()
-    {
-        
-    }
-    protected virtual void OnThirdEvolution()
-    {
-
-    }
+    protected virtual void OnSecondEvolution() { }
+    protected virtual void OnThirdEvolution() { }
 
 
     public int ExtraEnhancedDmg()
@@ -178,10 +183,10 @@ public abstract class Ally : MonoBehaviour
     public void ENHANCE_POKEMON(int newLevel)
     {
         extraLevel = newLevel;
-        if (extraLevel >= 6 && evolvedSprite2 != null)
+        if (IsAtThirdEvolution() && evolvedSprite2 != null)
             foreach (Image img in imgs)
                 img.sprite = evolvedSprite2;
-        else if (extraLevel >= 3 && evolvedSprite1 != null)
+        else if (IsAtSecondEvolution() && evolvedSprite1 != null)
             foreach (Image img in imgs)
                 img.sprite = evolvedSprite1;
     }

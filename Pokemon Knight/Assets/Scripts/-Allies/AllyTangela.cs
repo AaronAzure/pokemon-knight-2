@@ -101,9 +101,9 @@ public class AllyTangela : Ally
                 return;
             }
             var obj = Instantiate(absorb, target.position + new Vector3(0,1), absorb.transform.rotation);
-            if      (extraLevel >= 6)
+            if      (IsAtThirdEvolution())
                 obj.anim.speed *= 2.5f;
-            else if (extraLevel >= 3)
+            else if (IsAtSecondEvolution())
                 obj.anim.speed *= 1.5f;
 
             obj.player = trainer;

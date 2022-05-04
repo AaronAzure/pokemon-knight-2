@@ -216,8 +216,8 @@ public abstract class Enemy : MonoBehaviour
 
         if (isMiniBoss)
         {
-            maxHp *= 5;
-            expPossess *= 5;
+            maxHp *= 4;
+            expPossess *= 4;
         }
         if (!isBoss || isMiniBoss)
         {
@@ -854,8 +854,8 @@ public abstract class Enemy : MonoBehaviour
             
             if (isMiniBoss)
             {
-                tempHp *= 5;
-                tempExp *= 5;
+                tempHp *= 4;
+                tempExp *= 4;
             }
             
             if (!isBoss || isMiniBoss)

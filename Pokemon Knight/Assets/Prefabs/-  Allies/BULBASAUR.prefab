@@ -353,6 +353,7 @@ MonoBehaviour:
   spawnEffect: 1
   velocity: 0
   body: {fileID: 0}
+  origin: {fileID: 0}
 --- !u!70 &8619596130431126787
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -474,6 +475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 4319595061820776096}
+  currentForm: {fileID: 21300000, guid: 1243267e71a864ac49078e9b28e535c6, type: 3}
   pokemonName: bulbasaur
   extraLevel: 0
   anim: {fileID: 4319595063331818080}
@@ -486,11 +488,12 @@ MonoBehaviour:
   outTime: 0.35
   resummonTime: 0.5
   evolvedForm1: {fileID: 8756078837320886256, guid: 5662831b34dee4c348864efc35470178, type: 3}
-  evolvedSprite1: {fileID: 0}
+  evolvedSprite1: {fileID: 21300000, guid: 97f9fe740eb5a439b973ba60d699b4d0, type: 3}
   evolvedForm2: {fileID: 0}
   evolvedSprite2: {fileID: 0}
   body: {fileID: 4319595063331818108}
   useUlt: 0
+  ultOutTime: 1
   trailObj: {fileID: 1133196975338173599, guid: 68d6e6c0a5773413db7e478ab4425d98, type: 3}
   trainer: {fileID: 0}
   button: 
@@ -792,6 +795,7 @@ MonoBehaviour:
   spawnEffect: 1
   velocity: 0
   body: {fileID: 0}
+  origin: {fileID: 0}
 --- !u!50 &7675379526373516633
 Rigidbody2D:
   serializedVersion: 4

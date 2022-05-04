@@ -197,6 +197,7 @@ MonoBehaviour:
   spawnEffect: 0
   velocity: 0
   body: {fileID: 0}
+  origin: {fileID: 0}
 --- !u!114 &4949079605057533409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19598,6 +19599,7 @@ MonoBehaviour:
   spawnEffect: 0
   velocity: 0
   body: {fileID: 0}
+  origin: {fileID: 0}
 --- !u!1 &3679208827013077535
 GameObject:
   m_ObjectHideFlags: 0
@@ -24788,6 +24790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 6347547858869078386}
+  currentForm: {fileID: 21300000, guid: 76dec729cb4744ccaa2b7208754d4019, type: 3}
   pokemonName: snorlax
   extraLevel: 0
   anim: {fileID: 6023891748119682307}
@@ -24805,6 +24808,7 @@ MonoBehaviour:
   evolvedSprite2: {fileID: 0}
   body: {fileID: 5132741295536627786}
   useUlt: 0
+  ultOutTime: 1
   trailObj: {fileID: 1133196975338173599, guid: 68d6e6c0a5773413db7e478ab4425d98, type: 3}
   trainer: {fileID: 0}
   button: 

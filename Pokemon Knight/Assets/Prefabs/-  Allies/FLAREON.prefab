@@ -38177,6 +38177,7 @@ MonoBehaviour:
   spawnEffect: 1
   velocity: 0
   body: {fileID: 0}
+  origin: {fileID: 0}
 --- !u!95 &7781589996970041734
 Animator:
   serializedVersion: 3
@@ -38389,6 +38390,7 @@ MonoBehaviour:
   spawnEffect: 1
   velocity: 0
   body: {fileID: 0}
+  origin: {fileID: 0}
 --- !u!95 &1204111246058309649
 Animator:
   serializedVersion: 3
@@ -38581,6 +38583,7 @@ MonoBehaviour:
   spawnEffect: 1
   velocity: 0
   body: {fileID: 0}
+  origin: {fileID: 0}
 --- !u!95 &8556401740763226478
 Animator:
   serializedVersion: 3
@@ -43578,6 +43581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 4231449875330492031}
+  currentForm: {fileID: 21300000, guid: d336a98496fcc45c6be1ef3de01ea025, type: 3}
   pokemonName: flareon
   extraLevel: 0
   anim: {fileID: 4231449877038936767}
@@ -43595,6 +43599,7 @@ MonoBehaviour:
   evolvedSprite2: {fileID: 0}
   body: {fileID: 4231449877038936739}
   useUlt: 0
+  ultOutTime: 1
   trailObj: {fileID: 1133196975338173599, guid: 68d6e6c0a5773413db7e478ab4425d98, type: 3}
   trainer: {fileID: 0}
   button: 
@@ -43696,6 +43701,7 @@ MonoBehaviour:
   spawnEffect: 1
   velocity: 0
   body: {fileID: 0}
+  origin: {fileID: 0}
 --- !u!50 &7768433310931787142
 Rigidbody2D:
   serializedVersion: 4

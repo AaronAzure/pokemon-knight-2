@@ -734,6 +734,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 6347547858869078386}
+  currentForm: {fileID: 21300000, guid: a7b59fbf5d2ce4838a0ef5d0e8594a13, type: 3}
   pokemonName: butterfree
   extraLevel: 0
   anim: {fileID: 2822853350419490634}
@@ -745,8 +746,13 @@ MonoBehaviour:
   perLevel: 1
   outTime: 1.5
   resummonTime: 2.5
+  evolvedForm1: {fileID: 0}
+  evolvedSprite1: {fileID: 0}
+  evolvedForm2: {fileID: 0}
+  evolvedSprite2: {fileID: 0}
   body: {fileID: 1737670390680659744}
   useUlt: 0
+  ultOutTime: 1
   trailObj: {fileID: 1133196975338173599, guid: 68d6e6c0a5773413db7e478ab4425d98, type: 3}
   trainer: {fileID: 0}
   button: 
@@ -772,6 +778,7 @@ MonoBehaviour:
   feetBox: {x: 0, y: 0}
   feetOffset: {x: 0, y: 0}
   feetRadius: 0
+  imgs: []
   atkPos: {fileID: 5911292703825832904}
   poisonPowder: {fileID: 7017939098926669067, guid: 025ede7482c1c473cbfa0ad97184a87b, type: 3}
 --- !u!1 &7002341994223782629
@@ -827,6 +834,7 @@ MonoBehaviour:
   spawnEffect: 1
   velocity: 0
   body: {fileID: 0}
+  origin: {fileID: 0}
 --- !u!61 &5110029628085676362
 BoxCollider2D:
   m_ObjectHideFlags: 0

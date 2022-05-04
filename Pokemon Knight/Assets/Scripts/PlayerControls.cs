@@ -587,7 +587,7 @@ public class PlayerControls : MonoBehaviour
                     case "bulbasaur":
                         allies[i] = bulbasaur.summonable;
                         if (PlayerPrefsElite.VerifyInt("bulbasaurLv" + gameNumber))
-                            bulbasaur.summonable.extraLevel = PlayerPrefsElite.GetInt("bulbasaurLv" + gameNumber);
+                            bulbasaur.summonable.SetExtraLevel( PlayerPrefsElite.GetInt("bulbasaurLv" + gameNumber) );
                         pokemonInTeamBenchSettings[i].img.sprite = bulbasaur.sprite;
                         pokemonInTeamBenchSettings[i].ally = bulbasaur.summonable;
                         partyPokemonsUI[i].sprite = bulbasaur.sprite;
@@ -595,7 +595,7 @@ public class PlayerControls : MonoBehaviour
                     case "charmander":
                         allies[i] = charmander.summonable;
                         if (PlayerPrefsElite.VerifyInt("charmanderLv" + gameNumber))
-                            charmander.summonable.extraLevel = PlayerPrefsElite.GetInt("charmanderLv" + gameNumber);
+                            charmander.summonable.SetExtraLevel( PlayerPrefsElite.GetInt("charmanderLv" + gameNumber) );
                         pokemonInTeamBenchSettings[i].img.sprite = charmander.sprite;
                         pokemonInTeamBenchSettings[i].ally = charmander.summonable;
                         partyPokemonsUI[i].sprite = charmander.sprite;
@@ -603,7 +603,7 @@ public class PlayerControls : MonoBehaviour
                     case "squirtle":
                         allies[i] = squirtle.summonable;
                         if (PlayerPrefsElite.VerifyInt("squirtleLv" + gameNumber))
-                            squirtle.summonable.extraLevel = PlayerPrefsElite.GetInt("squirtleLv" + gameNumber);
+                            squirtle.summonable.SetExtraLevel( PlayerPrefsElite.GetInt("squirtleLv" + gameNumber) );
                         pokemonInTeamBenchSettings[i].img.sprite = squirtle.sprite;
                         pokemonInTeamBenchSettings[i].ally = squirtle.summonable;
                         partyPokemonsUI[i].sprite = squirtle.sprite;
@@ -611,7 +611,7 @@ public class PlayerControls : MonoBehaviour
                     case "pidgey":
                         allies[i] = pidgey.summonable;
                         if (PlayerPrefsElite.VerifyInt("pidgeyLv" + gameNumber))
-                            pidgey.summonable.extraLevel = PlayerPrefsElite.GetInt("pidgeyLv" + gameNumber);
+                            pidgey.summonable.SetExtraLevel( PlayerPrefsElite.GetInt("pidgeyLv" + gameNumber) );
                         pokemonInTeamBenchSettings[i].img.sprite = pidgey.sprite;
                         pokemonInTeamBenchSettings[i].ally = pidgey.summonable;
                         partyPokemonsUI[i].sprite = pidgey.sprite;
@@ -619,7 +619,7 @@ public class PlayerControls : MonoBehaviour
                     case "butterfree":
                         allies[i] = butterfree.summonable;
                         if (PlayerPrefsElite.VerifyInt("butterfreeLv" + gameNumber))
-                            butterfree.summonable.extraLevel = PlayerPrefsElite.GetInt("butterfreeLv" + gameNumber);
+                            butterfree.summonable.SetExtraLevel( PlayerPrefsElite.GetInt("butterfreeLv" + gameNumber) );
                         pokemonInTeamBenchSettings[i].img.sprite = butterfree.sprite;
                         pokemonInTeamBenchSettings[i].ally = butterfree.summonable;
                         partyPokemonsUI[i].sprite = butterfree.sprite;
@@ -627,7 +627,7 @@ public class PlayerControls : MonoBehaviour
                     case "oddish":
                         allies[i] = oddish.summonable;
                         if (PlayerPrefsElite.VerifyInt("oddishLv" + gameNumber))
-                            oddish.summonable.extraLevel = PlayerPrefsElite.GetInt("oddishLv" + gameNumber);
+                            oddish.summonable.SetExtraLevel( PlayerPrefsElite.GetInt("oddishLv" + gameNumber) );
                         pokemonInTeamBenchSettings[i].img.sprite = oddish.sprite;
                         pokemonInTeamBenchSettings[i].ally = oddish.summonable;
                         partyPokemonsUI[i].sprite = oddish.sprite;
@@ -635,7 +635,7 @@ public class PlayerControls : MonoBehaviour
                     case "tangela":
                         allies[i] = tangela.summonable;
                         if (PlayerPrefsElite.VerifyInt("tangelaLv" + gameNumber))
-                            tangela.summonable.extraLevel = PlayerPrefsElite.GetInt("tangelaLv" + gameNumber);
+                            tangela.summonable.SetExtraLevel( PlayerPrefsElite.GetInt("tangelaLv" + gameNumber) );
                         pokemonInTeamBenchSettings[i].img.sprite = tangela.sprite;
                         pokemonInTeamBenchSettings[i].ally = tangela.summonable;
                         partyPokemonsUI[i].sprite = tangela.sprite;
@@ -643,7 +643,7 @@ public class PlayerControls : MonoBehaviour
                     case "bellsprout":
                         allies[i] = bellsprout.summonable;
                         if (PlayerPrefsElite.VerifyInt("bellsproutLv" + gameNumber))
-                            bellsprout.summonable.extraLevel = PlayerPrefsElite.GetInt("bellsproutLv" + gameNumber);
+                            bellsprout.summonable.SetExtraLevel( PlayerPrefsElite.GetInt("bellsproutLv" + gameNumber) );
                         pokemonInTeamBenchSettings[i].img.sprite = bellsprout.sprite;
                         pokemonInTeamBenchSettings[i].ally = bellsprout.summonable;
                         partyPokemonsUI[i].sprite = bellsprout.sprite;
@@ -651,7 +651,7 @@ public class PlayerControls : MonoBehaviour
                     case "snorlax":
                         allies[i] = snorlax.summonable;
                         if (PlayerPrefsElite.VerifyInt("snorlaxLv" + gameNumber))
-                            snorlax.summonable.extraLevel = PlayerPrefsElite.GetInt("snorlaxLv" + gameNumber);
+                            snorlax.summonable.SetExtraLevel( PlayerPrefsElite.GetInt("snorlaxLv" + gameNumber) );
                         pokemonInTeamBenchSettings[i].img.sprite = snorlax.sprite;
                         pokemonInTeamBenchSettings[i].ally = snorlax.summonable;
                         partyPokemonsUI[i].sprite = snorlax.sprite;
@@ -659,7 +659,7 @@ public class PlayerControls : MonoBehaviour
                     case "flareon":
                         allies[i] = flareon.summonable;
                         if (PlayerPrefsElite.VerifyInt("flareonLv" + gameNumber))
-                            flareon.summonable.extraLevel = PlayerPrefsElite.GetInt("flareonLv" + gameNumber);
+                            flareon.summonable.SetExtraLevel( PlayerPrefsElite.GetInt("flareonLv" + gameNumber) );
                         pokemonInTeamBenchSettings[i].img.sprite = flareon.sprite;
                         pokemonInTeamBenchSettings[i].ally = flareon.summonable;
                         partyPokemonsUI[i].sprite = flareon.sprite;
@@ -667,7 +667,7 @@ public class PlayerControls : MonoBehaviour
                     case "eevee":
                         allies[i] = eevee.summonable;
                         if (PlayerPrefsElite.VerifyInt("eeveeLv" + gameNumber))
-                            eevee.summonable.extraLevel = PlayerPrefsElite.GetInt("eeveeLv" + gameNumber);
+                            eevee.summonable.SetExtraLevel( PlayerPrefsElite.GetInt("eeveeLv" + gameNumber) );
                         pokemonInTeamBenchSettings[i].img.sprite = eevee.sprite;
                         pokemonInTeamBenchSettings[i].ally = eevee.summonable;
                         partyPokemonsUI[i].sprite = eevee.sprite;
@@ -675,7 +675,7 @@ public class PlayerControls : MonoBehaviour
                     case "vaporeon":
                         allies[i] = vaporeon.summonable;
                         if (PlayerPrefsElite.VerifyInt("vaporeonLv" + gameNumber))
-                            vaporeon.summonable.extraLevel = PlayerPrefsElite.GetInt("vaporeonLv" + gameNumber);
+                            vaporeon.summonable.SetExtraLevel( PlayerPrefsElite.GetInt("vaporeonLv" + gameNumber) );
                         pokemonInTeamBenchSettings[i].img.sprite = vaporeon.sprite;
                         pokemonInTeamBenchSettings[i].ally = vaporeon.summonable;
                         partyPokemonsUI[i].sprite = vaporeon.sprite;
@@ -1186,7 +1186,6 @@ public class PlayerControls : MonoBehaviour
 
                 if (!noCoolDown) nPokemonOut++;
                 var pokemon = Instantiate(allies[ slot ], spawnPos.position, allies[ slot ].transform.rotation);
-                // pokemon.extraLevel = GetAllyPokemonLevel(allies[ slot ]);
                 pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
                 pokemon.body.velocity = this.body.velocity;
                 pokemon.trainer = this;
@@ -3596,40 +3595,40 @@ public class PlayerControls : MonoBehaviour
     public void ResetPokemonLevels()
     {
         PlayerPrefsElite.SetInt("bulbasaurLv" + gameNumber, 0);
-        bulbasaur.summonable.extraLevel = 0;
+        bulbasaur.summonable.SetExtraLevel( 0 );
 
         PlayerPrefsElite.SetInt("squirtleLv" + gameNumber, 0);
-        squirtle.summonable.extraLevel = 0;
+        squirtle.summonable.SetExtraLevel( 0 );
         
         PlayerPrefsElite.SetInt("charmanderLv" + gameNumber, 0);
-        charmander.summonable.extraLevel = 0;
+        charmander.summonable.SetExtraLevel( 0 );
 
         PlayerPrefsElite.SetInt("pidgeyLv" + gameNumber, 0);
-        pidgey.summonable.extraLevel = 0;
+        pidgey.summonable.SetExtraLevel( 0 );
 
         PlayerPrefsElite.SetInt("oddishLv" + gameNumber, 0);
-        oddish.summonable.extraLevel = 0;
+        oddish.summonable.SetExtraLevel( 0 );
 
         PlayerPrefsElite.SetInt("butterfreeLv" + gameNumber, 0);
-        butterfree.summonable.extraLevel = 0;
+        butterfree.summonable.SetExtraLevel( 0 );
 
         PlayerPrefsElite.SetInt("tangelaLv" + gameNumber, 0);
-        tangela.summonable.extraLevel = 0;
+        tangela.summonable.SetExtraLevel( 0 );
 
         PlayerPrefsElite.SetInt("bellsproutLv" + gameNumber, 0);
-        bellsprout.summonable.extraLevel = 0;
+        bellsprout.summonable.SetExtraLevel( 0 );
 
         PlayerPrefsElite.SetInt("snorlaxLv" + gameNumber, 0);
-        snorlax.summonable.extraLevel = 0;
+        snorlax.summonable.SetExtraLevel( 0 );
 
         PlayerPrefsElite.SetInt("flareonLv" + gameNumber, 0);
-        flareon.summonable.extraLevel = 0;
+        flareon.summonable.SetExtraLevel( 0 );
 
         PlayerPrefsElite.SetInt("eeveeLv" + gameNumber, 0);
-        eevee.summonable.extraLevel = 0;
+        eevee.summonable.SetExtraLevel( 0 );
         
         PlayerPrefsElite.SetInt("vaporeonLv" + gameNumber, 0);
-        vaporeon.summonable.extraLevel = 0;
+        vaporeon.summonable.SetExtraLevel( 0 );
     }
 
 }
