@@ -2486,7 +2486,7 @@ public class PlayerControls : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         inCutscene = false;
         movingToDifferentScene = false;
-        canEnter = false;
+        // canEnter = false;
         body.velocity = Vector2.zero;
     }
     IEnumerator NoWalkingOut()  // Moving 
@@ -2498,7 +2498,7 @@ public class PlayerControls : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
         inCutscene = false;
-        canEnter = false;
+        // canEnter = false;
         canTakeSubway = false;
         body.velocity = Vector2.zero;
     }
@@ -2513,7 +2513,7 @@ public class PlayerControls : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         inCutscene = false;
         movingToDifferentScene = false;
-        canEnter = false;
+        // canEnter = false;
         body.velocity = Vector2.zero;
     }
 
@@ -2523,6 +2523,7 @@ public class PlayerControls : MonoBehaviour
         {
             body.velocity = Vector2.zero;
             inCutscene = true;
+            canEnter = false;
             movingToDifferentScene = true;
 
             if (transitionAnim != null)
