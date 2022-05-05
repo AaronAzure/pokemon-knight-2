@@ -10,9 +10,9 @@ public class BoxPokemonButton : MonoBehaviour
     public Image img;
     public string pokemonName = "N/A";
     
-    [Space] public Sprite sprite;
-    public Sprite evolveSprite1;
-    public Sprite evolveSprite2;
+    // [Space] public Sprite sprite;
+    // public Sprite evolveSprite1;
+    // public Sprite evolveSprite2;
     
     [Space] public Button button;
     
@@ -31,21 +31,21 @@ public class BoxPokemonButton : MonoBehaviour
     {
         pokemonAcqDesc.descTxt.text = "<b>" + ally.moveName + "</b>\n" + ally.moveDesc;
         pokemonAcqDesc.headerTxt.text = ally.pokemonName;
-        pokemonAcqDesc.acqImg.sprite = this.sprite;
+        pokemonAcqDesc.acqImg.sprite = this.ally.currentForm;
     }
 
     public void SetNewAlly()
     {
         if (ally == null)
             Debug.LogError(this.gameObject.name +  "  -  ally is null", this.gameObject);
-        if (sprite == null)
-            Debug.LogError(this.gameObject.name +  "  -  sprite is not serialised", this.gameObject);
+        // if (sprite == null)
+        //     Debug.LogError(this.gameObject.name +  "  -  sprite is not serialised", this.gameObject);
         
-        if      (ally.IsAtThirdEvolution() && evolveSprite2 != null)
-            playerControls.SetNewAlly(this.ally, this.evolveSprite2, this.button);
-        else if (ally.IsAtSecondEvolution() && evolveSprite1 != null)
-            playerControls.SetNewAlly(this.ally, this.evolveSprite1, this.button);
-        else
-            playerControls.SetNewAlly(this.ally, this.sprite, this.button);
+        // if      (ally.IsAtThirdEvolution() && evolveSprite2 != null)
+        //     playerControls.SetNewAlly(this.ally, this.ally.currentForm, this.button);
+        // else if (ally.IsAtSecondEvolution() && evolveSprite1 != null)
+        //     playerControls.SetNewAlly(this.ally, this.ally.currentForm, this.button);
+        // else
+        playerControls.SetNewAlly(this.ally, this.ally.currentForm, this.button);
     }
 }
