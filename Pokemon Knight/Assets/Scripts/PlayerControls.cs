@@ -1587,8 +1587,9 @@ public class PlayerControls : MonoBehaviour
     bool Interact()
     {
         // return player.GetButtonDown("ZR");
-        float yValue = Mathf.Abs( player.GetAxis("Move Vertical") );
-        return (yValue > 0.75f);
+        return player.GetButtonDown("Up");
+        // float yValue = Mathf.Abs( player.GetAxis("Move Vertical") );
+        // return (yValue > 0.75f);
     }
     private void Walk(float xValue)
     {
@@ -1919,8 +1920,9 @@ public class PlayerControls : MonoBehaviour
             {
                 isGroundPounding = false;
                 groundPoundEffect.SetActive(false);
-                if (hp > 0) StartCoroutine( Invincibility() );
                 StartCoroutine( ApplyKnockback(opponent, force) );
+                if (hp > 0 && dmg > 0) 
+                    StartCoroutine( Invincibility() );
             }
 
             if (hp <= 0)
