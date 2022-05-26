@@ -617,11 +617,12 @@ public abstract class Enemy : MonoBehaviour
     }
     protected IEnumerator BossIntro(float delay)
     {
-        inCutscene = true;
-        body.velocity = Vector2.zero;
-
         CallChildOnRoar();
         yield return new WaitForSeconds(delay);
+        
+		inCutscene = true;
+        body.velocity = Vector2.zero;
+
         if (battleRoarObj != null) 
             battleRoarObj.SetActive(true);
         

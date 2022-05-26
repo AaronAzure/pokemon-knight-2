@@ -118,6 +118,12 @@ public class Gastly : Enemy
     {
         yield return new WaitForSeconds(0.5f);
         sceneLoaded = true;
+        playerInCloseRange  = false;
+        playerInField       = false;
+        playerInSight       = false;
+        chasing             = false;
+        licking             = false;
+        targetLostCo        = null;
     }
 
     public override void CallChildOnIncreaseSpd()

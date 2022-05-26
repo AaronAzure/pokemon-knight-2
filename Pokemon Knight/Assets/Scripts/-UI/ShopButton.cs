@@ -62,6 +62,8 @@ public class ShopButton : MonoBehaviour, ISelectHandler
     {
         contentPanel.anchoredPosition = new Vector2( contentPanel.anchoredPosition.x , Mathf.Abs(panel.anchoredPosition.y));
         contentPanel.anchoredPosition += anchorOffset;
+        contentPanel.anchorMin = new Vector2(0, 0.5f);
+        contentPanel.anchorMax = new Vector2(0, 0.5f);
         // Debug.Log(panel.position + " " + panel.anchoredPosition + " " + panel.localPosition);
 
         if (dialogueBox != null)

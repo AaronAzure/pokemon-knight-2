@@ -25,6 +25,7 @@ public class ButterfreeBoss : Enemy
     public bool performingPoisonPowder;
     [SerializeField] private GameObject spawnHolder;
     private bool tackledAgain;
+    [SerializeField] private GameObject tackleEffect;
 
 
     public override void Setup()
@@ -177,12 +178,18 @@ public class ButterfreeBoss : Enemy
         
         yield return new WaitForSeconds(0.8f);
         
-        Vector3 dir = (targetPos - body.transform.position).normalized;
+        Vector2 dir = (targetPos - body.transform.position).normalized;
         if (!inCutscene) 
+        {
+            tackleEffect.SetActive(false);
+            tackleEffect.SetActive(true);
+            tackleEffect.transform.rotation = Quaternion.LookRotation(-dir, Vector3.up);
+            // tackleEffect.transform.rotation.SetLookRotation(dir, Vector3.right);
             body.AddForce(dir*dashSpeed, ForceMode2D.Impulse);
+        }
 
         // resting
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.5f);
         // cannotRecieveKb = false;
         body.velocity = Vector2.zero;
         if (inRage && !tackledAgain)

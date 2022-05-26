@@ -5,7 +5,7 @@ using UnityEngine;
 public class SnorlaxBoss : Enemy
 {
     [Space] [Header("Snorlax")]  public float moveSpeed=2.5f;
-    // public float dashSpeed=50;
+    private int awakeContactDmg;
     public float jumpHeight=20;
     private Vector3 target;
     private int atkCount;
@@ -65,6 +65,7 @@ public class SnorlaxBoss : Enemy
     {
         atkCount = 0;
         canAtk = true;
+        // contactDmg = awakeContactDmg;
     }
     public override void CallChildOnRage()
     {
@@ -150,10 +151,10 @@ public class SnorlaxBoss : Enemy
     {
         body.velocity = Vector2.zero;
         if (!inRage)
-            yield return new WaitForSeconds(0.75f);
+            yield return new WaitForSeconds(0.9f);
         else
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.6f);
             anim.speed = 1.3f;
         }
         LookAtPlayer();

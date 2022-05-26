@@ -49,11 +49,11 @@ public class DialogueBox : MonoBehaviour
         return (playerControls != null && playerControls.currency >= cost);
     }
     
-    public void CloseDialogue()
+    public void CloseDialogue(bool reopenLater=false)
     {
         this.gameObject.SetActive(false);
         
-        if (playerControls != null)
+        if (playerControls != null && !reopenLater)
         {
             playerControls.inCutscene = false;
             playerControls.dialogue = null;
@@ -61,22 +61,23 @@ public class DialogueBox : MonoBehaviour
     }
 
 
-
+    //* EXCHANGE FOR A POKEMON
     public void UnlockPokemon(string pokemonName, int cost)
     {
-        playerControls.CaughtAPokemon(pokemonName);
         playerControls.currency -= cost;
         playerControls.currencyTxt.text = playerControls.currency.ToString();
 
-        Debug.Log("saving...");
+        // Debug.Log("saving...");
+        playerControls.CaughtAPokemon(pokemonName); //? OPENS ANOTHER UI
         playerControls.SaveState(false);
 
         // SELECT_DEFAULT_BUTTON();
-        CloseDialogue();
+        CloseDialogue(true);
     }
 
 
 
+    //* EXCHANGE FOR A KEYCHAIN
     public void PurchaseKeychain(string name, int cost)
     {
         playerControls.extraWeight++;
@@ -89,13 +90,14 @@ public class DialogueBox : MonoBehaviour
 
         PlayerPrefsElite.SetStringArray("spareKeychain" + PlayerPrefsElite.GetInt("gameNumber"), keychains.ToArray());
 
+        playerControls.ShowUpgradeAcquired(true);   //? OPENS ANOTHER UI
         playerControls.SaveState(false);
-        playerControls.ShowUpgradeAcquired(true);
 
-        CloseDialogue();
+        CloseDialogue(true);
     }
 
 
+    //* EXCHANGE FOR AN ITEM
     public void Purchaseitem(string name, int cost)
     {
         playerControls.currency -= cost;
@@ -107,11 +109,11 @@ public class DialogueBox : MonoBehaviour
         temp.Add(name);
         PlayerPrefsElite.SetStringArray("itemsObtained" + PlayerPrefsElite.GetInt("gameNumber"), temp.ToArray());
         
-        playerControls.CheckObtainedItems();
+        playerControls.CheckObtainedItems();    //? OPENS ANOTHER UI
 
         playerControls.SaveState(false);
 
-        CloseDialogue();
+        CloseDialogue(true);
     }
     
 }

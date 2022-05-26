@@ -27,23 +27,27 @@ public class AllyAttack : MonoBehaviour
             Component[] scripts = other.GetComponents(typeof(Enemy));
             foreach (var script in scripts)
             {
+                Enemy enemy = script.GetComponent<Enemy>();
                 if (registerOneHitOnly)
+                {
+                    // enemy.col.offset;
                     if (origin != null)
-                        script.GetComponent<Enemy>().TakeDamage(
-                            atkDmg, origin.position, atkForce, true, spBonus, this);
+                        enemy.TakeDamage(atkDmg, origin.position, atkForce, true, spBonus, this);
                     else
-                        script.GetComponent<Enemy>().TakeDamage(
-                            atkDmg, this.transform.position, atkForce, true, spBonus, this);
+                        enemy.TakeDamage(atkDmg, this.transform.position, atkForce, true, spBonus, this);
+                }
                 else
+                {
                     if (origin != null)
-                        script.GetComponent<Enemy>().TakeDamage(
-                            atkDmg, origin.position, atkForce, true, spBonus);
+                        enemy.TakeDamage(atkDmg, origin.position, atkForce, true, spBonus);
                     else
-                        script.GetComponent<Enemy>().TakeDamage(
-                            atkDmg, this.transform.position, atkForce, true, spBonus);
+                        enemy.TakeDamage(atkDmg, this.transform.position, atkForce, true, spBonus);
+                }
                 if (spawnEffect && spawnEffectObj != null)
                 {
-                    var obj = Instantiate(spawnEffectObj, script.gameObject.transform.position, Quaternion.identity);
+                    var obj = Instantiate(spawnEffectObj, (
+                        Vector2) enemy.transform.position + enemy.col.offset, Quaternion.identity);
+                    // var obj = Instantiate(spawnEffectObj, script.gameObject.transform.position, Quaternion.identity);
                     Destroy(obj.gameObject, 0.5f);
                 }
             }

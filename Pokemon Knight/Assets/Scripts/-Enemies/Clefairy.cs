@@ -26,6 +26,7 @@ public class Clefairy : Enemy
     private Transform target;
     private LayerMask finalMask;
     private Coroutine co;
+    [SerializeField] private bool cannotFlip;
     [SerializeField] private bool varyingFlipEvery;
     [SerializeField] private float flipEvery=2;
     private float flipTimer;
@@ -121,7 +122,7 @@ public class Clefairy : Enemy
             //         model.transform.eulerAngles = new Vector3(0, 180);
             //     }
             // }
-            if (!performingMetronome)
+            if (!performingMetronome && !cannotFlip)
             {
                 if (flipTimer < flipEvery)
                     flipTimer += Time.fixedDeltaTime;

@@ -203,6 +203,7 @@ public class PlayerControls : MonoBehaviour
     public SpareKeychain currentKeychain;
     public CandyBag currentBag;
     public DialogueBox dialogue;
+    public bool reopenLater;
     public bool talkingToNpc;
 
 
@@ -3052,17 +3053,25 @@ public class PlayerControls : MonoBehaviour
     }
     public void CLOSE_DESC_AND_RESUME(bool canMoveAfterAnimation)
     {
+        // DONE
         if (subseqAnim == null)
         {
             inCutscene = canMoveAfterAnimation;
             if (talkingToNpc)
-                inCutscene = false;
+            {
+                inCutscene = true;
+                dialogue.OpenDialogue(this);
+                // inCutscene = false;
+            }
+            
+
 
             Time.timeScale = 1;
             if (descAnim != null)
                 descAnim.gameObject.SetActive(false);
             descAnim = null;
         }
+        // ANOTHER UI
         else
         {
             if (descAnim != null)
@@ -3310,10 +3319,6 @@ public class PlayerControls : MonoBehaviour
                         StartCoroutine( ShowDescriptionOfAcquiredCo() );
                     }
                 }
-                // else
-                // {
-                //     heldItem.gameObject.SetActive(false);
-                // }
             }
         }
         else
