@@ -167,29 +167,35 @@ public class ButterfreeBoss : Enemy
 
     IEnumerator Tackle()
     {
-        // charging up
+        // CHARGING UP
         body.velocity = Vector2.zero;
 
         glint.SetActive(false);
         // yield return new WaitForEndOfFrame();
         glint.SetActive(true);
         
+		// LOCATE TARGET
+        yield return new WaitForSeconds(0.3f);
         LocatePlayer();
         
-        yield return new WaitForSeconds(0.8f);
-        
+		// DASH
+        yield return new WaitForSeconds(0.5f);
+        int tempDmg = contactDmg;
+        contactDmg = secondDmg;
+
         Vector2 dir = (targetPos - body.transform.position).normalized;
         if (!inCutscene) 
         {
             tackleEffect.SetActive(false);
             tackleEffect.SetActive(true);
             tackleEffect.transform.rotation = Quaternion.LookRotation(-dir, Vector3.up);
-            // tackleEffect.transform.rotation.SetLookRotation(dir, Vector3.right);
             body.AddForce(dir*dashSpeed, ForceMode2D.Impulse);
         }
 
         // resting
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.6f);
+		contactDmg = tempDmg;
+
         // cannotRecieveKb = false;
         body.velocity = Vector2.zero;
         if (inRage && !tackledAgain)

@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc9c442e5700459981571f0916bbb68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lv: 5
+  lv: 8
   chapterLevel: 0
   mainAnim: {fileID: 0}
   maxHp: 75
@@ -175,6 +175,9 @@ MonoBehaviour:
   perLv: 1
   expPossess: 15
   extraExp: 8
+  secondDmg: 5
+  secondExtraDmg: 3
+  hasExtraDmg: 0
   isSmart: 1
   isEvenSmarter: 0
   renderers:
@@ -236,8 +239,10 @@ MonoBehaviour:
   partOfHorde: 0
   alert: {fileID: 2335059610090457758}
   eyes: {fileID: 837813644607719900}
+  eyes2: {fileID: 0}
   isAttacking: 0
   isTargeting: 0
+  keepSearching: 0
   playerInField: 0
   playerInSight: 0
   playerInCloseRange: 0
@@ -365,7 +370,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 1150939272780168618}
+  neverLoseSight: 0
   delaySearch: 1
+  hideAlert: 1
 --- !u!1 &7553216792960197078
 GameObject:
   m_ObjectHideFlags: 0

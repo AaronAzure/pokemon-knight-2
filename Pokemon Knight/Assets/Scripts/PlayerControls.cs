@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Rewired;
+using Rewired.Integration.UnityUI;
 // using Com.LuisPedroFonseca.ProCamera2D;
 
 public class PlayerControls : MonoBehaviour
@@ -119,6 +120,9 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private ReturnToTitleScreen titleScreenObj;
     [Space] [SerializeField] private Animator settings;
     [Space] [SerializeField] private Animator equimentSettings;
+    [SerializeField] private RewiredStandaloneInputModule equimentInputs;
+    [SerializeField] private string equimentInputsSubmit;
+    [SerializeField] private GameObject needToRestObj;
     // private bool onPokemonTab=true;
     [Space] [SerializeField] private Animator pokemonSets;
 
@@ -412,6 +416,9 @@ public class PlayerControls : MonoBehaviour
             gaugesHolder.SetActive(false);
         gaugeImg.fillAmount = 0;
         gaugeGlow.SetActive(false);
+
+		if (equimentInputs != null)
+			equimentInputsSubmit = equimentInputs.m_SubmitButton;
 
 
         if (PlayerPrefsElite.VerifyBoolean("canDash" + gameNumber))
@@ -815,8 +822,8 @@ public class PlayerControls : MonoBehaviour
                 inCutscene = false;
             }
         }
-        else if (player.GetButtonDown("START") && !settings.gameObject.activeSelf && 
-            !equimentSettings.gameObject.activeSelf && !returningToTitle)
+        else if (player.GetButtonDown("START") && !inCutscene && !equimentSettings.gameObject.activeSelf 
+			&& !equimentSettings.gameObject.activeSelf && !returningToTitle)
         {
             Time.timeScale = 0;
             inCutscene = true;
@@ -824,75 +831,139 @@ public class PlayerControls : MonoBehaviour
             isClosing = false;
             
             // Exit MENU
-            if (!resting)
+            if (!settings.gameObject.activeSelf)
                 settings.gameObject.SetActive(true);
-            // Rest MENU
-            else
-            {
-                weightText.text = currentWeight + "/" + (maxWeight + extraWeight);
-                equimentSettings.gameObject.SetActive(true);
-                if (equipmentUi.onPokemonTab)
-                    boxPokemonFirstSelected.Select();
-                else
-                    SelectDefaultItem();
-                foreach (Button button in partyPokemonButtons)
-                    button.interactable = false;
-                foreach (Button button in boxPokemonButtons)
-                    button.interactable = true;
-            }
+			else
+				Resume();
         }
+		else if (player.GetButtonDown("MINUS") && !inCutscene && !settings.gameObject.activeSelf
+            && !settings.gameObject.activeSelf && !returningToTitle)
+		{
+			Time.timeScale = 0;
+            inCutscene = true;
+            canNavigate = true;
+            isClosing = false;
+			
+			if (resting)
+			{
+				needToRestObj.SetActive(false);
+				equimentInputs.submitButton = equimentInputsSubmit;
+			}
+			else
+			{
+				needToRestObj.SetActive(true);
+				equimentInputs.submitButton = "None";
+			}
+
+			// OPEN
+			if (!equimentSettings.gameObject.activeSelf)
+			{
+				weightText.text = currentWeight + "/" + (maxWeight + extraWeight);
+				equimentSettings.gameObject.SetActive(true);
+				switch (equipmentUi.currentTab)
+				{
+					// ENHANCE
+					case 0:
+						enhancePokemonFirstSelected.Select();
+						break;
+					// PARTY
+					case 1:
+						boxPokemonFirstSelected.Select();
+						foreach (Button button in partyPokemonButtons)
+							button.interactable = false;
+						foreach (Button button in boxPokemonButtons)
+							button.interactable = true;
+						break;
+					// ITEMS
+					case 2:
+						SelectDefaultItem();
+						break;
+					// MAP
+					case 3:
+						break;
+				}
+			}
+		}
         //* EXTRA NAVIGATION IN UI SETTINGS MENU
-        else if ((settings.gameObject.activeSelf || equimentSettings.gameObject.activeSelf))
-        {   
-            // EQUIMENT MENU
-            if (resting)
-            {
-                // EXIT MENU
-                if (player.GetButtonDown("START") || NO())
-                    EXIT_EQUIPMENT_MENU();
-                else if (player.GetButtonDown("L") && canNavigate)
-                {
-                    equipmentUi.ChangeTabs(false);
-                    if (equipmentUi.onPokemonTab)
-                    {
-                        boxPokemonFirstSelected.Select();
-                        foreach (Button button in partyPokemonButtons)
-                            button.interactable = false;
-                        foreach (Button button in boxPokemonButtons)
-                            button.interactable = true;
-                    }
-                    else
-                        enhancePokemonFirstSelected.Select();
+		// EQUIMENT MENU
+        else if (equimentSettings.gameObject.activeSelf)
+		{
+			if (player.GetButtonDown("MINUS") || NO())
+				EXIT_EQUIPMENT_MENU();
+			else if (player.GetButtonDown("L") && canNavigate)
+			{
+				int newTab = equipmentUi.ChangeTabs(false);
+				switch (newTab)
+				{
+					// ENHANCE
+					case 0:
+						enhancePokemonFirstSelected.Select();
+						break;
+					// PARTY
+					case 1:
+						boxPokemonFirstSelected.Select();
+						foreach (Button button in partyPokemonButtons)
+							button.interactable = false;
+						foreach (Button button in boxPokemonButtons)
+							button.interactable = true;
+						break;
+					// ITEMS
+					case 2:
+						SelectDefaultItem();
+						break;
+					// MAP
+					case 3:
+						LockToCurrentPos();
+						break;
+				}
 
-                }
-                // Items
-                else if (player.GetButtonDown("R") && canNavigate)
-                {
-                    equipmentUi.ChangeTabs(true);
-                    if (equipmentUi.onPokemonTab)
-                    {
-                        boxPokemonFirstSelected.Select();
-                        foreach (Button button in partyPokemonButtons)
-                            button.interactable = false;
-                        foreach (Button button in boxPokemonButtons)
-                            button.interactable = true;
-                    }
-                    else
-                        SelectDefaultItem();
-                }
-            }
-            // SETTINGS MENU
-            else
-            {
-                // EXIT MENU
-                if (player.GetButtonDown("START") || NO())
-                    EXIT_PAUSE_MENU();
+			}
+			else if (player.GetButtonDown("R") && canNavigate)
+			{
+				int newTab = equipmentUi.ChangeTabs(true);
+				switch (newTab)
+				{
+					// ENHANCE
+					case 0:
+						enhancePokemonFirstSelected.Select();
+						break;
+					// PARTY
+					case 1:
+						boxPokemonFirstSelected.Select();
+						foreach (Button button in partyPokemonButtons)
+							button.interactable = false;
+						foreach (Button button in boxPokemonButtons)
+							button.interactable = true;
+						break;
+					// ITEMS
+					case 2:
+						SelectDefaultItem();
+						break;
+					// MAP
+					case 3:
+						LockToCurrentPos();
+						break;
+				}
+			}
+		}
+		// SETTINGS MENU
+		else if (settings.gameObject.activeSelf)
+		{
+			// EXIT MENU
+			if (player.GetButtonDown("START") || NO())
+				EXIT_PAUSE_MENU();
+		}
 
-            }
-
-        }
         //* Paused
-        if (settings.gameObject.activeSelf || equimentSettings.gameObject.activeSelf) {}
+        if (settings.gameObject.activeSelf || equimentSettings.gameObject.activeSelf) 
+		{
+			if (mapMenu.activeSelf)
+            {
+                MoveMap();
+                if (YES())
+                    LockToCurrentPos();
+            }
+		}
         
         else if (ledgeGrabbing)
         {
@@ -1065,12 +1136,12 @@ public class PlayerControls : MonoBehaviour
             if (player.GetButtonDown("MINUS"))
                 ToggleMap();
 
-            if (mapMenu.activeSelf)
-            {
-                MoveMap();
-                if (player.GetButtonDown("Right Stick"))
-                    LockToCurrentPos();
-            }
+            // if (mapMenu.activeSelf)
+            // {
+            //     MoveMap();
+            //     if (player.GetButtonDown("Right Stick"))
+            //         LockToCurrentPos();
+            // }
             
             if (body.velocity.y < -0.1f && !grounded)
             {
@@ -1860,19 +1931,17 @@ public class PlayerControls : MonoBehaviour
     private void ToggleMap()
     {
         mapMenu.SetActive(!mapMenu.activeSelf);
-        // Debug.Log(lastScene.parentRect.localPosition + " : " + lastScene.rect.localPosition);
-        if (mapMenu.activeSelf)
-            mapMenuRect.localPosition = -lastScene.rect.localPosition + (Vector3) mapOffset;
+        LockToCurrentPos();
     }
     private void LockToCurrentPos()
     {
-        if (mapMenu.activeSelf)
+        if (mapMenu.activeSelf && lastScene != null)
             mapMenuRect.localPosition = -lastScene.rect.localPosition + (Vector3) mapOffset;
     }
     private void MoveMap()
     {
-        float xVal = 10 * player.GetAxis("Look Horizontal");
-        float yVal = 10 * player.GetAxis("Look Vertical");
+        float xVal = 10 * player.GetAxis("Move Horizontal");
+        float yVal = 10 * player.GetAxis("Move Vertical");
         mapMenuRect.anchoredPosition -= new Vector2(xVal, yVal);
     }
 
@@ -2452,8 +2521,7 @@ public class PlayerControls : MonoBehaviour
                 if (musicManager != null)
                     StartingMusic(newSceneFirstWord);
             }
-            if (mapMenu.activeSelf)
-                mapMenuRect.localPosition = -lastScene.rect.localPosition + (Vector3) mapOffset;
+            LockToCurrentPos();
             
             if (transitionAnim != null)
                 transitionAnim.SetTrigger("fromBlack");
@@ -2558,8 +2626,7 @@ public class PlayerControls : MonoBehaviour
                 if (musicManager != null)
                     StartingMusic(newSceneFirstWord);
             }
-            if (mapMenu.activeSelf)
-                mapMenuRect.localPosition = -lastScene.rect.localPosition + (Vector3) mapOffset;
+            LockToCurrentPos();
             movingToDifferentScene = false;
 
             if (exitingAnotherDoor)
@@ -2691,8 +2758,7 @@ public class PlayerControls : MonoBehaviour
             if (transitionAnim != null)
                 transitionAnim.SetTrigger("fromBlack");
 
-            if (mapMenu.activeSelf)
-                mapMenuRect.localPosition = -lastScene.rect.localPosition + (Vector3) mapOffset;
+            LockToCurrentPos();
             
             yield return new WaitForSeconds(0.4f);
             AllPokemonReturned();

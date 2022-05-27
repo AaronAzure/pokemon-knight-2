@@ -5438,7 +5438,7 @@ MonoBehaviour:
   lv: 25
   chapterLevel: 0
   mainAnim: {fileID: 8378938705710331896}
-  maxHp: 6000
+  maxHp: 5500
   hp: 0
   contactDmg: 50
   projectileDmg: 5
@@ -5447,9 +5447,11 @@ MonoBehaviour:
   extraDmg: 0
   extraProjectileDmg: 0
   perLv: 1
-  expPossess: 1250
+  expPossess: 2250
   extraExp: 0
   secondDmg: 100
+  secondExtraDmg: 3
+  hasExtraDmg: 0
   isSmart: 0
   isEvenSmarter: 0
   renderers:
@@ -5511,8 +5513,10 @@ MonoBehaviour:
   partOfHorde: 0
   alert: {fileID: 0}
   eyes: {fileID: 8726332908141883265}
+  eyes2: {fileID: 0}
   isAttacking: 0
   isTargeting: 0
+  keepSearching: 0
   playerInField: 0
   playerInSight: 0
   playerInCloseRange: 0
