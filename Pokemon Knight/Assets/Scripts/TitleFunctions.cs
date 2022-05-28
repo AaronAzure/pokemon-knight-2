@@ -195,6 +195,7 @@ public class TitleFunctions : MonoBehaviour
 
         PlayerPrefsElite.SetBoolean("canDoubleJump" + gameNumber.ToString(), false);
         PlayerPrefsElite.SetBoolean("canUseUlt" + gameNumber.ToString(), false);
+        PlayerPrefsElite.SetBoolean("canTeleport" + gameNumber.ToString(), false);
         
         PlayerPrefsElite.SetBoolean("canDash" + gameNumber.ToString(), false);
         

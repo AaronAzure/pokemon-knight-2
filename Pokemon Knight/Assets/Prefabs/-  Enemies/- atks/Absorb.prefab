@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 402614}
   - component: {fileID: 10863070}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 5711834433958961915}
   - component: {fileID: 3755788023701768691}
   - component: {fileID: 269892173563382544}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: Absorb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4898,6 +4898,7 @@ MonoBehaviour:
   destoryOnPlayerCollision: 0
   destoryOnWallCollision: 0
   explosion: {fileID: 0}
+  trailObj: {fileID: 0}
   body: {fileID: 0}
   direction: {x: 0, y: 0}
   speed: 0
@@ -4944,7 +4945,7 @@ GameObject:
   - component: {fileID: 416862}
   - component: {fileID: 19899534}
   - component: {fileID: 19968904}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: PortalGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9706,7 +9707,7 @@ GameObject:
   - component: {fileID: 459194}
   - component: {fileID: 19860554}
   - component: {fileID: 19967300}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: PortalDust
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -88,6 +88,7 @@ public class PlayerControls : MonoBehaviour
     [Space] [Header("Pokemon (Allies)")]
     [SerializeField] private Transform spawnPos;    // Place to Summon Pokemon
     [Space][SerializeField] private GameObject doubleJumpObj;   //Butterfree
+	private GameObject spawnedDoubleJumpObj;
 
     [Space] public bool isSet1=true; // true = first set, false = second set
     public bool canSwitchSets=true;
@@ -312,13 +313,24 @@ public class PlayerControls : MonoBehaviour
     public bool cannotExitDesc;
     public Animator subseqAnim;
     // [Space] [SerializeField] private Animator doubleJumpScreen;
-    public bool canDoubleJump;
+    [Space] public bool canDoubleJump;
     private int nExtraJumps = 1;
     private int nExtraJumpsLeft = 1;
     [SerializeField] private Transform doubleJumpSpawnPos;
     [Space] public bool canDash;
-    public bool canSwim;
-    public bool canUseUlt;
+    [Space] public bool canSwim;
+    [Space] public bool canUseUlt;
+	
+	[Space]
+    public bool canTeleport;
+	[SerializeField] private float teleportDist = 3.75f;
+	[SerializeField] private Transform topTpRayCast;
+	[SerializeField] private Transform midTpRayCast;
+	[SerializeField] private Transform botTpRayCast;
+	[SerializeField] private GameObject teleportEffect;
+	private Vector2 teleportDestPos;
+	
+	[Space]
     public bool canGroundPound;
     public float groundPoundSpeed=10;
     public GameObject groundPoundEffect;
@@ -409,11 +421,14 @@ public class PlayerControls : MonoBehaviour
             canUseUlt = PlayerPrefsElite.GetBoolean("canUseUlt" + gameNumber);
         if (canUseUlt)
         {
-            canGroundPound = true;
+            // canGroundPound = true;
             gaugesHolder.SetActive(true);
         }
         else
             gaugesHolder.SetActive(false);
+        
+		if (PlayerPrefsElite.VerifyBoolean("canTeleport" + gameNumber))
+            canTeleport = PlayerPrefsElite.GetBoolean("canTeleport" + gameNumber);
         gaugeImg.fillAmount = 0;
         gaugeGlow.SetActive(false);
 
@@ -1003,6 +1018,7 @@ public class PlayerControls : MonoBehaviour
             }
         }
         else if (dodging && !isSleeping && !isParalysed && hp > 0)
+        // else if (!canTeleport && dodging && !isSleeping && !isParalysed && hp > 0)
         {
             if (holder.transform.eulerAngles.y < 180)   // right
                 body.velocity = new Vector2(dodgeSpeed, body.velocity.y);
@@ -1117,11 +1133,22 @@ public class PlayerControls : MonoBehaviour
                 //     itemFoundlSound.Play();
             }
             
-            if (grounded && body.velocity.y == 0 && canDodge && player.GetButtonDown("ZR") )
-            {
-                canDodge = false;
-                StartCoroutine( Dodge() );
-            }
+			if (!canTeleport)
+			{
+				if (grounded && body.velocity.y == 0 && canDodge && player.GetButtonDown("ZR") )
+				{
+					canDodge = false;
+					StartCoroutine( Dodge() );
+				}
+			}
+			else
+			{
+				if (canDodge && player.GetButtonDown("ZR") )
+				{
+					canDodge = false;
+					StartCoroutine( Teleport() );
+				}
+			}
 
 
             grounded = (Physics2D.OverlapBox(feetPos.position, feetBox, 0, whatIsGround) && !inWater);
@@ -1707,6 +1734,7 @@ public class PlayerControls : MonoBehaviour
         {
             var pokemon = Instantiate(doubleJumpObj, doubleJumpSpawnPos.position, doubleJumpObj.transform.rotation);
             pokemon.transform.SetParent(doubleJumpSpawnPos, true);
+			spawnedDoubleJumpObj = pokemon;
             Ally ally = pokemon.GetComponent<Ally>();
             ally.trainer = this;
             butterfreeOut = true;
@@ -1806,6 +1834,11 @@ public class PlayerControls : MonoBehaviour
         return (player.GetButtonDown("A") || player.GetButtonDown("B") || player.GetButtonDown("X") || player.GetButtonDown("Y"));
     }
 
+	bool IsFacingRight()
+	{
+		return (holder.transform.eulerAngles.y < 180);   // right
+	}
+
     IEnumerator Dodge()
     {
         if (glint != null)
@@ -1814,14 +1847,48 @@ public class PlayerControls : MonoBehaviour
         body.velocity = Vector2.zero;
         dodging = true;
         canDodge = false;
-        anim.SetTrigger("dodge");
-
+		anim.SetTrigger("dodge");
+		
         //* FINISH DODGE ROLL
         yield return new WaitForSeconds(0.5f);
         if (!dodgingThruScene)
             body.velocity = Vector2.zero;
         dodging = false;
+
+        //* Refresh Dodge Roll
+        yield return new WaitForSeconds(0.5f);
+        canDodge = true;
+        if (glint != null)
+            glint.SetActive(true);
+    }
+
+    IEnumerator Teleport()
+    {
+		if (spawnedDoubleJumpObj != null)
+			spawnedDoubleJumpObj.transform.parent = null;
         
+		yield return new WaitForEndOfFrame();
+
+        if (glint != null)
+            glint.SetActive(false);
+        anim.speed = 1;
+        body.velocity = Vector2.zero;
+        dodging = true;
+        canDodge = false;
+		body.gravityScale = 0;
+		anim.SetTrigger("teleport");
+
+		// TELEPORT
+
+        //* FINISH TELEPORTING
+        yield return new WaitForSeconds(0.5f);
+		body.gravityScale = origGrav;
+        if (!dodgingThruScene)
+            body.velocity = Vector2.zero;
+        dodging = false;
+		teleportEffect.SetActive(false);
+		teleportEffect.SetActive(true);
+
         //* Refresh Dodge Roll
         yield return new WaitForSeconds(0.5f);
         canDodge = true;
@@ -1833,11 +1900,23 @@ public class PlayerControls : MonoBehaviour
     {
         Invincible(true);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyProjectile"), true);
+		
+		if (canTeleport)
+		{
+        	Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemySpecial"), true);
+        	Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Gate"), true);
+		}
     }
     public void DODGE_ROLL_FINISH()
     {
         Invincible(false);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyProjectile"), false);
+		
+		if (canTeleport)
+		{
+        	Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemySpecial"), false);
+        	Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Gate"), false);
+		}
     }
 
     void Invincible(bool active)
@@ -2256,7 +2335,7 @@ public class PlayerControls : MonoBehaviour
     {
         if (lv < 100)
         {
-            int totalExpGained = (int) ((expGained * Mathf.Min(3f, (float) enemyLevel / lv)) * expMultiplier);
+            int totalExpGained = (int) ((expGained *  ( (float) enemyLevel / lv) ) * expMultiplier);
             exp += totalExpGained;
             
             if  (expGainText != null)
@@ -2545,7 +2624,12 @@ public class PlayerControls : MonoBehaviour
         anim.SetTrigger("reset");
 
         if (dodgingThruScene)
-            anim.SetTrigger("dodge");
+		{
+			if (canTeleport)
+            	anim.SetTrigger("teleport");
+			else
+            	anim.SetTrigger("dodge");
+		}
 
         if (toRight)
             body.AddForce(Vector2.right * moveSpeed, ForceMode2D.Impulse);

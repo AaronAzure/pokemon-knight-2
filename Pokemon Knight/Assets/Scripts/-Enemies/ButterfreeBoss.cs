@@ -173,6 +173,7 @@ public class ButterfreeBoss : Enemy
         glint.SetActive(false);
         // yield return new WaitForEndOfFrame();
         glint.SetActive(true);
+        LocatePlayer();
         
 		// LOCATE TARGET
         yield return new WaitForSeconds(0.3f);

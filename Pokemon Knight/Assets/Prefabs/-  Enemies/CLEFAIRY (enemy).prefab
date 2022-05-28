@@ -217,7 +217,7 @@ MonoBehaviour:
   lv: 23
   chapterLevel: 2
   mainAnim: {fileID: 3448850496708198863}
-  maxHp: 150
+  maxHp: 100
   hp: 0
   contactDmg: 10
   projectileDmg: 5
@@ -325,6 +325,7 @@ MonoBehaviour:
   spawnedByWave: 0
   loot: {fileID: 3477705880277923400}
   performingMetronome: 0
+  cannotFlip: 0
   varyingFlipEvery: 1
   flipEvery: 2
   atkPos: {fileID: 5832916559586907088}
@@ -344,9 +345,9 @@ MonoBehaviour:
     duration: 0
   poisonPowderObj: {fileID: 6543823460546405717, guid: 18041cdd5e361441789c06c073bbbdd9, type: 3}
   poisonPowderStat:
-    projectileDmg: 8
+    projectileDmg: 5
     extraDmg: 2
-    projectileKb: 10
+    projectileKb: 0
     duration: 0
   yawnObj: {fileID: 3105822981598770191, guid: 1930769c04c7848428f7dc88b508d149, type: 3}
   yawnStat:

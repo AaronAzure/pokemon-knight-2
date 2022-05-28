@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1346575142754569263}
   - component: {fileID: 444184659364688630}
   - component: {fileID: 5701531521578424611}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: STUN SPORE EXPLOSION 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,6 +53,7 @@ MonoBehaviour:
   destoryOnPlayerCollision: 0
   destoryOnWallCollision: 0
   explosion: {fileID: 0}
+  trailObj: {fileID: 0}
   body: {fileID: 0}
   direction: {x: 0, y: 0}
   speed: 0
@@ -129,9 +130,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1028750266916916861}
     m_Modifications:
+    - target: {fileID: 163562, guid: 14346164c6cb045848dcd0033d801130, type: 3}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
     - target: {fileID: 185086, guid: 14346164c6cb045848dcd0033d801130, type: 3}
       propertyPath: m_Name
       value: Stun Spore Explosion
+      objectReference: {fileID: 0}
+    - target: {fileID: 185086, guid: 14346164c6cb045848dcd0033d801130, type: 3}
+      propertyPath: m_Layer
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 427198, guid: 14346164c6cb045848dcd0033d801130, type: 3}
       propertyPath: m_RootOrder

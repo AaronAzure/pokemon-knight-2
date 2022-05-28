@@ -72194,7 +72194,7 @@ GameObject:
   - component: {fileID: 5372820870805047982}
   - component: {fileID: 8602388922325590839}
   - component: {fileID: 2212700981818420195}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: Leaf Storm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72275,7 +72275,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 10, y: 6}
+  m_Size: {x: 0.1, y: 6}
   m_EdgeRadius: 0
 --- !u!95 &8602388922325590839
 Animator:
@@ -72314,6 +72314,7 @@ MonoBehaviour:
   destoryOnPlayerCollision: 0
   destoryOnWallCollision: 0
   explosion: {fileID: 0}
+  trailObj: {fileID: 0}
   body: {fileID: 0}
   direction: {x: 0, y: 0}
   speed: 0
@@ -77141,6 +77142,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Leaf Tornado Blade (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 408242, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -77239,6 +77244,10 @@ PrefabInstance:
     - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_Name
       value: Leaf Tornado Blade (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 408242, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_RootOrder
@@ -77339,6 +77348,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Leaf Tornado Blade (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 408242, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -77437,6 +77450,10 @@ PrefabInstance:
     - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_Name
       value: Leaf Tornado Blade (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 408242, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_RootOrder
@@ -77537,6 +77554,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Leaf Tornado Blade (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 408242, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -77635,6 +77656,10 @@ PrefabInstance:
     - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_Name
       value: Leaf Tornado Blade (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 408242, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_RootOrder
@@ -77735,6 +77760,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Leaf Tornado Blade (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 408242, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -77833,6 +77862,10 @@ PrefabInstance:
     - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_Name
       value: Leaf Tornado Blade (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 408242, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_RootOrder
@@ -77933,6 +77966,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Leaf Tornado Blade (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 408242, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -78031,6 +78068,10 @@ PrefabInstance:
     - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_Name
       value: Leaf Tornado Blade (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 408242, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_RootOrder
@@ -78131,6 +78172,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Leaf Tornado Blade (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 408242, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -78229,6 +78274,10 @@ PrefabInstance:
     - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_Name
       value: Leaf Tornado Blade (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 408242, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_RootOrder
@@ -78329,6 +78378,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Leaf Tornado Blade (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 408242, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -78427,6 +78480,10 @@ PrefabInstance:
     - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_Name
       value: Leaf Tornado Blade (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 408242, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_RootOrder
@@ -78527,6 +78584,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Leaf Tornado Blade (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 408242, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -78625,6 +78686,10 @@ PrefabInstance:
     - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_Name
       value: Leaf Tornado Blade (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 153968, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 408242, guid: 5b4f78d07011947f7bc56459e26e9555, type: 3}
       propertyPath: m_RootOrder
