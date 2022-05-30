@@ -295,7 +295,8 @@ MonoBehaviour:
   proCam: {fileID: 0}
   cm:
   - {fileID: 1976175702109154766}
-  manualFollow: {fileID: 0}
+  manualFollow:
+  - {fileID: 0}
 --- !u!1 &1976175703200949031
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,7 +323,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1976175703200949031}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.991825, y: 1.7500002, z: -10}
+  m_LocalPosition: {x: 3, y: 1.7500002, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4138279427511021}
@@ -360,7 +361,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 327671
+    m_Bits: 7667703
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -452,6 +453,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cmOrig: {fileID: 0}
   cmNew: {fileID: 0}
+  canChangeBack: 1
+  hasHiddenRoom: 0
 --- !u!60 &6225976824318707943
 PolygonCollider2D:
   m_ObjectHideFlags: 0

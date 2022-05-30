@@ -279,6 +279,7 @@ public class Clefairy : Enemy
     {
         if (poisonStingObj != null && hp > 0 && playerInField)
         {
+			// bool playerBelowSelf = (target.position.y < transform.position.y);
             for (int i=0 ; i<nPoisonSting ; i++)
             {
                 float offset = 0;
@@ -287,8 +288,12 @@ public class Clefairy : Enemy
                 else            // odd
                     offset = -(i + 1) / 2;
                 LookAtPlayer();
-                Vector2 trajectory = (target.position + Vector3.up) - atkPos.position;
-                trajectory = Quaternion.Euler(0, 0, 15 * i) * trajectory;
+                Vector2 trajectory = ((target.position + Vector3.up) - atkPos.position).normalized;
+                
+				if (trajectory.y < 0)
+					trajectory *= new Vector2(1 ,0);
+
+                trajectory = Quaternion.Euler(0, 0, 15 * offset) * trajectory;
                 // vector = Quaternion.Euler(0, -45, 0) * vector;
                 var obj = Instantiate(poisonStingObj, atkPos.position, poisonStingObj.transform.rotation);
                 obj.body.gravityScale = 0;
@@ -326,7 +331,10 @@ public class Clefairy : Enemy
 
     Vector2 ProjectileDirection()
     {
-        return (playerControls.transform.position + new Vector3(0,2f) - atkPos.position).normalized;
+		Vector2 dir = (playerControls.transform.position + new Vector3(0,2f) - atkPos.position).normalized;
+		if (dir.y < 0)
+			dir *= new Vector2(1,0);
+        return dir;
     }
 
     IEnumerator Done(float duration)

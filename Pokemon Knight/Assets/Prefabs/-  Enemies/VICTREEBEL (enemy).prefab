@@ -821,6 +821,9 @@ MonoBehaviour:
   perLv: 2
   expPossess: 40
   extraExp: 25
+  secondDmg: 5
+  secondExtraDmg: 3
+  hasExtraDmg: 0
   isSmart: 0
   isEvenSmarter: 0
   renderers:
@@ -866,8 +869,8 @@ MonoBehaviour:
   isBoss: 0
   isMiniBoss: 0
   possessedAura: {fileID: 0}
-  battleRoarObj: {fileID: 0}
   rageChargeObj: {fileID: 0}
+  battleRoarObj: {fileID: 0}
   inRage: 0
   inCutscene: 0
   inRageCutscene: 0
@@ -883,8 +886,10 @@ MonoBehaviour:
   partOfHorde: 0
   alert: {fileID: 6286005702413019232}
   eyes: {fileID: 5739149621086576039}
+  eyes2: {fileID: 0}
   isAttacking: 0
   isTargeting: 0
+  keepSearching: 0
   playerInField: 0
   playerInSight: 0
   playerInCloseRange: 0
@@ -939,7 +944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rewardSize: 20
+  rewardSize: 30
   expL: {fileID: 1856295254583195530, guid: d27018a99e7b54de48824b3e1560cb92, type: 3}
   expM: {fileID: 6231101655905951431, guid: 3154a023cb73842f6b4b377e97abffd7, type: 3}
   expS: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}

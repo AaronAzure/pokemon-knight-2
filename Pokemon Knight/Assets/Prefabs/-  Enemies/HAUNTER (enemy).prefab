@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 757803081068537674}
   - component: {fileID: 757803081068537667}
   - component: {fileID: 757803081068537679}
-  - component: {fileID: 4969816637537757861}
-  - component: {fileID: 757803081068537678}
   - component: {fileID: 757803081068537676}
+  - component: {fileID: 757803081068537678}
+  - component: {fileID: 4969816637537757861}
   m_Layer: 20
   m_Name: HAUNTER (enemy)
   m_TagString: Enemy
@@ -90,22 +90,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &4969816637537757861
-MonoBehaviour:
+--- !u!95 &757803081068537676
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 757803081068537672}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rewardSize: 20
-  expL: {fileID: 1856295254583195530, guid: d27018a99e7b54de48824b3e1560cb92, type: 3}
-  expM: {fileID: 6231101655905951431, guid: 3154a023cb73842f6b4b377e97abffd7, type: 3}
-  expS: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a7b6a0f058ad842709157abc7df3be51, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &757803081068537678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,8 +181,8 @@ MonoBehaviour:
   isBoss: 0
   isMiniBoss: 0
   possessedAura: {fileID: 0}
-  battleRoarObj: {fileID: 0}
   rageChargeObj: {fileID: 0}
+  battleRoarObj: {fileID: 0}
   inRage: 0
   inCutscene: 0
   inRageCutscene: 0
@@ -250,25 +253,22 @@ MonoBehaviour:
   variantSpeed: 0
   spawnedHolder: {fileID: 4806297356097633560}
   teleportTimer: 1
---- !u!95 &757803081068537676
-Animator:
-  serializedVersion: 3
+--- !u!114 &4969816637537757861
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 757803081068537672}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a7b6a0f058ad842709157abc7df3be51, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardSize: 20
+  expL: {fileID: 1856295254583195530, guid: d27018a99e7b54de48824b3e1560cb92, type: 3}
+  expM: {fileID: 6231101655905951431, guid: 3154a023cb73842f6b4b377e97abffd7, type: 3}
+  expS: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
 --- !u!1 &757803081551546732
 GameObject:
   m_ObjectHideFlags: 0

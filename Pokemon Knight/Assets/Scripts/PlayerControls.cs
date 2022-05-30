@@ -87,8 +87,8 @@ public class PlayerControls : MonoBehaviour
     
     [Space] [Header("Pokemon (Allies)")]
     [SerializeField] private Transform spawnPos;    // Place to Summon Pokemon
-    [Space][SerializeField] private GameObject doubleJumpObj;   //Butterfree
-	private GameObject spawnedDoubleJumpObj;
+    [Space][SerializeField] private Ally doubleJumpObj;   //Butterfree
+	private Ally spawnedDoubleJumpObj;
 
     [Space] public bool isSet1=true; // true = first set, false = second set
     public bool canSwitchSets=true;
@@ -224,15 +224,12 @@ public class PlayerControls : MonoBehaviour
     [HideInInspector] public bool ledgeGrabbing = false;
     [SerializeField] private Vector2 wallDetectBox;
     private bool receivingKnockback;
-    private int dashes = 1;
-    private bool dashing;
     private bool movingToDifferentScene;
     private bool dodging;   // In dodge roll animation
     private bool canDodge = true;
     [SerializeField] private bool isInvincible;
     [SerializeField] private GameObject glint;
     private bool dodgingThruScene;
-    private float dodgeSpeed = 7.5f;
 
     [SerializeField] private bool inWater;
     private bool aboveWaterCheck, inWaterCheck;
@@ -317,18 +314,16 @@ public class PlayerControls : MonoBehaviour
     private int nExtraJumps = 1;
     private int nExtraJumpsLeft = 1;
     [SerializeField] private Transform doubleJumpSpawnPos;
-    [Space] public bool canDash;
     [Space] public bool canSwim;
     [Space] public bool canUseUlt;
 	
 	[Space]
     public bool canTeleport;
 	[SerializeField] private float teleportDist = 3.75f;
-	[SerializeField] private Transform topTpRayCast;
-	[SerializeField] private Transform midTpRayCast;
-	[SerializeField] private Transform botTpRayCast;
+	[SerializeField] private GameObject teleportBeginEffect;
 	[SerializeField] private GameObject teleportEffect;
-	private Vector2 teleportDestPos;
+	[SerializeField] private Transform teleportEffectPos;
+    [SerializeField] private float dodgeSpeed = 7.5f;
 	
 	[Space]
     public bool canGroundPound;
@@ -434,10 +429,6 @@ public class PlayerControls : MonoBehaviour
 
 		if (equimentInputs != null)
 			equimentInputsSubmit = equimentInputs.m_SubmitButton;
-
-
-        if (PlayerPrefsElite.VerifyBoolean("canDash" + gameNumber))
-            canDash = PlayerPrefsElite.GetBoolean("canDash" + gameNumber);
             
         if (PlayerPrefsElite.VerifyInt("playerLevel" + gameNumber))
         {
@@ -594,6 +585,11 @@ public class PlayerControls : MonoBehaviour
             settings.gameObject.SetActive(false);
         if (equimentSettings != null)
             equimentSettings.gameObject.SetActive(false);
+        
+		if (teleportEffect != null)
+            teleportEffect.transform.parent = null;
+		if (teleportBeginEffect != null)
+            teleportBeginEffect.transform.parent = null;
         
         // Last Pokemon team
         if (PlayerPrefsElite.VerifyArray("buttonAllocatedPokemons" + gameNumber))
@@ -987,7 +983,7 @@ public class PlayerControls : MonoBehaviour
         //* STOP MOOMOO MILK
         else if (drinking)
         {
-            if (player.GetButtonUp("L") || isParalysed || isSleeping)
+            if (player.GetButtonUp("L") || isParalysed || isSleeping || inCutscene)
             {
                 anim.speed = 1;
                 body.velocity = new Vector2(0, body.velocity.y);
@@ -1177,64 +1173,58 @@ public class PlayerControls : MonoBehaviour
             }
 
             //* Walking & jumping
-            if (!dashing)
+            if (!dodging)
             {
+				if (!inWater && grounded && player.GetButtonDown("B"))
+					Jump();
+				else if (inWater && CheckAtWaterSurface() && player.GetButtonDown("B"))
+					Jump();
+				//* Double Jump (mid air jump)
+				if (canDoubleJump)
+				{
+					if (!inWater && !butterfreeOut && nExtraJumpsLeft > 0 && !grounded 
+						&& player.GetButtonDown("B") && player.GetAxis("Move Vertical") > -0.8f)
+					{
+						nExtraJumpsLeft--;
+						MidairJump();
+					}
+					// else if (inWater && !butterfreeOut && nExtraJumpsLeft > 0 && CheckAtWaterSurface()
+					//     && player.GetButtonDown("B"))
+					// {
+					//     nExtraJumpsLeft--;
+					//     MidairJump();
+					// }
+				}
+				if (canGroundPound && !inWater && !grounded && 
+					player.GetButtonDown("B") && player.GetAxis("Move Vertical") <= -0.8f)
+				{
+					isGroundPounding = true;
+					groundPoundEffect.SetActive(true);
+				}
 
-                if (dashes > 0)
-                {
-                    if (!inWater && grounded && player.GetButtonDown("B"))
-                        Jump();
-                    else if (inWater && CheckAtWaterSurface() && player.GetButtonDown("B"))
-                        Jump();
-                    //* Double Jump (mid air jump)
-                    if (canDoubleJump)
-                    {
-                        if (!inWater && !butterfreeOut && nExtraJumpsLeft > 0 && !grounded 
-                            && player.GetButtonDown("B") && player.GetAxis("Move Vertical") > -0.8f)
-                        {
-                            nExtraJumpsLeft--;
-                            MidairJump();
-                        }
-                        // else if (inWater && !butterfreeOut && nExtraJumpsLeft > 0 && CheckAtWaterSurface()
-                        //     && player.GetButtonDown("B"))
-                        // {
-                        //     nExtraJumpsLeft--;
-                        //     MidairJump();
-                        // }
-                    }
-                    if (canGroundPound && !inWater && !grounded && 
-                        player.GetButtonDown("B") && player.GetAxis("Move Vertical") <= -0.8f)
-                    {
-                        isGroundPounding = true;
-                        groundPoundEffect.SetActive(true);
-                    }
-
-                    if (player.GetButton("B") && jumping)
-                    {
-                        if (jumpTimerCounter > 0)
-                        {
-                            body.velocity = new Vector2(body.velocity.x, jumpHeight);
-                            jumpTimerCounter -= Time.deltaTime;
-                        } 
-                        else
-                        {
-                            jumping = false;
-                        }
-                    }
-                    if (player.GetButtonUp("B"))
-                        jumping = false;
-                }
-                if (canDash && dashes > 0 && player.GetButtonDown("ZR"))
-                    Dash();
+				if (player.GetButton("B") && jumping)
+				{
+					if (jumpTimerCounter > 0)
+					{
+						body.velocity = new Vector2(body.velocity.x, jumpHeight);
+						jumpTimerCounter -= Time.deltaTime;
+					} 
+					else
+					{
+						jumping = false;
+					}
+				}
+				if (player.GetButtonUp("B") || dodging)
+					jumping = false;
             }
-            // * Dashing
-            else
-            {
-                if (holder.transform.eulerAngles.y < 180)
-                    body.velocity = Vector2.right * dashSpeed;
-                else
-                    body.velocity = Vector2.left * dashSpeed;
-            }
+            // // * Dashing
+            // else
+            // {
+            //     if (holder.transform.eulerAngles.y < 180)
+            //         body.velocity = Vector2.right * dashSpeed;
+            //     else
+            //         body.velocity = Vector2.left * dashSpeed;
+            // }
 
 
             //* Summon Pokemon
@@ -1807,28 +1797,6 @@ public class PlayerControls : MonoBehaviour
         ledgeGrabbing = false;
     }
 
-
-    private void Dash()
-    {
-        dashes = 0;
-        StartCoroutine( restoreDash() );
-    }
-    IEnumerator restoreDash()
-    {
-        dashing = true;
-        if (holder.transform.eulerAngles.y > 0)
-            body.velocity = Vector2.left * dashSpeed;
-        else
-            body.velocity = Vector2.right * dashSpeed;
-
-        yield return new WaitForSeconds(0.1f);
-        dashing = false;
-        body.velocity = Vector2.zero;
-
-        yield return new WaitForSeconds(0.3f);
-        dashes = 1;
-    }
-
     bool PressedStandardButton()
     {
         return (player.GetButtonDown("A") || player.GetButtonDown("B") || player.GetButtonDown("X") || player.GetButtonDown("Y"));
@@ -1865,7 +1833,13 @@ public class PlayerControls : MonoBehaviour
     IEnumerator Teleport()
     {
 		if (spawnedDoubleJumpObj != null)
+		{
 			spawnedDoubleJumpObj.transform.parent = null;
+			spawnedDoubleJumpObj.IMMEDIATE_RETURN_TO_BALL();
+		}
+		teleportBeginEffect.SetActive(false);
+		teleportBeginEffect.transform.position = teleportEffectPos.position;
+		teleportBeginEffect.SetActive(true);
         
 		yield return new WaitForEndOfFrame();
 
@@ -1886,8 +1860,7 @@ public class PlayerControls : MonoBehaviour
         if (!dodgingThruScene)
             body.velocity = Vector2.zero;
         dodging = false;
-		teleportEffect.SetActive(false);
-		teleportEffect.SetActive(true);
+		TELEPORT_BACK();
 
         //* Refresh Dodge Roll
         yield return new WaitForSeconds(0.5f);
@@ -1895,6 +1868,16 @@ public class PlayerControls : MonoBehaviour
         if (glint != null)
             glint.SetActive(true);
     }
+
+	public void TELEPORT_BACK()
+	{
+		if (!movingToDifferentScene)
+		{
+			teleportEffect.SetActive(false);
+			teleportEffect.transform.position = teleportEffectPos.position;
+			teleportEffect.SetActive(true);
+		}
+	}
 
     public void DODGE_ROLL_INVINCIBLE()
     {
@@ -2444,6 +2427,9 @@ public class PlayerControls : MonoBehaviour
         currency -= candiesLost;
         currencyTxt.text = currency.ToString();
         currencyEnhanceTxt.text = currency.ToString();
+
+
+		ShowLostBagInMap(lostBagScene, false);	// PREVIOUS BAG IS GONE
         if (droppedBag != null)
         {
             var obj = Instantiate(droppedBag, this.transform.position, droppedBag.transform.rotation);
@@ -2517,8 +2503,8 @@ public class PlayerControls : MonoBehaviour
             this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos" + gameNumber);
             
             //* WAIT TILL SCENE LOADS
-            while (SceneManager.GetActiveScene().name != sceneName)
-                yield return null;
+            // while (SceneManager.GetActiveScene().name != sceneName)
+            //     yield return null;
             yield return new WaitForSeconds(0.2f);
             BagLostInScene(sceneName);
             SetPlayerLocationInMap(sceneName);
@@ -2585,8 +2571,8 @@ public class PlayerControls : MonoBehaviour
             this.transform.position = newPos;
 
             //* WAIT TILL SCENE LOADS
-            while (SceneManager.GetActiveScene().name != nextArea)
-                yield return null;
+            // while (SceneManager.GetActiveScene().name != nextArea)
+            //     yield return null;
             BagLostInScene(nextArea);
 
             yield return new WaitForSeconds(0.5f);
@@ -2639,6 +2625,8 @@ public class PlayerControls : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         inCutscene = false;
         movingToDifferentScene = false;
+		if (dodgingThruScene && canTeleport)
+			TELEPORT_BACK();
         // canEnter = false;
         body.velocity = Vector2.zero;
     }
@@ -2686,8 +2674,8 @@ public class PlayerControls : MonoBehaviour
             SceneManager.LoadScene(newSceneName); 
 
             //* WAIT TILL SCENE LOADS
-            while (SceneManager.GetActiveScene().name != newSceneName)
-                yield return null;
+            // while (SceneManager.GetActiveScene().name != newSceneName)
+            //     yield return null;
             BagLostInScene(newSceneName);
                 
             body.velocity = Vector2.zero;
@@ -2820,8 +2808,8 @@ public class PlayerControls : MonoBehaviour
             SceneManager.LoadScene(newSceneName);
             
             //* WAIT TILL SCENE LOADS
-            while (SceneManager.GetActiveScene().name != newSceneName)
-                yield return null;
+            // while (SceneManager.GetActiveScene().name != newSceneName)
+            //     yield return null;
             BagLostInScene(newSceneName);
             // body.velocity = Vector2.zero;
 
@@ -3278,8 +3266,6 @@ public class PlayerControls : MonoBehaviour
 
         if (PlayerPrefsElite.VerifyBoolean("canDoubleJump" + gameNumber))
             canDoubleJump = PlayerPrefsElite.GetBoolean("canDoubleJump" + gameNumber);
-        if (PlayerPrefsElite.VerifyBoolean("canDash" + gameNumber))
-            canDash = PlayerPrefsElite.GetBoolean("canDash" + gameNumber);
 
         hp = maxHp;
 
@@ -3325,7 +3311,6 @@ public class PlayerControls : MonoBehaviour
         PlayerPrefsElite.SetInt("playerLevel" + gameNumber, lv);
         PlayerPrefsElite.SetInt("currency" + gameNumber, currency);
         PlayerPrefsElite.SetBoolean("canDoubleJump" + gameNumber, canDoubleJump);
-        PlayerPrefsElite.SetBoolean("canDash" + gameNumber, canDash);
 
         if (PlayerPrefsElite.VerifyArray("roomsBeaten" + gameNumber))
             roomsBeaten = new List<string>( PlayerPrefsElite.GetStringArray("roomsBeaten" + gameNumber) );

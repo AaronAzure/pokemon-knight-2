@@ -111,7 +111,7 @@ public class Haunter : Enemy
         if (shadowPunch != null)
         {
             shadowPunch.transform.parent = this.transform.parent.transform;
-            shadowPunch.atkDmg = secondDmg + secondExtraDmg;
+            shadowPunch.atkDmg = secondDmg;
             shadowPunch.kbForce = contactKb;
         }
         if (hex != null)

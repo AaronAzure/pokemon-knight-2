@@ -99,9 +99,9 @@ public abstract class Enemy : MonoBehaviour
     [Header("Boss")]
     public bool isBoss;
     public bool isMiniBoss;
-    public GameObject possessedAura;
+    [Tooltip("possessed")] public GameObject possessedAura;
+    [Tooltip("aura")] public GameObject rageChargeObj;
     public GameObject battleRoarObj;
-    public GameObject rageChargeObj;
     [HideInInspector] public bool inRage;
     [HideInInspector] public bool inCutscene; // Can't move
     [HideInInspector] public bool inRageCutscene; // Can't move
@@ -255,9 +255,9 @@ public abstract class Enemy : MonoBehaviour
     public virtual void CallChildOnDropLoot() 
     {
         if (!isBoss && !isMiniBoss)
-                loot.DropLoot( Mathf.FloorToInt(lv / 10) );
-            else
-                loot.DropLoot();
+			loot.DropLoot( Mathf.FloorToInt(lv / 10) );
+		else
+			loot.DropLoot();
     }
     
     public virtual void CallChildOnHalfHealth() {}  

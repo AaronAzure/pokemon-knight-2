@@ -29,6 +29,7 @@ public class Gengar : Enemy
     public float flipTimer=3f;
     [SerializeField] private float lickMoveForce=1;
     [SerializeField] private EnemyAttack lickAtk;
+	private Vector2 moveDir;
 
 
     [Space] [Header("Night shade")]  
@@ -102,11 +103,11 @@ public class Gengar : Enemy
         // }
 
 
-        // if (lickAtk != null)
-        // {
-        //     lickAtk.atkDmg = secondDmg;
-        //     lickAtk.kbForce = contactKb;
-        // }
+        if (lickAtk != null)
+        {
+            lickAtk.atkDmg = secondDmg;
+            lickAtk.kbForce = contactKb;
+        }
         // if (variantSpeed)
         // {
         //     moveSpeed += Random.Range(0.9f, 1.2f);
@@ -188,17 +189,37 @@ public class Gengar : Enemy
         }
     }
 
+	public override void CallChildOnBossFightStart()
+    {
+        teleporting = false;
+		licking = false;
+    }
+
+
 
     // todo ----------------------------------------------------------------------------------------------------
     void FixedUpdate() 
     {
-        if (!sceneLoaded) {}
+        if (!sceneLoaded || inCutscene) {}
         else if (variant == Variation.nightShader)
         {
             // if (lockPos != null)
             //     transform.position = (Vector2) lockPos.position + lockOffset;
             
             // LookAtTarget();
+        }
+        else if (variant == Variation.boss)
+        {
+            if (!teleporting && !licking)
+            {
+                teleporting = true;
+                mainAnim.speed = 1;
+                mainAnim.SetTrigger("teleport");
+            }
+			if (teleporting && !receivingKnockback)
+			{
+				body.velocity = moveDir * lickMoveForce;
+			}
         }
         
     }
@@ -272,10 +293,10 @@ public class Gengar : Enemy
             // charging = false;
         }
     }
-    public void TELEPORT()
+    public IEnumerator TELEPORT()
     {   
         if (target == null || hp <= 0)
-            return;
+            yield break;
         
         body.velocity = Vector2.zero;
 
@@ -309,6 +330,24 @@ public class Gengar : Enemy
             StopCoroutine( targetLostCo );
             targetLostCo = null;
         }
+        if (variant == Variation.boss)
+		{
+			Vector2 dir = ((target.position + Vector3.up) - transform.position).normalized;
+			moveDir = dir;
+
+			// body.AddForce(dir * lickMoveForce, ForceMode2D.Impulse);
+		}
+
+		if (hpImg.fillAmount <= 0.5f)
+		{
+			yield return new WaitForSeconds(2f);
+		}
+		else
+		{
+			mainAnim.speed = 1;
+			yield return new WaitForSeconds(3);
+		}
+		mainAnim.SetTrigger("teleport");
     }
     
     public void LICK()

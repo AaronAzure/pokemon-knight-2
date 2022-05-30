@@ -235,7 +235,8 @@ public class Oddish : Enemy
             {
                 var obj = Instantiate(sludgeBomb, sludgeBombPos.position, sludgeBomb.transform.rotation);
                 obj.body.gravityScale = 3;
-                obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
+                // obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
+                obj.atkDmg = secondDmg;
                 obj.direction = new Vector2(-trajectory, Random.Range(14,21));
                 if (spawnedHolder != null)
                     obj.transform.parent = spawnedHolder.transform;

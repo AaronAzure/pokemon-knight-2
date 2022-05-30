@@ -744,6 +744,9 @@ MonoBehaviour:
   perLv: 1
   expPossess: 10
   extraExp: 5
+  secondDmg: 5
+  secondExtraDmg: 3
+  hasExtraDmg: 0
   isSmart: 1
   isEvenSmarter: 0
   renderers:
@@ -805,8 +808,10 @@ MonoBehaviour:
   partOfHorde: 0
   alert: {fileID: 3348568934580730668}
   eyes: {fileID: 6722547804149367738}
+  eyes2: {fileID: 0}
   isAttacking: 0
   isTargeting: 0
+  keepSearching: 0
   playerInField: 0
   playerInSight: 0
   playerInCloseRange: 0
@@ -835,8 +840,8 @@ MonoBehaviour:
   loot: {fileID: 7641776131643696030}
   anim: {fileID: 6948537191354315187}
   moveSpeed: 1
-  chaseSpeed: 3
-  maxSpeed: 4
+  chaseSpeed: 2.5
+  maxSpeed: 3.5
   distanceDetect: 1
   groundDetection: {fileID: 2690864748907692025}
   target: {fileID: 0}
