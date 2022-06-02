@@ -10271,6 +10271,7 @@ GameObject:
   - component: {fileID: 5071476324892455343}
   - component: {fileID: 1576487368715869170}
   - component: {fileID: 1089357387354242368}
+  - component: {fileID: 2475140478227765664}
   m_Layer: 0
   m_Name: LICK
   m_TagString: Untagged
@@ -10356,8 +10357,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.0706815, y: -2.0271578}
-  m_Size: {x: 3.3799996, y: 4.4699993}
+  m_Offset: {x: -1.661119, y: -2.6368186}
+  m_Size: {x: 2.1991098, y: 3.25067}
   m_Direction: 0
 --- !u!114 &1576487368715869170
 MonoBehaviour:
@@ -10395,6 +10396,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!70 &2475140478227765664
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3745102327125920218}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.89, y: -0.84}
+  m_Size: {x: 1.29, y: 1.5}
+  m_Direction: 0
 --- !u!1 &4520227584399527826
 GameObject:
   m_ObjectHideFlags: 0
@@ -10696,7 +10713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rewardSize: 17
+  rewardSize: 55
   expL: {fileID: 1856295254583195530, guid: d27018a99e7b54de48824b3e1560cb92, type: 3}
   expM: {fileID: 6231101655905951431, guid: 3154a023cb73842f6b4b377e97abffd7, type: 3}
   expS: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
@@ -10717,7 +10734,7 @@ MonoBehaviour:
   mainAnim: {fileID: 669435520811976537}
   maxHp: 200
   hp: 0
-  contactDmg: 35
+  contactDmg: 20
   projectileDmg: 30
   contactKb: 10
   extraHp: 30
@@ -10731,7 +10748,21 @@ MonoBehaviour:
   hasExtraDmg: 1
   isSmart: 1
   isEvenSmarter: 0
-  renderers: []
+  renderers:
+  - {fileID: 4154185192852629881}
+  - {fileID: 3358940828026143920}
+  - {fileID: 7393418786337736579}
+  - {fileID: 913479190002798391}
+  - {fileID: 3025761513670258723}
+  - {fileID: 7737130324316251448}
+  - {fileID: 5538992859888581165}
+  - {fileID: 4177946304321102472}
+  - {fileID: 3209572460606107781}
+  - {fileID: 8015995118153891259}
+  - {fileID: 102278934317359982}
+  - {fileID: 2338175897943233993}
+  - {fileID: 1099800015270073570}
+  - {fileID: 3429295919038314015}
   defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
@@ -10822,10 +10853,10 @@ MonoBehaviour:
   chasing: 0
   teleporting: 0
   distanceAway: 3
-  playerInRange: 0
+  usingNightShade: 0
+  usingLick: 0
+  usingShadowBall: 0
   licking: 0
-  teleportAgain: 1.5
-  flipTimer: 3
   lickMoveForce: 1.5
   lickAtk: {fileID: 1576487368715869170}
   nightShade: {fileID: 4933151445345970817, guid: dfe4859f97fea44578c701aa90c9e804, type: 3}
@@ -10833,19 +10864,18 @@ MonoBehaviour:
   nightShadeRayHeight: 1.5
   nightShadeMaxDist: 5
   nightShadeXOffset: 1.5
-  lockPos: {fileID: 0}
-  lockOffset: {x: 10, y: 5}
   wispSpawns: []
   wispAtk: {fileID: 0}
   wisps: []
   wispFireDelay: 0.8
   wispSpeed: 7.5
   teleportPos: []
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
   variantSpeed: 0
   lineOfSight: {x: 0, y: 0, z: 0}
   spawnedHolder: {fileID: 7425045881376385582}
-  teleportTimer: 1
-  performingFuryAttack: 0
 --- !u!95 &669435520811976537
 Animator:
   serializedVersion: 3

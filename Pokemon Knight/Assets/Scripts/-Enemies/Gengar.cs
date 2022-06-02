@@ -14,19 +14,22 @@ public class Gengar : Enemy
     public float moveSpeed=2;
     public float chaseSpeed=4;
     public float maxSpeed=5f;
-    // public float chargeSpeed=10;
-    private LayerMask finalMask;
     public Transform target;
     public bool chasing;
     public bool teleporting;
+    private int teleportCount=0;
+    private int nTeleport=2;
     public float distanceAway=3;
-    public bool playerInRange;
+
+
+	[Space] [Header("Attacks")]
+	public bool usingNightShade;	//* SET BY ANIMATION
+	public bool usingLick;			//* SET BY ANIMATION
+	public bool usingShadowBall;	//* SET BY ANIMATION
 
 
     [Space] [Header("Licker")]  
     public bool licking;
-    public float teleportAgain=1.5f;
-    public float flipTimer=3f;
     [SerializeField] private float lickMoveForce=1;
     [SerializeField] private EnemyAttack lickAtk;
 	private Vector2 moveDir;
@@ -41,8 +44,6 @@ public class Gengar : Enemy
     [SerializeField] private float nightShadeXOffset=1f;
 
 
-    [SerializeField] private Transform lockPos;
-    [SerializeField] private Vector2 lockOffset;
 
 
     [Space] [Header("Willo Wisp")]  
@@ -61,19 +62,17 @@ public class Gengar : Enemy
 
     [Space] [Header("Misc")]  
     // [SerializeField] private GameObject glint;
+	private Vector3 startPos;
+    [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private bool variantSpeed;
+	private int atkCount;
     public Vector3 lineOfSight;
     [SerializeField] private GameObject spawnedHolder;
     private Coroutine co;
     [SerializeField] private Coroutine targetLostCo;
     private RaycastHit2D playerInfo;
     private bool sceneLoaded=false;
-
-    private float timer=0;
-    private float closeTime=0;
-    public float teleportTimer=1;
-    private int origAtkDmg;
-    public bool performingFuryAttack;
+	private bool isActuallyBoss=false;
 
 
     public override void Setup()
@@ -94,35 +93,12 @@ public class Gengar : Enemy
 
         // origAtkDmg = contactDmg;
 
-        // if (Random.Range(0,2) == 0)
-        //     movingLeft = true;
-        // else
-        // {
-        //     movingRight = true;
-        //     model.transform.eulerAngles = new Vector3(0, 180);
-        // }
-
 
         if (lickAtk != null)
         {
             lickAtk.atkDmg = secondDmg;
             lickAtk.kbForce = contactKb;
         }
-        // if (variantSpeed)
-        // {
-        //     moveSpeed += Random.Range(0.9f, 1.2f);
-        //     chaseSpeed += Random.Range(0.9f, 1.2f);
-        //     maxSpeed += Random.Range(0.9f, 1.2f);
-        //     lickMoveForce += Random.Range(0.9f, 1.2f);
-        //     teleportAgain += Random.Range(0.9f, 1.2f);
-        // }
-
-        // if (wispAtk != null)
-        // {
-        //     wispAtk.atkDmg = projectileDmg + calcExtraProjectileDmg;
-        //     wispAtk.kbForce = contactKb;
-        //     wisps = new List<EnemyProjectile>();
-        // }
         if (nightShade != null)
         {
             nightShade.atkDmg = projectileDmg + calcExtraProjectileDmg;
@@ -134,6 +110,13 @@ public class Gengar : Enemy
             mainAnim.SetBool("isStalking", true);
             isStalker = true;
         }
+		else
+		{
+			isSmart = false;
+			isActuallyBoss = true;
+			mainAnim.Play("gengar-intro-anim", -1, 0);
+			startPos = new Vector3(transform.position.x, transform.position.y + 2);
+		}
         StartCoroutine( LoadingIn() );
     }
 
@@ -161,14 +144,20 @@ public class Gengar : Enemy
     {
         // mainAnim.SetBool("isWalking", true);
     }
-    public override void CallChildOnDeath()
+    public override void CallChildOnBossDeath()
     {
         mainAnim.speed = 0;
         mainAnim.SetTrigger("reset");
         StopAllCoroutines();
-        foreach (EnemyProjectile wisp in wisps)
+
+		this.gameObject.layer = LayerMask.NameToLayer("Enemy");
+		// this.gameObject.layer = enemyLayer;
+		this.transform.position = startPos;
+        
+		foreach (EnemyProjectile wisp in wisps)
             if (wisp != null)
                 Destroy( wisp.gameObject );
+		
     }
     public override void CallChildOnDropLoot()
     {
@@ -201,23 +190,18 @@ public class Gengar : Enemy
     void FixedUpdate() 
     {
         if (!sceneLoaded || inCutscene) {}
-        else if (variant == Variation.nightShader)
+        else if (!isActuallyBoss)
         {
             // if (lockPos != null)
             //     transform.position = (Vector2) lockPos.position + lockOffset;
             
             // LookAtTarget();
         }
-        else if (variant == Variation.boss)
+        else if (isActuallyBoss)
         {
-            if (!teleporting && !licking)
-            {
-                teleporting = true;
-                mainAnim.speed = 1;
-                mainAnim.SetTrigger("teleport");
-            }
-			if (teleporting && !receivingKnockback)
+			if ((licking || usingLick) && !receivingKnockback)
 			{
+				licking = true;
 				body.velocity = moveDir * lickMoveForce;
 			}
         }
@@ -293,6 +277,46 @@ public class Gengar : Enemy
             // charging = false;
         }
     }
+	public void NEXT_ATTACK(int specific=-1)
+	{
+		if (!isActuallyBoss && !inCutscene)
+			return;
+
+		int rng = Random.Range(0,4);
+		if (specific != -1)
+			rng = specific;
+
+		licking = false;
+		switch (rng)
+		{
+			case 0:
+				teleporting = false;
+				moveDir = Vector2.zero;
+				mainAnim.SetTrigger("teleport");
+				mainAnim.SetBool("usingNightShade", true);
+				break;
+
+			//* NIGHT SHADE
+			case 1:
+				teleporting = false;
+				moveDir = Vector2.zero;
+				mainAnim.SetTrigger("teleport");
+				mainAnim.SetBool("usingNightShade", true);
+				break;
+			// case 2:
+				
+			// 	break;
+			// case 3:
+
+			// 	break;
+			//* LICK
+			default:
+				teleporting = true;
+				mainAnim.SetTrigger("teleport");
+				mainAnim.SetBool("usingNightShade", false);
+				break;
+		}
+	}
     public IEnumerator TELEPORT()
     {   
         if (target == null || hp <= 0)
@@ -301,9 +325,7 @@ public class Gengar : Enemy
         body.velocity = Vector2.zero;
 
 
-        int rng = Random.Range(0,5);
-        if (variant == Variation.boss)
-            rng = Mathf.Max(1, rng);
+        int rng = Random.Range(1,5);
 
         switch (rng)  // 5
         {
@@ -330,36 +352,30 @@ public class Gengar : Enemy
             StopCoroutine( targetLostCo );
             targetLostCo = null;
         }
-        if (variant == Variation.boss)
+        if (isActuallyBoss)
 		{
 			Vector2 dir = ((target.position + Vector3.up) - transform.position).normalized;
 			moveDir = dir;
-
-			// body.AddForce(dir * lickMoveForce, ForceMode2D.Impulse);
 		}
 
 		if (hpImg.fillAmount <= 0.5f)
 		{
-			yield return new WaitForSeconds(2f);
+			// STOP TELEPORTING
+			if (teleportCount >= nTeleport)
+			{
+				teleportCount = 0;
+				nTeleport = Random.Range(0,3);
+			}
+			// TELEPORT AGAIN
+			else
+			{
+				teleportCount++;
+				yield return new WaitForSeconds(0.5f);
+				mainAnim.SetTrigger("teleport");
+			}
 		}
-		else
-		{
-			mainAnim.speed = 1;
-			yield return new WaitForSeconds(3);
-		}
-		mainAnim.SetTrigger("teleport");
     }
     
-    public void LICK()
-    {
-        if (variant == Variation.boss) 
-        {
-            licking = true;
-            LookAtPlayer();
-            mainAnim.SetTrigger("lick");
-        }
-        
-    }
     void TELEPORT_SPECIFIC()
     {
         if (isStalker)
@@ -391,7 +407,7 @@ public class Gengar : Enemy
 
     public void SHOULD_KEEP_STALKING()
     {
-        if (downToHalfHp && variant == Variation.nightShader)
+        if (downToHalfHp && !isActuallyBoss)
         {
             StopAllCoroutines();
             this.gameObject.SetActive(false);
@@ -452,15 +468,6 @@ public class Gengar : Enemy
             }
         }
         shootingWisp = false;
-    }
-
-
-    IEnumerator TELEPORT_AGAIN()
-    {
-        yield return new WaitForSeconds(teleportAgain);
-        
-        mainAnim.speed = 1;
-        mainAnim.SetTrigger("teleport");
     }
 
     public void AGILITY()

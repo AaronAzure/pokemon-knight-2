@@ -474,6 +474,7 @@ public abstract class Enemy : MonoBehaviour
                 body.velocity = Vector2.zero;
                 body.gravityScale = 3;
             }
+			
             // Player Gains exp
             if (hp <= 0)
             {
