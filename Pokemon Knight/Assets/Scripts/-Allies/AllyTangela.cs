@@ -21,6 +21,11 @@ public class AllyTangela : Ally
         if (trainer != null)
             totalMaxDrain = maxDrain + ( extraDrainDmg * Mathf.CeilToInt(((trainer.lv - 1) / perLevel)) );
 
+		if (useUlt && anim != null)
+        {
+            anim.SetTrigger("ult");
+			this.atkDmg = Mathf.RoundToInt(this.atkDmg * 1.25f);
+        }
         if (absorb != null)
         {
             absorb.atkDmg = this.atkDmg;
@@ -101,6 +106,21 @@ public class AllyTangela : Ally
                 return;
             }
             var obj = Instantiate(absorb, target.position + new Vector3(0,1), absorb.transform.rotation);
+            if      (IsAtThirdEvolution())
+                obj.anim.speed *= 2.5f;
+            else if (IsAtSecondEvolution())
+                obj.anim.speed *= 1.5f;
+
+            obj.player = trainer;
+        }
+    }
+
+    public void ULT_ABSORB()
+    {
+        if (absorb != null)
+        {
+            var obj = Instantiate(absorb, this.transform.position + new Vector3(0, 0.5f), absorb.transform.rotation);
+			obj.transform.localScale *= 3;
             if      (IsAtThirdEvolution())
                 obj.anim.speed *= 2.5f;
             else if (IsAtSecondEvolution())

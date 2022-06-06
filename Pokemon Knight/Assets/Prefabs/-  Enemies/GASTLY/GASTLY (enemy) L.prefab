@@ -10449,7 +10449,7 @@ GameObject:
   - component: {fileID: 4914461150105602623}
   - component: {fileID: 743015209165801428}
   m_Layer: 20
-  m_Name: GASTLY (enemy)
+  m_Name: GASTLY (enemy) L
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10558,6 +10558,7 @@ MonoBehaviour:
   lv: 21
   chapterLevel: 2
   mainAnim: {fileID: 4914461150105602621}
+  pokemonSpr: {fileID: 21300000, guid: 2957cf15888974873b26bc00c308d87e, type: 3}
   maxHp: 90
   hp: 0
   contactDmg: 10
@@ -10615,8 +10616,8 @@ MonoBehaviour:
   isBoss: 0
   isMiniBoss: 0
   possessedAura: {fileID: 0}
-  battleRoarObj: {fileID: 0}
   rageChargeObj: {fileID: 0}
+  battleRoarObj: {fileID: 0}
   inRage: 0
   inCutscene: 0
   inRageCutscene: 0
@@ -10662,7 +10663,7 @@ MonoBehaviour:
   increaseSpd: {fileID: 21300000, guid: dc912f0b2b3a04e8e9249ae5607abeab, type: 3}
   spawnedByWave: 0
   loot: {fileID: 743015209165801428}
-  variant: 0
+  variant: 1
   map: {fileID: 0}
   moveSpeed: 1
   chaseSpeed: 1.5
@@ -10888,6 +10889,10 @@ PrefabInstance:
     - target: {fileID: 1465899634756489508, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_Name
       value: -PossessedPurple
+      objectReference: {fileID: 0}
+    - target: {fileID: 1465899634756489508, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_RootOrder

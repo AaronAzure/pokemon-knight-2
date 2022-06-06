@@ -14586,13 +14586,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atkDmg: 15
   atkForce: 0
+  spBonus: 0
   spawnedPos: {x: 0, y: 0, z: 0}
   trailObj: {fileID: 1632642793083130}
+  destroyAfter: 1
   explosionObj: {fileID: 1817797803601600, guid: 5b2b96c1b267046df8cf99b91b9f4484, type: 3}
   destoryOnCollision: 1
   velocity: 25
   customTrajectory: 0
   body: {fileID: 3483699989780539279}
+  anim: {fileID: 0}
   explosiveHitbox: 0
   explosiveAtk: 0
   explosiveKb: 0

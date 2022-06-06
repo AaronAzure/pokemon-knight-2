@@ -124,6 +124,7 @@ MonoBehaviour:
   lv: 22
   chapterLevel: 2
   mainAnim: {fileID: 757803081068537676}
+  pokemonSpr: {fileID: 21300000, guid: 0cddc7d24c3e8488392b30c715a627a9, type: 3}
   maxHp: 130
   hp: 0
   contactDmg: 10
@@ -20883,6 +20884,10 @@ PrefabInstance:
     - target: {fileID: 1465899634756489508, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_Name
       value: -PossessedPurple
+      objectReference: {fileID: 0}
+    - target: {fileID: 1465899634756489508, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
       propertyPath: m_RootOrder

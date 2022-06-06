@@ -22,6 +22,7 @@ public abstract class Enemy : MonoBehaviour
     protected PlayerControls playerControls;
     [Space] [SerializeField] protected Animator mainAnim;
     private bool inPlayMode;
+	[Space] public Sprite pokemonSpr;
     
 
     [Space] [Header("Stats")]

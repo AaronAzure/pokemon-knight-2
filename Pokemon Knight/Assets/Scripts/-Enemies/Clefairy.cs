@@ -94,7 +94,14 @@ public class Clefairy : Enemy
             StopCoroutine(co);
         if (spawnedHolder != null)
             Destroy(spawnedHolder);
+		mainAnim.SetTrigger("reset");
     }
+
+    public override void CallChildOnBossFightStart()
+	{
+		mainAnim.SetTrigger("metronome");
+	}
+
 
     private void FixedUpdate() 
     {
@@ -162,6 +169,16 @@ public class Clefairy : Enemy
                 }
             }    
         }
+        else if (!inCutscene)
+        {
+            if (performingMetronome)
+                LookAtTarget();
+
+            // if (!receivingKnockback)
+            // {
+			// 	mainAnim.SetTrigger("metronome");
+            // }    
+        }
     }
 
     private void Flip()
@@ -185,16 +202,10 @@ public class Clefairy : Enemy
 
     public void METRONOME()
     {
-        // int rng = Random.Range(0, metronomeAttacks.Length);
-
-        // var obj = Instantiate(metronomeAttacks[rng].projectile, 
-        //                       atkPos.position, 
-        //                       metronomeAttacks[rng].projectile.transform.rotation);
-        // obj.atkDmg = metronomeAttacks[rng].projectileDmg + 
-        //     Mathf.Max(0, metronomeAttacks[rng].extraDmg * Mathf.FloorToInt((float)(lv - defaultLv)/2));
-        // obj.kbForce = metronomeAttacks[rng].projectileKb;
-        // StartCoroutine( Done( metronomeAttacks[rng].duration ) );
         if (dead)
+            return;
+
+        if (isMiniBoss && hp <= 0)
             return;
 
         int rng = Random.Range(0, nProjectiles);

@@ -6,6 +6,7 @@ using UnityEngine;
 {
     public Enemy enemies;
     public bool canUseBuffs;
+    [Space] public bool jumpOut=true;
 }
 
 
@@ -19,10 +20,12 @@ using UnityEngine;
     public int enemiesLevel=3;
     public int miniBossLevel=5;
     public bool flipEnemies;
+    public bool facePlayer;
     public bool alwaysAttackPlayer;
     [Space] public float jumpForce=5;
     // public int waveNumber=0;
     [Space] public WaveRoom waveManager;
+    [Space] public SpriteRenderer mirrorImg;
 
 
 
@@ -35,6 +38,15 @@ using UnityEngine;
             {
                 anim.SetBool("spawn", true);
 
+				bool isMirror = false;
+				if (mirrorImg != null && waves[ waveNumber ].enemies.pokemonSpr != null)
+				{
+					mirrorImg.gameObject.SetActive(false);
+					mirrorImg.gameObject.SetActive(true);
+					mirrorImg.sprite = waves[ waveNumber ].enemies.pokemonSpr;
+					isMirror = true;
+				}
+
                 yield return new WaitForSeconds(delay);
                 var obj = Instantiate(waves[ waveNumber ].enemies, this.transform.position, 
                     Quaternion.identity, this.transform);
@@ -45,6 +57,8 @@ using UnityEngine;
                 obj.canUseBuffs = waves[ waveNumber ].canUseBuffs;
                 if (flipEnemies)
                     obj.model.transform.eulerAngles = new Vector3(0, 180);
+                if (facePlayer)
+                    obj.GetComponent<Enemy>().LookAtTarget();
                 if (alwaysAttackPlayer)
                     obj.alwaysAttackPlayer = true;
                 if (obj.isMiniBoss)
@@ -54,10 +68,17 @@ using UnityEngine;
                     obj.StartBossBattle(0);
                     waveManager.hasABoss = true;
                 }
-                obj.body.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+
+				if (waves[ waveNumber ].jumpOut)
+                	obj.body.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
                 yield return new WaitForSeconds(0.25f);
                 anim.SetBool("spawn", false);
+				if (isMirror)
+				{
+					mirrorImg.gameObject.SetActive(false);
+					mirrorImg.sprite = null;
+				}
             }
             else
                 SpawnedDefeated();

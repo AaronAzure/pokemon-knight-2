@@ -6,14 +6,17 @@ public class AllySnorlax : Ally
 {
     [Space] [Header("Ult Atk")]
     public AllyAttack slamHitbox;
-    public AllyAttack ultAtk;
     public float jumpHeight;
     public bool stillJumping=true;
+    [Space] public AllyAttack ultAtk;
+	public float gigaImpactForce=45;
+	public bool usingGigaImpact;
+
     protected override void Setup() 
     {
         if (useUlt && anim != null)
         {
-            outTime = 0.5f;
+            outTime = 2.4f;
             anim.SetTrigger("ult");
             atkDmg *= 4;
             atkForce *= 2;
@@ -31,15 +34,23 @@ public class AllySnorlax : Ally
 
     public override void CallChildIsGrounded() 
     {
-        if (stillJumping)
-            body.velocity = new Vector2(body.velocity.x, jumpHeight);
-        bool groundInfo = Physics2D.OverlapBox(this.transform.position + (Vector3)feetOffset, feetBox, 0, whatIsGround);
-        if (groundInfo && body != null && body.velocity.y <= 0)
-        {
-            body.velocity = Vector2.zero;
-            CallChildOnLanded();
-        }
+		if (!useUlt && stillJumping)
+			body.velocity = new Vector2(body.velocity.x, jumpHeight);
+		bool groundInfo = Physics2D.OverlapBox(this.transform.position + (Vector3)feetOffset, feetBox, 0, whatIsGround);
+		if (!usingGigaImpact && groundInfo && body != null && body.velocity.y <= 0)
+		{
+			body.velocity = Vector2.zero;
+			CallChildOnLanded();
+		}
     }
+
+	public void GIGA_IMPACT()
+	{
+		if (this.transform.eulerAngles.y == 180)	// left
+			body.AddForce(Vector2.left * gigaImpactForce, ForceMode2D.Impulse);
+		else	// right
+			body.AddForce(Vector2.right * gigaImpactForce, ForceMode2D.Impulse);
+	}
 
     public void UnparentBlastRadius()
     {
@@ -49,7 +60,7 @@ public class AllySnorlax : Ally
 
     public override void CallChildOnLanded() 
     {
-        if (anim != null)
+        if (!useUlt && anim != null)
             anim.SetTrigger("getUp");
     }
 

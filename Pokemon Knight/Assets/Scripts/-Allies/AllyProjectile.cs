@@ -10,10 +10,12 @@ public class AllyProjectile : MonoBehaviour
     
     [HideInInspector] public Vector3 spawnedPos;
     [SerializeField] private GameObject trailObj;
+    [SerializeField] private float destroyAfter=0.5f;
     [SerializeField] private GameObject explosionObj;
     [SerializeField] private bool destoryOnCollision=true;
 
     public float velocity=0;
+    public Vector2 direction = Vector2.right;
     [SerializeField] private bool customTrajectory;
     public Rigidbody2D body;
     public Animator anim;
@@ -38,11 +40,11 @@ public class AllyProjectile : MonoBehaviour
         if (trailObj != null && !customTrajectory)
             StartCoroutine(UnparentTrail());
         if (body != null && velocity != 0 && !customTrajectory)
-            body.velocity = Vector2.right * velocity;
+            body.velocity = direction * velocity;
     }
     public IEnumerator UnparentTrail()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(destroyAfter);
         if (trailObj != null) 
             trailObj.transform.parent = null;
 

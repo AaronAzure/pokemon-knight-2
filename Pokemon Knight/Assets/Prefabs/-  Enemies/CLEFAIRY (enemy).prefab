@@ -217,6 +217,7 @@ MonoBehaviour:
   lv: 23
   chapterLevel: 2
   mainAnim: {fileID: 3448850496708198863}
+  pokemonSpr: {fileID: 21300000, guid: 05960e19fec514b75854dfef0f1133fd, type: 3}
   maxHp: 100
   hp: 0
   contactDmg: 10
@@ -277,8 +278,8 @@ MonoBehaviour:
   isBoss: 0
   isMiniBoss: 0
   possessedAura: {fileID: 0}
-  battleRoarObj: {fileID: 0}
   rageChargeObj: {fileID: 0}
+  battleRoarObj: {fileID: 0}
   inRage: 0
   inCutscene: 0
   inRageCutscene: 0
@@ -368,7 +369,7 @@ MonoBehaviour:
   poisonStingObj: {fileID: 3512924686844022788, guid: 0ea687382318543288323920b3a4c95c, type: 3}
   poisonStingStat:
     projectileDmg: 10
-    extraDmg: 3
+    extraDmg: 2
     projectileKb: 5
     duration: 0
   nPoisonSting: 3

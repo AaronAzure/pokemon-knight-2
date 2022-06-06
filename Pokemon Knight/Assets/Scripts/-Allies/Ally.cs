@@ -134,8 +134,7 @@ public abstract class Ally : MonoBehaviour
             {
                 var obj = Instantiate(evolvedForm2, this.transform.position, Quaternion.identity);
                 obj.extraLevel = this.extraLevel;
-                // obj.atkDmg = this.atkDmg;
-                // obj.atkForce = this.atkForce;
+                obj.useUlt = this.useUlt;
                 obj.body.velocity = this.body.velocity;
                 obj.trainer = this.trainer;
                 obj.button = this.button;
@@ -153,8 +152,7 @@ public abstract class Ally : MonoBehaviour
             {
                 var obj = Instantiate(evolvedForm1, this.transform.position, Quaternion.identity);
                 obj.extraLevel = this.extraLevel;
-                // obj.atkDmg = this.atkDmg;
-                // obj.atkForce = this.atkForce;
+                obj.useUlt = this.useUlt;
                 obj.body.velocity = this.body.velocity;
                 obj.trainer = this.trainer;
                 obj.button = this.button;

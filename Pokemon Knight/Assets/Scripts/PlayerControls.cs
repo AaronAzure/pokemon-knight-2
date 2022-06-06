@@ -1974,6 +1974,12 @@ public class PlayerControls : MonoBehaviour
     public void FullRestore()
     {
         hp = maxHp;
+		if (moomooUi != null)
+        {
+            for (int i=nMoomooMilkLeft ; i<moomooUi.Length ; i++)
+                moomooUi[i].SetTrigger("restored");
+        }
+        nMoomooMilkLeft = moomooUi.Length;
     }
     public void CalculateMaxHp()
     {
@@ -2567,12 +2573,14 @@ public class PlayerControls : MonoBehaviour
             SceneManager.LoadScene(nextArea); 
             body.velocity = Vector2.zero;
 
-            yield return new WaitForEndOfFrame();
             this.transform.position = newPos;
 
             //* WAIT TILL SCENE LOADS
+			yield return new WaitForSeconds(0.2f);
             // while (SceneManager.GetActiveScene().name != nextArea)
             //     yield return null;
+				
+			Debug.Log("in new area " + nextArea);
             BagLostInScene(nextArea);
 
             yield return new WaitForSeconds(0.5f);
@@ -2672,16 +2680,19 @@ public class PlayerControls : MonoBehaviour
 
             yield return new WaitForSeconds(1);
             SceneManager.LoadScene(newSceneName); 
+            this.transform.position = newScenePos;
+
 
             //* WAIT TILL SCENE LOADS
+			yield return new WaitForSeconds(0.2f);
             // while (SceneManager.GetActiveScene().name != newSceneName)
             //     yield return null;
+
+			Debug.Log("in new area " + newSceneName);
             BagLostInScene(newSceneName);
                 
             body.velocity = Vector2.zero;
 
-            yield return new WaitForEndOfFrame();
-            this.transform.position = newScenePos;
 
             yield return new WaitForSeconds(0.1f);
             if (transitionAnim != null)
@@ -2806,15 +2817,17 @@ public class PlayerControls : MonoBehaviour
             yield return new WaitForSeconds(1);
             trainSound.Play();
             SceneManager.LoadScene(newSceneName);
+            this.transform.position = newScenePos;
             
+
             //* WAIT TILL SCENE LOADS
+			yield return new WaitForSeconds(0.2f);
             // while (SceneManager.GetActiveScene().name != newSceneName)
             //     yield return null;
+			Debug.Log("in new area " + newSceneName);
             BagLostInScene(newSceneName);
             // body.velocity = Vector2.zero;
 
-            yield return new WaitForEndOfFrame();
-            this.transform.position = newScenePos;
 
             yield return new WaitForSeconds(2f);
             string sceneName = SceneManager.GetActiveScene().name;
@@ -3230,12 +3243,12 @@ public class PlayerControls : MonoBehaviour
         anim.speed = 1;
         anim.SetTrigger("rest");
         anim.SetBool("isResting", true);
-        if (moomooUi != null)
-        {
-            for (int i=nMoomooMilkLeft ; i<moomooUi.Length ; i++)
-                moomooUi[i].SetTrigger("restored");
-        }
-        nMoomooMilkLeft = moomooUi.Length;
+        // if (moomooUi != null)
+        // {
+        //     for (int i=nMoomooMilkLeft ; i<moomooUi.Length ; i++)
+        //         moomooUi[i].SetTrigger("restored");
+        // }
+        // nMoomooMilkLeft = moomooUi.Length;
         enemyDefeated.Clear(); PlayerPrefsElite.SetStringArray("enemyDefeated", new string[0]);
 
         ParalysisOver();
@@ -3812,6 +3825,10 @@ public class PlayerControlsEditor : Editor
             infiniteSp = playerScript.InfiniteGauge();
         if (infiniteSp && GUILayout.Button("Finite Gauge"))
             infiniteSp = playerScript.InfiniteGauge();
+        
+		EditorGUILayout.Space();
+        if (GUILayout.Button("Full Restore"))
+            playerScript.FullRestore();
         
         EditorGUILayout.Space();
         EditorGUILayout.Space();

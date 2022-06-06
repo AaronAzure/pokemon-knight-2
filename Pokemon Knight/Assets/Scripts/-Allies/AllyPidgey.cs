@@ -6,16 +6,31 @@ public class AllyPidgey : Ally
     [Space] [Header("Pidgey")] 
     [SerializeField] private Transform atkPos;
     [SerializeField] private AllyAttack gust;
+    [Space][SerializeField] private AllyProjectile ultAtk;
 
     protected override void Setup() 
     {
-        if (gust != null)
-        {
-            gust.atkDmg = this.atkDmg;
-            gust.atkForce = this.atkForce;
-            gust.spBonus = this.spBonus;
-        }
-        body.velocity *= 0.5f;
+		if (useUlt && anim != null)
+		{
+            body.velocity = Vector2.zero;
+			outTime = 1;
+			if (ultAtk != null)
+			{
+				ultAtk.atkDmg = Mathf.RoundToInt( this.atkDmg * 1.5f );
+				ultAtk.atkForce = this.atkForce;
+			}
+			anim.SetTrigger("ult");
+		}
+		else
+		{
+			if (gust != null)
+			{
+				gust.atkDmg = this.atkDmg;
+				gust.atkForce = this.atkForce;
+				gust.spBonus = this.spBonus;
+			}
+			body.velocity *= 0.5f;
+		}
     }   
 
     public void Gust()
@@ -27,4 +42,18 @@ public class AllyPidgey : Ally
             // obj.spawnedPos = this.transform.position;
         }
     }
+
+	public void ULT()
+	{
+		if (ultAtk != null)
+		{
+			for (int i=0 ; i<6 ; i++)
+			{
+				Vector2 trajectory = Vector2.right;
+				trajectory = Quaternion.Euler(0, 0, 60 * i) * trajectory;
+				var obj = Instantiate(ultAtk, this.transform.position, ultAtk.transform.rotation);
+				obj.direction = trajectory.normalized;
+			}
+		}
+	}
 }

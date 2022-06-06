@@ -44,15 +44,11 @@ public class Gengar : Enemy
     [SerializeField] private float nightShadeXOffset=1f;
 
 
-
-
-    [Space] [Header("Willo Wisp")]  
-    [SerializeField] private Transform[] wispSpawns;
-    [SerializeField] private EnemyProjectile wispAtk;
-    [SerializeField] private List<EnemyProjectile> wisps;
-    [SerializeField] private float wispFireDelay=0.8f;
-    [SerializeField] private float wispSpeed=7.5f;
-    private bool shootingWisp;
+    [Space] [Header("Shadow Ball")]  
+    [SerializeField] private Transform shadowBallPos;
+    [SerializeField] private EnemyProjectile shadowBallAtk;
+    private int nShadowBalls;
+    private int shadowBallBurst=3;
 
     
     [Space] [Header("Teleport")]
@@ -101,7 +97,7 @@ public class Gengar : Enemy
         }
         if (nightShade != null)
         {
-            nightShade.atkDmg = projectileDmg + calcExtraProjectileDmg;
+            nightShade.atkDmg = secondDmg;
             nightShade.kbForce = contactKb;
         }
         if (variant == Variation.nightShader)
@@ -112,12 +108,19 @@ public class Gengar : Enemy
         }
 		else
 		{
+			inCutscene = true;
 			isSmart = false;
 			isActuallyBoss = true;
+			mainAnim.speed = 0;
 			mainAnim.Play("gengar-intro-anim", -1, 0);
 			startPos = new Vector3(transform.position.x, transform.position.y + 2);
 		}
-        StartCoroutine( LoadingIn() );
+        if (shadowBallAtk != null)
+		{
+			shadowBallAtk.atkDmg = projectileDmg + calcExtraProjectileDmg;
+		}
+		
+		StartCoroutine( LoadingIn() );
     }
 
     IEnumerator LoadingIn()
@@ -126,6 +129,11 @@ public class Gengar : Enemy
         sceneLoaded = true;
     }
 
+    public override void CallChildOnRoar()
+	{
+		mainAnim.speed = 1;
+		mainAnim.Play("gengar-intro-anim", -1, 0);
+	}
     public override void CallChildOnIncreaseSpd()
     {
         moveSpeed *= 1.5f;
@@ -149,15 +157,11 @@ public class Gengar : Enemy
         mainAnim.speed = 0;
         mainAnim.SetTrigger("reset");
         StopAllCoroutines();
+		Destroy(spawnedHolder);
 
 		this.gameObject.layer = LayerMask.NameToLayer("Enemy");
 		// this.gameObject.layer = enemyLayer;
 		this.transform.position = startPos;
-        
-		foreach (EnemyProjectile wisp in wisps)
-            if (wisp != null)
-                Destroy( wisp.gameObject );
-		
     }
     public override void CallChildOnDropLoot()
     {
@@ -269,6 +273,7 @@ public class Gengar : Enemy
     }
 
 
+
     public void STOP()
     {
         if (hp > 0)
@@ -287,36 +292,141 @@ public class Gengar : Enemy
 			rng = specific;
 
 		licking = false;
+		mainAnim.SetBool("usingShadowBall", false);
+		mainAnim.SetBool("usingNightShade", false);
+		mainAnim.SetBool("usingShadowBallBurst", false);
+
 		switch (rng)
 		{
+			//* NIGHT SHADE
 			case 0:
 				teleporting = false;
 				moveDir = Vector2.zero;
 				mainAnim.SetTrigger("teleport");
 				mainAnim.SetBool("usingNightShade", true);
+				if (hpImg.fillAmount <= 0.5f)
+					numNightShade = 9;
 				break;
 
-			//* NIGHT SHADE
+			//* LICK
 			case 1:
+				teleporting = true;
+				mainAnim.SetTrigger("teleport");
+				if (hpImg.fillAmount <= 0.5f)
+					mainAnim.SetFloat("lickSpeed", 1.5f);
+				break;
+			
+			case 2:
+				if (hpImg.fillAmount <= 0.5f)
+					nShadowBalls = 1;
 				teleporting = false;
 				moveDir = Vector2.zero;
 				mainAnim.SetTrigger("teleport");
-				mainAnim.SetBool("usingNightShade", true);
+				mainAnim.SetBool("usingShadowBallBurst", true);
 				break;
-			// case 2:
 				
-			// 	break;
 			// case 3:
-
 			// 	break;
-			//* LICK
+
+			//* SHADOW BALL
 			default:
-				teleporting = true;
+				nShadowBalls = 1;
+				if (hpImg.fillAmount <= 0.5f)
+					nShadowBalls = Random.Range(2,4); // 2,3
+				teleporting = false;
+				moveDir = Vector2.zero;
 				mainAnim.SetTrigger("teleport");
-				mainAnim.SetBool("usingNightShade", false);
+				mainAnim.SetBool("usingShadowBall", true);
 				break;
 		}
 	}
+
+	public IEnumerator SHADOW_BALL(float delay)
+	{
+		if (shadowBallAtk != null)
+		{
+			yield return new WaitForSeconds(delay);
+			EnemyProjectile[] objs = new EnemyProjectile[nShadowBalls];
+			
+			for (int i=0 ; i<nShadowBalls ; i++)
+			{
+				var obj = Instantiate(shadowBallAtk, 
+					shadowBallPos.position, shadowBallAtk.transform.rotation, spawnedHolder.transform);
+				obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
+
+				objs[i] = obj;
+				yield return new WaitForSeconds(0.25f);
+			}
+			// var obj = Instantiate(shadowBallAtk, 
+			// 	shadowBallPos.position, shadowBallAtk.transform.rotation, spawnedHolder.transform);
+			// obj.atkDmg = secondDmg;
+			
+			yield return new WaitForSeconds(1f - (0.25f * nShadowBalls));	LookAtTarget();
+			// yield return new WaitForSeconds(0.25f);	LookAtTarget();
+			
+			int temp = nShadowBalls;
+			for (int i=0 ; i<temp ; i++)
+			{
+				if (objs[i] != null)
+				{
+					yield return new WaitForSeconds(0.25f); LookAtTarget();
+					Vector2 trajectory = ((target.position + Vector3.up) - objs[i].transform.position).normalized;
+					objs[i].LaunchAt( trajectory );
+					
+					nShadowBalls--;
+					if (nShadowBalls > 0)
+					{
+						mainAnim.Play("gengar-shadow-ball-anim", -1, 0.625f);
+					}
+				}
+			}
+			
+		}
+	}
+	
+	public IEnumerator SHADOW_BALL_BURST(float delay)
+	{
+		if (shadowBallAtk != null)
+		{
+			yield return new WaitForSeconds(delay);
+			EnemyProjectile[] objs = new EnemyProjectile[shadowBallBurst];
+			
+			for (int i=0 ; i<shadowBallBurst ; i++)
+			{
+				var obj = Instantiate(shadowBallAtk, 
+					shadowBallPos.position, shadowBallAtk.transform.rotation, spawnedHolder.transform);
+				obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
+
+				objs[i] = obj;
+			}
+			
+			yield return new WaitForSeconds(1f);	LookAtTarget();
+			yield return new WaitForSeconds(0.25f);	LookAtTarget();
+			
+			for (int i=0 ; i<shadowBallBurst ; i++)
+			{
+				if (objs[i] != null)
+				{
+					float offset = 0;
+					if (i % 2 == 0) // even
+						offset = i / 2;
+					else            // odd
+						offset = -(i + 1) / 2;
+					Vector2 trajectory = ((target.position + Vector3.up) - objs[i].transform.position).normalized;
+
+					trajectory = Quaternion.Euler(0, 0, 30 * offset) * trajectory;
+					objs[i].LaunchAt( trajectory );
+				}
+			}
+			
+			if (nShadowBalls > 0)
+			{
+				nShadowBalls--;
+				mainAnim.Play("gengar-shadow-ball-burst-anim", -1, 0);
+			}
+		}
+	}
+
     public IEnumerator TELEPORT()
     {   
         if (target == null || hp <= 0)
@@ -363,6 +473,7 @@ public class Gengar : Enemy
 			// STOP TELEPORTING
 			if (teleportCount >= nTeleport)
 			{
+				mainAnim.SetBool("stillTeleporting", false);
 				teleportCount = 0;
 				nTeleport = Random.Range(0,3);
 			}
@@ -370,6 +481,7 @@ public class Gengar : Enemy
 			else
 			{
 				teleportCount++;
+				mainAnim.SetBool("stillTeleporting", true);
 				yield return new WaitForSeconds(0.5f);
 				mainAnim.SetTrigger("teleport");
 			}
@@ -437,41 +549,4 @@ public class Gengar : Enemy
     }
 
 
-    public IEnumerator SUMMON_WISP()
-    {
-        if (shootingWisp || !chasing)
-            yield break;
-        shootingWisp = true;
-
-        wisps.Clear();
-        for (int i=0 ; i<wispSpawns.Length ; i++)
-        {
-            yield return new WaitForSeconds(0.5f);
-            var obj = Instantiate(wispAtk, wispSpawns[i].position, wispAtk.transform.rotation, wispSpawns[i].transform);
-            wisps.Add(obj);
-        }
-
-        if (wisps != null && wisps.Count > 0)
-        {
-            yield return new WaitForSeconds(1);
-            EnemyProjectile[] temp = wisps.ToArray();
-            foreach (EnemyProjectile wisp in temp)
-            {
-                yield return new WaitForSeconds(wispFireDelay);
-                if (wisp != null)
-                {
-                    wisp.transform.parent = null;
-                    Vector2 dir = ((target.position + Vector3.up) - wisp.transform.position).normalized;
-                    wisp.body.AddForce(dir * wispSpeed, ForceMode2D.Impulse);
-                    wisps.Remove(wisp);
-                }
-            }
-        }
-        shootingWisp = false;
-    }
-
-    public void AGILITY()
-    {
-        StartCoroutine( ResetBuff(5,5, Stat.spd) );
-    }
 }

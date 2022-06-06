@@ -3,7 +3,7 @@ using UnityEngine;
 public class AllyFlareon : Ally
 {
     [Header("Flareon")]
-    public AllyProjectile fireBlast;
+    public AllyProjectile lavaBlast;
     public AllyAttack lavaPlume1;
     public AllyAttack lavaPlume2;
     public AllyAttack lavaPlume3;
@@ -15,10 +15,10 @@ public class AllyFlareon : Ally
         {
             outTime = 1f;
             anim.SetTrigger("ult");
-            if (fireBlast != null)
+            if (lavaBlast != null)
             {
-                fireBlast.atkDmg = this.atkDmg * this.multiHit;
-                fireBlast.atkForce = this.atkForce;
+                lavaBlast.atkDmg = this.atkDmg * this.multiHit;
+                lavaBlast.atkForce = this.atkForce;
             }
         }
     }
@@ -51,11 +51,11 @@ public class AllyFlareon : Ally
 
     // public void FIRE_BLAST()
     // {
-    //     if (fireBlast != null)
+    //     if (lavaBlast != null)
     //     {
-    //         var obj = Instantiate(fireBlast, mouthPos.position, fireBlast.transform.rotation);
-    //         obj.explosiveAtk = fireBlast.atkDmg;
-    //         obj.explosiveKb = fireBlast.atkForce;
+    //         var obj = Instantiate(lavaBlast, mouthPos.position, lavaBlast.transform.rotation);
+    //         obj.explosiveAtk = lavaBlast.atkDmg;
+    //         obj.explosiveKb = lavaBlast.atkForce;
     //         if (this.model.transform.eulerAngles.y > 0) // left
     //             obj.velocity *= -1;
     //     }

@@ -13,6 +13,9 @@ public class ColliderOnAfter : MonoBehaviour
         //     cols = this.GetComponent<Collider2D>();
         if (cols != null && cols.Length > 0 && delayOn > 0)
             StartCoroutine( EnableAfter() );
+        else if (cols != null && cols.Length > 0 && delayOn == 0)
+            foreach (Collider2D col in cols)
+            	col.enabled = true;
         if (cols != null && cols.Length > 0 && delayOff > 0)
             StartCoroutine( DisableAfter() );
     }

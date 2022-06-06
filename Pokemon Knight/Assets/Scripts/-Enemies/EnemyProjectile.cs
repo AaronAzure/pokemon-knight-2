@@ -14,6 +14,10 @@ public class EnemyProjectile : MonoBehaviour
     public float speed;
     [Space] public Animator anim;
 
+    
+	[Header("2nd Hitbox")]
+    public EnemyProjectile explosiveHitbox;
+
 
     [Header("Sleep")]
     [Space] public bool sleepEffect;
@@ -37,6 +41,12 @@ public class EnemyProjectile : MonoBehaviour
         if (body != null)
             body.velocity = direction * speed;
     }
+
+	public void LaunchAt(Vector3 direction)
+	{
+		if (body != null)
+            body.velocity = direction * speed;
+	}
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
@@ -77,21 +87,27 @@ public class EnemyProjectile : MonoBehaviour
             
             if (destoryOnPlayerCollision)
             {
-                if (explosion != null)
-                    Instantiate(explosion, this.transform.position, Quaternion.identity);
-                
-                if (trailObj != null) 
-                    trailObj.transform.parent = null;
-                Destroy(this.gameObject);
+                CreateExplosion();
             }
         }
         if (destoryOnWallCollision && other.CompareTag("Ground"))    
         {
-            if (explosion != null)
-                Instantiate(explosion, this.transform.position, Quaternion.identity);
-            if (trailObj != null) 
-                trailObj.transform.parent = null;
-            Destroy(this.gameObject);
+            CreateExplosion();
         }
     }
+
+	void CreateExplosion()
+	{
+		if (explosion != null)
+			Instantiate(explosion, this.transform.position, Quaternion.identity);
+		if (explosiveHitbox != null)
+		{
+			var obj = Instantiate(explosiveHitbox, this.transform.position, explosiveHitbox.transform.rotation);
+			obj.atkDmg = this.atkDmg;
+			obj.kbForce = this.kbForce;
+		}
+		if (trailObj != null) 
+			trailObj.transform.parent = null;
+		Destroy(this.gameObject);
+	}
 }
