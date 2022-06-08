@@ -46,6 +46,7 @@ public abstract class Ally : MonoBehaviour
     [Tooltip("e.g. Vine whip")] public string moveName;
     public int multiHit=1;
     [TextArea(15,20)] public string moveDesc;
+	public CustomMoveDescription cmd;
 
 
     [Space] [Header("Flash")]
@@ -61,21 +62,34 @@ public abstract class Ally : MonoBehaviour
     public Vector2 feetBox;
     public Vector2 feetOffset;
     [Space] public float feetRadius=0.01f;
+    public bool registerMultipleLanding=false;
     protected bool once;
     private bool returning=false;
     private bool shrinking;
 
     [Space][Header("UI")]
     public List<Image> imgs;
+
+	protected int trainerBonusLv;
     
 
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        if (useUlt)
+		{
+			spBonus = 0;
+            resummonTime = 1;
+		}
+		
+
         // Strength grows per level
         if (trainer != null)
+		{
+			trainerBonusLv = (trainer.lv - 1);
             atkDmg += ( extraDmg * Mathf.CeilToInt(((trainer.lv - 1) + ExtraEnhancedDmg() / perLevel)) );
+		}
         if (trainer != null && trainer.crisisCharm && trainer.hpImg.fillAmount <= 0.25f)
             atkDmg *= 2;
         else if (trainer != null && trainer.crisisCharm && trainer.hpImg.fillAmount <= 0.5f)
@@ -89,8 +103,7 @@ public abstract class Ally : MonoBehaviour
             hitbox.atkForce = this.atkForce;
             hitbox.spBonus = this.spBonus;
         }
-        if (useUlt)
-            resummonTime = 1;
+
         if (trainer != null && trainer.quickCharm)
             resummonTime *= trainer.coolDownSpeed;
 
@@ -120,6 +133,10 @@ public abstract class Ally : MonoBehaviour
         
     }
     
+	protected bool FacingRight()
+	{
+		return (this.transform.eulerAngles.y != 180);	// not left
+	}
     
     public bool IsAtSecondEvolution() { return (extraLevel >= 3); }
     public bool IsAtThirdEvolution() { return (extraLevel >= 6); }
@@ -215,7 +232,8 @@ public abstract class Ally : MonoBehaviour
         if (groundInfo && body != null && body.velocity.y <= 0)
         {
             body.velocity = Vector2.zero;
-            CallChildOnLanded();
+			if (!registerMultipleLanding)
+            	CallChildOnLanded();
         }
     }
 
@@ -332,4 +350,12 @@ public abstract class Ally : MonoBehaviour
         yield return new WaitForEndOfFrame();
         Destroy(this.gameObject);
     }
+}
+
+
+[System.Serializable] public class CustomMoveDescription
+{
+	public bool isCustomDmg=false;
+	public string customDmg;
+	public string customExtraDmg;
 }

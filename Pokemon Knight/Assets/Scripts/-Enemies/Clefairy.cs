@@ -32,10 +32,21 @@ public class Clefairy : Enemy
     private float flipTimer;
 
 
+	[Space] [Header("Willo Wisp")]  
+    [SerializeField] private GameObject wispHolder;
+    [SerializeField] private Transform[] wispSpawns;
+    [SerializeField] private EnemyProjectile wispAtk;
+    [SerializeField] private List<EnemyProjectile> wisps;
+    [SerializeField] private float wispFireDelay=0.8f;
+    [SerializeField] private float wispSpeed=7.5f;
+    private bool shootingWisp;
+
+
     [Space] [Header("Projectiles")]  
     [SerializeField] private Transform atkPos;
     [Space] [SerializeField] private GameObject spawnedHolder;
     [SerializeField] private int nProjectiles=4;
+    [SerializeField] private int fixedAtk=-1;
 
     [Space] [SerializeField] private RazorLeaf razorLeafObj;
     [SerializeField] private MetronomeAttacks razorLeafStat;
@@ -62,6 +73,18 @@ public class Clefairy : Enemy
     
     [Space] [SerializeField] private EnemyProjectile waterGunObj;
     [SerializeField] private MetronomeAttacks waterGunStat;
+    
+    [Space] [SerializeField] private EnemyAttack bodySlamObj;
+    [SerializeField] private bool performingBodySlam;
+    [SerializeField] private float bodySlamForce=20;
+    [SerializeField] private MetronomeAttacks bodySlamStat;
+    
+    [Space] [SerializeField] private EnemyProjectile whirlWindObj;
+    [SerializeField] private MetronomeAttacks whirlWindStat;
+
+    [Space] [SerializeField] private GameObject teleportEffect;
+    [SerializeField] private GameObject teleportBurstEffect;
+
 
     // [SerializeField] private MetronomeAttacks[] metronomeAttacks;
     // [Space] [SerializeField] private EnemyProjectile flameThrower;
@@ -82,6 +105,24 @@ public class Clefairy : Enemy
         if (varyingFlipEvery)
             flipEvery *= Random.Range(0.75f, 1.25f);
 
+		if (bodySlamObj != null)
+		{
+			bodySlamObj.atkDmg = Mathf.RoundToInt(contactDmg * 0.8f);
+			bodySlamObj.kbForce = bodySlamStat.projectileKb;
+		}
+		if (whirlWindObj != null)
+		{
+			whirlWindObj.atkDmg = whirlWindStat.projectileDmg;
+			whirlWindObj.atkDmg += (whirlWindStat.extraDmg * CalculateExtraDmg());
+			whirlWindObj.kbForce = whirlWindStat.projectileKb;
+		}
+		if (wispAtk != null)
+        {
+            wispAtk.atkDmg = projectileDmg + calcExtraProjectileDmg;
+            wispAtk.kbForce = contactKb;
+            wisps = new List<EnemyProjectile>();
+        }
+
     }
     public override void CallChildOnDeath()
     {
@@ -92,6 +133,11 @@ public class Clefairy : Enemy
     {
         if (co != null)
             StopCoroutine(co);
+
+        if (wispHolder != null)
+			Destroy(wispHolder);
+
+		StopAllCoroutines();
         if (spawnedHolder != null)
             Destroy(spawnedHolder);
 		mainAnim.SetTrigger("reset");
@@ -102,34 +148,34 @@ public class Clefairy : Enemy
 		mainAnim.SetTrigger("metronome");
 	}
 
+	public override void CallChildOnHalfHealth()
+	{
+		if (isMiniBoss)
+		{
+			mainAnim.SetFloat("mSpeed", 2);
+		}
+	}
+
+
+
+
 
     private void FixedUpdate() 
     {
         if (!isMiniBoss)
         {
-            
-            // RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsGround);
-            // RaycastHit2D frontInfo;
-            // if (model.transform.eulerAngles.y > 0)    // right
-            //     frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
-            // else    // left
-            //     frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
-
-
-            // if (hp > 0 && !receivingKnockback)
-            // {
-            //     if (movingLeft)
-            //     {
-            //         body.velocity = new Vector2(-moveSpeed, body.velocity.y);
-            //         model.transform.eulerAngles = new Vector3(0, 0);
-            //     }
-            //     else if (movingRight)
-            //     {
-            //         body.velocity = new Vector2(moveSpeed, body.velocity.y);
-            //         model.transform.eulerAngles = new Vector3(0, 180);
-            //     }
-            // }
-            if (!performingMetronome && !cannotFlip)
+			if (performingBodySlam && IsGrounded())
+			{
+				performingBodySlam = false;
+				body.velocity = Vector2.zero;
+				if (co != null)
+            		StopCoroutine(co);
+				co = null;
+				StartCoroutine(Done(0));
+				bodySlamObj.gameObject.SetActive(false);
+				bodySlamObj.gameObject.SetActive(true);
+			}
+            else if (!performingMetronome && !cannotFlip)
             {
                 if (flipTimer < flipEvery)
                     flipTimer += Time.fixedDeltaTime;
@@ -174,10 +220,17 @@ public class Clefairy : Enemy
             if (performingMetronome)
                 LookAtTarget();
 
-            // if (!receivingKnockback)
-            // {
-			// 	mainAnim.SetTrigger("metronome");
-            // }    
+            if (performingBodySlam && IsGrounded())
+			{
+				performingBodySlam = false;
+				body.velocity = Vector2.zero;
+				if (co != null)
+            		StopCoroutine(co);
+				co = null;
+				StartCoroutine(Done(0));
+				bodySlamObj.gameObject.SetActive(false);
+				bodySlamObj.gameObject.SetActive(true);
+			}
         }
     }
 
@@ -209,6 +262,8 @@ public class Clefairy : Enemy
             return;
 
         int rng = Random.Range(0, nProjectiles);
+		if (fixedAtk >= 0)
+			rng = fixedAtk;
         switch (rng)
         {
             // Razor Leaf
@@ -216,9 +271,9 @@ public class Clefairy : Enemy
                 LookAtTarget();
                 if (razorLeafObj != null)
                 {
-                    var obj = Instantiate(razorLeafObj, atkPos.position, razorLeafObj.transform.rotation);
+                    var obj = Instantiate(razorLeafObj, atkPos.position, razorLeafObj.transform.rotation, spawnedHolder.transform);
                     obj.atkDmg = razorLeafStat.projectileDmg +
-                        Mathf.Max(0, razorLeafStat.extraDmg * Mathf.FloorToInt((float)(lv - defaultLv)/2));
+                        Mathf.Max(0, razorLeafStat.extraDmg * CalculateExtraDmg());
                     obj.direction = ProjectileDirection();
                 }
                 StartCoroutine( Done( razorLeafStat.duration ) );
@@ -228,13 +283,13 @@ public class Clefairy : Enemy
                 LookAtTarget();
                 if (sludgeBombObj != null)
                 {
-                    var obj = Instantiate(sludgeBombObj, atkPos.position, sludgeBombObj.transform.rotation);
+                    var obj = Instantiate(sludgeBombObj, atkPos.position, sludgeBombObj.transform.rotation, spawnedHolder.transform);
                     obj.body.gravityScale = 3;
                     obj.atkDmg = sludgeBombStat.projectileDmg +
-                        Mathf.Max(0, sludgeBombStat.extraDmg * Mathf.FloorToInt((float)(lv - defaultLv)/2));
+                        Mathf.Max(0, sludgeBombStat.extraDmg * CalculateExtraDmg());
                     float trajectory = CalculateTrajectory();
                     float extraHeight = CalculateExtraHeight();
-                    obj.direction = new Vector2(trajectory * -1.1f, Random.Range(10,16) + extraHeight);
+                    obj.direction = new Vector2(trajectory * 1.1f, Random.Range(10,16) + extraHeight);
                 }
                 StartCoroutine( Done( sludgeBombStat.duration ) );
                 break;
@@ -242,9 +297,9 @@ public class Clefairy : Enemy
             case 2:
                 if (poisonPowderObj != null)
                 {
-                    var obj = Instantiate(poisonPowderObj, atkPos.position, poisonPowderObj.transform.rotation);
+                    var obj = Instantiate(poisonPowderObj, atkPos.position, poisonPowderObj.transform.rotation, spawnedHolder.transform);
                     obj.atkDmg = poisonPowderStat.projectileDmg +
-                        Mathf.Max(0, poisonPowderStat.extraDmg * Mathf.FloorToInt((float)(lv - defaultLv)/2));
+                        Mathf.Max(0, poisonPowderStat.extraDmg * CalculateExtraDmg());
                 }
                 StartCoroutine( Done( poisonPowderStat.duration ) );
                 break;
@@ -253,7 +308,7 @@ public class Clefairy : Enemy
                 LookAtTarget();
                 if (yawnObj != null)
                 {
-                    var obj = Instantiate(yawnObj, atkPos.position, yawnObj.transform.rotation);
+                    var obj = Instantiate(yawnObj, atkPos.position, yawnObj.transform.rotation, spawnedHolder.transform);
                     Vector2 dir = ProjectileDirection();
                     obj.direction = dir;
                 }
@@ -263,28 +318,130 @@ public class Clefairy : Enemy
             case 4:
                 LookAtTarget();
                 NIGHT_SHADE();
-                StartCoroutine( Done( yawnStat.duration ) );
+                StartCoroutine( Done( nightShadeStat.duration ) );
                 break;
             // Poison Sting
             case 5:
                 LookAtTarget();
                 POISON_STING();
-                StartCoroutine( Done( yawnStat.duration ) );
+                StartCoroutine( Done( poisonStingStat.duration ) );
                 break;
             // Water Gun
             case 6:
                 LookAtTarget();
                 if (waterGunObj != null)
                 {
-                    var obj = Instantiate(waterGunObj, atkPos.position, waterGunObj.transform.rotation);
+                    var obj = Instantiate(waterGunObj, atkPos.position, waterGunObj.transform.rotation, spawnedHolder.transform);
                     obj.atkDmg = waterGunStat.projectileDmg +
-                        Mathf.Max(0, waterGunStat.extraDmg * Mathf.FloorToInt((float)(lv - defaultLv)/2));
+                        Mathf.Max(0, waterGunStat.extraDmg * CalculateExtraDmg());
                     obj.direction = ProjectileDirection();
                 }
                 StartCoroutine( Done( waterGunStat.duration ) );
                 break;
+            // Body Slam
+            case 7:
+                LookAtTarget();
+
+                if (bodySlamObj != null)
+                {
+					float trajectory = CalculateTrajectory();
+                    float extraHeight = CalculateExtraHeight();
+					body.AddForce(new Vector2(trajectory, bodySlamForce + extraHeight), ForceMode2D.Impulse);
+					StartCoroutine(BodySlam());
+                }
+                co = StartCoroutine( Done( bodySlamStat.duration ) );
+                break;
+            // WhirlWind
+            case 8:
+                LookAtTarget();
+
+                if (whirlWindObj != null)
+                {
+					for (int i=0 ; i<6 ; i++)
+					{
+						Vector2 trajectory = Vector2.right;
+						trajectory = Quaternion.Euler(0, 0, 60 * i) * trajectory;
+						var obj = Instantiate(whirlWindObj, this.transform.position, whirlWindObj.transform.rotation, spawnedHolder.transform);
+						obj.direction = trajectory.normalized;
+					}
+                }
+                StartCoroutine( Done( whirlWindStat.duration ) );
+                break;
+            // Will o Wisp
+            case 9:
+                LookAtTarget();
+
+                StartCoroutine( SUMMON_WISP() );
+                StartCoroutine( Done( whirlWindStat.duration ) );
+                break;
+            // Teleport
+            case 10:
+				Vector2 origin = target.position + new Vector3(0, 0.5f);
+				RaycastHit2D uphit = Physics2D.Raycast(origin, Vector2.up, 7, whatIsGround);
+                LookAtTarget();
+
+				// CEILING IS TO0 CLOSE
+				if (uphit.collider != null)
+				{
+					RaycastHit2D lefthit = Physics2D.Raycast(origin, Vector2.left, 4, whatIsGround);
+					RaycastHit2D righthit = Physics2D.Raycast(origin, Vector2.right, 4, whatIsGround);
+					
+
+					if (lefthit.collider == null && righthit.collider == null)
+					{
+						int r = Random.Range(0, 2) == 1 ? -1 : 1;
+						Teleport((Vector3) origin + 4 * Vector3.right * r);
+					}
+
+					else if (lefthit.collider == null)
+						Teleport((Vector3) origin + 4 * Vector3.left);
+
+					else if (righthit.collider == null)
+						Teleport((Vector3) origin + 4 * Vector3.right);
+
+					else if (Mathf.Abs(lefthit.distance) < Mathf.Abs(righthit.distance))
+					{
+						Debug.Log("right = " + lefthit.distance + "  :  " + righthit.distance);
+						Teleport((Vector3) origin + Mathf.Abs(righthit.distance) * Vector3.right + Vector3.left);
+					}
+					else
+					{
+						Debug.Log("left = " + lefthit.distance + "  :  " + righthit.distance);
+						Teleport((Vector3) origin + Mathf.Abs(lefthit.distance) * Vector3.left + Vector3.right);
+					}
+
+				}
+				else
+				{
+					Teleport((Vector3) origin + 6 * Vector3.up, 0.1f);
+				}
+				// else
+				// {
+				// 	if (bodySlamObj != null)
+				// 	{
+				// 		float trajectory = CalculateTrajectory();
+				// 		float extraHeight = CalculateExtraHeight();
+				// 		body.AddForce(new Vector2(trajectory, bodySlamForce + extraHeight), ForceMode2D.Impulse);
+				// 		StartCoroutine(BodySlam());
+				// 	}
+				// 	co = StartCoroutine( Done( bodySlamStat.duration ) );
+				// }
+
+                break;
         }
     }
+
+	public void Teleport( Vector3 telePos , float delay=0f)
+	{
+		Instantiate( teleportBurstEffect, this.transform.position, teleportBurstEffect.transform.rotation );
+		Instantiate( teleportEffect, this.transform.position, teleportEffect.transform.rotation );
+		
+		transform.position = telePos;
+		Instantiate( teleportBurstEffect, this.transform.position, teleportBurstEffect.transform.rotation );
+		Instantiate( teleportEffect, this.transform.position, teleportEffect.transform.rotation );
+
+		StartCoroutine( Done( delay ) );
+	}
 
     public void POISON_STING()
     {
@@ -302,11 +459,17 @@ public class Clefairy : Enemy
                 Vector2 trajectory = ((target.position + Vector3.up) - atkPos.position).normalized;
                 
 				if (trajectory.y < 0)
-					trajectory *= new Vector2(1 ,0);
+				{
+					trajectory *= new Vector2(1, 0);
+					if (trajectory.x >= 0)
+						trajectory.x = 1;
+					else
+						trajectory.x = -1;
+				}
 
                 trajectory = Quaternion.Euler(0, 0, 15 * offset) * trajectory;
                 // vector = Quaternion.Euler(0, -45, 0) * vector;
-                var obj = Instantiate(poisonStingObj, atkPos.position, poisonStingObj.transform.rotation);
+                var obj = Instantiate(poisonStingObj, atkPos.position, poisonStingObj.transform.rotation, spawnedHolder.transform);
                 obj.body.gravityScale = 0;
                 obj.transform.rotation = Quaternion.LookRotation(trajectory);
                 obj.direction = trajectory.normalized;
@@ -320,7 +483,7 @@ public class Clefairy : Enemy
         if (nightShadeObj != null && target != null)
         {
             nightShadeObj.atkDmg = nightShadeStat.projectileDmg +
-                        Mathf.Max(0, nightShadeStat.extraDmg * Mathf.FloorToInt((float)(lv - defaultLv)/2));
+                        Mathf.Max(0, nightShadeStat.extraDmg * CalculateExtraDmg());
             nightShadeObj.kbForce = nightShadeStat.projectileKb;
             for (int i=0 ; i<numNightShade ; i++)
             {
@@ -334,20 +497,66 @@ public class Clefairy : Enemy
                 RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, nightShadeMaxDist, whatIsGround);
                 if (hit.collider != null)
                 {
-                    var obj = Instantiate(nightShadeObj, hit.point, nightShadeObj.transform.rotation);
+                    var obj = Instantiate(nightShadeObj, hit.point, nightShadeObj.transform.rotation, spawnedHolder.transform);
                 }
             }
         }
+    }
+
+
+	public IEnumerator SUMMON_WISP()
+    {
+        if (shootingWisp)
+            yield break;
+        shootingWisp = true;
+
+        wisps.Clear();
+        for (int i=0 ; i<wispSpawns.Length ; i++)
+        {
+            yield return new WaitForSeconds(0.5f);
+            var obj = Instantiate(wispAtk, wispSpawns[i].position, wispAtk.transform.rotation, wispSpawns[i].transform);
+            wisps.Add(obj);
+        }
+
+        if (wisps != null && wisps.Count > 0)
+        {
+            yield return new WaitForSeconds(1);
+            EnemyProjectile[] temp = wisps.ToArray();
+            foreach (EnemyProjectile wisp in temp)
+            {
+                yield return new WaitForSeconds(wispFireDelay);
+                if (wisp != null)
+                {
+                    wisp.transform.parent = null;
+                    Vector2 dir = ((target.position + Vector3.up) - wisp.transform.position).normalized;
+                    wisp.body.AddForce(dir * wispSpeed, ForceMode2D.Impulse);
+                    wisps.Remove(wisp);
+                }
+            }
+        }
+        shootingWisp = false;
     }
 
     Vector2 ProjectileDirection()
     {
 		Vector2 dir = (playerControls.transform.position + new Vector3(0,2f) - atkPos.position).normalized;
 		if (dir.y < 0)
+		{
 			dir *= new Vector2(1,0);
+			if (dir.x >= 0)
+				dir.x = 1;
+			else
+				dir.x = -1;
+		}
         return dir;
     }
 
+
+	IEnumerator BodySlam()
+	{
+		yield return new WaitForSeconds(0.2f);
+		performingBodySlam = true;
+	}
     IEnumerator Done(float duration)
     {
         if (duration != 0)
@@ -355,16 +564,24 @@ public class Clefairy : Enemy
         else
             yield return new WaitForEndOfFrame();
 
+
         mainAnim.SetTrigger("done");
         performingMetronome = false;
 
         if (alert != null && !playerInSight) 
             alert.gameObject.SetActive(false);
+		
+		if (co != null)
+			co = null;
     }
 
+    private int CalculateExtraDmg()
+    {
+		return Mathf.FloorToInt((float)(lv - defaultLv)/2);
+    }
     private float CalculateTrajectory()
     {
-        return (this.transform.position.x - target.position.x);
+        return (target.position.x - this.transform.position.x);
     }
     private float CalculateExtraHeight()
     {

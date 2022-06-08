@@ -8,7 +8,14 @@ public class EnemyFieldOfVision : MonoBehaviour
     [Space] [SerializeField] private bool hideAlert=true;
     // [Space] private bool onTriggerStay2D;
 
-    private void OnTriggerEnter2D(Collider2D other) 
+	private void Start() 
+	{
+		this.gameObject.SetActive(false);
+		this.gameObject.SetActive(true);
+	}
+
+    // private void OnTriggerEnter2D(Collider2D other) 
+    private void OnTriggerStay2D(Collider2D other) 
     {
         if (other.CompareTag("Player") && enemy != null)
         {

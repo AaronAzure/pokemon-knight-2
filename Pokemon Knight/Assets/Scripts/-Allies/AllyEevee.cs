@@ -104,12 +104,15 @@ public class AllyEevee : Ally
         int ind = -1;
         for (int i=0 ; i<enemies.Count ; i++)
         {
-            float distToSelf = Mathf.Abs(Vector2.Distance(atkPos.position, enemies[i].position));
-            if (distToSelf < distance && EnemyInLineOfSight(enemies[i]))
-            {
-                distance = distToSelf;
-                ind = i;
-            }
+			if (enemies[i] != null)
+			{
+				float distToSelf = Mathf.Abs(Vector2.Distance(atkPos.position, enemies[i].position));
+				if (distToSelf < distance && EnemyInLineOfSight(enemies[i]))
+				{
+					distance = distToSelf;
+					ind = i;
+				}
+			}
         }
         if (ind == -1)
         {

@@ -18,10 +18,11 @@ public class AllySnorlax : Ally
         {
             outTime = 2.4f;
             anim.SetTrigger("ult");
-            atkDmg *= 4;
+            atkDmg *= 3;
             atkForce *= 2;
             ultAtk.atkDmg = this.atkDmg;
             ultAtk.atkForce = this.atkForce;
+			spBonus = 0;
         }
         else
         {

@@ -255,7 +255,7 @@ public abstract class Enemy : MonoBehaviour
     public virtual void CallChildOnKnockbackFinish() {}
     public virtual void CallChildOnDropLoot() 
     {
-        if (!isBoss && !isMiniBoss)
+        if (!isBoss || isMiniBoss)
 			loot.DropLoot( Mathf.FloorToInt(lv / 10) );
 		else
 			loot.DropLoot();

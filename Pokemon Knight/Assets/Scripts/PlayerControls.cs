@@ -113,6 +113,7 @@ public class PlayerControls : MonoBehaviour
     [Space] public Ally flareon;
     [Space] public Ally eevee;
     [Space] public Ally vaporeon;
+    [Space] public Ally clefable;
 
 
 
@@ -699,6 +700,14 @@ public class PlayerControls : MonoBehaviour
                         pokemonInTeamBenchSettings[i].ally = vaporeon;
                         partyPokemonsUI[i].sprite = vaporeon.currentForm;
                         break;
+                    case "clefable":
+                        allies[i] = clefable;
+                        if (PlayerPrefsElite.VerifyInt("clefableLv" + gameNumber))
+                            clefable.SetExtraLevel( PlayerPrefsElite.GetInt("clefableLv" + gameNumber) );
+                        pokemonInTeamBenchSettings[i].img.sprite = clefable.currentForm;
+                        pokemonInTeamBenchSettings[i].ally = clefable;
+                        partyPokemonsUI[i].sprite = clefable.currentForm;
+                        break;
                     case "":
                         pokemonInTeamBenchSettings[i].img.sprite = emptySprite;
                         pokemonInTeamBenchSettings[i].ally = null;
@@ -1284,6 +1293,7 @@ public class PlayerControls : MonoBehaviour
                 {
                     pokemon.useUlt = true;
                     sp -= spReq;
+					sp = Mathf.Max(0, sp);
                     gaugeGlow.SetActive(false);
                     gaugeIndicator.SetActive(false);
                     gaugeButton.SetActive(false);
@@ -1336,6 +1346,9 @@ public class PlayerControls : MonoBehaviour
         else if (ally == vaporeon)
             if (PlayerPrefsElite.VerifyInt("vaporeonLv" + gameNumber))
                 return PlayerPrefsElite.GetInt("vaporeonLv" + gameNumber);
+        else if (ally == clefable)
+            if (PlayerPrefsElite.VerifyInt("clefableLv" + gameNumber))
+                return PlayerPrefsElite.GetInt("clefableLv" + gameNumber);
         return 0;
     }
     public void EnhanceAllyPokemonLevel(Ally ally, int enhancementCost)
@@ -1460,6 +1473,16 @@ public class PlayerControls : MonoBehaviour
             else
                 PlayerPrefsElite.SetInt("vaporeonLv" + gameNumber, 1);
             vaporeon.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("vaporeonLv" + gameNumber) );
+        }
+        else if (ally == clefable)
+        {
+            found = true;
+            if (PlayerPrefsElite.VerifyInt("clefableLv" + gameNumber))
+                PlayerPrefsElite.SetInt("clefableLv" + gameNumber, 
+                    PlayerPrefsElite.GetInt("clefableLv" + gameNumber) + 1);
+            else
+                PlayerPrefsElite.SetInt("clefableLv" + gameNumber, 1);
+            clefable.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("clefableLv" + gameNumber) );
         }
         else 
             Debug.Log("<color=red>Pokemon not registered to be Enhanced</color>");
@@ -2512,6 +2535,7 @@ public class PlayerControls : MonoBehaviour
             // while (SceneManager.GetActiveScene().name != sceneName)
             //     yield return null;
             yield return new WaitForSeconds(0.2f);
+			AllPokemonReturned();
             BagLostInScene(sceneName);
             SetPlayerLocationInMap(sceneName);
         }
@@ -2679,7 +2703,8 @@ public class PlayerControls : MonoBehaviour
                 transitionAnim.SetTrigger("toBlack");
 
             yield return new WaitForSeconds(1);
-            SceneManager.LoadScene(newSceneName); 
+			string cannotChange = newSceneName;
+            SceneManager.LoadScene(cannotChange); 
             this.transform.position = newScenePos;
 
 
@@ -2688,8 +2713,8 @@ public class PlayerControls : MonoBehaviour
             // while (SceneManager.GetActiveScene().name != newSceneName)
             //     yield return null;
 
-			Debug.Log("in new area " + newSceneName);
-            BagLostInScene(newSceneName);
+			Debug.Log("in new area " + cannotChange);
+            BagLostInScene(cannotChange);
                 
             body.velocity = Vector2.zero;
 
@@ -2710,6 +2735,7 @@ public class PlayerControls : MonoBehaviour
                     StartingMusic(newSceneFirstWord);
             }
             LockToCurrentPos();
+			AllPokemonReturned();
             movingToDifferentScene = false;
 
             if (exitingAnotherDoor)
@@ -2816,7 +2842,8 @@ public class PlayerControls : MonoBehaviour
 
             yield return new WaitForSeconds(1);
             trainSound.Play();
-            SceneManager.LoadScene(newSceneName);
+			string cannotChange = newSceneName;
+            SceneManager.LoadScene(cannotChange);
             this.transform.position = newScenePos;
             
 
@@ -2824,8 +2851,8 @@ public class PlayerControls : MonoBehaviour
 			yield return new WaitForSeconds(0.2f);
             // while (SceneManager.GetActiveScene().name != newSceneName)
             //     yield return null;
-			Debug.Log("in new area " + newSceneName);
-            BagLostInScene(newSceneName);
+			Debug.Log("in new area " + cannotChange);
+            BagLostInScene(cannotChange);
             // body.velocity = Vector2.zero;
 
 
@@ -3786,6 +3813,9 @@ public class PlayerControls : MonoBehaviour
         
         PlayerPrefsElite.SetInt("vaporeonLv" + gameNumber, 0);
         vaporeon.SetExtraLevel( 0 );
+        
+        PlayerPrefsElite.SetInt("clefableLv" + gameNumber, 0);
+        clefable.SetExtraLevel( 0 );
     }
 
 }

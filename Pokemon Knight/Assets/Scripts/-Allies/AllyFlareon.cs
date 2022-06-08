@@ -13,11 +13,12 @@ public class AllyFlareon : Ally
     {
         if (useUlt && anim != null)
         {
-            outTime = 1f;
+            outTime = ultOutTime;
             anim.SetTrigger("ult");
             if (lavaBlast != null)
             {
                 lavaBlast.atkDmg = this.atkDmg * this.multiHit;
+                lavaBlast.atkDmg = Mathf.RoundToInt(lavaBlast.atkDmg * 1.1f);
                 lavaBlast.atkForce = this.atkForce;
             }
         }

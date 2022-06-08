@@ -17,6 +17,7 @@ public class AllyVaporeon : Ally
             outTime = ultOutTime;
             anim.SetTrigger("ult");
             hitbox.atkDmg = Mathf.RoundToInt( this.atkDmg / 3f);
+			spBonus = 0;
             
             if (transform.rotation.y == 0)  // right
                 body.AddForce(new Vector2(hForce, vForce), ForceMode2D.Impulse);
