@@ -114,6 +114,7 @@ public class PlayerControls : MonoBehaviour
     [Space] public Ally eevee;
     [Space] public Ally vaporeon;
     [Space] public Ally clefable;
+    [Space] public Ally gengar;
 
 
 
@@ -707,6 +708,14 @@ public class PlayerControls : MonoBehaviour
                         pokemonInTeamBenchSettings[i].img.sprite = clefable.currentForm;
                         pokemonInTeamBenchSettings[i].ally = clefable;
                         partyPokemonsUI[i].sprite = clefable.currentForm;
+                        break;
+                    case "gengar":
+                        allies[i] = gengar;
+                        if (PlayerPrefsElite.VerifyInt("gengarLv" + gameNumber))
+                            gengar.SetExtraLevel( PlayerPrefsElite.GetInt("gengarLv" + gameNumber) );
+                        pokemonInTeamBenchSettings[i].img.sprite = gengar.currentForm;
+                        pokemonInTeamBenchSettings[i].ally = gengar;
+                        partyPokemonsUI[i].sprite = gengar.currentForm;
                         break;
                     case "":
                         pokemonInTeamBenchSettings[i].img.sprite = emptySprite;
@@ -1349,6 +1358,9 @@ public class PlayerControls : MonoBehaviour
         else if (ally == clefable)
             if (PlayerPrefsElite.VerifyInt("clefableLv" + gameNumber))
                 return PlayerPrefsElite.GetInt("clefableLv" + gameNumber);
+        else if (ally == gengar)
+            if (PlayerPrefsElite.VerifyInt("gengarLv" + gameNumber))
+                return PlayerPrefsElite.GetInt("gengarLv" + gameNumber);
         return 0;
     }
     public void EnhanceAllyPokemonLevel(Ally ally, int enhancementCost)
@@ -1483,6 +1495,16 @@ public class PlayerControls : MonoBehaviour
             else
                 PlayerPrefsElite.SetInt("clefableLv" + gameNumber, 1);
             clefable.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("clefableLv" + gameNumber) );
+        }
+        else if (ally == gengar)
+        {
+            found = true;
+            if (PlayerPrefsElite.VerifyInt("gengarLv" + gameNumber))
+                PlayerPrefsElite.SetInt("gengarLv" + gameNumber, 
+                    PlayerPrefsElite.GetInt("gengarLv" + gameNumber) + 1);
+            else
+                PlayerPrefsElite.SetInt("gengarLv" + gameNumber, 1);
+            gengar.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("gengarLv" + gameNumber) );
         }
         else 
             Debug.Log("<color=red>Pokemon not registered to be Enhanced</color>");
@@ -3158,6 +3180,10 @@ public class PlayerControls : MonoBehaviour
             case "bellsprout": 
                 CaughtAPokemon("bellsprout");
                 break;
+            case "gengar": 
+                CaughtAPokemon("gengar");
+				PlayerPrefsElite.SetBoolean("caughtGengar" + gameNumber, true);
+                break;
             default:
                 if (CaughtAPokemon(powerupName))
                     Debug.LogError("PlayerControls.GainPowerup - unregistered powerup (ADD TO SWITCH CASE)");
@@ -3825,6 +3851,9 @@ public class PlayerControls : MonoBehaviour
         
         PlayerPrefsElite.SetInt("clefableLv" + gameNumber, 0);
         clefable.SetExtraLevel( 0 );
+        
+        PlayerPrefsElite.SetInt("gengarLv" + gameNumber, 0);
+        gengar.SetExtraLevel( 0 );
     }
 
 }

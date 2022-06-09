@@ -9641,7 +9641,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atkDmg: 50
   kbForce: 10
-  ignoreInvincible: 0
+  ignoreInvincible: 1
   destoryOnPlayerCollision: 0
   destoryOnWallCollision: 0
   explosion: {fileID: 0}
@@ -9650,6 +9650,7 @@ MonoBehaviour:
   direction: {x: 0, y: 0}
   speed: 0
   anim: {fileID: 0}
+  explosiveHitbox: {fileID: 0}
   sleepEffect: 0
   sleepDelay: 0
   paralysisEffect: 0

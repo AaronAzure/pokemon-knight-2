@@ -361,7 +361,7 @@ public class Clefairy : Enemy
 					{
 						Vector2 trajectory = Vector2.right;
 						trajectory = Quaternion.Euler(0, 0, 60 * i) * trajectory;
-						var obj = Instantiate(whirlWindObj, this.transform.position, whirlWindObj.transform.rotation, spawnedHolder.transform);
+						var obj = Instantiate(whirlWindObj, atkPos.transform.position, whirlWindObj.transform.rotation, spawnedHolder.transform);
 						obj.direction = trajectory.normalized;
 					}
                 }

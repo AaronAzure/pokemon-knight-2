@@ -55,20 +55,13 @@ public class AllyClefable : Ally
     [Space] [SerializeField] private AllyAttack lavaPlumeObj;
     [SerializeField] private MetronomeAttacks lavaPlumeStat;
     
-    [Space] [SerializeField] private AllyProjectile nightShadeObj;
-    [SerializeField] private MetronomeAttacks nightShadeStat;
-    [SerializeField] private int numNightShade=3;
-    [SerializeField] private float nightShadeRayHeight=1.5f;
-    [SerializeField] private float nightShadeMaxDist=5f;
-    [SerializeField] private float nightShadeXOffset=1f;
-    
     [Space] [SerializeField] private AllyProjectile whirlWindObj;
     [SerializeField] private MetronomeAttacks whirlWindStat;
+    
+	[Space] [SerializeField] private AllyProjectile fireBlastObj;
+    [SerializeField] private MetronomeAttacks fireBlastStat;
 
     [Space] [SerializeField] private AllyBuff healPulse;
-
-    [Space] [SerializeField] private GameObject teleportEffect;
-    [SerializeField] private GameObject teleportBurstEffect;
 
     [Space] [SerializeField] private GameObject splash;
 
@@ -152,6 +145,7 @@ public class AllyClefable : Ally
                 if (razorLeafObj != null)
                 {
                     var obj = Instantiate(razorLeafObj, atkPos.position, razorLeafObj.transform.rotation);
+					obj.spawnedPos = atkPos.position;
                     obj.atkDmg = razorLeafStat.dmg + GetExtraDmg(razorLeafStat.extraDmg);
                     obj.body.velocity = ProjectileDirection() * obj.velocity;
 					obj.spBonus = razorLeafStat.spBonus;
@@ -166,6 +160,7 @@ public class AllyClefable : Ally
                 if (sludgeBombObj != null)
                 {
                     var obj = Instantiate(sludgeBombObj, atkPos.position, sludgeBombObj.transform.rotation);
+					obj.spawnedPos = atkPos.position;
                     obj.body.gravityScale = 3;
                     obj.atkDmg = sludgeBombStat.dmg + GetExtraDmg(sludgeBombStat.extraDmg);
                     obj.body.velocity = (FacingRight() ? new Vector2(13, 12) : new Vector2(-13, 12));
@@ -192,8 +187,11 @@ public class AllyClefable : Ally
                 if (waterGunObj != null)
                 {
                     var obj = Instantiate(waterGunObj, atkPos.position, waterGunObj.transform.rotation);
+					obj.spawnedPos = atkPos.position;
                     obj.atkDmg = waterGunStat.dmg + GetExtraDmg(waterGunStat.extraDmg);
-                    obj.velocity *= (FacingRight() ? 1 : -1);
+					obj.direction = ProjectileDirection();
+					obj.body.velocity = ProjectileDirection() * obj.velocity;
+                    // obj.velocity *= (FacingRight() ? 1 : -1);
 					obj.spBonus = waterGunStat.spBonus;
 					Debug.Log("METRONOME  =  Water Gun ("+obj.atkDmg+")");
                 }
@@ -203,6 +201,7 @@ public class AllyClefable : Ally
             // Poison Sting
             case 4:
                 ClosestEnemy();
+				LookAtTarget();
                 PoisonSting();
                 StartCoroutine( Done( poisonStingStat.duration ) );
                 break;
@@ -211,6 +210,7 @@ public class AllyClefable : Ally
             case 5:
 				Debug.Log("METRONOME  =  Body Slam");
                 ClosestEnemy();
+				LookAtTarget();
 				
                 if (bodySlamObj != null)
                 {
@@ -238,14 +238,6 @@ public class AllyClefable : Ally
                 StartCoroutine( Done( lavaPlumeStat.duration ) );
                 break;
 
-            // Night Shade
-            // case 6:
-			// 	Debug.Log("METRONOME  =  Night Shade");
-            //     ClosestEnemy();
-            //     // NIGHT_SHADE();
-            //     StartCoroutine( Done( nightShadeStat.duration ) );
-            //     break;
-            // WhirlWind
             case 7:
 				Debug.Log("METRONOME  =  WhirlWind");
 
@@ -258,7 +250,8 @@ public class AllyClefable : Ally
 					{
 						Vector2 trajectory = Vector2.right;
 						trajectory = Quaternion.Euler(0, 0, 60 * i) * trajectory;
-						var obj = Instantiate(whirlWindObj, this.transform.position, whirlWindObj.transform.rotation);
+						var obj = Instantiate(whirlWindObj, atkPos.transform.position, whirlWindObj.transform.rotation);
+						obj.spawnedPos = atkPos.position;
 						obj.direction = trajectory.normalized;
 					}
                 }
@@ -276,14 +269,25 @@ public class AllyClefable : Ally
                 StartCoroutine( Done( 0 ) );
                 break;
 
-            // Will o Wisp
-            // case 9:
-			// 	Debug.Log("METRONOME  =  Will o Wisp");
-            //     ClosestEnemy();
-
-            //     // StartCoroutine( SUMMON_WISP() );
-            //     StartCoroutine( Done( whirlWindStat.duration ) );
-            //     break;
+            // Fire Blast
+            case 9:
+				// Debug.Log("METRONOME  =  Will o Wisp");
+                ClosestEnemy();
+				LookAtTarget();
+				if (fireBlastObj != null)
+                {
+					fireBlastObj.atkDmg = fireBlastStat.dmg + GetExtraDmg(fireBlastStat.extraDmg);
+					fireBlastObj.atkForce = fireBlastStat.Kb;
+					fireBlastObj.spBonus = fireBlastStat.spBonus;
+					var obj = Instantiate(fireBlastObj, atkPos.transform.position, fireBlastObj.transform.rotation);
+					obj.spawnedPos = atkPos.position;
+					obj.direction = ProjectileDirection();
+					obj.body.velocity = ProjectileDirection() * obj.velocity;
+					// obj.velocity *= (FacingRight() ? 1 : -1);
+                }
+                // StartCoroutine( SUMMON_WISP() );
+                StartCoroutine( Done( fireBlastStat.duration ) );
+                break;
 			default:
 				if (splash != null)
 					splash.SetActive(true);
@@ -305,6 +309,7 @@ public class AllyClefable : Ally
 					float offset = ((i % 2 == 0) ? (i / 2) : (-(i + 1) / 2));
 
 					var obj = Instantiate(sludgeBombObj, atkPos.position, sludgeBombObj.transform.rotation);
+					obj.spawnedPos = atkPos.position;
 					obj.body.velocity = new Vector2(offset * 5, 15);
 				}
 			}
@@ -317,7 +322,8 @@ public class AllyClefable : Ally
 				{
 					Vector2 trajectory = Vector2.right;
 					trajectory = Quaternion.Euler(0, 0, 60 * i) * trajectory;
-					var obj = Instantiate(whirlWindObj, this.transform.position, whirlWindObj.transform.rotation);
+					var obj = Instantiate(whirlWindObj, atkPos.transform.position, whirlWindObj.transform.rotation);
+					obj.spawnedPos = atkPos.position;
 					obj.direction = trajectory.normalized;
 				}
 			}
@@ -361,14 +367,14 @@ public class AllyClefable : Ally
                 LookAtTarget();
                 Vector2 trajectory = ((targetPos.position + Vector3.up) - atkPos.position).normalized;
                 
-				if (trajectory.y < 0)
-				{
-					trajectory *= new Vector2(1, 0);
-					if (trajectory.x >= 0)
-						trajectory.x = 1;
-					else
-						trajectory.x = -1;
-				}
+				// if (trajectory.y < 0)
+				// {
+				// 	trajectory *= new Vector2(1, 0);
+				// 	if (trajectory.x >= 0)
+				// 		trajectory.x = 1;
+				// 	else
+				// 		trajectory.x = -1;
+				// }
 
                 trajectory = Quaternion.Euler(0, 0, 15 * offset) * trajectory;
                 // vector = Quaternion.Euler(0, -45, 0) * vector;
@@ -386,6 +392,7 @@ public class AllyClefable : Ally
 	{
 		yield return new WaitForSeconds(0.1f);
 		performingBodySlam = true;
+		hitbox.gameObject.SetActive(true);
 	}
 
 

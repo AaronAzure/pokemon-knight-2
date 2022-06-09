@@ -61,13 +61,15 @@ public class Gengar : Enemy
 	private Vector3 startPos;
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private bool variantSpeed;
+	[SerializeField] private GameObject shadow;
+	[SerializeField] private GameObject shadowTrail;
 	private int atkCount;
     public Vector3 lineOfSight;
     [SerializeField] private GameObject spawnedHolder;
     private Coroutine co;
     [SerializeField] private Coroutine targetLostCo;
     private RaycastHit2D playerInfo;
-    private bool sceneLoaded=false;
+    public bool sceneLoaded=false;
 	private bool isActuallyBoss=false;
 
 
@@ -83,7 +85,7 @@ public class Gengar : Enemy
         int gameNumber = PlayerPrefsElite.GetInt("gameNumber");
         if (PlayerPrefsElite.VerifyBoolean("caughtGengar" + gameNumber))
             if (PlayerPrefsElite.GetBoolean("caughtGengar" + gameNumber))
-                this.gameObject.SetActive(false);
+                Destroy(this.gameObject);
         else
             PlayerPrefsElite.SetBoolean("caughtGengar" + gameNumber, false);
 
@@ -120,9 +122,15 @@ public class Gengar : Enemy
 			shadowBallAtk.atkDmg = projectileDmg + calcExtraProjectileDmg;
 		}
 		
-		StartCoroutine( LoadingIn() );
+		if (this.enabled == true)
+			StartCoroutine( LoadingIn() );
     }
 
+
+	private void OnEnable() 
+	{
+		LookAtTarget();	
+	}
     IEnumerator LoadingIn()
     {
         yield return new WaitForSeconds(0.5f);
@@ -158,6 +166,8 @@ public class Gengar : Enemy
         mainAnim.SetTrigger("reset");
         StopAllCoroutines();
 		Destroy(spawnedHolder);
+		if (shadowTrail != null)
+			shadowTrail.SetActive(false);
 
 		this.gameObject.layer = LayerMask.NameToLayer("Enemy");
 		// this.gameObject.layer = enemyLayer;
@@ -287,7 +297,7 @@ public class Gengar : Enemy
 		if (!isActuallyBoss && !inCutscene)
 			return;
 
-		int rng = Random.Range(0,4);
+		int rng = Random.Range(0,5);
 		if (specific != -1)
 			rng = specific;
 
@@ -332,7 +342,7 @@ public class Gengar : Enemy
 			default:
 				nShadowBalls = 1;
 				if (hpImg.fillAmount <= 0.5f)
-					nShadowBalls = Random.Range(2,4); // 2,3
+					nShadowBalls = 3;
 				teleporting = false;
 				moveDir = Vector2.zero;
 				mainAnim.SetTrigger("teleport");
@@ -437,21 +447,28 @@ public class Gengar : Enemy
 
         int rng = Random.Range(1,5);
 
+		// if (downToHalfHp)
+
         switch (rng)  // 5
         {
+			// ABOVE
             case 0:
                 this.transform.position = target.position + new Vector3(0, distanceAway + 1);
                 break;
+			// RIGHT
             case 1:
                 this.transform.position = target.position + new Vector3(distanceAway, 1);
                 break;
+			// LEFT
             case 2:
                 this.transform.position = target.position + new Vector3(-distanceAway, 1);
                 break;
+			// TOP RIGHT
             case 3:
                 this.transform.position = target.position + new Vector3(distanceAway, distanceAway + 1);
                 break;
             case 4:
+			// TOP LEFT
                 this.transform.position = target.position + new Vector3(-distanceAway, distanceAway + 1);
                 break;
         }
@@ -473,6 +490,22 @@ public class Gengar : Enemy
 			// STOP TELEPORTING
 			if (teleportCount >= nTeleport)
 			{
+				if (rng != 0)
+					Instantiate(shadow, target.position + new Vector3(0, distanceAway + 1), 
+								Quaternion.Euler(0,0,0), spawnedHolder.transform); 
+				if (rng != 1)
+					Instantiate(shadow, target.position + new Vector3(distanceAway, 1), 
+								Quaternion.Euler(0,0,0), spawnedHolder.transform); 
+				if (rng != 2)
+					Instantiate(shadow, target.position + new Vector3(-distanceAway, 1), 
+								Quaternion.Euler(0,180,0), spawnedHolder.transform); 
+				if (rng != 3)
+					Instantiate(shadow, target.position + new Vector3(distanceAway, distanceAway + 1), 
+								Quaternion.Euler(0,0,0), spawnedHolder.transform); 
+				if (rng != 4)
+					Instantiate(shadow, target.position + new Vector3(-distanceAway, distanceAway + 1), 
+								Quaternion.Euler(0,180,0), spawnedHolder.transform); 
+
 				mainAnim.SetBool("stillTeleporting", false);
 				teleportCount = 0;
 				nTeleport = Random.Range(0,3);
@@ -480,6 +513,21 @@ public class Gengar : Enemy
 			// TELEPORT AGAIN
 			else
 			{
+				if (rng != 0)
+					Instantiate(shadow, target.position + new Vector3(0, distanceAway + 1), 
+								Quaternion.Euler(0,0,0), spawnedHolder.transform); 
+				if (rng != 1)
+					Instantiate(shadow, target.position + new Vector3(distanceAway, 1), 
+								Quaternion.Euler(0,0,0), spawnedHolder.transform); 
+				if (rng != 2)
+					Instantiate(shadow, target.position + new Vector3(-distanceAway, 1), 
+								Quaternion.Euler(0,180,0), spawnedHolder.transform); 
+				if (rng != 3)
+					Instantiate(shadow, target.position + new Vector3(distanceAway, distanceAway + 1), 
+								Quaternion.Euler(0,0,0), spawnedHolder.transform); 
+				if (rng != 4)
+					Instantiate(shadow, target.position + new Vector3(-distanceAway, distanceAway + 1), 
+								Quaternion.Euler(0,180,0), spawnedHolder.transform); 
 				teleportCount++;
 				mainAnim.SetBool("stillTeleporting", true);
 				yield return new WaitForSeconds(0.5f);

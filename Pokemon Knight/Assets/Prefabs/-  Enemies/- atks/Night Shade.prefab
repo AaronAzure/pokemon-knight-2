@@ -47922,7 +47922,7 @@ GameObject:
   - component: {fileID: 581366962894467866}
   - component: {fileID: 4933151445345970817}
   - component: {fileID: 4642732664865064950}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: Night Shade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47982,7 +47982,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d7e237cc5a364aa990a52bc6f849a2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atkDmg: 10
+  atkDmg: 75
   kbForce: 10
   ignoreInvincible: 0
   destoryOnPlayerCollision: 0
@@ -47993,6 +47993,7 @@ MonoBehaviour:
   direction: {x: 0, y: 0}
   speed: 0
   anim: {fileID: 0}
+  explosiveHitbox: {fileID: 0}
   sleepEffect: 0
   sleepDelay: 0
   paralysisEffect: 0
@@ -48012,7 +48013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5deb33535ece949c2acca4cc69900497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayOn: 1.8
+  delayOn: 1.75
   delayOff: 2.5
   cols:
   - {fileID: 581366962894467866}
