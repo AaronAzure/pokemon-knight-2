@@ -1057,26 +1057,6 @@ public class PlayerControls : MonoBehaviour
 
             if (!grounded) {}
 
-            else if (Interact() && canRest)
-                RestOnBench();
-
-            else if (Interact() && canEnter)
-                StartCoroutine( EnteringDoor() );
-                
-            else if (Interact() && canTakeSubway)
-            {
-                subWayUi.SetActive(true);
-                inCutscene = true;
-                Time.timeScale = 0;
-                foreach (SubwayStopButton stop in subWayStopsToActivate)
-                {
-                    if (stop.gameObject.activeSelf && stop.destination == SceneManager.GetActiveScene().name)
-                    {
-                        stop.button.Select();
-                        break;
-                    }
-                }
-            }
             else if (dialogue != null && Interact())
             {
                 body.velocity = Vector2.zero;
@@ -1136,6 +1116,26 @@ public class PlayerControls : MonoBehaviour
                 currentItem = null;
                 // if (itemFoundlSound != null) 
                 //     itemFoundlSound.Play();
+            }
+            else if (Interact() && canRest)
+                RestOnBench();
+
+            else if (Interact() && canEnter)
+                StartCoroutine( EnteringDoor() );
+                
+            else if (Interact() && canTakeSubway)
+            {
+                subWayUi.SetActive(true);
+                inCutscene = true;
+                Time.timeScale = 0;
+                foreach (SubwayStopButton stop in subWayStopsToActivate)
+                {
+                    if (stop.gameObject.activeSelf && stop.destination == SceneManager.GetActiveScene().name)
+                    {
+                        stop.button.Select();
+                        break;
+                    }
+                }
             }
             
 			if (!canTeleport)

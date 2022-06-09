@@ -154,6 +154,7 @@ public class AllyClefable : Ally
                     var obj = Instantiate(razorLeafObj, atkPos.position, razorLeafObj.transform.rotation);
                     obj.atkDmg = razorLeafStat.dmg + GetExtraDmg(razorLeafStat.extraDmg);
                     obj.body.velocity = ProjectileDirection() * obj.velocity;
+					obj.spBonus = razorLeafStat.spBonus;
 					Debug.Log("METRONOME  =  Razor Leaf ("+obj.atkDmg+")");
                 }
                 StartCoroutine( Done( razorLeafStat.duration ) );
@@ -168,6 +169,7 @@ public class AllyClefable : Ally
                     obj.body.gravityScale = 3;
                     obj.atkDmg = sludgeBombStat.dmg + GetExtraDmg(sludgeBombStat.extraDmg);
                     obj.body.velocity = (FacingRight() ? new Vector2(13, 12) : new Vector2(-13, 12));
+					obj.spBonus = sludgeBombStat.spBonus;
 					Debug.Log("METRONOME  =  Sludge Bomb ("+obj.atkDmg+")");
                 }
                 StartCoroutine( Done( sludgeBombStat.duration ) );
@@ -178,6 +180,7 @@ public class AllyClefable : Ally
                 {
                     var obj = Instantiate(poisonPowderObj, atkPos.position, poisonPowderObj.transform.rotation);
                     obj.atkDmg = poisonPowderStat.dmg + GetExtraDmg(poisonPowderStat.extraDmg);
+					obj.spBonus = poisonPowderStat.spBonus;
 					Debug.Log("METRONOME  =  Poison Powder ("+obj.atkDmg+")");
                 }
                 StartCoroutine( Done( poisonPowderStat.duration ) );
@@ -191,6 +194,7 @@ public class AllyClefable : Ally
                     var obj = Instantiate(waterGunObj, atkPos.position, waterGunObj.transform.rotation);
                     obj.atkDmg = waterGunStat.dmg + GetExtraDmg(waterGunStat.extraDmg);
                     obj.velocity *= (FacingRight() ? 1 : -1);
+					obj.spBonus = waterGunStat.spBonus;
 					Debug.Log("METRONOME  =  Water Gun ("+obj.atkDmg+")");
                 }
                 StartCoroutine( Done( waterGunStat.duration ) );
@@ -295,6 +299,7 @@ public class AllyClefable : Ally
 			{
 				sludgeBombObj.atkDmg = sludgeBombStat.dmg + GetExtraDmg(sludgeBombStat.extraDmg);
 				sludgeBombObj.body.gravityScale = 3;
+				sludgeBombObj.spBonus = 0;
 				for (int i=0 ; i<7 ; i++)
 				{
 					float offset = ((i % 2 == 0) ? (i / 2) : (-(i + 1) / 2));
@@ -307,7 +312,7 @@ public class AllyClefable : Ally
 			{
 				whirlWindObj.atkDmg = whirlWindStat.dmg + GetExtraDmg(whirlWindStat.extraDmg);
 				whirlWindObj.atkForce = whirlWindStat.Kb;
-				whirlWindObj.spBonus = whirlWindStat.spBonus;
+				whirlWindObj.spBonus = 0;
 				for (int i=0 ; i<6 ; i++)
 				{
 					Vector2 trajectory = Vector2.right;
@@ -320,7 +325,7 @@ public class AllyClefable : Ally
 			{
 				lavaPlumeObj.atkDmg = lavaPlumeStat.dmg + GetExtraDmg(lavaPlumeStat.extraDmg);
 				lavaPlumeObj.atkForce = lavaPlumeStat.Kb;
-				lavaPlumeObj.spBonus = lavaPlumeStat.spBonus;
+				lavaPlumeObj.spBonus = 0;
 				lavaPlumeObj.gameObject.SetActive(true);
 			}
 			StartCoroutine( Done( lavaPlumeStat.duration ) );
@@ -342,6 +347,7 @@ public class AllyClefable : Ally
         if (poisonStingObj && targetPos != null)
         {
 			poisonStingObj.atkDmg = poisonPowderStat.dmg + GetExtraDmg(poisonPowderStat.extraDmg);
+			poisonStingObj.spBonus = poisonPowderStat.spBonus;
 			Debug.Log("METRONOME  =  Poison Sting (" + poisonStingObj.atkDmg + ")");
 
 			// bool playerBelowSelf = (target.position.y < transform.position.y);
