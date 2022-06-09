@@ -249,7 +249,7 @@ public class Haunter : Enemy
                         }
                     }
                     // wandering
-                    else if (!teleporting)
+                    else if (!teleporting && !cannotMove)
                     {
                         if (movingLeft)
                         {

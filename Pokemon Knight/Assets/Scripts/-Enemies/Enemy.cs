@@ -242,6 +242,7 @@ public abstract class Enemy : MonoBehaviour
     }
 
     public virtual void Setup() {}
+    public virtual void CallChilByOther() {}
     public virtual void CallChildOnRoar() {}
     public virtual void CallChildOnBossFightStart() {}
     public virtual void CallChildOnRage() {}

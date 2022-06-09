@@ -1963,6 +1963,15 @@ public class PlayerControls : MonoBehaviour
         
     }
 
+	public void Heal(float portion)
+	{
+		hp = Mathf.Min(maxHp, hp + Mathf.RoundToInt((float)maxHp * portion));
+		if (healEffect != null)
+            Instantiate(healEffect, this.transform.position + new Vector3(0,1), Quaternion.identity, this.transform);
+		if (healSound != null)
+            healSound.Play();
+	}
+
     private void SelectDefaultItem()
     {
         foreach (ItemUi iu in itemsToActivate)

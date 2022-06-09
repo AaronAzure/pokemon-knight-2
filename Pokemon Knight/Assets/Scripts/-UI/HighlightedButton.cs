@@ -69,6 +69,8 @@ public class HighlightedButton : MonoBehaviour
                                 atkDmg *= pokemonButton.ally.multiHit;
                                 atkpower.text = atkDmg.ToString() + " (" + temp + "×" + pokemonButton.ally.multiHit + ")";
                             }
+							if (atkDmg == 0)
+                            	atkpower.text = "???";
 
                             float resummonTime = pokemonButton.ally.resummonTime;
                             coolDown.text = resummonTime.ToString();
@@ -152,8 +154,12 @@ public class HighlightedButton : MonoBehaviour
                         atkDmg *= epu.pokemon.multiHit;
                         atkpower.text = atkDmg.ToString() + " (" + temp + "×" + epu.pokemon.multiHit + ")";
                     }
-                    atkpower.text = atkDmg.ToString() + "<color=#8FFF78> (+" + 
-                        (epu.pokemon.extraDmg*epu.pokemon.EnhanceDmgBonus()*epu.pokemon.multiHit) + ")</color>";
+					if (atkDmg == 0)
+                    	atkpower.text = "???";
+					int bonusDmg = (epu.pokemon.extraDmg*epu.pokemon.EnhanceDmgBonus()*epu.pokemon.multiHit);
+                    atkpower.text = atkDmg.ToString() + "<color=#8FFF78> (+" + bonusDmg + ")</color>";
+					if (atkDmg == 0 && bonusDmg == 0)
+                    	atkpower.text = "???" + "<color=#8FFF78> (+???)</color>";
 
                     float resummonTime = epu.pokemon.resummonTime;
                     coolDown.text = resummonTime.ToString();

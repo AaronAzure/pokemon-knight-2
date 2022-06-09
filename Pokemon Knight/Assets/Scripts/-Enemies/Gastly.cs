@@ -54,7 +54,7 @@ public class Gastly : Enemy
     private Coroutine co;
     [SerializeField] private Coroutine targetLostCo;
     private RaycastHit2D playerInfo;
-    private bool sceneLoaded=false;
+    [SerializeField] private bool sceneLoaded=false;
 
     private float timer=0;
     private float closeTime=0;
@@ -126,6 +126,12 @@ public class Gastly : Enemy
         targetLostCo        = null;
     }
 
+
+
+	public override void CallChilByOther()
+	{
+		mainAnim.SetTrigger("intro");
+	}
     public override void CallChildOnIncreaseSpd()
     {
         moveSpeed *= 1.5f;
@@ -323,7 +329,7 @@ public class Gastly : Enemy
                 mainAnim.SetTrigger("wisp");
                 mainAnim.SetBool("isWisping", true);
             }
-            else if (!chasing)
+            else if (!cannotMove && !chasing)
             {
                 if (timer < flipTimer)
                     timer += Time.fixedDeltaTime;

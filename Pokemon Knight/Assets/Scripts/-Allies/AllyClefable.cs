@@ -65,6 +65,8 @@ public class AllyClefable : Ally
     [Space] [SerializeField] private AllyProjectile whirlWindObj;
     [SerializeField] private MetronomeAttacks whirlWindStat;
 
+    [Space] [SerializeField] private AllyBuff healPulse;
+
     [Space] [SerializeField] private GameObject teleportEffect;
     [SerializeField] private GameObject teleportBurstEffect;
 
@@ -196,7 +198,6 @@ public class AllyClefable : Ally
 
             // Poison Sting
             case 4:
-				Debug.Log("METRONOME  =  Poison Sting");
                 ClosestEnemy();
                 PoisonSting();
                 StartCoroutine( Done( poisonStingStat.duration ) );
@@ -259,6 +260,18 @@ public class AllyClefable : Ally
                 }
                 StartCoroutine( Done( whirlWindStat.duration ) );
                 break;
+
+            // Heal Pulse
+            case 8:
+				Debug.Log("METRONOME  =  Heal Pulse");
+                ClosestEnemy();
+				if (targetPos != null && healPulse != null)
+					Instantiate(healPulse, atkPos.position, healPulse.transform.rotation);
+				else if (splash != null)
+					splash.SetActive(true);
+                StartCoroutine( Done( 0 ) );
+                break;
+
             // Will o Wisp
             // case 9:
 			// 	Debug.Log("METRONOME  =  Will o Wisp");
@@ -268,10 +281,9 @@ public class AllyClefable : Ally
             //     StartCoroutine( Done( whirlWindStat.duration ) );
             //     break;
 			default:
-				if (splash == null)
-				{
-					Instantiate(splash, atkPos.transform.position, splash.transform.rotation);
-				}
+				if (splash != null)
+					splash.SetActive(true);
+				StartCoroutine( Done( 0 ) );
                 break;
 
         }
@@ -329,6 +341,9 @@ public class AllyClefable : Ally
     {
         if (poisonStingObj && targetPos != null)
         {
+			poisonStingObj.atkDmg = poisonPowderStat.dmg + GetExtraDmg(poisonPowderStat.extraDmg);
+			Debug.Log("METRONOME  =  Poison Sting (" + poisonStingObj.atkDmg + ")");
+
 			// bool playerBelowSelf = (target.position.y < transform.position.y);
             for (int i=0 ; i<nPoisonSting ; i++)
             {
@@ -356,7 +371,7 @@ public class AllyClefable : Ally
                 obj.transform.rotation = Quaternion.LookRotation(trajectory);
                 obj.direction = trajectory.normalized;
                 obj.body.velocity = trajectory.normalized;
-                obj.atkDmg = poisonPowderStat.dmg + GetExtraDmg(poisonPowderStat.extraDmg);
+                // obj.atkDmg = poisonPowderStat.dmg + GetExtraDmg(poisonPowderStat.extraDmg);
             }
         }
     }

@@ -255,6 +255,7 @@ public class TitleFunctions : MonoBehaviour
         
         
         PlayerPrefsElite.SetStringArray("hiddenRooms" + gameNumber, new string[0]);
+		PlayerPrefsElite.SetStringArray("surprises" + gameNumber, new string[0]);
         PlayerPrefsElite.SetBoolean("caughtGengar" + gameNumber, false);
 
         PlayerPrefsElite.SetInt("gameNumber", gameNumber);
