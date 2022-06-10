@@ -13,6 +13,7 @@ public class AllyBellsprout : Ally
     [Space] [SerializeField] private LayerMask whatIsGhost;
     [SerializeField] private LayerMask finalMask;
     [SerializeField] private GameObject cannotFind;
+	private bool firstAtk=true;
     
     protected override void Setup() 
     {
@@ -55,7 +56,14 @@ public class AllyBellsprout : Ally
             // yield break;
         
         var obj = Instantiate(razorLeafObj, atkPos.position, razorLeafObj.transform.rotation);
-        obj.atkDmg = this.atkDmg;
+		if (firstAtk)
+		{
+        	obj.atkDmg = this.atkDmg;
+			firstAtk = false;
+		}
+		else
+        	obj.atkDmg = Mathf.RoundToInt( this.atkDmg / 2f );
+		
         obj.atkForce = this.atkForce;
         obj.spBonus = this.spBonus;
         obj.spawnedPos = this.transform.position;

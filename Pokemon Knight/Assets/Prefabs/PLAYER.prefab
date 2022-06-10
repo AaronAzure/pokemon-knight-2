@@ -14457,6 +14457,8 @@ MonoBehaviour:
   allies: []
   butterfreeOut: 0
   butterfreeSlot: -1
+  pokemonHolder: {fileID: 2243135061093213872}
+  pokemonTeam: []
   bulbasaur: {fileID: 5579673062179659490}
   charmander: {fileID: 6552485353759820548}
   squirtle: {fileID: 3912841042354828169}
@@ -14754,6 +14756,7 @@ MonoBehaviour:
   noCoolDown: 0
   cannotTakeDmg: 0
   infiniteGauge: 0
+  infiniteMilk: 0
   extraRange: 0
 --- !u!81 &2241457487757242226
 AudioListener:
@@ -27748,6 +27751,17 @@ MonoBehaviour:
         _invert: 0
         _axisContribution: 0
         _keyboardKeyCode: 47
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 12
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 46
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
@@ -70913,7 +70927,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerControls: {fileID: 2241457488112191053}
   equipped: 0
-  weight: 1
+  weight: 3
   itemName: sturdyCharm
   camelisedItemName: 
   sprite: {fileID: 21300000, guid: bbd2f46fd6ddb4a8ea3c84974a9dff4f, type: 3}

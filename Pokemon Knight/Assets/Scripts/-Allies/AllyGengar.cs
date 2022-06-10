@@ -13,7 +13,7 @@ public class AllyGengar : Ally
             hitbox.atkDmg = Mathf.RoundToInt( hitbox.atkDmg / 2f);
 			spBonus = 0;
         }
-		body.velocity *= 0.5f;
+		body.velocity *= 0.3f;
 
     }
 

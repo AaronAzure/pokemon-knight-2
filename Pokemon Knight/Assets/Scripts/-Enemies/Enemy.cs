@@ -406,7 +406,7 @@ public abstract class Enemy : MonoBehaviour
     }
 
     public void TakeDamage(int dmg, Vector3 hitPos, float force=0, bool attackedByPlayer=true, int spBonus=0, 
-        AllyAttack registerAttack=null, bool ignoreDef=false)
+        AllyAttack registerAttack=null, bool ignoreDef=false, bool yKb=false)
     {
         if (dontGetHitTwice != null && dontGetHitTwice == registerAttack) {}
         else if (inCutscene && hp > 1)
@@ -449,7 +449,7 @@ public abstract class Enemy : MonoBehaviour
                 StartCoroutine( Flash() );
 
             if (force != 0 && hitPos != null && !cannotRecieveKb)
-                StartCoroutine( ApplyKnockback(hitPos, force) );
+                StartCoroutine( ApplyKnockback(hitPos, force, yKb) );
 
             // if (isEvenSmarter && force > 0)
             //     LookAtPlayer();
@@ -540,14 +540,15 @@ public abstract class Enemy : MonoBehaviour
             canCatchEffect.SetActive(true);
         canCatch = true;
     }
-    public IEnumerator ApplyKnockback(Vector3 hitPos, float force)
+    public IEnumerator ApplyKnockback(Vector3 hitPos, float force, bool yKb=false)
     {
         if (hp > 0)
         {
             CallChildOnKnockbackStart();
             receivingKnockback = true;
             Vector2 direction = (hitPos - this.transform.position).normalized;
-            direction *= new Vector2(1,0);
+			if (!yKb)
+            	direction *= new Vector2(1,0);
             body.velocity = -direction * force * kbDefense;
             
             yield return new WaitForSeconds(0.1f);

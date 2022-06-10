@@ -553,6 +553,7 @@ public class Haunter : Enemy
         if (shadowPunch != null && !dead)
         {
             shadowPunch.gameObject.SetActive(true);
+			shadowPunch.atkDmg = secondDmg;
             performingShadowPunch = true;
 
             yield return new WaitForSeconds(0.5f);
@@ -570,9 +571,11 @@ public class Haunter : Enemy
             yield return new WaitForSeconds(shadowPunchDuration);
             shadowPunch.body.velocity = Vector2.zero;
             
+			// SHADOW PUNCH RETURN
             yield return new WaitForSeconds(0.25f);
             timeElapsed = 0;
             startPos = shadowPunch.transform.position;
+			shadowPunch.atkDmg /= 2;
             returningShadowPunch = true;
             
             yield return new WaitForSeconds(returnPunchDuration);

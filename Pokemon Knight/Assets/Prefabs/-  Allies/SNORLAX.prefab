@@ -4985,6 +4985,7 @@ MonoBehaviour:
   atkForce: 0
   spBonus: 0
   registerOneHitOnly: 1
+  yKb: 0
   spawnEffectObj: {fileID: 0}
   spawnEffect: 0
   velocity: 0
@@ -24386,9 +24387,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atkDmg: 0
-  atkForce: 0
+  atkForce: 25
   spBonus: 0
   registerOneHitOnly: 1
+  yKb: 1
   spawnEffectObj: {fileID: 0}
   spawnEffect: 0
   velocity: 0
@@ -29631,6 +29633,7 @@ MonoBehaviour:
   feetBox: {x: 1.9, y: 0.1}
   feetOffset: {x: 0, y: 0}
   feetRadius: 0.1
+  registerMultipleLanding: 0
   imgs: []
   slamHitbox: {fileID: 5669703769139011485}
   jumpHeight: 20

@@ -661,7 +661,14 @@ public class Gengar : Enemy
 			// }
 		}
 		mainAnim.SetBool("usingShadows", false);
-		yield return new WaitForSeconds( shadowDuration );
+		yield return new WaitForSeconds( shadowDuration / 2 );
+		if (currentShadow == null)
+		{
+			shadowCo = false;
+			yield break;
+		}
+		
+		yield return new WaitForSeconds( shadowDuration / 2 );
 		shadowCo = false;
 	}
 
