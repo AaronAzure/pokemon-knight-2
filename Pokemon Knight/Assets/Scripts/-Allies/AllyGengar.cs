@@ -10,7 +10,7 @@ public class AllyGengar : Ally
         {
             outTime = ultOutTime;
             anim.SetTrigger("ult");
-            // hitbox.atkDmg = Mathf.RoundToInt( this.atkDmg / 3f);
+            hitbox.atkDmg = Mathf.RoundToInt( hitbox.atkDmg / 2f);
 			spBonus = 0;
         }
 		body.velocity *= 0.5f;
@@ -19,13 +19,15 @@ public class AllyGengar : Ally
 
     protected override void OnSecondEvolution()
     {
-        if (anim != null)
-            anim.speed *= 1.5f;
+		hitbox.atkDmg = Mathf.RoundToInt(hitbox.atkDmg * 1.25f );
+        // if (anim != null)
+        //     anim.speed *= 1.5f;
     }
 
     protected override void OnThirdEvolution()
     {
-        if (anim != null)
-            anim.speed *= 2f;
+		hitbox.atkDmg = Mathf.RoundToInt(hitbox.atkDmg * 1.75f );
+        // if (anim != null)
+        //     anim.speed *= 2f;
     }
 }

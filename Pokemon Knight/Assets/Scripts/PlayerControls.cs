@@ -372,6 +372,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private bool noCoolDown;
     [SerializeField] private bool cannotTakeDmg;
     [SerializeField] private bool infiniteGauge;
+    [SerializeField] private bool infiniteMilk;
     public bool extraRange;
 
     private static PlayerControls playerInstance;   // There can only be one
@@ -1926,7 +1927,7 @@ public class PlayerControls : MonoBehaviour
 
     public void DODGE_ROLL_INVINCIBLE()
     {
-        Invincible(true);
+        // Invincible(true);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyProjectile"), true);
 		
 		if (canTeleport)
@@ -1937,7 +1938,7 @@ public class PlayerControls : MonoBehaviour
     }
     public void DODGE_ROLL_FINISH()
     {
-        Invincible(false);
+        // Invincible(false);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyProjectile"), false);
 		
 		if (canTeleport)
@@ -1972,7 +1973,10 @@ public class PlayerControls : MonoBehaviour
         if (hp > maxHp)
             hp = maxHp;
         Debug.Log( "<color=#4CFF00> Healed " + ((25 * nBerries) + moomooMilkRecovery) + " hp</color>");
-        nMoomooMilkLeft--;
+
+		if (!infiniteMilk)
+        	nMoomooMilkLeft--;
+
         float newSpeed = (float) hp / (float) maxHp;
         damageIndicatorAnim.SetFloat("fadeSpeed", newSpeed * newSpeed);
 
@@ -2079,9 +2083,12 @@ public class PlayerControls : MonoBehaviour
 
     // todo -----------------  D A M A G E  ------------------------------------------------
     
-    public void TakeDamage(int dmg=0, Transform opponent=null, float force=0, bool ignoreInvinciblity=false)
+    public void TakeDamage(int dmg=0, Transform opponent=null, float force=0, 
+							bool ignoreInvinciblity=false, bool ignoreDodge=false)
     {
-        if (hp > 0 && (!isInvincible || ignoreInvinciblity) && !movingToDifferentScene && !cannotTakeDmg)
+		// Debug.Log("<color=#FF8800>Dmg taken</color>");
+        if (hp > 0 && (!isInvincible || ignoreInvinciblity) && (!dodging || ignoreDodge) 
+			&& !movingToDifferentScene && !cannotTakeDmg)
         {
             Debug.Log("<color=#FF8800>Took " + dmg + " dmg</color>");
             anim.SetBool("isDrinking", false);
@@ -2126,8 +2133,7 @@ public class PlayerControls : MonoBehaviour
         Invincible(true);
         
         yield return new WaitForSeconds(0.75f);
-        if (!dodging)
-            Invincible(false);
+		Invincible(false);
     }
     IEnumerator Flash()
     {

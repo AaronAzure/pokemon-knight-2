@@ -5,6 +5,7 @@ public class EnemyAttack : MonoBehaviour
     public int atkDmg=3;
     public float kbForce;
     [Space] public bool ignoreInvincible;
+    [Space] public bool ignoreDodge;
 
 
 
@@ -13,7 +14,7 @@ public class EnemyAttack : MonoBehaviour
         if (other.CompareTag("Player"))    
         {
             // HAS KNOCKBACK
-            other.GetComponent<PlayerControls>().TakeDamage(atkDmg, this.transform, kbForce, ignoreInvincible);
+            other.GetComponent<PlayerControls>().TakeDamage(atkDmg, this.transform, kbForce, ignoreInvincible, ignoreDodge);
             //// if (kbForce > 0)
             // // NO KNOCKBACK
             //// else

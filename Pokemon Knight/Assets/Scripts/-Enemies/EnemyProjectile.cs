@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyProjectile : MonoBehaviour
@@ -5,6 +7,7 @@ public class EnemyProjectile : MonoBehaviour
     public int atkDmg=10;
     public float kbForce=10;
     [Space] public bool ignoreInvincible;
+    [Space] public bool ignoreDodge;
     [Space] public bool destoryOnPlayerCollision;
     [Space] public bool destoryOnWallCollision;
     public GameObject explosion;
@@ -33,13 +36,32 @@ public class EnemyProjectile : MonoBehaviour
     [Space] public bool absorbEffect;
     [HideInInspector] public Enemy moveMaster;
     public FollowTowards absorbReturnObj;
+    
+	
+	[Header("Chase Player")]
+	public bool chasePlayer;
+	public Transform target;
+	private Coroutine co;
 
+
+	[Header("Chase Player")]
+	public bool destroyItself;
+	public float destroyAfter=10f;
 
 
     void Start()
     {
         if (body != null)
             body.velocity = direction * speed;
+
+		if (chasePlayer)
+		{
+			Vector2 traj = (target.position + new Vector3(0,0.5f) - this.transform.position).normalized;
+			this.transform.rotation = traj.x > 0 ? Quaternion.Euler(0,180,0) : Quaternion.Euler(0,0,0);
+		}
+
+		if (destroyItself)
+			StartCoroutine( DestroyItself() );
     }
 
 	public void LaunchAt(Vector3 direction)
@@ -54,7 +76,7 @@ public class EnemyProjectile : MonoBehaviour
         {
             PlayerControls player = other.GetComponent<PlayerControls>();
             
-            player.TakeDamage(atkDmg, this.transform, kbForce, ignoreInvincible);
+            player.TakeDamage(atkDmg, this.transform, kbForce, ignoreInvincible, ignoreDodge);
 
             if (sleepEffect)
                 player.PutToSleep(sleepDelay);
@@ -90,11 +112,32 @@ public class EnemyProjectile : MonoBehaviour
                 CreateExplosion();
             }
         }
-        if (destoryOnWallCollision && other.CompareTag("Ground"))    
+        else if (destoryOnWallCollision && other.CompareTag("Ground"))    
         {
             CreateExplosion();
         }
+		else if (chasePlayer && other.CompareTag("Ground"))
+		{
+			body.velocity = Vector2.zero;
+			if (co == null)
+				co = StartCoroutine( ChasePlayer() );
+		}
     }
+
+	IEnumerator DestroyItself()
+	{
+		yield return new WaitForSeconds(destroyAfter);
+		CreateExplosion();
+	}
+	IEnumerator ChasePlayer()
+	{
+		yield return new WaitForSeconds(0.75f);
+		Vector2 traj = (target.position + new Vector3(0,0.5f) - this.transform.position).normalized;
+		this.transform.rotation = traj.x > 0 ? Quaternion.Euler(0,180,0) : Quaternion.Euler(0,0,0);
+		body.velocity = traj * speed;
+		co = null;
+	}
+	
 
 	void CreateExplosion()
 	{

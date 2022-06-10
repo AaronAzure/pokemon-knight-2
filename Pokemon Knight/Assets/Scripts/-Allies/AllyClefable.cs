@@ -159,6 +159,7 @@ public class AllyClefable : Ally
 				LookAtTarget();
                 if (sludgeBombObj != null)
                 {
+					cannotFind.SetActive(false);
                     var obj = Instantiate(sludgeBombObj, atkPos.position, sludgeBombObj.transform.rotation);
 					obj.spawnedPos = atkPos.position;
                     obj.body.gravityScale = 3;
@@ -173,6 +174,7 @@ public class AllyClefable : Ally
             case 2:
                 if (poisonPowderObj != null)
                 {
+					cannotFind.SetActive(false);
                     var obj = Instantiate(poisonPowderObj, atkPos.position, poisonPowderObj.transform.rotation);
                     obj.atkDmg = poisonPowderStat.dmg + GetExtraDmg(poisonPowderStat.extraDmg);
 					obj.spBonus = poisonPowderStat.spBonus;
@@ -186,6 +188,7 @@ public class AllyClefable : Ally
 				LookAtTarget();
                 if (waterGunObj != null)
                 {
+					cannotFind.SetActive(false);
                     var obj = Instantiate(waterGunObj, atkPos.position, waterGunObj.transform.rotation);
 					obj.spawnedPos = atkPos.position;
                     obj.atkDmg = waterGunStat.dmg + GetExtraDmg(waterGunStat.extraDmg);
@@ -230,6 +233,7 @@ public class AllyClefable : Ally
 
                 if (lavaPlumeObj != null)
                 {
+					cannotFind.SetActive(false);
 					lavaPlumeObj.atkDmg = lavaPlumeStat.dmg + GetExtraDmg(lavaPlumeStat.extraDmg);
 					lavaPlumeObj.atkForce = lavaPlumeStat.Kb;
 					lavaPlumeObj.spBonus = lavaPlumeStat.spBonus;
@@ -243,6 +247,7 @@ public class AllyClefable : Ally
 
                 if (whirlWindObj != null)
                 {
+					cannotFind.SetActive(false);
 					whirlWindObj.atkDmg = whirlWindStat.dmg + GetExtraDmg(whirlWindStat.extraDmg);
 					whirlWindObj.atkForce = whirlWindStat.Kb;
 					whirlWindObj.spBonus = whirlWindStat.spBonus;
@@ -276,6 +281,7 @@ public class AllyClefable : Ally
 				LookAtTarget();
 				if (fireBlastObj != null)
                 {
+					cannotFind.SetActive(false);
 					fireBlastObj.atkDmg = fireBlastStat.dmg + GetExtraDmg(fireBlastStat.extraDmg);
 					fireBlastObj.atkForce = fireBlastStat.Kb;
 					fireBlastObj.spBonus = fireBlastStat.spBonus;
@@ -366,15 +372,6 @@ public class AllyClefable : Ally
                     offset = -(i + 1) / 2;
                 LookAtTarget();
                 Vector2 trajectory = ((targetPos.position + Vector3.up) - atkPos.position).normalized;
-                
-				// if (trajectory.y < 0)
-				// {
-				// 	trajectory *= new Vector2(1, 0);
-				// 	if (trajectory.x >= 0)
-				// 		trajectory.x = 1;
-				// 	else
-				// 		trajectory.x = -1;
-				// }
 
                 trajectory = Quaternion.Euler(0, 0, 15 * offset) * trajectory;
                 // vector = Quaternion.Euler(0, -45, 0) * vector;
@@ -450,6 +447,7 @@ public class AllyClefable : Ally
         }
 
         targetPos = enemies[ind];
+		cannotFind.SetActive(false);
     }
     private bool EnemyInLineOfSight(Transform target)
     {
