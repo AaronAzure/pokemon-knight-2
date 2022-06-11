@@ -363,6 +363,7 @@ public class Gengar : Enemy
 				
 			case 5:
 				teleporting = false;
+				LookAtTarget();
 				moveDir = Vector2.zero;
 				mainAnim.SetTrigger("teleport");
 				mainAnim.SetBool("usingShadows", true);
@@ -522,6 +523,7 @@ public class Gengar : Enemy
 			if (mainAnim.GetBool("usingShadows"))
 			{
 				this.transform.position = startPos;
+				LookAtTarget();
 				mainAnim.SetBool("stillTeleporting", false);
 				teleportCount = 0;
 				nTeleport = Random.Range(0,3);
@@ -581,25 +583,40 @@ public class Gengar : Enemy
         {
             float minDist = Mathf.Infinity;
             float secMinDist = Mathf.Infinity;
+            float thirdMinDist = Mathf.Infinity;
             int ind=0;
             int secInd=0;
+            int thirdInd=0;
             for (int i=0 ; i<teleportPos.Length ; i++)
             {
                 float dist = Vector2.Distance(teleportPos[i].position, target.position);
                 if (dist < minDist)
                 {
+                    thirdMinDist = secMinDist;
+                    thirdInd = secInd;
+
                     secMinDist = minDist;
                     secInd = ind;
+
                     minDist = dist;
                     ind = i;
                 }
                 else if (dist < secMinDist && dist != minDist)
                 {
+                    thirdMinDist = secMinDist;
+                    thirdInd = secInd;
+
                     secMinDist = dist;
                     secInd = i;
                 }
+                else if (dist < thirdMinDist && dist != minDist)
+                {
+                    thirdMinDist = dist;
+                    thirdInd = i;
+                }
             }
-            this.transform.position = teleportPos[secInd].position;
+			int rng = Random.Range(0,2);
+            this.transform.position = teleportPos[ rng == 0 ? secInd : thirdInd ].position;
             LookAtTarget();
         }
     }

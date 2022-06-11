@@ -40,28 +40,34 @@ public class EnemyProjectile : MonoBehaviour
 	
 	[Header("Chase Player")]
 	public bool chasePlayer;
+	public EnemyChase chase;
 	public Transform target;
 	private Coroutine co;
+	[Space] public bool gengarShadow;
+	private bool selfDestruct;
 
 
-	[Header("Chase Player")]
+	[Header("Self-destruct")]
 	public bool destroyItself;
 	public float destroyAfter=10f;
 
 
     void Start()
     {
-        if (body != null)
-            body.velocity = direction * speed;
-
-		if (chasePlayer)
+		if (chase == null)
 		{
-			Vector2 traj = (target.position + new Vector3(0,0.5f) - this.transform.position).normalized;
-			this.transform.rotation = traj.x > 0 ? Quaternion.Euler(0,180,0) : Quaternion.Euler(0,0,0);
-		}
+			if (body != null)
+				body.velocity = direction * speed;
 
-		if (destroyItself)
-			StartCoroutine( DestroyItself() );
+			if (chasePlayer)
+			{
+				Vector2 traj = (target.position + new Vector3(0,0.5f) - this.transform.position).normalized;
+				this.transform.rotation = traj.x > 0 ? Quaternion.Euler(0,180,0) : Quaternion.Euler(0,0,0);
+			}
+
+			if (destroyItself)
+				StartCoroutine( DestroyItself() );
+		}
     }
 
 	public void LaunchAt(Vector3 direction)
@@ -119,7 +125,9 @@ public class EnemyProjectile : MonoBehaviour
 		else if (chasePlayer && other.CompareTag("Ground"))
 		{
 			body.velocity = Vector2.zero;
-			if (co == null)
+			if (selfDestruct)
+				CreateExplosion();
+			else if (co == null)
 				co = StartCoroutine( ChasePlayer() );
 		}
     }
@@ -127,7 +135,10 @@ public class EnemyProjectile : MonoBehaviour
 	IEnumerator DestroyItself()
 	{
 		yield return new WaitForSeconds(destroyAfter);
-		CreateExplosion();
+		if (gengarShadow)
+			selfDestruct = true;
+		else
+			CreateExplosion();
 	}
 	IEnumerator ChasePlayer()
 	{

@@ -12,7 +12,7 @@ public class AllyCharmander : Ally
             anim.SetTrigger("ult");
             if (fireBlast != null)
             {
-                fireBlast.atkDmg = this.atkDmg * this.multiHit;
+                fireBlast.atkDmg = Mathf.RoundToInt( this.atkDmg * this.multiHit * 1.2f);
                 fireBlast.atkForce = this.atkForce;
             }
         }

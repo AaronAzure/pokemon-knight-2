@@ -102,7 +102,7 @@ public class PlayerControls : MonoBehaviour
 
     [Header("Pre-init Pokemon for PlayerPrefs")]
 	public GameObject pokemonHolder;
-	public List<Ally> pokemonTeam;
+	public Dictionary<Ally, Ally> pokemonTeam;
     [Space] public Ally bulbasaur;
     [Space] public Ally charmander;
     [Space] public Ally squirtle;
@@ -727,15 +727,25 @@ public class PlayerControls : MonoBehaviour
         }
     
 		// SET ALL POKEMON LEVEL
-		pokemonTeam = new List<Ally>(pokemonHolder.GetComponentsInChildren<Ally>());
-		for (int i=0 ; i<pokemonTeam.Count ; i++)
+		List<Ally> temp = new List<Ally>(pokemonHolder.GetComponentsInChildren<Ally>());
+		pokemonTeam = new Dictionary<Ally, Ally>();;
+		foreach (Ally a in temp)
 		{
-			string pokemonName = pokemonTeam[i].pokemonName.ToLower();
+			pokemonTeam.Add(a, a);
+			string pokemonName = a.name.ToLower();
 			if (PlayerPrefsElite.VerifyInt(pokemonName + "Lv" + gameNumber))
-				pokemonTeam[i].SetExtraLevel( PlayerPrefsElite.GetInt(pokemonName + "Lv" + gameNumber) );
+				a.SetExtraLevel( PlayerPrefsElite.GetInt(pokemonName + "Lv" + gameNumber) );
 			else
 				Debug.Log(pokemonName);
 		}
+		// for (int i=0 ; i<pokemonTeam.Count ; i++)
+		// {
+		// 	string pokemonName = pokemonTeam[i].pokemonName.ToLower();
+		// 	if (PlayerPrefsElite.VerifyInt(pokemonName + "Lv" + gameNumber))
+		// 		pokemonTeam[i].SetExtraLevel( PlayerPrefsElite.GetInt(pokemonName + "Lv" + gameNumber) );
+		// 	else
+		// 		Debug.Log(pokemonName);
+		// }
 
 
         if (PlayerPrefsElite.VerifyArray("equippedItems" + gameNumber))
@@ -1162,13 +1172,6 @@ public class PlayerControls : MonoBehaviour
 
             if (player.GetButtonDown("MINUS"))
                 ToggleMap();
-
-            // if (mapMenu.activeSelf)
-            // {
-            //     MoveMap();
-            //     if (player.GetButtonDown("Right Stick"))
-            //         LockToCurrentPos();
-            // }
             
             if (body.velocity.y < -0.1f && !grounded)
             {
@@ -1221,14 +1224,6 @@ public class PlayerControls : MonoBehaviour
 				if (player.GetButtonUp("B") || dodging)
 					jumping = false;
             }
-            // // * Dashing
-            // else
-            // {
-            //     if (holder.transform.eulerAngles.y < 180)
-            //         body.velocity = Vector2.right * dashSpeed;
-            //     else
-            //         body.velocity = Vector2.left * dashSpeed;
-            // }
 
 
             //* Summon Pokemon
@@ -1303,195 +1298,21 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
-    int GetAllyPokemonLevel(Ally ally)
-    {
-        if      (ally == bulbasaur)
-            if (PlayerPrefsElite.VerifyInt("bulbasaurLv" + gameNumber))
-                return PlayerPrefsElite.GetInt("bulbasaurLv" + gameNumber);
-        else if (ally == squirtle)
-            if (PlayerPrefsElite.VerifyInt("squirtleLv" + gameNumber))
-                return PlayerPrefsElite.GetInt("squirtleLv" + gameNumber);
-        else if (ally == charmander)
-            if (PlayerPrefsElite.VerifyInt("charmanderLv" + gameNumber))
-                return PlayerPrefsElite.GetInt("charmanderLv" + gameNumber);
-        else if (ally == pidgey)
-            if (PlayerPrefsElite.VerifyInt("pidgeyLv" + gameNumber))
-                return PlayerPrefsElite.GetInt("pidgeyLv" + gameNumber);
-        else if (ally == oddish)
-            if (PlayerPrefsElite.VerifyInt("oddishLv" + gameNumber))
-                return PlayerPrefsElite.GetInt("oddishLv" + gameNumber);
-        else if (ally == butterfree)
-            if (PlayerPrefsElite.VerifyInt("butterfreeLv" + gameNumber))
-                return PlayerPrefsElite.GetInt("butterfreeLv" + gameNumber);
-        else if (ally == tangela)
-            if (PlayerPrefsElite.VerifyInt("tangelaLv" + gameNumber))
-                return PlayerPrefsElite.GetInt("tangelaLv" + gameNumber);
-        else if (ally == bellsprout)
-            if (PlayerPrefsElite.VerifyInt("bellsproutLv" + gameNumber))
-                return PlayerPrefsElite.GetInt("bellsproutLv" + gameNumber);
-        else if (ally == snorlax)
-            if (PlayerPrefsElite.VerifyInt("snorlaxLv" + gameNumber))
-                return PlayerPrefsElite.GetInt("snorlaxLv" + gameNumber);
-        else if (ally == flareon)
-            if (PlayerPrefsElite.VerifyInt("flareonLv" + gameNumber))
-                return PlayerPrefsElite.GetInt("flareonLv" + gameNumber);
-        else if (ally == eevee)
-            if (PlayerPrefsElite.VerifyInt("eeveeLv" + gameNumber))
-                return PlayerPrefsElite.GetInt("eeveeLv" + gameNumber);
-        else if (ally == vaporeon)
-            if (PlayerPrefsElite.VerifyInt("vaporeonLv" + gameNumber))
-                return PlayerPrefsElite.GetInt("vaporeonLv" + gameNumber);
-        else if (ally == clefable)
-            if (PlayerPrefsElite.VerifyInt("clefableLv" + gameNumber))
-                return PlayerPrefsElite.GetInt("clefableLv" + gameNumber);
-        else if (ally == gengar)
-            if (PlayerPrefsElite.VerifyInt("gengarLv" + gameNumber))
-                return PlayerPrefsElite.GetInt("gengarLv" + gameNumber);
-        return 0;
-    }
     public void EnhanceAllyPokemonLevel(Ally ally, int enhancementCost)
     {
         bool found = false;
-        if      (ally == bulbasaur)
-        {
-            found = true;
-            if (PlayerPrefsElite.VerifyInt("bulbasaurLv" + gameNumber))
-                PlayerPrefsElite.SetInt("bulbasaurLv" + gameNumber, 
-                    PlayerPrefsElite.GetInt("bulbasaurLv" + gameNumber) + 1);
+
+		if (pokemonTeam.ContainsKey(ally))
+		{
+			found = true;
+			string pokemonName = pokemonTeam[ally].name.ToLower();
+            if (PlayerPrefsElite.VerifyInt(pokemonName + "Lv" + gameNumber))
+                PlayerPrefsElite.SetInt(pokemonName + "Lv" + gameNumber, 
+                    PlayerPrefsElite.GetInt(pokemonName + "Lv" + gameNumber) + 1);
             else
-                PlayerPrefsElite.SetInt("bulbasaurLv" + gameNumber, 1);
-            bulbasaur.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("bulbasaurLv" + gameNumber) );
-        }
-        else if (ally == squirtle)
-        {
-            found = true;
-            if (PlayerPrefsElite.VerifyInt("squirtleLv" + gameNumber))
-                PlayerPrefsElite.SetInt("squirtleLv" + gameNumber, 
-                    PlayerPrefsElite.GetInt("squirtleLv" + gameNumber) + 1);
-            else
-                PlayerPrefsElite.SetInt("squirtleLv" + gameNumber, 1);
-            squirtle.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("squirtleLv" + gameNumber) );
-        }
-        else if (ally == charmander)
-        {
-            found = true;
-            if (PlayerPrefsElite.VerifyInt("charmanderLv" + gameNumber))
-                PlayerPrefsElite.SetInt("charmanderLv" + gameNumber, 
-                    PlayerPrefsElite.GetInt("charmanderLv" + gameNumber) + 1);
-            else
-                PlayerPrefsElite.SetInt("charmanderLv" + gameNumber, 1);
-            charmander.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("charmanderLv" + gameNumber) );
-        }
-        else if (ally == pidgey)
-        {
-            found = true;
-            if (PlayerPrefsElite.VerifyInt("pidgeyLv" + gameNumber))
-                PlayerPrefsElite.SetInt("pidgeyLv" + gameNumber, 
-                    PlayerPrefsElite.GetInt("pidgeyLv" + gameNumber) + 1);
-            else
-                PlayerPrefsElite.SetInt("pidgeyLv" + gameNumber, 1);
-            pidgey.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("pidgeyLv" + gameNumber) );
-        }
-        else if (ally == oddish)
-        {
-            found = true;
-            if (PlayerPrefsElite.VerifyInt("oddishLv" + gameNumber))
-                PlayerPrefsElite.SetInt("oddishLv" + gameNumber, 
-                    PlayerPrefsElite.GetInt("oddishLv" + gameNumber) + 1);
-            else
-                PlayerPrefsElite.SetInt("oddishLv" + gameNumber, 1);
-            oddish.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("oddishLv" + gameNumber) );
-        }
-        else if (ally == butterfree)
-        {
-            found = true;
-            if (PlayerPrefsElite.VerifyInt("butterfreeLv" + gameNumber))
-                PlayerPrefsElite.SetInt("butterfreeLv" + gameNumber, 
-                    PlayerPrefsElite.GetInt("butterfreeLv" + gameNumber) + 1);
-            else
-                PlayerPrefsElite.SetInt("butterfreeLv" + gameNumber, 1);
-            butterfree.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("butterfreeLv" + gameNumber) );
-        }
-        else if (ally == tangela)
-        {
-            found = true;
-            if (PlayerPrefsElite.VerifyInt("tangelaLv" + gameNumber))
-                PlayerPrefsElite.SetInt("tangelaLv" + gameNumber, 
-                    PlayerPrefsElite.GetInt("tangelaLv" + gameNumber) + 1);
-            else
-                PlayerPrefsElite.SetInt("tangelaLv" + gameNumber, 1);
-            tangela.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("tangelaLv" + gameNumber) );
-        }
-        else if (ally == bellsprout)
-        {
-            found = true;
-            if (PlayerPrefsElite.VerifyInt("bellsproutLv" + gameNumber))
-                PlayerPrefsElite.SetInt("bellsproutLv" + gameNumber, 
-                    PlayerPrefsElite.GetInt("bellsproutLv" + gameNumber) + 1);
-            else
-                PlayerPrefsElite.SetInt("bellsproutLv" + gameNumber, 1);
-            bellsprout.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("bellsproutLv" + gameNumber) );
-        }
-        else if (ally == snorlax)
-        {
-            found = true;
-            if (PlayerPrefsElite.VerifyInt("snorlaxLv" + gameNumber))
-                PlayerPrefsElite.SetInt("snorlaxLv" + gameNumber, 
-                    PlayerPrefsElite.GetInt("snorlaxLv" + gameNumber) + 1);
-            else
-                PlayerPrefsElite.SetInt("snorlaxLv" + gameNumber, 1);
-            snorlax.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("snorlaxLv" + gameNumber) );
-        }
-        else if (ally == flareon)
-        {
-            found = true;
-            if (PlayerPrefsElite.VerifyInt("flareonLv" + gameNumber))
-                PlayerPrefsElite.SetInt("flareonLv" + gameNumber, 
-                    PlayerPrefsElite.GetInt("flareonLv" + gameNumber) + 1);
-            else
-                PlayerPrefsElite.SetInt("flareonLv" + gameNumber, 1);
-            flareon.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("flareonLv" + gameNumber) );
-        }
-        else if (ally == eevee)
-        {
-            found = true;
-            if (PlayerPrefsElite.VerifyInt("eeveeLv" + gameNumber))
-                PlayerPrefsElite.SetInt("eeveeLv" + gameNumber, 
-                    PlayerPrefsElite.GetInt("eeveeLv" + gameNumber) + 1);
-            else
-                PlayerPrefsElite.SetInt("eeveeLv" + gameNumber, 1);
-            eevee.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("eeveeLv" + gameNumber) );
-        }
-        else if (ally == vaporeon)
-        {
-            found = true;
-            if (PlayerPrefsElite.VerifyInt("vaporeonLv" + gameNumber))
-                PlayerPrefsElite.SetInt("vaporeonLv" + gameNumber, 
-                    PlayerPrefsElite.GetInt("vaporeonLv" + gameNumber) + 1);
-            else
-                PlayerPrefsElite.SetInt("vaporeonLv" + gameNumber, 1);
-            vaporeon.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("vaporeonLv" + gameNumber) );
-        }
-        else if (ally == clefable)
-        {
-            found = true;
-            if (PlayerPrefsElite.VerifyInt("clefableLv" + gameNumber))
-                PlayerPrefsElite.SetInt("clefableLv" + gameNumber, 
-                    PlayerPrefsElite.GetInt("clefableLv" + gameNumber) + 1);
-            else
-                PlayerPrefsElite.SetInt("clefableLv" + gameNumber, 1);
-            clefable.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("clefableLv" + gameNumber) );
-        }
-        else if (ally == gengar)
-        {
-            found = true;
-            if (PlayerPrefsElite.VerifyInt("gengarLv" + gameNumber))
-                PlayerPrefsElite.SetInt("gengarLv" + gameNumber, 
-                    PlayerPrefsElite.GetInt("gengarLv" + gameNumber) + 1);
-            else
-                PlayerPrefsElite.SetInt("gengarLv" + gameNumber, 1);
-            gengar.ENHANCE_POKEMON( PlayerPrefsElite.GetInt("gengarLv" + gameNumber) );
-        }
+                PlayerPrefsElite.SetInt(pokemonName + "Lv" + gameNumber, 1);
+			pokemonTeam[ally].ENHANCE_POKEMON( PlayerPrefsElite.GetInt(pokemonName + "Lv" + gameNumber) );
+		}
         else 
             Debug.Log("<color=red>Pokemon not registered to be Enhanced</color>");
 
@@ -2719,6 +2540,7 @@ public class PlayerControls : MonoBehaviour
             body.velocity = Vector2.zero;
             inCutscene = true;
             canEnter = false;
+			dodgingThruScene = false;
             movingToDifferentScene = true;
 
             if (transitionAnim != null)
@@ -3804,59 +3626,18 @@ public class PlayerControls : MonoBehaviour
 
     public void ResetPokemonLevels()
     {
-        PlayerPrefsElite.SetInt("bulbasaurLv" + gameNumber, 0);
-        bulbasaur.SetExtraLevel( 0 );
-
-        PlayerPrefsElite.SetInt("squirtleLv" + gameNumber, 0);
-        squirtle.SetExtraLevel( 0 );
-        
-        PlayerPrefsElite.SetInt("charmanderLv" + gameNumber, 0);
-        charmander.SetExtraLevel( 0 );
-
-        PlayerPrefsElite.SetInt("pidgeyLv" + gameNumber, 0);
-        pidgey.SetExtraLevel( 0 );
-
-        PlayerPrefsElite.SetInt("oddishLv" + gameNumber, 0);
-        oddish.SetExtraLevel( 0 );
-
-        PlayerPrefsElite.SetInt("butterfreeLv" + gameNumber, 0);
-        butterfree.SetExtraLevel( 0 );
-
-        PlayerPrefsElite.SetInt("tangelaLv" + gameNumber, 0);
-        tangela.SetExtraLevel( 0 );
-
-        PlayerPrefsElite.SetInt("bellsproutLv" + gameNumber, 0);
-        bellsprout.SetExtraLevel( 0 );
-
-        PlayerPrefsElite.SetInt("snorlaxLv" + gameNumber, 0);
-        snorlax.SetExtraLevel( 0 );
-
-        PlayerPrefsElite.SetInt("flareonLv" + gameNumber, 0);
-        flareon.SetExtraLevel( 0 );
-
-        PlayerPrefsElite.SetInt("eeveeLv" + gameNumber, 0);
-        eevee.SetExtraLevel( 0 );
-        
-        PlayerPrefsElite.SetInt("vaporeonLv" + gameNumber, 0);
-        vaporeon.SetExtraLevel( 0 );
-        
-        PlayerPrefsElite.SetInt("clefableLv" + gameNumber, 0);
-        clefable.SetExtraLevel( 0 );
-        
-        PlayerPrefsElite.SetInt("gengarLv" + gameNumber, 0);
-        gengar.SetExtraLevel( 0 );
+		foreach (Ally pokemon in pokemonTeam.Values)
+		{
+			string pokemonName = pokemon.name.ToLower();
+			PlayerPrefsElite.SetInt(pokemonName + "Lv" + gameNumber, 0);
+        	pokemon.SetExtraLevel( 0 );
+		}
     }
 
 }
 
 
 
-// [System.Serializable]
-// public class AllyTeamUI
-// {
-//     public Ally summonable;
-//     public Sprite sprite;
-// }
 
 [System.Serializable]
 public class MoomooMilkUi

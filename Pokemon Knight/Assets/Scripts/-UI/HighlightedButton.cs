@@ -69,6 +69,10 @@ public class HighlightedButton : MonoBehaviour
                                 atkDmg *= pokemonButton.ally.multiHit;
                                 atkpower.text = atkDmg.ToString() + " (" + temp + "×" + pokemonButton.ally.multiHit + ")";
                             }
+							if (pokemonButton.ally.cmd.isCustomDmg)
+							{
+								
+							}
 							if (atkDmg == 0)
                             	atkpower.text = "???";
 

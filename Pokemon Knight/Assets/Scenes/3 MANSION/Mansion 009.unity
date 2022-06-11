@@ -223,6 +223,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GENGAR (enemy)
       objectReference: {fileID: 0}
+    - target: {fileID: 4914461150105602617, guid: e92ef7d87bce147b583e465aabd93412, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4914461150105602620, guid: e92ef7d87bce147b583e465aabd93412, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -859,7 +863,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &304256818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3212,7 +3216,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1189856887121461696, guid: 07801f68610d440fe85448e48c296ecf, type: 3}
       propertyPath: nextPos.x
-      value: -10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1189856887121461696, guid: 07801f68610d440fe85448e48c296ecf, type: 3}
       propertyPath: nextPos.y
@@ -3220,7 +3224,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1189856887121461696, guid: 07801f68610d440fe85448e48c296ecf, type: 3}
       propertyPath: nextScene
-      value: Mansion 009
+      value: Mansion 001
       objectReference: {fileID: 0}
     - target: {fileID: 1189856887121461696, guid: 07801f68610d440fe85448e48c296ecf, type: 3}
       propertyPath: isDoorExit
@@ -3232,7 +3236,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1189856887121461697, guid: 07801f68610d440fe85448e48c296ecf, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1189856887121461702, guid: 07801f68610d440fe85448e48c296ecf, type: 3}
       propertyPath: m_RootOrder
@@ -3240,7 +3244,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1189856887121461702, guid: 07801f68610d440fe85448e48c296ecf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 29
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 1189856887121461702, guid: 07801f68610d440fe85448e48c296ecf, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4126,3 +4130,69 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!1001 &1893139946
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1212349198}
+    m_Modifications:
+    - target: {fileID: 2285946673486654550, guid: f58e70420c32c4b9e87f6e8ad0c4c09e, type: 3}
+      propertyPath: psybeamAtk
+      value: 
+      objectReference: {fileID: 7657631005212190851, guid: ac218768bc2266b408c70cb410c05435, type: 3}
+    - target: {fileID: 3023683689050749880, guid: f58e70420c32c4b9e87f6e8ad0c4c09e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347547860042096048, guid: f58e70420c32c4b9e87f6e8ad0c4c09e, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347547860042096048, guid: f58e70420c32c4b9e87f6e8ad0c4c09e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347547860042096048, guid: f58e70420c32c4b9e87f6e8ad0c4c09e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347547860042096048, guid: f58e70420c32c4b9e87f6e8ad0c4c09e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347547860042096048, guid: f58e70420c32c4b9e87f6e8ad0c4c09e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347547860042096048, guid: f58e70420c32c4b9e87f6e8ad0c4c09e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347547860042096048, guid: f58e70420c32c4b9e87f6e8ad0c4c09e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347547860042096048, guid: f58e70420c32c4b9e87f6e8ad0c4c09e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347547860042096048, guid: f58e70420c32c4b9e87f6e8ad0c4c09e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347547860042096048, guid: f58e70420c32c4b9e87f6e8ad0c4c09e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347547860042096048, guid: f58e70420c32c4b9e87f6e8ad0c4c09e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347547860042096051, guid: f58e70420c32c4b9e87f6e8ad0c4c09e, type: 3}
+      propertyPath: m_Name
+      value: ALAKAZAM BOSS (enemy)
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4695170927560479832, guid: f58e70420c32c4b9e87f6e8ad0c4c09e, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: f58e70420c32c4b9e87f6e8ad0c4c09e, type: 3}
