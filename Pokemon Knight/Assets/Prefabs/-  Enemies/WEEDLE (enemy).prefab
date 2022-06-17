@@ -216,6 +216,7 @@ MonoBehaviour:
   lv: 12
   chapterLevel: 1
   mainAnim: {fileID: 7516535775449187510}
+  pokemonSpr: {fileID: 0}
   maxHp: 55
   hp: 0
   contactDmg: 5
@@ -227,6 +228,9 @@ MonoBehaviour:
   perLv: 2
   expPossess: 10
   extraExp: 5
+  secondDmg: 5
+  secondExtraDmg: 3
+  hasExtraDmg: 0
   isSmart: 0
   isEvenSmarter: 0
   renderers:
@@ -274,8 +278,8 @@ MonoBehaviour:
   isBoss: 0
   isMiniBoss: 0
   possessedAura: {fileID: 0}
-  battleRoarObj: {fileID: 0}
   rageChargeObj: {fileID: 0}
+  battleRoarObj: {fileID: 0}
   inRage: 0
   inCutscene: 0
   inRageCutscene: 0
@@ -291,8 +295,11 @@ MonoBehaviour:
   partOfHorde: 0
   alert: {fileID: 2090748036753711994}
   eyes: {fileID: 4460110284239519292}
+  eyes2: {fileID: 0}
+  blood: {fileID: 8924585071623999260, guid: 9b05ec0da04bb4a8b957e2063e3a6280, type: 3}
   isAttacking: 0
   isTargeting: 0
+  keepSearching: 0
   playerInField: 0
   playerInSight: 0
   playerInCloseRange: 0

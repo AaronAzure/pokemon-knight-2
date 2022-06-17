@@ -12,6 +12,7 @@ public class EnemyProjectile : MonoBehaviour
     [Space] public bool destoryOnWallCollision;
     public GameObject explosion;
     [SerializeField] private GameObject trailObj;
+    [SerializeField] private ParticleSystem trailPs;
     public Rigidbody2D body;
     public Vector2 direction;
     public float speed;
@@ -65,9 +66,9 @@ public class EnemyProjectile : MonoBehaviour
 				this.transform.rotation = traj.x > 0 ? Quaternion.Euler(0,180,0) : Quaternion.Euler(0,0,0);
 			}
 
-			if (destroyItself)
-				StartCoroutine( DestroyItself() );
 		}
+		if (destroyItself)
+			StartCoroutine( DestroyItself() );
     }
 
 	public void LaunchAt(Vector3 direction)
@@ -162,6 +163,13 @@ public class EnemyProjectile : MonoBehaviour
 		}
 		if (trailObj != null) 
 			trailObj.transform.parent = null;
+		if (trailPs != null)
+		{
+			trailPs.gameObject.transform.parent = null;
+			var main = trailPs.main;
+			main.loop = false;
+			main.stopAction = ParticleSystemStopAction.Destroy;
+		}
 		Destroy(this.gameObject);
 	}
 }

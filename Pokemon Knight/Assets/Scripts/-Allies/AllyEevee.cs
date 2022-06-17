@@ -73,13 +73,16 @@ public class AllyEevee : Ally
         body.gravityScale = 0;
         body.velocity = Vector2.zero;
 
-        if (this.transform.eulerAngles.y > 0)   // attacking from left
-            this.transform.position = targetPos.position + new Vector3( quickAtkOffset.x, quickAtkOffset.y);
-        else   // attacking from right
-            this.transform.position = targetPos.position + new Vector3(-quickAtkOffset.x, quickAtkOffset.y);
+		if (targetPos != null)
+		{
+			if (this.transform.eulerAngles.y > 0)   // attacking from left
+				this.transform.position = targetPos.position + new Vector3( quickAtkOffset.x, quickAtkOffset.y);
+			else   // attacking from right
+				this.transform.position = targetPos.position + new Vector3(-quickAtkOffset.x, quickAtkOffset.y);
+			Vector2 dir = (targetPos.position - transform.position).normalized;
+			body.AddForce(dir * quickAtkForce, ForceMode2D.Impulse);
+		}
 
-        Vector2 dir = (targetPos.position - transform.position).normalized;
-        body.AddForce(dir * quickAtkForce, ForceMode2D.Impulse);
 
         once = false;
     }

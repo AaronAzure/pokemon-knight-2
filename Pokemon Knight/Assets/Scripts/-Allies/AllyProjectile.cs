@@ -64,8 +64,9 @@ public class AllyProjectile : MonoBehaviour
                 Component[] scripts = other.GetComponents(typeof(Enemy));
                 foreach (var script in scripts)
                 {
+					// STEAL HEALTH
                     var foe = script.GetComponent<Enemy>();
-                    if (absorbEffect && player != null)
+                    if (absorbEffect && !foe.destroyable && player != null)
                     {
                         float hpRecoverPercent = (float) (atkDmg / 2f);
                         if (foe.hp < atkDmg)

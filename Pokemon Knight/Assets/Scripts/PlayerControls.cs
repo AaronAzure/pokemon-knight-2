@@ -117,6 +117,7 @@ public class PlayerControls : MonoBehaviour
     [Space] public Ally vaporeon;
     [Space] public Ally clefable;
     [Space] public Ally gengar;
+    [Space] public Ally alakazam;
 
 
 
@@ -194,6 +195,7 @@ public class PlayerControls : MonoBehaviour
     [Space] [SerializeField] private List<string> spareKeychainCollected;
     [Space] [SerializeField] private List<string> enemyDefeated = new List<string>();
     public int nBerries;
+
 
     [Space] [Header("Sound")]
     [SerializeField] private GameObject levelUpEffect;
@@ -323,18 +325,21 @@ public class PlayerControls : MonoBehaviour
 	
 	[Space]
     public bool canTeleport;
-	[SerializeField] private float teleportDist = 3.75f;
 	[SerializeField] private GameObject teleportBeginEffect;
 	[SerializeField] private GameObject teleportEffect;
+	[SerializeField] private Transform alakazamPos;
 	[SerializeField] private Transform teleportEffectPos;
     [SerializeField] private float dodgeSpeed = 7.5f;
+	[SerializeField] private Ally teleportObj;
+	[HideInInspector] public bool alakazamOut;
+    [HideInInspector] public int alakazamSlot = -1;
 	
 	[Space]
     public bool canGroundPound;
     public float groundPoundSpeed=10;
     public GameObject groundPoundEffect;
     [Space] public bool isGroundPounding;
-    private MusicManager musicManager;
+    [HideInInspector] public MusicManager musicManager;
     
 
     [Header("Status Conditions")]
@@ -596,6 +601,19 @@ public class PlayerControls : MonoBehaviour
 		if (teleportBeginEffect != null)
             teleportBeginEffect.transform.parent = null;
         
+		// SET ALL POKEMON LEVEL
+		List<Ally> temp = new List<Ally>(pokemonHolder.GetComponentsInChildren<Ally>());
+		pokemonTeam = new Dictionary<Ally, Ally>();;
+		foreach (Ally a in temp)
+		{
+			pokemonTeam.Add(a, a);
+			string pokemonName = a.name.ToLower();
+			if (PlayerPrefsElite.VerifyInt(pokemonName + "Lv" + gameNumber))
+				a.SetExtraLevel( PlayerPrefsElite.GetInt(pokemonName + "Lv" + gameNumber) );
+			else
+				Debug.Log(pokemonName);
+		}
+
         // Last Pokemon team
         if (PlayerPrefsElite.VerifyArray("buttonAllocatedPokemons" + gameNumber))
         {
@@ -726,26 +744,6 @@ public class PlayerControls : MonoBehaviour
             SavePokemonTeam();
         }
     
-		// SET ALL POKEMON LEVEL
-		List<Ally> temp = new List<Ally>(pokemonHolder.GetComponentsInChildren<Ally>());
-		pokemonTeam = new Dictionary<Ally, Ally>();;
-		foreach (Ally a in temp)
-		{
-			pokemonTeam.Add(a, a);
-			string pokemonName = a.name.ToLower();
-			if (PlayerPrefsElite.VerifyInt(pokemonName + "Lv" + gameNumber))
-				a.SetExtraLevel( PlayerPrefsElite.GetInt(pokemonName + "Lv" + gameNumber) );
-			else
-				Debug.Log(pokemonName);
-		}
-		// for (int i=0 ; i<pokemonTeam.Count ; i++)
-		// {
-		// 	string pokemonName = pokemonTeam[i].pokemonName.ToLower();
-		// 	if (PlayerPrefsElite.VerifyInt(pokemonName + "Lv" + gameNumber))
-		// 		pokemonTeam[i].SetExtraLevel( PlayerPrefsElite.GetInt(pokemonName + "Lv" + gameNumber) );
-		// 	else
-		// 		Debug.Log(pokemonName);
-		// }
 
 
         if (PlayerPrefsElite.VerifyArray("equippedItems" + gameNumber))
@@ -1689,6 +1687,27 @@ public class PlayerControls : MonoBehaviour
 			spawnedDoubleJumpObj.transform.parent = null;
 			spawnedDoubleJumpObj.IMMEDIATE_RETURN_TO_BALL();
 		}
+
+		if (teleportObj != null)
+        {
+            var pokemon = Instantiate(teleportObj, doubleJumpSpawnPos.position, teleportObj.transform.rotation);
+            pokemon.transform.SetParent(doubleJumpSpawnPos, true);
+			spawnedDoubleJumpObj = pokemon;
+            Ally ally = pokemon.GetComponent<Ally>();
+            ally.trainer = this;
+            butterfreeOut = true;
+            if (butterfreeSlot != -1 && partyPokemonsUI[ butterfreeSlot ].color != new Color(0.3f,0.3f,0.3f))
+            {
+                doubleJumpBeforeAtk = true;
+                partyPokemonsUI[ butterfreeSlot ].color = new Color(0.3f,0.3f,0.3f);
+            }
+
+            //* Looking left
+            if (holder.transform.eulerAngles.y > 0)
+                pokemon.transform.eulerAngles = new Vector3(0,-180);
+
+        }
+
 		teleportBeginEffect.SetActive(false);
 		teleportBeginEffect.transform.position = teleportEffectPos.position;
 		teleportBeginEffect.SetActive(true);
@@ -2344,8 +2363,10 @@ public class PlayerControls : MonoBehaviour
         yield return new WaitForSeconds(2f);
         if (transitionAnim != null)
             transitionAnim.SetTrigger("toBlack");
-        if (musicManager != null)
-            StartCoroutine( musicManager.TransitionMusic(musicManager.previousMusic) );
+
+		string newSceneFirstWord = lostBagScene.Split(' ')[0];
+		if (musicManager != null)
+			StartingMusic(newSceneFirstWord, true);
         
         yield return new WaitForSeconds(1f);
         StartCoroutine( Respawn() );
@@ -2355,15 +2376,22 @@ public class PlayerControls : MonoBehaviour
     }
     IEnumerator Respawn()
     {
-        if (musicManager != null && musicManager.previousMusic != null)
-        {
-            yield return new WaitForSeconds(0.5f);
-        }
-        if (damageIndicatorAnim != null)
-        {
-            damageIndicatorAnim.SetFloat("fadeSpeed", 1);
-            damageIndicatorAnim.SetTrigger("respawn");
-        }
+		// if (musicManager != null)
+		// {
+		// 	if (PlayerPrefsElite.VerifyString("checkpointScene" + gameNumber))
+		// 	{
+        //     	string sceneName = PlayerPrefsElite.GetString("checkpointScene" + gameNumber);
+		// 		// string newSceneFirstWord = sceneName.Split(' ')[0];
+		// 		// if (musicManager != null)
+		// 		// 	StartingMusic(newSceneFirstWord, true);
+		// 	}
+		// }
+		yield return new WaitForSeconds(0.5f);
+		if (damageIndicatorAnim != null)
+		{
+			damageIndicatorAnim.SetFloat("fadeSpeed", 1);
+			damageIndicatorAnim.SetTrigger("respawn");
+		}
             
         ReloadState();
 
@@ -2371,9 +2399,9 @@ public class PlayerControls : MonoBehaviour
             && PlayerPrefsElite.VerifyVector3("checkpointPos" + gameNumber))
         {
             string sceneName = PlayerPrefsElite.GetString("checkpointScene" + gameNumber);
-            SceneManager.LoadScene(sceneName);
-            this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos" + gameNumber);
-            
+			SceneManager.LoadScene(sceneName);
+			this.transform.position = PlayerPrefsElite.GetVector3("checkpointPos" + gameNumber);
+
             //* WAIT TILL SCENE LOADS
             // while (SceneManager.GetActiveScene().name != sceneName)
             //     yield return null;
@@ -2709,7 +2737,7 @@ public class PlayerControls : MonoBehaviour
             {
                 PlayerPrefsElite.SetString("currentArea" + gameNumber, newSceneFirstWord);
                 if (musicManager != null)
-                    StartingMusic(newSceneFirstWord);
+                    StartingMusic(newSceneFirstWord, true);
             }
             if (transitionAnim != null)
                 transitionAnim.SetTrigger("fromBlack");
@@ -2755,8 +2783,8 @@ public class PlayerControls : MonoBehaviour
         if (other.CompareTag("Underwater"))
             inWater = true;
             // nExtraJumpsLeft = nExtraJumps;
-        if (other.CompareTag("Rage") && musicManager != null)
-            StartCoroutine( musicManager.TransitionMusic(musicManager.bossOutroMusic) );
+        // if (other.CompareTag("Rage") && musicManager != null)
+        //     StartCoroutine( musicManager.TransitionMusic(musicManager.bossOutroMusic) );
     }
     private void OnTriggerExit2D(Collider2D other) 
     {
@@ -2765,16 +2793,6 @@ public class PlayerControls : MonoBehaviour
         if (other.CompareTag("Roar"))
             RoarOver();
     }
-
-    // private void OnCollisionEnter2D(Collision2D other) {
-    //     if (other.gameObject.CompareTag("Ground"))
-    //     {
-    //         if (other.gameObject.TryGetComponent(out Collider2D comp))
-    //         {
-    //             Debug.Log("-->  " + comp.name);
-    //         }
-    //     }
-    // }
 
 
     // todo ------------------------------------------------------------------------------------
@@ -2795,23 +2813,19 @@ public class PlayerControls : MonoBehaviour
             {
                 case "start":
                     StartCoroutine( musicManager.TransitionMusic(musicManager.forestMusic) );
-                    musicManager.previousMusic = musicManager.forestMusic;
                     break;
                 case "forest":
                     StartCoroutine( musicManager.TransitionMusic(musicManager.forestMusic) );
-                    musicManager.previousMusic = musicManager.forestMusic;
                     if (notNull)
                         locationName.text = "Whispering Woods";
                     break;
                 case "swamp":
                     StartCoroutine( musicManager.TransitionMusic(musicManager.swampMusic) );
-                    musicManager.previousMusic = musicManager.swampMusic;
                     if (notNull)
                         locationName.text = "Somber Swamplands";
                     break;
                 case "mansion":
                     StartCoroutine( musicManager.TransitionMusic(musicManager.mansionMusic) );
-                    musicManager.previousMusic = musicManager.mansionMusic;
                     if (notNull)
                         locationName.text = "Murmuring Mansion";
                     break;
@@ -2821,11 +2835,19 @@ public class PlayerControls : MonoBehaviour
             }
         }
     }
+	public void PlayMusic(AudioSource music)
+	{
+		StartCoroutine( musicManager.TransitionMusic(music) );
+	}
     
     public void BossBattleOver()
     {
         if (musicManager != null)
-            StartCoroutine( musicManager.TransitionMusic(musicManager.previousMusic) );
+		{
+			string newSceneFirstWord = SceneManager.GetActiveScene().name.Split(' ')[0];
+			StartingMusic(newSceneFirstWord, true);
+		}
+            // StartCoroutine( musicManager.TransitionMusic(musicManager.previousMusic) );
     }
     
     
@@ -2845,22 +2867,61 @@ public class PlayerControls : MonoBehaviour
         anim.SetTrigger("engaged");
         body.velocity = Vector2.zero;
 
-        if (musicManager != null && musicName.ToLower() == "rosary")
-            StartCoroutine( musicManager.TransitionMusic(musicManager.bossIntroMusic, true) );
-        if (musicManager != null && musicName.ToLower() == "accolade")
-            StartCoroutine( musicManager.TransitionMusic(musicManager.accoladeOutroMusic) );
+		if (musicManager != null)
+		{
+			switch (musicName.ToLower())
+			{
+				case "rosary":
+					StartCoroutine( musicManager.TransitionMusic(musicManager.bossIntroMusic) );
+					break;
+				case "bloom":
+					StartCoroutine( musicManager.TransitionMusic(musicManager.bloomIntroMusic) );
+					break;
+				case "abyss":
+					StartCoroutine( musicManager.TransitionMusic(musicManager.abyssMusic) );
+					break;
+				case "accolade":
+					StartCoroutine( musicManager.TransitionMusic(musicManager.accoladeOutroMusic) );
+					break;
+				default:
+					StartCoroutine( musicManager.TransitionMusic(musicManager.accoladeOutroMusic) );
+					break;
+			}
+		}
+    }
+
+    public void BossRage(string musicName)
+    {
+        if (musicManager != null)
+		{
+			switch (musicName.ToLower())
+			{
+				case "rosary":
+					StartCoroutine( musicManager.TransitionMusic(musicManager.bossOutroMusic) );
+					break;
+				case "bloom":
+					StartCoroutine( musicManager.TransitionMusic(musicManager.bloomOutroMusic) );
+					break;
+				case "accolade":
+					StartCoroutine( musicManager.TransitionMusic(musicManager.accoladeOutroMusic) );
+					break;
+				default:
+					StartCoroutine( musicManager.TransitionMusic(musicManager.bossOutroMusic) );
+					break;
+			}
+		}
     }
 
     public void EnteredWaveRoom()
     {
         if (musicManager != null)
-            StartCoroutine( musicManager.TransitionMusic(musicManager.accoladeIntroMusic, true) );
+            StartCoroutine( musicManager.TransitionMusic(musicManager.accoladeIntroMusic) );
     }
     
     public void StartHordeBattleMusic()
     {
         if (musicManager != null)
-            StartCoroutine( musicManager.TransitionMusic(musicManager.hordeMusic, true) );
+            StartCoroutine( musicManager.TransitionMusic(musicManager.hordeMusic) );
     }
 
     
@@ -3172,14 +3233,14 @@ public class PlayerControls : MonoBehaviour
         // if (PlayerPrefsElite.VerifyArray("spareKeychain" + gameNumber))
         //     PlayerPrefsElite.SetStringArray("spareKeychain" + gameNumber, spareKeychainCollected.ToArray());
         
-        var berriesSet = new HashSet<string>(berriesCollected);
-        if (berriesSet.Contains(""))
-            berriesSet.Remove("");
-        nBerries = berriesSet.Count;
-        var spareKeychainSet = new HashSet<string>(spareKeychainCollected);
-        if (spareKeychainSet.Contains(""))
-            spareKeychainSet.Remove("");
-        extraWeight = spareKeychainCollected.Count;
+        // var berriesSet = new HashSet<string>(berriesCollected);
+        // if (berriesSet.Contains(""))
+        //     berriesSet.Remove("");
+        // nBerries = berriesSet.Count;
+        // var spareKeychainSet = new HashSet<string>(spareKeychainCollected);
+        // if (spareKeychainSet.Contains(""))
+        //     spareKeychainSet.Remove("");
+        // extraWeight = spareKeychainCollected.Count;
         
 
         CheckEquippablePokemon();

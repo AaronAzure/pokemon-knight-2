@@ -19,7 +19,7 @@ public abstract class Enemy : MonoBehaviour
     private int lvBreak=10;  // Additional bonus
     [HideInInspector] public enum ChapterLevel { one, two, three, four, five, six, seven };
     public ChapterLevel chapterLevel = ChapterLevel.one;
-    protected PlayerControls playerControls;
+    [HideInInspector] public PlayerControls playerControls;
     [Space] [SerializeField] protected Animator mainAnim;
     private bool inPlayMode;
 	[Space] public Sprite pokemonSpr;
@@ -54,6 +54,12 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private Material origMat;
     [HideInInspector] public BossRoom bossRoom;
     private bool canCatch;
+	
+	
+    [Space] [Header("Destroyable Projectile")]
+	public bool destroyable;
+	[SerializeField] protected GameObject explosion;
+
 
 
     [Space] [Header("Damage Related")]
@@ -103,6 +109,7 @@ public abstract class Enemy : MonoBehaviour
     [Tooltip("possessed")] public GameObject possessedAura;
     [Tooltip("aura")] public GameObject rageChargeObj;
     public GameObject battleRoarObj;
+	public bool cannotDmgPlayer;
     [HideInInspector] public bool inRage;
     [HideInInspector] public bool inCutscene; // Can't move
     [HideInInspector] public bool inRageCutscene; // Can't move
@@ -127,6 +134,7 @@ public abstract class Enemy : MonoBehaviour
     public GameObject alert;
     public GameObject eyes;
     public GameObject eyes2;
+    [Space] public GameObject blood;
     [Space] public bool isAttacking;    // SET BY ANIMATION
     public bool isTargeting;
     [HideInInspector] protected bool canFlip=true ;
@@ -175,71 +183,79 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void Start() 
     {
-        if (!isBoss && !spawnedByWave)
-        {
-            enemyId = SceneManager.GetActiveScene().name + " " + this.name;
-            if (PlayerPrefsElite.VerifyArray("enemyDefeated"))
-            {
-                HashSet<string> names = new HashSet<string>(PlayerPrefsElite.GetStringArray("enemyDefeated"));
+		if (!destroyable)
+		{
+			if (!isBoss && !spawnedByWave)
+			{
+				enemyId = SceneManager.GetActiveScene().name + " " + this.name;
+				if (PlayerPrefsElite.VerifyArray("enemyDefeated"))
+				{
+					HashSet<string> names = new HashSet<string>(PlayerPrefsElite.GetStringArray("enemyDefeated"));
 
-                if (names.Contains(enemyId))
-                {
-                    if (horde != null)  
-                        horde.RemoveFromEnemies(this);
-                    Destroy(this.gameObject);
-                }
-            }
-        }
+					if (names.Contains(enemyId))
+					{
+						if (horde != null)  
+							horde.RemoveFromEnemies(this);
+						Destroy(this.gameObject);
+					}
+				}
+			}
 
-        inPlayMode = true;
-        if (statusBar != null)
-            statusBar.SetActive(false);
-        if (GameObject.Find("PLAYER") != null)
-            playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
-        else
-            Debug.LogError("PLAYER couldn't be found!!");
+			inPlayMode = true;
+			if (statusBar != null)
+				statusBar.SetActive(false);
+			if (GameObject.Find("PLAYER") != null)
+				playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
+			else
+				Debug.LogError("PLAYER couldn't be found!!");
 
-        if (!isBoss)
-            model.transform.localScale *= Random.Range(0.9f, 1.1f);
+			if (!isBoss)
+				model.transform.localScale *= Random.Range(0.9f, 1.1f);
 
 
-        if (lv > defaultLv)
-            maxHp += Mathf.CeilToInt((extraHp * (lv - defaultLv))/2f);
-        if (lv > defaultLv)
-            contactDmg += Mathf.FloorToInt((extraDmg * (lv - defaultLv))/2f);
-        if (lv > defaultLv)
-            expPossess += Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) );
+			if (lv > defaultLv)
+				maxHp += Mathf.CeilToInt((extraHp * (lv - defaultLv))/2f);
+			if (lv > defaultLv)
+				contactDmg += Mathf.FloorToInt((extraDmg * (lv - defaultLv))/2f);
+			if (lv > defaultLv)
+				expPossess += Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) );
 
-        if (hasExtraDmg)
-            secondDmg += Mathf.FloorToInt((secondExtraDmg * (lv - defaultLv))/2f);
+			if (hasExtraDmg)
+				secondDmg += Mathf.FloorToInt((secondExtraDmg * (lv - defaultLv))/2f);
 
-        calcExtraProjectileDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
+			calcExtraProjectileDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
 
-        if (isMiniBoss)
-        {
-            maxHp *= 4;
-            expPossess *= 4;
-        }
-        if (!isBoss || isMiniBoss)
-        {
-            int nextAreas = (lv / lvBreak);
-            for (int i=0 ; i<nextAreas ; i++)
-            // for (int i=0 ; i<(int)chapterLevel ; i++)
-            {
-                maxHp = Mathf.RoundToInt(maxHp * 2f);
-                expPossess = Mathf.RoundToInt(expPossess * 1.5f);
-            }
-        }
+			if (isMiniBoss)
+			{
+				maxHp *= 4;
+				expPossess *= 4;
+			}
+			if (!isBoss || isMiniBoss)
+			{
+				int nextAreas = (lv / lvBreak);
+				for (int i=0 ; i<nextAreas ; i++)
+				// for (int i=0 ; i<(int)chapterLevel ; i++)
+				{
+					maxHp = Mathf.RoundToInt(maxHp * 2f);
+					expPossess = Mathf.RoundToInt(expPossess * 1.5f);
+				}
+			}
 
-        hp = maxHp;   
-        if (lvText != null)
-            lvText.text = "Lv. " + lv; 
+			hp = maxHp;   
+			if (lvText != null)
+				lvText.text = "Lv. " + lv; 
 
-        origSize = model.transform.localScale;
-        obstacleMask = (whatIsGround | whatIsBounds);
-        
-        Setup();
-    }
+			origSize = model.transform.localScale;
+			obstacleMask = (whatIsGround | whatIsBounds);
+			
+			Setup();
+		}
+		else
+		{
+			hp = maxHp;   
+			Setup();
+		}
+	}
 
     public virtual void Setup() {}
     public virtual void CallChilByOther() {}
@@ -248,6 +264,7 @@ public abstract class Enemy : MonoBehaviour
     public virtual void CallChildOnRage() {}
     public virtual void CallChildOnRageCutsceneFinished() {}
     public virtual void CallChildOnDeath() {}
+    public virtual void CallChildOnCollision() {}
     public virtual void CallChildOnBossDeath() {}
     public virtual void CallChildOnTargetLost() {}  // VIA EnemyFieldOfVision
     public virtual void CallChildOnTargetFound() {}  // VIA EnemyFieldOfVision
@@ -256,15 +273,22 @@ public abstract class Enemy : MonoBehaviour
     public virtual void CallChildOnKnockbackFinish() {}
     public virtual void CallChildOnDropLoot() 
     {
-        if (!isBoss || isMiniBoss)
-			loot.DropLoot( Mathf.FloorToInt(lv / 10) );
-		else
-			loot.DropLoot();
+		if (loot != null)
+		{
+			if (!isBoss || isMiniBoss)
+				loot.DropLoot( Mathf.FloorToInt(lv / 10) );
+			else
+				loot.DropLoot();
+		}
     }
     
     public virtual void CallChildOnHalfHealth() {}  
     public virtual void CallChildOnIncreaseSpd() {}  
     public virtual void CallChildOnRevertSpd() {}  
+
+	public virtual void CallChildOnDeactivate() {}  
+	public virtual void CallChildOnLaunch(Vector2 dir, float speed) {}  
+
 
     // todo ----------------------------------------------------------------------------------------------------
 
@@ -323,7 +347,7 @@ public abstract class Enemy : MonoBehaviour
                 hpImg.color = new Color(0f, 0.85f, 0f);
         }
         // STRINK
-        if (dead && !isBoss)
+        if (dead && !destroyable && !isBoss)
         {
             t += Time.deltaTime / ShrinkDuration;
 
@@ -428,7 +452,8 @@ public abstract class Enemy : MonoBehaviour
                     hp -= dmg;
                 else
                     hp -= Mathf.FloorToInt( Mathf.Pow(0.7f, defenseStage) * dmg);
-                statusBar.SetActive(true);
+				if (statusBar != null)
+                	statusBar.SetActive(true);
             }
 
             //// var holder = Instantiate(emptyHolder, new Vector3(transform.position.x, transform.position.y + 2), Quaternion.identity);
@@ -436,20 +461,33 @@ public abstract class Enemy : MonoBehaviour
             //// var obj = Instantiate(dmgText, new Vector3(transform.position.x, transform.position.y + 2), Quaternion.identity, holder.transform);
             //// obj.text = dmg.ToString();
 
-            if (attackedByPlayer && playerControls != null)
+            if (!destroyable && attackedByPlayer && playerControls != null)
                 playerControls.FillGauge(spBonus);
 
-            if (!downToHalfHp && hpImg.fillAmount <= 0.5f)
-            {
-                downToHalfHp = true;
-                CallChildOnHalfHealth();
-            }
+			if (hpImg != null)
+			{
+				if (!downToHalfHp && hpImg.fillAmount <= 0.5f)
+				{
+					downToHalfHp = true;
+					CallChildOnHalfHealth();
+				}
+			}
 
             if (dmg > 0 && dmg < hp)
                 StartCoroutine( Flash() );
 
-            if (force != 0 && hitPos != null && !cannotRecieveKb)
-                StartCoroutine( ApplyKnockback(hitPos, force, yKb) );
+			if (!destroyable && force != 0 && hitPos != null)
+			{
+				Vector2 direction = (hitPos - this.transform.position).normalized;
+				if (blood != null)
+				{
+					float angleZ = Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg;
+					Instantiate(blood, col.offset + (Vector2) transform.position, 
+						Quaternion.Euler(0,0,angleZ));
+				}
+				if (force != 0 && hitPos != null && !cannotRecieveKb)
+					StartCoroutine( ApplyKnockback(direction, force, yKb) );
+			}
 
             // if (isEvenSmarter && force > 0)
             //     LookAtPlayer();
@@ -472,7 +510,8 @@ public abstract class Enemy : MonoBehaviour
                 if (possessedAura != null)
                     possessedAura.SetActive(false);
                 inCutscene = true;
-                statusBar.SetActive(false);
+				if (statusBar != null)
+                	statusBar.SetActive(false);
                 body.velocity = Vector2.zero;
                 body.gravityScale = 3;
             }
@@ -480,42 +519,46 @@ public abstract class Enemy : MonoBehaviour
             // Player Gains exp
             if (hp <= 0)
             {
-                if (eyes != null)
-                    eyes.SetActive(false);
-                if (eyes2 != null)
-                    eyes2.SetActive(false);
-                if (spawner != null && !isBoss)
-                    spawner.SpawnedDefeated();
-                
-                if (horde != null)
-                    horde.RemoveFromEnemies(this);
+				if (!destroyable)
+				{
+					if (eyes != null)
+						eyes.SetActive(false);
+					if (eyes2 != null)
+						eyes2.SetActive(false);
+					if (spawner != null && !isBoss)
+						spawner.SpawnedDefeated();
+					
+					if (horde != null)
+						horde.RemoveFromEnemies(this);
 
-                CallChildOnDropLoot();
+					CallChildOnDropLoot();
 
-                if (playerControls != null && attackedByPlayer)
-                {
-                    playerControls.GainExp(expPossess, lv);
-                    playerControls.KilledEnemy(enemyId);
-                }
-
-                if (!isBoss)
-                {
-                    CallChildOnDeath();
-                    dead = true;
-                    if (body != null) 
-                    {
-                        body.gravityScale = 0;
-                        body.bodyType = RigidbodyType2D.Static;
-                    }
-                    if (col != null) col.enabled = false;
-                    foreach (SpriteRenderer renderer in renderers)
-                        if (flashMat != null)
-                            renderer.material = flashMat;
-                }
-                else if (playerControls != null)
-                    playerControls.BossBattleOver();
+					if (playerControls != null && attackedByPlayer)
+					{
+						playerControls.GainExp(expPossess, lv);
+						playerControls.KilledEnemy(enemyId);
+					}
+					if (!isBoss)
+					{
+						CallChildOnDeath();
+						dead = true;
+						if (body != null) 
+						{
+							body.gravityScale = 0;
+							body.bodyType = RigidbodyType2D.Static;
+						}
+						if (col != null) col.enabled = false;
+						foreach (SpriteRenderer renderer in renderers)
+							if (flashMat != null)
+								renderer.material = flashMat;
+					}
+					else if (playerControls != null)
+						playerControls.BossBattleOver();
+				}
+				else
+					CallChildOnDeath();
             }
-            // Boss half health
+			// Boss half health
             else if (isBoss && !isMiniBoss && !inRage && (float)hp/(float)maxHp < 0.5f)
             {
                 inRage = true;  
@@ -540,13 +583,13 @@ public abstract class Enemy : MonoBehaviour
             canCatchEffect.SetActive(true);
         canCatch = true;
     }
-    public IEnumerator ApplyKnockback(Vector3 hitPos, float force, bool yKb=false)
+    public IEnumerator ApplyKnockback(Vector2 direction, float force, bool yKb=false)
     {
         if (hp > 0)
         {
             CallChildOnKnockbackStart();
             receivingKnockback = true;
-            Vector2 direction = (hitPos - this.transform.position).normalized;
+            // Vector2 direction = (hitPos - this.transform.position).normalized;
 			if (!yKb)
             	direction *= new Vector2(1,0);
             body.velocity = -direction * force * kbDefense;
@@ -576,8 +619,15 @@ public abstract class Enemy : MonoBehaviour
             if (flashMat != null && origMat != null)
                 renderer.material = origMat;
         }
-
     }
+	protected void Unflash()
+	{
+		foreach (SpriteRenderer renderer in renderers)
+        {
+            if (flashMat != null && origMat != null)
+                renderer.material = origMat;
+        }
+	}
 
     protected bool IsGrounded()
     {
@@ -585,9 +635,10 @@ public abstract class Enemy : MonoBehaviour
     }
     public void PlayerCollision()
     {
-        if (hp > 0 && !inCutscene)
+        if (!cannotDmgPlayer && hp > 0 && !inCutscene)
         {
             playerControls.TakeDamage(contactDmg, this.transform, contactKb);
+			CallChildOnCollision();
             // if (!cannotRecieveKb)
             //     body.velocity = Vector2.zero;
         }    
@@ -635,6 +686,7 @@ public abstract class Enemy : MonoBehaviour
             battleRoarObj.SetActive(false);
 
         inCutscene = false;
+		cannotDmgPlayer = false;
         CallChildOnBossFightStart();
     }
     IEnumerator ActivateRageMode()
@@ -844,6 +896,15 @@ public abstract class Enemy : MonoBehaviour
         for (int i=0 ; i<statusConditions.Length - 1 ; i++)
             statusConditions[i].sprite = statusConditions[i+1].sprite;
     }
+
+
+	public void SpeedUpAnimation(float speed)
+	{
+		if (mainAnim != null)
+			mainAnim.speed = speed;
+	}
+
+
 
     public void LogCurrentStatus()
     {

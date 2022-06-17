@@ -4789,10 +4789,12 @@ MonoBehaviour:
   atkDmg: 10
   kbForce: 10
   ignoreInvincible: 0
+  ignoreDodge: 0
   destoryOnPlayerCollision: 1
   destoryOnWallCollision: 1
   explosion: {fileID: 1209601309875748, guid: b170aebab32c55e468901bd9220320f8, type: 3}
   trailObj: {fileID: 0}
+  trailPs: {fileID: 19872600}
   body: {fileID: 8951981834201607686}
   direction: {x: 0, y: 0}
   speed: 8
@@ -4805,6 +4807,12 @@ MonoBehaviour:
   absorbEffect: 0
   moveMaster: {fileID: 0}
   absorbReturnObj: {fileID: 0}
+  chasePlayer: 0
+  chase: {fileID: 0}
+  target: {fileID: 0}
+  gengarShadow: 0
+  destroyItself: 0
+  destroyAfter: 10
 --- !u!50 &8951981834201607686
 Rigidbody2D:
   serializedVersion: 4

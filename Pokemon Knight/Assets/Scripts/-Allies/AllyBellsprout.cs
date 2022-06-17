@@ -95,6 +95,10 @@ public class AllyBellsprout : Ally
         int ind = -1;
         for (int i=0 ; i<enemies.Count ; i++)
         {
+			//* GOT DESTROYED
+			if (enemies[i] == null)
+				continue;
+
             float distToSelf = Mathf.Abs(Vector2.Distance(atkPos.position, enemies[i].position));
             if (distToSelf < distance && EnemyInLineOfSight(enemies[i]))
             {

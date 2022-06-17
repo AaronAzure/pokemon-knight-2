@@ -115,9 +115,9 @@ GameObject:
   - component: {fileID: 3680503273644245534}
   - component: {fileID: 3998441993622262041}
   - component: {fileID: 992619834517866615}
+  - component: {fileID: 3448850496708198863}
   - component: {fileID: 6876186412539623526}
   - component: {fileID: 3477705880277923400}
-  - component: {fileID: 3448850496708198863}
   m_Layer: 8
   m_Name: CLEFAIRY (enemy)
   m_TagString: Enemy
@@ -203,6 +203,25 @@ SortingGroup:
   m_SortingLayerID: 480402825
   m_SortingLayer: 1
   m_SortingOrder: 0
+--- !u!95 &3448850496708198863
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3448850496708198862}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2b97036dd27dc415d99270edc5e4d205, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &6876186412539623526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,6 +316,7 @@ MonoBehaviour:
   alert: {fileID: 6560276562741371775}
   eyes: {fileID: 8203984167091184756}
   eyes2: {fileID: 0}
+  blood: {fileID: 8924585071623999260, guid: 9b05ec0da04bb4a8b957e2063e3a6280, type: 3}
   isAttacking: 0
   isTargeting: 0
   keepSearching: 0
@@ -419,25 +439,6 @@ MonoBehaviour:
   expL: {fileID: 1856295254583195530, guid: d27018a99e7b54de48824b3e1560cb92, type: 3}
   expM: {fileID: 6231101655905951431, guid: 3154a023cb73842f6b4b377e97abffd7, type: 3}
   expS: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
---- !u!95 &3448850496708198863
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3448850496708198862}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2b97036dd27dc415d99270edc5e4d205, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6444318065090768676
 GameObject:
   m_ObjectHideFlags: 0

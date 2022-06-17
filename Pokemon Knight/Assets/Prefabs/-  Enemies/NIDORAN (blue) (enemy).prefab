@@ -857,6 +857,7 @@ MonoBehaviour:
   lv: 12
   chapterLevel: 1
   mainAnim: {fileID: 6280256033184505320}
+  pokemonSpr: {fileID: 0}
   maxHp: 120
   hp: 0
   contactDmg: 6
@@ -868,6 +869,9 @@ MonoBehaviour:
   perLv: 1
   expPossess: 20
   extraExp: 12
+  secondDmg: 5
+  secondExtraDmg: 3
+  hasExtraDmg: 0
   isSmart: 1
   isEvenSmarter: 0
   renderers:
@@ -914,8 +918,8 @@ MonoBehaviour:
   isBoss: 0
   isMiniBoss: 0
   possessedAura: {fileID: 0}
-  battleRoarObj: {fileID: 0}
   rageChargeObj: {fileID: 0}
+  battleRoarObj: {fileID: 0}
   inRage: 0
   inCutscene: 0
   inRageCutscene: 0
@@ -931,8 +935,11 @@ MonoBehaviour:
   partOfHorde: 0
   alert: {fileID: 3348568934580730668}
   eyes: {fileID: 1060755002402103671}
+  eyes2: {fileID: 0}
+  blood: {fileID: 8924585071623999260, guid: 9b05ec0da04bb4a8b957e2063e3a6280, type: 3}
   isAttacking: 0
   isTargeting: 0
+  keepSearching: 0
   playerInField: 0
   playerInSight: 0
   playerInCloseRange: 0
@@ -958,9 +965,9 @@ MonoBehaviour:
   anim: {fileID: 6280256033184505320}
   moveSpeed: 2
   chaseSpeed: 3
+  maxSpeed: 4.5
   canJump: 1
   jumpHeight: 16
-  maxSpeed: 4.5
   distanceDetect: 1
   groundDetection: {fileID: 2690864748907692025}
   grounded: 1
@@ -968,6 +975,7 @@ MonoBehaviour:
   feetBox: {x: 0.5, y: 0.2}
   target: {fileID: 0}
   chasing: 0
+  speedVariant: 0
 --- !u!114 &5840990762735453684
 MonoBehaviour:
   m_ObjectHideFlags: 0

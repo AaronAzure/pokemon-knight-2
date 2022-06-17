@@ -10347,6 +10347,7 @@ MonoBehaviour:
   atkDmg: 3
   kbForce: 0
   ignoreInvincible: 0
+  ignoreDodge: 0
 --- !u!50 &4368091808011955698
 Rigidbody2D:
   serializedVersion: 4
@@ -10634,6 +10635,7 @@ MonoBehaviour:
   alert: {fileID: 8506936829980685710}
   eyes: {fileID: 964251787195685438}
   eyes2: {fileID: 964251786685704344}
+  blood: {fileID: 8924585071623999260, guid: 9b05ec0da04bb4a8b957e2063e3a6280, type: 3}
   isAttacking: 0
   isTargeting: 0
   keepSearching: 0
@@ -10690,6 +10692,7 @@ MonoBehaviour:
   variantSpeed: 1
   lineOfSight: {x: 0, y: 0, z: 0}
   spawnedHolder: {fileID: 0}
+  sceneLoaded: 0
   teleportTimer: 1
   performingFuryAttack: 0
   nMap: 0

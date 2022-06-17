@@ -6,9 +6,12 @@ public class MusicManager : MonoBehaviour
 {
     public AudioSource 
         titleMusic, forestMusic, swampMusic, mansionMusic, bossIntroMusic, bossOutroMusic, 
-        accoladeIntroMusic, accoladeOutroMusic, hordeMusic;
+        accoladeIntroMusic, accoladeOutroMusic, 
+        bloomIntroMusic, bloomOutroMusic, 
+        abyssMusic,  
+		hordeMusic;
     [Space][Space] public AudioSource currentMusic;
-    public AudioSource previousMusic;
+	public bool playLastMusic;
     private Dictionary<AudioSource, float> origVolumes = new Dictionary<AudioSource, float>();
 
     void Start() 
@@ -27,16 +30,49 @@ public class MusicManager : MonoBehaviour
         origVolumes.Add(accoladeIntroMusic, accoladeIntroMusic.volume);
         origVolumes.Add(accoladeOutroMusic, accoladeOutroMusic.volume);
         origVolumes.Add(hordeMusic, hordeMusic.volume);
+        origVolumes.Add(bloomIntroMusic, bloomIntroMusic.volume);
+        origVolumes.Add(bloomOutroMusic, bloomOutroMusic.volume);
+        origVolumes.Add(abyssMusic, abyssMusic.volume);
     }
 
     public void BackToTitle()
     {
         StartCoroutine( TransitionMusic(titleMusic) );
     }
-    public IEnumerator TransitionMusic(AudioSource nextMusic, bool rememberLastMusic=false)
+    public IEnumerator TransitionMusic(AudioSource nextMusic)
     {
-        if (rememberLastMusic)
-            previousMusic = currentMusic;
+        int times = 20;
+        float fraction = currentMusic.volume / times;
+        for (int i=0 ; i<times ; i++)
+        {
+            yield return new WaitForSecondsRealtime(0.05f);
+            currentMusic.volume -= fraction;
+        }
+        yield return null;
+        currentMusic.Stop();
+
+        if (nextMusic == null)
+        {
+            if (origVolumes.ContainsKey(currentMusic))
+                currentMusic.volume = origVolumes[currentMusic];
+            else
+                currentMusic.volume = 0.25f;
+            currentMusic.Play();
+            currentMusic.loop = true;
+        }
+        else
+        {
+            if (origVolumes.ContainsKey(nextMusic))
+                nextMusic.volume = origVolumes[nextMusic];
+            else
+                nextMusic.volume = 0.25f;
+            nextMusic.Play();
+            currentMusic = nextMusic;
+            nextMusic.loop = true;
+        }
+    }
+    public IEnumerator PlayPrevMusic(AudioSource nextMusic)
+    {
         int times = 20;
         float fraction = currentMusic.volume / times;
         for (int i=0 ; i<times ; i++)
@@ -81,7 +117,7 @@ public class MusicManager : MonoBehaviour
         yield return null;
         music.Stop();
     }
-    public IEnumerator LowerMusic(AudioSource music, float percent, bool rememberLastMusic=false)
+    public IEnumerator LowerMusic(AudioSource music, float percent)
     {
         int times = 30;
         float fraction = (music.volume  * percent) / times;
@@ -90,8 +126,6 @@ public class MusicManager : MonoBehaviour
             yield return null;
             music.volume -= fraction;
         }
-        if (rememberLastMusic)
-            previousMusic = music;
     }
     public IEnumerator RaiseMusic(AudioSource music, float percent)
     {

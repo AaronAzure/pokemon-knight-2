@@ -76,6 +76,10 @@ public class AllyTangela : Ally
         int ind = -1;
         for (int i=0 ; i<enemies.Count ; i++)
         {
+			//* TARGET DESTROYED
+			if (enemies[i] == null)
+				continue;
+
             float distToSelf = Mathf.Abs(Vector2.Distance(this.transform.position + new Vector3(0,1), enemies[i].position));
             if (distToSelf < distance && EnemyInLineOfSight(enemies[i]))
             {
