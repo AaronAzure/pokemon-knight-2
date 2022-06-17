@@ -232,6 +232,7 @@ public class PlayerControls : MonoBehaviour
     private bool receivingKnockback;
     private bool movingToDifferentScene;
     private bool dodging;   // In dodge roll animation
+    private bool justDodged;
     private bool canDodge = true;
     [SerializeField] private bool isInvincible;
     [SerializeField] private GameObject glint;
@@ -1166,6 +1167,11 @@ public class PlayerControls : MonoBehaviour
                 anim.SetBool("isGrounded", true);
                 anim.SetBool("isFalling", false);
                 nExtraJumpsLeft = nExtraJumps;
+				if (justDodged)
+				{
+					justDodged = false;
+					StartCoroutine( DodgeCooldown() );
+				}
             }
 
             if (player.GetButtonDown("MINUS"))
@@ -1672,13 +1678,16 @@ public class PlayerControls : MonoBehaviour
         if (!dodgingThruScene)
             body.velocity = Vector2.zero;
         dodging = false;
+		justDodged = true;
+    }
 
-        //* Refresh Dodge Roll
+	IEnumerator DodgeCooldown()
+	{
         yield return new WaitForSeconds(0.5f);
         canDodge = true;
         if (glint != null)
             glint.SetActive(true);
-    }
+	}
 
     IEnumerator Teleport()
     {
@@ -1732,12 +1741,7 @@ public class PlayerControls : MonoBehaviour
             body.velocity = Vector2.zero;
         dodging = false;
 		TELEPORT_BACK();
-
-        //* Refresh Dodge Roll
-        yield return new WaitForSeconds(0.5f);
-        canDodge = true;
-        if (glint != null)
-            glint.SetActive(true);
+		justDodged = true;
     }
 
 	public void TELEPORT_BACK()
