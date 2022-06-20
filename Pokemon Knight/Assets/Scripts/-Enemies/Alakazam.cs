@@ -13,7 +13,7 @@ public class Alakazam : Enemy
 
 	[Header("Alakazam")]
 	public float moveSpeed=3;
-	public float maxSpeed=5;
+	public float maxSpeed=6;
 	public Transform target;
 	public GameObject spawnedHolder;
 
@@ -51,6 +51,7 @@ public class Alakazam : Enemy
 	private List<Enemy> telekinetic = new List<Enemy>();
 	private int atkCount;
 	[Space] public int mustTeleport=3;
+	private bool teleported;
 
 
 
@@ -124,8 +125,8 @@ public class Alakazam : Enemy
 		mainAnim.SetTrigger("done");
 		body.velocity = Vector2.zero;
 		nBooks = 8;
-		maxSpeed = 6;
 		moving = false;
+		mustTeleport = 2;
 		if (mainAnim != null)
 		{
 			mainAnim.SetTrigger("rage");
@@ -208,7 +209,7 @@ public class Alakazam : Enemy
 		}
 		else if (atkCount == mustTeleport)
 		{
-			rng = 4;
+			rng = -1;
 		}
 
 		LookAtTarget();
@@ -218,19 +219,37 @@ public class Alakazam : Enemy
 			//* PSYCHO CUT
 			case 0:
 				mainAnim.SetTrigger("psychoCut");
+				
 				atkCount++;
+				if (teleported)
+				{
+					teleported = false;
+					atkCount = mustTeleport;
+				}
 				break;
 
 			//* PSYBEAM
 			case 1:
 				mainAnim.SetTrigger("psybeamSlow");
+				
 				atkCount++;
+				if (teleported)
+				{
+					teleported = false;
+					atkCount = mustTeleport;
+				}
 				break;
 
 			//* PSYCHIC
 			case 2:
 				mainAnim.SetTrigger("psychic");
+				
 				atkCount++;
+				if (teleported)
+				{
+					teleported = false;
+					atkCount = mustTeleport;
+				}
 				break;
 
 			//* MOVE
@@ -240,7 +259,13 @@ public class Alakazam : Enemy
 				StartCoroutine(MOVE());
 				break;
 
-			//* TELPORT
+			//* TELEPORT CLOSE
+			case 4:
+				TELEPORT();
+				teleported = true;
+				break;
+
+			//* TELPORT AWAY
 			default:
 				TELEPORT_FAR();
 				atkCount = mustTeleport + 1;
@@ -289,13 +314,14 @@ public class Alakazam : Enemy
 				default:	return book.enem;
 			}
 		}
-		switch (Random.Range(0,5))
+		switch (Random.Range(0,6))
 		{
 			case 0:		return book.enem;
 			case 1:		return plank.enem;
 			case 2:		return plank.enem;
-			case 3:		return chair.enem;
+			case 3:		return plank.enem;
 			case 4:		return chair.enem;
+			case 5:		return chair.enem;
 			default:	return book.enem;
 		}
 	}
@@ -423,13 +449,15 @@ public class Alakazam : Enemy
 			}
 		}
 
-
-		bool isSec = (Random.Range(0,2) == 0);
-		ind = (isSec ? secInd : thirdInd);
-		if (isSec && lastTpInd == secInd)
-			ind = thirdInd;
-		else if (!isSec && lastTpInd == thirdInd)
+		ind = thirdInd;
+		if (lastTpInd == ind)
 			ind = secInd;
+		// bool isSec = (Random.Range(0,2) == 0);
+		// ind = (isSec ? secInd : thirdInd);
+		// if (isSec && lastTpInd == secInd)
+		// 	ind = thirdInd;
+		// else if (!isSec && lastTpInd == thirdInd)
+		// 	ind = secInd;
 		
 		if (teleportBurstEffect != null)
 			Instantiate( teleportBurstEffect, this.transform.position, teleportBurstEffect.transform.rotation );

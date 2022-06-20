@@ -109,19 +109,18 @@ public class Nidoran : Enemy
                 if (target.position.x > this.transform.position.x)  // player is to the right
                 {
                     body.AddForce(Vector2.right * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
-                    float cappedSpeed = Mathf.Min(body.velocity.x, maxSpeed);
-
-                    body.velocity = new Vector2(cappedSpeed, body.velocity.y);
+                    // float cappedSpeed = Mathf.Min(body.velocity.x, maxSpeed);
+                    // body.velocity = new Vector2(cappedSpeed, body.velocity.y);
                     model.transform.eulerAngles = new Vector3(0, 180);  // face right
                 }
                 else
                 {
                     body.AddForce(Vector2.left * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
-                    float cappedSpeed = Mathf.Max(body.velocity.x, -maxSpeed);
-
-                    body.velocity = new Vector2(cappedSpeed, body.velocity.y);
+                    // float cappedSpeed = Mathf.Max(body.velocity.x, -maxSpeed);
+                    // body.velocity = new Vector2(cappedSpeed, body.velocity.y);
                     model.transform.eulerAngles = new Vector3(0, 0);  // face left
                 }
+				body.velocity = Vector2.ClampMagnitude(body.velocity, maxSpeed);
             }
             else 
             {

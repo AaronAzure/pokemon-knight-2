@@ -109,17 +109,18 @@ public abstract class Enemy : MonoBehaviour
     [Tooltip("possessed")] public GameObject possessedAura;
     [Tooltip("aura")] public GameObject rageChargeObj;
     public GameObject battleRoarObj;
-	public bool cannotDmgPlayer;
+	public ParticleSystem[] effects;
+	[Space] public bool cannotDmgPlayer;
+    public bool inCutscene; // Can't move
     [HideInInspector] public bool inRage;
-    [HideInInspector] public bool inCutscene; // Can't move
     [HideInInspector] public bool inRageCutscene; // Can't move
     [HideInInspector] public bool isDefeated;
     [Space] [Space] public string powerupName;
     [Tooltip("Prefabs/- Enemies/- effects/-pokeball-catch")] public GameObject pokeball;
     [Tooltip("Prefabs/- Enemies/- effects/-can catch")] public GameObject canCatchEffect;
-    [HideInInspector] public bool mustDmgBeforeFight;
-    [HideInInspector] public bool bossBattleBegin;
-    [HideInInspector] public bool playerInBossRoom;
+    /*[HideInInspector]*/ [Space] public bool mustDmgBeforeFight;
+    /*[HideInInspector]*/ public bool bossBattleBegin;
+    /*[HideInInspector]*/ public bool playerInBossRoom;
 
 
 
@@ -573,7 +574,7 @@ public abstract class Enemy : MonoBehaviour
     }
     IEnumerator DramaticSlowmo()
     {
-        Time.timeScale = 0.5f;
+        Time.timeScale = 0.3f;
         yield return new WaitForSeconds(0.5f);
         Time.timeScale = 1;
         yield return new WaitForSeconds(0.5f);

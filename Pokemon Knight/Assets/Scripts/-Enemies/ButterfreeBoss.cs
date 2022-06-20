@@ -26,6 +26,7 @@ public class ButterfreeBoss : Enemy
     [SerializeField] private GameObject spawnHolder;
     private bool tackledAgain;
     [SerializeField] private GameObject tackleEffect;
+	private bool started;
 
 
     public override void Setup()
@@ -37,15 +38,29 @@ public class ButterfreeBoss : Enemy
             statusBar.SetActive(false);
         playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
         target = playerControls.transform;
+		inCutscene = false;
         
         if (spawnHolder != null)
             spawnHolder.transform.parent = null;
+    }
+
+
+	public override void CallChildOnRoar()
+    {
+        //* CALLED ONCE
+		possessedAura.SetActive(true);
+        if (mainAnim != null)
+            mainAnim.SetTrigger("attacked");
+
+		foreach (ParticleSystem ps in effects)
+			ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
     }
 
     public override void CallChildOnBossFightStart()
     {
         player = playerControls.gameObject;
         count = 0;
+		started = true;
         StartCoroutine( TrackPlayer() );
     }
     public override void CallChildOnRageCutsceneFinished()
@@ -71,7 +86,7 @@ public class ButterfreeBoss : Enemy
 
     void FixedUpdate()
     {
-        if (!inCutscene && !inRageCutscene && canMove && hp > 0)
+        if (started && !inCutscene && !inRageCutscene && canMove && hp > 0)
         {
             if (count < newAttackPattern)
             {
@@ -85,60 +100,34 @@ public class ButterfreeBoss : Enemy
                 //     LocatePlayer();
                 // }
                 Vector3 dir = (target.position + new Vector3(0,1) - this.transform.position).normalized;
+
+				if (body.velocity.x > 0)
+					model.transform.eulerAngles = new Vector3(0,180);
+				else if (body.velocity.x < 0)
+					model.transform.eulerAngles = new Vector3(0,0);
+					
                 //* If at edge, then turn around
                 body.AddForce(dir * 5 * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
-                CapVelocity();
+				body.velocity = Vector2.ClampMagnitude(body.velocity, maxSpeed);
             }
         }
-    }
-
-
-    private void CapVelocity()
-    {
-        float cappedSpeedX = 0;
-        float cappedSpeedY = 0;
-
-        // chasing right (positive velocity)
-        if (target.position.x > this.transform.position.x)  // player is to the right
-        {
-            cappedSpeedX = Mathf.Min(body.velocity.x, maxSpeed);
-            model.transform.eulerAngles = new Vector3(0, 180);  // face right
-        }
-        // chasing left (negative velocity)
-        else
-        {
-            cappedSpeedX = Mathf.Max(body.velocity.x, -maxSpeed);
-            model.transform.eulerAngles = new Vector3(0, 0);  // face left
-        }
-
-        // chasing up (positive velocity)
-        if (target.position.y > this.transform.position.y)  // player is to the right
-        {
-            cappedSpeedY = Mathf.Min(body.velocity.y, maxSpeed);
-        }
-        // chasing down (negative velocity)
-        else
-        {
-            cappedSpeedY = Mathf.Max(body.velocity.y, -maxSpeed);
-        }
-
-        body.velocity = new Vector2(cappedSpeedX, cappedSpeedY);
     }
 
 
     private void LocatePlayer()
     {
         targetPos = player.transform.position + new Vector3(0,1);
-        if (targetPos.x - this.transform.position.x > 0)
-        {
-            // Debug.Log("looking right");
-            model.transform.eulerAngles = new Vector3(0,180);
-        }
-        else if (targetPos.x - this.transform.position.x < 0)
-        {
-            // Debug.Log("looking left");
-            model.transform.eulerAngles = new Vector3(0,0);
-        }
+		LookAtTarget();
+        // if (targetPos.x - this.transform.position.x > 0)
+        // {
+        //     // Debug.Log("looking right");
+        //     model.transform.eulerAngles = new Vector3(0,180);
+        // }
+        // else if (targetPos.x - this.transform.position.x < 0)
+        // {
+        //     // Debug.Log("looking left");
+        //     model.transform.eulerAngles = new Vector3(0,0);
+        // }
     }
 
     IEnumerator TrackPlayer()

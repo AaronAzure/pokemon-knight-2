@@ -205,107 +205,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &65420819
-GameObject:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 65420822}
-  - component: {fileID: 65420821}
-  - component: {fileID: 65420820}
-  m_Layer: 0
-  m_Name: Brush
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &65420820
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 65420819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 860611cc84144924c8a95e2a1670d236, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Offset: {x: 0, y: 0}
-  IsUndoEnabled: 1
-  m_brushTilemap: {fileID: 0}
---- !u!114 &65420821
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 65420819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dec3ca0fe88506448df84e8bf55b2dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowGrid: 1
-  InnerPadding: 0
-  ColliderDepth: 0.1
-  ColliderType: 0
-  Collider2DType: 0
-  Collider2DOptimizationDisabled: 0
-  ShowColliderNormals: 1
-  ColliderDisplayMode: 0
-  IsUndoEnabled: 0
-  SortOrder: 0
-  ColliderGenerationMethod: 0
-  m_sortingLayer: 0
-  m_sortingLayerName: Default
-  m_orderInLayer: 0
-  m_material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_tintColor: {r: 1, g: 1, b: 1, a: 1}
-  m_pixelSnap: 0
-  m_maskInteraction: 0
-  m_isVisible: 1
-  m_allowPaintingOutOfBounds: 1
-  m_autoShrink: 0
-  m_enableUndoWhilePainting: 1
-  m_isTrigger: 0
-  m_physicMaterial: {fileID: 0}
-  m_physicMaterial2D: {fileID: 0}
-  m_cellSize: {x: 0, y: 0}
-  m_mapBounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  m_tileset: {fileID: 0}
-  m_minGridX: 0
-  m_minGridY: 0
-  m_maxGridX: 0
-  m_maxGridY: 0
-  m_parentTilemapGroup: {fileID: 0}
-  m_parallaxFactor: {x: 1, y: 1}
-  m_chunkRendererProperties:
-    castShadows: 0
-    receiveShadows: 0
-    useLightProbes: 0
-    reflectionProbeUsage: 0
-    anchorOverride: {fileID: 0}
---- !u!4 &65420822
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 65420819}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &167138989
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1599,9 +1498,9 @@ GameObject:
   - component: {fileID: 828362657}
   - component: {fileID: 828362656}
   - component: {fileID: 828362655}
-  m_Layer: 22
+  m_Layer: 12
   m_Name: 0_-1
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2732,7 +2631,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1189856887121461696, guid: 07801f68610d440fe85448e48c296ecf, type: 3}
       propertyPath: nextPos.x
-      value: 39
+      value: 41
       objectReference: {fileID: 0}
     - target: {fileID: 1189856887121461696, guid: 07801f68610d440fe85448e48c296ecf, type: 3}
       propertyPath: nextPos.y
@@ -2955,7 +2854,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1976175703200949028, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.9943604
+      value: 3.0019593
       objectReference: {fileID: 0}
     - target: {fileID: 1976175703200949028, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4005,7 +3904,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1189856887121461696, guid: 07801f68610d440fe85448e48c296ecf, type: 3}
       propertyPath: nextPos.x
-      value: -10
+      value: -12
       objectReference: {fileID: 0}
     - target: {fileID: 1189856887121461696, guid: 07801f68610d440fe85448e48c296ecf, type: 3}
       propertyPath: nextPos.y
@@ -4013,7 +3912,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1189856887121461696, guid: 07801f68610d440fe85448e48c296ecf, type: 3}
       propertyPath: nextScene
-      value: Forest 008
+      value: Forest 009 (Bench)
       objectReference: {fileID: 0}
     - target: {fileID: 1189856887121461697, guid: 07801f68610d440fe85448e48c296ecf, type: 3}
       propertyPath: m_Name
