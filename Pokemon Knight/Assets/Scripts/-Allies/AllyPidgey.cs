@@ -33,6 +33,17 @@ public class AllyPidgey : Ally
 		}
     }   
 
+	protected override void OnSecondEvolution()
+	{
+		if (gust != null)
+			gust.gameObject.transform.localScale *= 1.3f;
+	}
+	protected override void OnThirdEvolution()
+	{
+		if (gust != null)
+			gust.gameObject.transform.localScale *= 1.6f;
+	}
+
     public void Gust()
     {
         if (gust != null)

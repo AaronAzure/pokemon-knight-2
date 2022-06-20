@@ -97,6 +97,8 @@ public class PlayerControls : MonoBehaviour
 
     [HideInInspector] public bool butterfreeOut;
     [HideInInspector] public int butterfreeSlot = -1;
+    [HideInInspector] public bool alakazamOut;
+    [HideInInspector] public int alakazamSlot = -1;
     private bool doubleJumpBeforeAtk;
 
 
@@ -332,8 +334,6 @@ public class PlayerControls : MonoBehaviour
 	[SerializeField] private Transform teleportEffectPos;
     [SerializeField] private float dodgeSpeed = 7.5f;
 	[SerializeField] private Ally teleportObj;
-	[HideInInspector] public bool alakazamOut;
-    [HideInInspector] public int alakazamSlot = -1;
 	
 	[Space]
     public bool canGroundPound;
@@ -382,6 +382,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private bool infiniteGauge;
     [SerializeField] private bool infiniteMilk;
     public bool extraRange;
+    [Space] [SerializeField] private bool easyMode;
 
     private static PlayerControls playerInstance;   // There can only be one
 
@@ -406,6 +407,13 @@ public class PlayerControls : MonoBehaviour
             switchInputs.gameObject.SetActive(false);
             xboxInputs.gameObject.SetActive(true);
         }
+		easyMode = PlayerPrefsElite.GetBoolean("easyMode");
+		if (easyMode)
+		{
+			anim.SetFloat("drinkSpeed", 1.5f);
+			IncreaseNumberOfMoomooMilk();
+			IncreaseNumberOfMoomooMilk();
+		}
         
         equippedItemNames = new List<string>();
         player = ReInput.players.GetPlayer(playerID);
@@ -710,6 +718,12 @@ public class PlayerControls : MonoBehaviour
                         pokemonInTeamBenchSettings[i].img.sprite = gengar.currentForm;
                         pokemonInTeamBenchSettings[i].ally = gengar;
                         partyPokemonsUI[i].sprite = gengar.currentForm;
+						break;
+                    case "alakazam":
+                        allies[i] = alakazam;
+                        pokemonInTeamBenchSettings[i].img.sprite = alakazam.currentForm;
+                        pokemonInTeamBenchSettings[i].ally = alakazam;
+                        partyPokemonsUI[i].sprite = alakazam.currentForm;
                         break;
                     case "":
                         pokemonInTeamBenchSettings[i].img.sprite = emptySprite;
@@ -1922,9 +1936,9 @@ public class PlayerControls : MonoBehaviour
             Debug.Log("<color=#FF8800>Took " + dmg + " dmg</color>");
             anim.SetBool("isDrinking", false);
             if (sturdyCharm && hp > 1)
-                hp = Mathf.Max(1, hp - dmg);
+                hp = Mathf.Max(1, hp - Mathf.RoundToInt(dmg * (easyMode ? 0.7f : 1)));
             else
-                hp -= dmg;
+                hp -= Mathf.RoundToInt(dmg * (easyMode ? 0.7f : 1));
 
             if (dmg > 0 && hp > 0)
             {
@@ -3045,6 +3059,11 @@ public class PlayerControls : MonoBehaviour
                 canGroundPound = true;
                 PlayerPrefsElite.SetBoolean("canGroundPound" + gameNumber, true);
                 CaughtAPokemon("snorlax");
+                break;
+            case "alakazam": 
+                canTeleport = true;
+                PlayerPrefsElite.SetBoolean("canTeleport" + gameNumber, true);
+                CaughtAPokemon("alakazam");
                 break;
             case "pidgey": 
                 CaughtAPokemon("pidgey");

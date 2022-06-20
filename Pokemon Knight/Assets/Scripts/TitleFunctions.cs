@@ -37,6 +37,13 @@ public class TitleFunctions : MonoBehaviour
     // public string fileName;
     public bool nintendoControls=true;
 
+	[Header("Easy Mode")]
+	[SerializeField] private TextMeshProUGUI difficultyText;
+	[SerializeField] private string easyText="Easy";
+	[SerializeField] private string normText="Novice";
+	[SerializeField] private bool easyMode;
+	
+
     private void Awake() 
     {
         for (int i=0; i<10 ; i++)
@@ -76,6 +83,7 @@ public class TitleFunctions : MonoBehaviour
                 }
         }
         canCancel = false;
+		difficultyText.text = "Difficulty: " + normText;
     }
 
     private void Update() 
@@ -263,7 +271,21 @@ public class TitleFunctions : MonoBehaviour
         PlayerPrefsElite.SetBoolean("nintendoControls", nintendoControls);
         StartCoroutine( FadeToGame() );
     }
-    public void QuitGame()
+    
+	public void CHANGE_DIFFICULTY()
+	{
+		if (easyMode)
+		{
+			easyMode = false;
+			difficultyText.text = "Difficulty: " + normText;
+		}
+		else
+		{
+			easyMode = true;
+			difficultyText.text = "Difficulty: " + easyText;
+		}
+	}
+	public void QuitGame()
     {
         Application.Quit();
     }
@@ -273,6 +295,7 @@ public class TitleFunctions : MonoBehaviour
             yield break;
 
         starting = true;
+		PlayerPrefsElite.SetBoolean("easyMode", easyMode);
         transitionCam.TransitionExit();
         yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene("Forest 000 (House)");

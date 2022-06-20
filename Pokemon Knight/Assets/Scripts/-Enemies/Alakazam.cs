@@ -196,7 +196,7 @@ public class Alakazam : Enemy
 		// if (!shadowTrail.activeSelf && currentShadow == null)
 		// 	shadowTrail.SetActive(true);
 
-		int rng = Random.Range(0,5);
+		int rng = Random.Range(0,6);
 
 		if (specific != -1)
 			rng = specific;
@@ -263,6 +263,27 @@ public class Alakazam : Enemy
 			case 4:
 				TELEPORT();
 				teleported = true;
+				break;
+
+			//* TELEPORT CLOSE OR PSYCHO CUT
+			case 5:
+				if (!teleported)
+				{
+					TELEPORT();
+					teleported = true;
+				}
+				else
+				{
+					mainAnim.SetTrigger("psychoCut");
+				
+					atkCount++;
+					if (teleported)
+					{
+						teleported = false;
+						atkCount = mustTeleport;
+					}
+				}
+
 				break;
 
 			//* TELPORT AWAY

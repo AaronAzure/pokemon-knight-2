@@ -7,12 +7,14 @@ public class AllyProjectile : MonoBehaviour
     public int atkDmg;
     public int atkForce;    // knockback force
     public int spBonus;
+	[SerializeField] private bool yKb;
     
     [HideInInspector] public Vector3 spawnedPos;
     [SerializeField] private GameObject trailObj;
     [SerializeField] private float destroyAfter=0.5f;
     [SerializeField] private GameObject explosionObj;
     [SerializeField] private bool destoryOnCollision=true;
+    [SerializeField] private bool destoryOnEnemyCollision=true;
 
     public float velocity=0;
     public Vector2 direction = Vector2.right;
@@ -59,8 +61,10 @@ public class AllyProjectile : MonoBehaviour
             if (trailObj != null) 
                 trailObj.transform.parent = null;
 
+			bool hitEnemy = false;
             if (other.tag == "Enemy")
             {
+				hitEnemy = true;
                 Component[] scripts = other.GetComponents(typeof(Enemy));
                 foreach (var script in scripts)
                 {
@@ -92,7 +96,7 @@ public class AllyProjectile : MonoBehaviour
                                 player.hp = player.maxHp;
                         }
                     }
-                    foe.TakeDamage(atkDmg, spawnedPos, atkForce, true, spBonus);
+                    foe.TakeDamage(atkDmg, spawnedPos, atkForce, true, spBonus, null, false, this.yKb);
                 }
             }
             if (explosiveHitbox && explosiveHitboxObj != null)
@@ -106,7 +110,9 @@ public class AllyProjectile : MonoBehaviour
                 var obj = Instantiate(explosionObj, this.transform.position, Quaternion.identity);
             }
 
-            if (destoryOnCollision)
+            if (hitEnemy && destoryOnEnemyCollision)
+                Destroy(this.gameObject);
+			else if (!hitEnemy && destoryOnCollision)
                 Destroy(this.gameObject);
         }
 
