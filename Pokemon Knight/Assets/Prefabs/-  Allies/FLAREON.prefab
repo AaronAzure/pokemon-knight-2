@@ -38173,6 +38173,7 @@ MonoBehaviour:
   atkForce: 0
   spBonus: 0
   registerOneHitOnly: 0
+  yKb: 0
   spawnEffectObj: {fileID: 130848, guid: dfe14af2039644612b8899b0c21c9015, type: 3}
   spawnEffect: 1
   velocity: 0
@@ -38386,6 +38387,7 @@ MonoBehaviour:
   atkForce: 0
   spBonus: 0
   registerOneHitOnly: 0
+  yKb: 0
   spawnEffectObj: {fileID: 130848, guid: dfe14af2039644612b8899b0c21c9015, type: 3}
   spawnEffect: 1
   velocity: 0
@@ -38579,6 +38581,7 @@ MonoBehaviour:
   atkForce: 0
   spBonus: 0
   registerOneHitOnly: 0
+  yKb: 0
   spawnEffectObj: {fileID: 130848, guid: dfe14af2039644612b8899b0c21c9015, type: 3}
   spawnEffect: 1
   velocity: 0
@@ -43609,6 +43612,12 @@ MonoBehaviour:
   moveName: Lava Plume
   multiHit: 16
   moveDesc: Torches everything around with an inferno of scarlet flames.
+  cmd:
+    isCustomDmg: 0
+    hasDmgOnEvolution: 1
+    customDmg: 
+    customExtraDmg: 
+    evolutionBonus: Extra Range
   renderers:
   - {fileID: 3390318605020792758}
   - {fileID: 3432010993626066726}
@@ -43630,6 +43639,7 @@ MonoBehaviour:
   feetBox: {x: 0, y: 0}
   feetOffset: {x: 0, y: 0}
   feetRadius: 0.01
+  registerMultipleLanding: 0
   imgs: []
   lavaBlast: {fileID: 4531021745358129212}
   lavaPlume1: {fileID: 2313017432572369401}
@@ -43700,6 +43710,7 @@ MonoBehaviour:
   atkForce: 0
   spBonus: 0
   registerOneHitOnly: 1
+  yKb: 0
   spawnEffectObj: {fileID: 184316, guid: 31e2c99c44c0141a98500a5fbaef1402, type: 3}
   spawnEffect: 1
   velocity: 0

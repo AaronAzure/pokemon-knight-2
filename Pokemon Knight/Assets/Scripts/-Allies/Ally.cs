@@ -190,10 +190,25 @@ public abstract class Ally : MonoBehaviour
         int extraEnhancedDmg = 0;
         for (int i=0 ; i<extraLevel ; i++)
         {
+			//* LV 5
             if (i >= 5)
-                extraEnhancedDmg += 7;
+			{
+            	// if (i == 5 && cmd.hasDmgOnEvolution)
+                // 	extraEnhancedDmg += 9;
+				// else
+                // 	extraEnhancedDmg += 9;
+				extraEnhancedDmg += (extraLevel != 5 || cmd.hasDmgOnEvolution) ? 9 : 0;
+			}
+			//* LV 2, 3, 4
             else if (i >= 2)
-                extraEnhancedDmg += 5;
+			{
+            	// if (i == 2 && cmd.hasDmgOnEvolution)
+                // 	extraEnhancedDmg += 5;
+				// else
+                // 	extraEnhancedDmg += 5;
+				extraEnhancedDmg += (extraLevel != 2 || cmd.hasDmgOnEvolution) ? 5 : 0;
+			}
+			//* LV 0, 1
             else 
                 extraEnhancedDmg += 3;
         }
@@ -203,9 +218,9 @@ public abstract class Ally : MonoBehaviour
     public int EnhanceDmgBonus()
     {
         if (extraLevel >= 5)
-            return 7;
+            return (extraLevel != 5 || cmd.hasDmgOnEvolution) ? 9 : 0;
         else if (extraLevel >= 2)
-            return 5;
+            return (extraLevel != 2 || cmd.hasDmgOnEvolution) ? 5 : 0;
         return 3;
     }
 
@@ -356,6 +371,8 @@ public abstract class Ally : MonoBehaviour
 [System.Serializable] public class CustomMoveDescription
 {
 	public bool isCustomDmg=false;
+	public bool hasDmgOnEvolution=true;
 	public string customDmg;
 	public string customExtraDmg;
+	public string evolutionBonus;
 }

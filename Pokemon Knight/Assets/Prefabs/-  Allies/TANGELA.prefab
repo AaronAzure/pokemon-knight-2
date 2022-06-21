@@ -708,6 +708,12 @@ MonoBehaviour:
     the damage taken by the target.
 
     ( auto-target )'
+  cmd:
+    isCustomDmg: 0
+    hasDmgOnEvolution: 1
+    customDmg: 
+    customExtraDmg: 
+    evolutionBonus: Faster Drain
   renderers:
   - {fileID: 1031410587226232904}
   - {fileID: 1750867759835018116}
@@ -725,6 +731,7 @@ MonoBehaviour:
   feetBox: {x: 0, y: 0}
   feetOffset: {x: 0, y: 0}
   feetRadius: 0.1
+  registerMultipleLanding: 0
   imgs: []
   absorb: {fileID: 6775669185282375147, guid: ed15406fff7994150b72d04a2886fbde, type: 3}
   absorbDefaultPos: {fileID: 8536091201433009122}

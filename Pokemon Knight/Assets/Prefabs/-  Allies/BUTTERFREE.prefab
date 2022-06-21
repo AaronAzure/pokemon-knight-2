@@ -764,8 +764,10 @@ MonoBehaviour:
   moveDesc: Scatters a cloud of poisonous dust on foes.
   cmd:
     isCustomDmg: 0
+    hasDmgOnEvolution: 1
     customDmg: 
     customExtraDmg: 
+    evolutionBonus: Extra Range
   renderers:
   - {fileID: 6201443634278078878}
   - {fileID: 5635582273553281161}
@@ -785,6 +787,7 @@ MonoBehaviour:
   feetBox: {x: 0, y: 0}
   feetOffset: {x: 0, y: 0}
   feetRadius: 0
+  registerMultipleLanding: 0
   imgs: []
   atkPos: {fileID: 5911292703825832904}
   poisonPowder: {fileID: 7017939098926669067, guid: 025ede7482c1c473cbfa0ad97184a87b, type: 3}
@@ -839,6 +842,7 @@ MonoBehaviour:
   atkForce: 0
   spBonus: 0
   registerOneHitOnly: 0
+  yKb: 0
   spawnEffectObj: {fileID: 184316, guid: 31e2c99c44c0141a98500a5fbaef1402, type: 3}
   spawnEffect: 1
   velocity: 0

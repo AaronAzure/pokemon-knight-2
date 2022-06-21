@@ -718,8 +718,10 @@ MonoBehaviour:
   moveDesc: Creates a strong gust of wind around itself, greatly launching foes away.
   cmd:
     isCustomDmg: 0
+    hasDmgOnEvolution: 1
     customDmg: 
     customExtraDmg: 
+    evolutionBonus: Extra Range
   renderers:
   - {fileID: 1164760787333844449}
   - {fileID: 1164760787501707254}

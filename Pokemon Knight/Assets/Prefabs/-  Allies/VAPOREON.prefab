@@ -24416,6 +24416,7 @@ MonoBehaviour:
   atkForce: 0
   spBonus: 0
   registerOneHitOnly: 1
+  yKb: 0
   spawnEffectObj: {fileID: 184316, guid: 31e2c99c44c0141a98500a5fbaef1402, type: 3}
   spawnEffect: 1
   velocity: 0
@@ -24618,8 +24619,10 @@ MonoBehaviour:
   resummonTime: 2
   evolvedForm1: {fileID: 0}
   evolvedSprite1: {fileID: 0}
+  evolvedPokemonName1: 
   evolvedForm2: {fileID: 0}
   evolvedSprite2: {fileID: 0}
+  evolvedPokemonName2: 
   body: {fileID: 5553110335711760141}
   useUlt: 0
   ultOutTime: 1.25
@@ -24629,6 +24632,12 @@ MonoBehaviour:
   moveName: Aqua Tail
   multiHit: 1
   moveDesc: Swings its tail as if it were a vicious wave in a raging storm.
+  cmd:
+    isCustomDmg: 0
+    hasDmgOnEvolution: 1
+    customDmg: 
+    customExtraDmg: 
+    evolutionBonus: Extra Range
   renderers:
   - {fileID: 4202627580355830004}
   - {fileID: 5051939446039198182}
@@ -24646,6 +24655,7 @@ MonoBehaviour:
   feetBox: {x: 0.9, y: 0.25}
   feetOffset: {x: 0, y: 0}
   feetRadius: 0.01
+  registerMultipleLanding: 0
   imgs: []
   ultAtk: {fileID: 0}
   attack: {fileID: 4523959743091542333}
@@ -24884,6 +24894,7 @@ MonoBehaviour:
   atkForce: 0
   spBonus: 0
   registerOneHitOnly: 1
+  yKb: 0
   spawnEffectObj: {fileID: 199860, guid: 6ac39d02f59d34dcdb4ac278906e0658, type: 3}
   spawnEffect: 1
   velocity: 0

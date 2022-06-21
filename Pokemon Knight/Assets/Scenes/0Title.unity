@@ -8553,8 +8553,8 @@ MonoBehaviour:
   controlsTxt: {fileID: 2096362438}
   nintendoControls: 1
   difficultyText: {fileID: 1019023653}
-  easyText: Easy
-  normText: Novice
+  easyText: 10yo
+  normText: 17yo
   easyMode: 0
 --- !u!1 &1101508336
 GameObject:
@@ -49754,8 +49754,10 @@ MonoBehaviour:
   moveDesc: Attack foes with a long tongue.
   cmd:
     isCustomDmg: 0
+    hasDmgOnEvolution: 1
     customDmg: 
     customExtraDmg: 
+    evolutionBonus: 
   renderers:
   - {fileID: 0}
   - {fileID: 0}

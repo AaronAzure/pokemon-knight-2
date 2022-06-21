@@ -382,7 +382,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private bool infiniteGauge;
     [SerializeField] private bool infiniteMilk;
     public bool extraRange;
-    [Space] [SerializeField] private bool easyMode;
+    [Space] public bool easyMode;
 
     private static PlayerControls playerInstance;   // There can only be one
 
@@ -3718,6 +3718,28 @@ public class PlayerControls : MonoBehaviour
 		}
     }
 
+    public void ActivateEasyMode()
+    {
+		//* EASY MODE
+		if (!easyMode)
+		{
+			easyMode = true;
+			anim.SetFloat("drinkSpeed", 1.5f);
+			IncreaseNumberOfMoomooMilk();
+			IncreaseNumberOfMoomooMilk();
+			FullRestore();
+		}
+		//* NORMAL MODE
+		else
+		{
+			easyMode = false;
+			anim.SetFloat("drinkSpeed", 1f);
+			DecreaseNumberOfMoomooMilk();
+			DecreaseNumberOfMoomooMilk();
+			FullRestore();
+		}
+    }
+
 }
 
 
@@ -3738,6 +3760,12 @@ public class PlayerControlsEditor : Editor
     {
 
         PlayerControls playerScript = (PlayerControls)target;
+
+        if (!playerScript.easyMode && GUILayout.Button("Easy Mode"))
+            playerScript.ActivateEasyMode();
+        else if (playerScript.easyMode && GUILayout.Button("Normal Mode"))
+            playerScript.ActivateEasyMode();
+        EditorGUILayout.Space();
 
         if (playerScript.canUseUlt && GUILayout.Button("Lock Gauge"))
             playerScript.UnlockGauge();

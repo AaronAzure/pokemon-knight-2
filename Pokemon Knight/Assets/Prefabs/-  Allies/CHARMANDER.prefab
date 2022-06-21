@@ -80,6 +80,7 @@ MonoBehaviour:
   atkForce: 0
   spBonus: 0
   registerOneHitOnly: 0
+  yKb: 0
   spawnEffectObj: {fileID: 130848, guid: dfe14af2039644612b8899b0c21c9015, type: 3}
   spawnEffect: 1
   velocity: 0
@@ -5384,6 +5385,12 @@ MonoBehaviour:
   moveName: Flamethrower
   multiHit: 12
   moveDesc: Scorches foes with an intense continuous blast of fire.
+  cmd:
+    isCustomDmg: 0
+    hasDmgOnEvolution: 1
+    customDmg: 
+    customExtraDmg: 
+    evolutionBonus: Faster Charge Up
   renderers:
   - {fileID: 4280857482487815803}
   - {fileID: 8960383251517244062}
@@ -5401,6 +5408,7 @@ MonoBehaviour:
   feetBox: {x: 0, y: 0}
   feetOffset: {x: 0, y: 0}
   feetRadius: 0.1
+  registerMultipleLanding: 0
   imgs: []
   fireBlast: {fileID: 4194350957834545132, guid: 87b19fe3bfd204a04b47ba77cc490dee, type: 3}
   mouthPos: {fileID: 9068800195842741658}

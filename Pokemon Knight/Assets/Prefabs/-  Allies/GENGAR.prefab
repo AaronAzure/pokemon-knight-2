@@ -15197,6 +15197,7 @@ MonoBehaviour:
   atkForce: 0
   spBonus: 0
   registerOneHitOnly: 1
+  yKb: 0
   spawnEffectObj: {fileID: 184316, guid: 31e2c99c44c0141a98500a5fbaef1402, type: 3}
   spawnEffect: 1
   velocity: 0
@@ -26065,8 +26066,10 @@ MonoBehaviour:
   moveDesc: Attack foes with a long tongue.
   cmd:
     isCustomDmg: 0
+    hasDmgOnEvolution: 1
     customDmg: 
     customExtraDmg: 
+    evolutionBonus: Extra Range
   renderers:
   - {fileID: 1641564250728810947}
   - {fileID: 1641564251863447741}

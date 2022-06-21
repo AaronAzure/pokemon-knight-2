@@ -548,8 +548,10 @@ MonoBehaviour:
   resummonTime: 0.5
   evolvedForm1: {fileID: 0}
   evolvedSprite1: {fileID: 0}
+  evolvedPokemonName1: 
   evolvedForm2: {fileID: 0}
   evolvedSprite2: {fileID: 0}
+  evolvedPokemonName2: 
   body: {fileID: 4788065970336141028}
   useUlt: 0
   ultOutTime: 1
@@ -559,6 +561,12 @@ MonoBehaviour:
   moveName: Water Gun
   multiHit: 1
   moveDesc: Launches a long-range shot of water.
+  cmd:
+    isCustomDmg: 0
+    hasDmgOnEvolution: 0
+    customDmg: 
+    customExtraDmg: 
+    evolutionBonus: Extra Projectiles
   renderers:
   - {fileID: 8881243227689040691}
   - {fileID: 8502935477171582478}
@@ -576,9 +584,11 @@ MonoBehaviour:
   feetBox: {x: 0, y: 0}
   feetOffset: {x: 0, y: 0}
   feetRadius: 0.1
+  registerMultipleLanding: 0
   imgs: []
   watergunObj: {fileID: 3746478155411923182, guid: c2f66f7d9f67143d794c292db200d248, type: 3}
   atkPos: {fileID: 9068800195842741658}
+  nProjectiles: 1
 --- !u!50 &4788065970336141028
 Rigidbody2D:
   serializedVersion: 4
