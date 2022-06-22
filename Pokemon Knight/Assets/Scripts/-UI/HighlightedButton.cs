@@ -145,9 +145,10 @@ public class HighlightedButton : MonoBehaviour
 				atkDmg *= ally.multiHit;
 				atkpower.text = atkDmg.ToString() + " (" + temp + "×" + ally.multiHit + ")";
 			}
-			int bonusDmg = (ally.extraDmg*ally.EnhanceDmgBonus()*ally.multiHit);
-			atkpower.text = atkDmg.ToString() + "<color=#8FFF78> (+" + bonusDmg + ")</color>";
+			// int bonusDmg = (ally.extraDmg*ally.EnhanceDmgBonus()*ally.multiHit);
+			// atkpower.text = atkDmg.ToString() + "<color=#8FFF78> (+" + bonusDmg + ")</color>";
 		}
+		atkpower.text += ally.ExtraAttacks();
 
 		float resummonTime = ally.resummonTime;
 		coolDown.text = resummonTime.ToString();

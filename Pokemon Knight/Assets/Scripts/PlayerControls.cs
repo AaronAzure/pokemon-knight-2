@@ -103,7 +103,8 @@ public class PlayerControls : MonoBehaviour
 
 
     [Header("Pre-init Pokemon for PlayerPrefs")]
-	public GameObject pokemonHolder;
+    public Mew mew;
+	[Space] public GameObject pokemonHolder;
 	public Dictionary<Ally, Ally> pokemonTeam;
     [Space] public Ally bulbasaur;
     [Space] public Ally charmander;
@@ -616,6 +617,7 @@ public class PlayerControls : MonoBehaviour
 		foreach (Ally a in temp)
 		{
 			pokemonTeam.Add(a, a);
+			a.trainer = this;
 			string pokemonName = a.name.ToLower();
 			if (PlayerPrefsElite.VerifyInt(pokemonName + "Lv" + gameNumber))
 				a.SetExtraLevel( PlayerPrefsElite.GetInt(pokemonName + "Lv" + gameNumber) );
@@ -1294,7 +1296,7 @@ public class PlayerControls : MonoBehaviour
                 var pokemon = Instantiate(allies[ slot ], spawnPos.position, allies[ slot ].transform.rotation);
                 pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
                 pokemon.body.velocity = this.body.velocity;
-                pokemon.trainer = this;
+                // pokemon.trainer = this;
                 pokemon.button = button;
                     
                 if (canUseUlt && (sp >= spReq || infiniteGauge) && player.GetButton("ZL"))
@@ -1936,9 +1938,9 @@ public class PlayerControls : MonoBehaviour
             Debug.Log("<color=#FF8800>Took " + dmg + " dmg</color>");
             anim.SetBool("isDrinking", false);
             if (sturdyCharm && hp > 1)
-                hp = Mathf.Max(1, hp - Mathf.RoundToInt(dmg * (easyMode ? 0.7f : 1)));
+                hp = Mathf.Max(1, hp - Mathf.FloorToInt(dmg * (easyMode ? 0.7f : 1)));
             else
-                hp -= Mathf.RoundToInt(dmg * (easyMode ? 0.7f : 1));
+                hp -= Mathf.FloorToInt(dmg * (easyMode ? 0.7f : 1));
 
             if (dmg > 0 && hp > 0)
             {
@@ -2330,6 +2332,9 @@ public class PlayerControls : MonoBehaviour
         body.velocity = Vector2.zero;
         anim.SetTrigger("died");
 
+		if (mew != null)
+			mew.PlayerDied();
+
         // DEATH PENALTY
         candiesLost = Mathf.CeilToInt(currency / 2f);
         PlayerPrefsElite.SetInt("candiesLost" + gameNumber, candiesLost);
@@ -2453,6 +2458,9 @@ public class PlayerControls : MonoBehaviour
 
         ParalysisOver();
         SleepOver();
+
+		if (mew != null)
+			mew.PlayerRevived();
 
         if (transitionAnim != null)
             transitionAnim.SetTrigger("fromBlack");
@@ -2656,6 +2664,8 @@ public class PlayerControls : MonoBehaviour
                 obj.quantity = candiesLost;
             }
         }
+		if (mew != null)
+			mew.TeleportToP1();
     }
     public void ShowLostBagInMap(string sceneName, bool lost=true)
     {
@@ -2788,6 +2798,8 @@ public class PlayerControls : MonoBehaviour
             titleScreenObj.transform.parent = null;
             titleScreenObj.ReturnToTitle();
         }
+		if (mew != null)
+			Destroy(mew.gameObject);
         playerInstance = null;
         
         Time.timeScale = 1;

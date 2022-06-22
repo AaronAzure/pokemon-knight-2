@@ -72,6 +72,15 @@ public class AllySquirtle : Ally
 			if (this.transform.localScale.x < 0 || this.transform.eulerAngles.y == 180)    // looking left
 				obj.velocity *= -1;
 		}
-
     }
+
+	public override string ExtraAttacks()
+	{
+		int temp = atkDmg + ( extraDmg * Mathf.CeilToInt(((trainer.lv - 1) + (ExtraEnhancedDmg()) / perLevel)));
+		if (extraLevel >= 6)
+			return "+(" + Mathf.RoundToInt( temp / 3 ) + "×4)";
+		else if (extraLevel >= 3)
+			return "+(" + Mathf.RoundToInt( temp / 3 ) + "×2)";
+		return "";
+	}
 }

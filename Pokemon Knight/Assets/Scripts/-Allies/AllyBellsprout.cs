@@ -126,4 +126,14 @@ public class AllyBellsprout : Ally
         anim.SetTrigger("done");
         cannotFind.SetActive(true);
     }
+
+	public override string ExtraAttacks()
+	{
+		int temp = atkDmg + ( extraDmg * Mathf.CeilToInt(((trainer.lv - 1) + (ExtraEnhancedDmg()) / perLevel)));
+		if (extraLevel >= 6)
+			return "+(" + Mathf.RoundToInt( temp * 0.5f ) + "×2)";
+		else if (extraLevel >= 3)
+			return "+(" + Mathf.RoundToInt( temp * 0.5f ) + ")";
+		return "";
+	}
 }

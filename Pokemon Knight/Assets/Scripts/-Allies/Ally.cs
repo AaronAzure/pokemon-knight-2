@@ -365,6 +365,12 @@ public abstract class Ally : MonoBehaviour
         yield return new WaitForEndOfFrame();
         Destroy(this.gameObject);
     }
+
+
+	public virtual string ExtraAttacks()
+	{
+		return "";
+	}
 }
 
 

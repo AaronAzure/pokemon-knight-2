@@ -13,5 +13,10 @@ public class CurrencyTrigger : MonoBehaviour
             PlayerControls p = other.GetComponent<PlayerControls>();
             currency.CollectedBy(p);
         }
+        if (currency != null && other.CompareTag("Mew"))
+        {
+            Mew mew = other.GetComponent<Mew>();
+            currency.CollectedByMew(mew);
+        }
     }
 }

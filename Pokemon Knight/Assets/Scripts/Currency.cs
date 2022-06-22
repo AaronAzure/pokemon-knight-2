@@ -38,6 +38,11 @@ public class Currency : MonoBehaviour
         player.GainCandy(value);
         Destroy(this.gameObject);
     }
+    public void CollectedByMew(Mew mew) 
+    {
+        mew.CollectCandyForTrainer(value);
+        Destroy(this.gameObject);
+    }
 
     IEnumerator Magnetise()
     {

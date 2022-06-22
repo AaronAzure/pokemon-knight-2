@@ -26,7 +26,7 @@ public class AllySnorlax : Ally
         }
         else
         {
-            slamHitbox.atkDmg = Mathf.RoundToInt( this.atkDmg * 0.8f );
+            slamHitbox.atkDmg = Mathf.RoundToInt( this.atkDmg * 0.7f );
             slamHitbox.atkForce = this.atkForce;
             body.velocity = new Vector2(body.velocity.x, 0);
             body.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
@@ -65,4 +65,9 @@ public class AllySnorlax : Ally
             anim.SetTrigger("getUp");
     }
 
+	public override string ExtraAttacks()
+	{
+		int temp = atkDmg + ( extraDmg * Mathf.CeilToInt(((trainer.lv - 1) + (ExtraEnhancedDmg()) / perLevel)));
+		return "+(" + Mathf.RoundToInt( temp * 0.7f ) + ")";
+	}
 }
