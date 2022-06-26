@@ -481,7 +481,7 @@ public class PlayerControls : MonoBehaviour
         {
             StartCoroutine( CannotChangeSceneAgain() ); inCutscene = true;
             sceneName = PlayerPrefsElite.GetString("checkpointScene" + gameNumber);
-            StartCoroutine( LoadSceneAndCheckLostBag(sceneName) );
+            StartCoroutine( InitialLoadSceneAndCheckLostBag(sceneName) );
             // Debug.Log("<color=#0EB8BF>"+PlayerPrefsElite.GetString("checkpointScene" + gameNumber)+"</color>");
         }
         else 
@@ -819,7 +819,6 @@ public class PlayerControls : MonoBehaviour
                 titleScreenObj.musicManager = this.musicManager;
         }
 
-
         mapMenu.SetActive(false);
         subWayUi.SetActive(false);
         weightText.text = currentWeight + "/" + (maxWeight + extraWeight);
@@ -827,10 +826,13 @@ public class PlayerControls : MonoBehaviour
     IEnumerator CannotChangeSceneAgain()
     {
         inCutscene = true;
+
         yield return new WaitForSeconds(0.2f);
         body.gravityScale = 3;
         inCutscene = false;
         col.enabled = true;
+		if (canRest)
+			RestOnBench();
     }
     public bool YES()
     {
@@ -2363,11 +2365,6 @@ public class PlayerControls : MonoBehaviour
         if (PlayerPrefsElite.VerifyInt("currency" + gameNumber))
             PlayerPrefsElite.SetInt("currency" + gameNumber, currency);
 
-        if (damageIndicatorAnim != null)
-        {
-            damageIndicatorAnim.SetFloat("fadeSpeed", 1);
-            damageIndicatorAnim.SetTrigger("died");
-        }
         if (healSound != null && healSound.isPlaying)
             healSound.Stop();
         if (furyRedObj != null)
@@ -2381,6 +2378,13 @@ public class PlayerControls : MonoBehaviour
         if (col != null)
             col.enabled = false;
         Invincible(false);
+
+        yield return new WaitForSeconds(0.5f);
+        if (damageIndicatorAnim != null)
+        {
+            damageIndicatorAnim.SetFloat("fadeSpeed", 1);
+            damageIndicatorAnim.SetTrigger("died");
+        }
 
 
         yield return new WaitForSeconds(2f);
@@ -2432,6 +2436,7 @@ public class PlayerControls : MonoBehaviour
 			AllPokemonReturned();
             BagLostInScene(sceneName);
             SetPlayerLocationInMap(sceneName);
+
         }
         else
             Debug.LogError("CHECK THIS", this.gameObject);
@@ -2440,7 +2445,10 @@ public class PlayerControls : MonoBehaviour
 
         Invincible(false);
         hp = maxHp;
-        anim.SetTrigger("reset");
+		if (canRest)
+			RestOnBench();
+		else
+        	anim.SetTrigger("reset");
 
         hpImg.fillAmount = 1;
         hpEffectImg.fillAmount = 1;
@@ -2461,6 +2469,7 @@ public class PlayerControls : MonoBehaviour
 
 		if (mew != null)
 			mew.PlayerRevived();
+
 
         if (transitionAnim != null)
             transitionAnim.SetTrigger("fromBlack");
@@ -2674,13 +2683,16 @@ public class PlayerControls : MonoBehaviour
         else
             Debug.Log("<color=#FF8800>" + sceneName + " map has not been added" +"</color>", this.gameObject);
     }
-    public IEnumerator LoadSceneAndCheckLostBag(string sceneName)
+    public IEnumerator InitialLoadSceneAndCheckLostBag(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
         
         //* WAIT TILL SCENE LOADS
-        while (SceneManager.GetActiveScene().name != sceneName)
-            yield return null;
+        // while (SceneManager.GetActiveScene().name != sceneName)
+		yield return new WaitForSeconds(0.2f);
+		if (canRest)
+			RestOnBench();
+			
         BagLostInScene(sceneName);
     }
     
@@ -2896,6 +2908,9 @@ public class PlayerControls : MonoBehaviour
         anim.SetBool("inBossFight", true);
         anim.SetTrigger("engaged");
         body.velocity = Vector2.zero;
+
+		if (mew != null)
+			mew.anim.SetTrigger("battle");
 
 		if (musicManager != null)
 		{
@@ -3214,12 +3229,7 @@ public class PlayerControls : MonoBehaviour
         anim.speed = 1;
         anim.SetTrigger("rest");
         anim.SetBool("isResting", true);
-        // if (moomooUi != null)
-        // {
-        //     for (int i=nMoomooMilkLeft ; i<moomooUi.Length ; i++)
-        //         moomooUi[i].SetTrigger("restored");
-        // }
-        // nMoomooMilkLeft = moomooUi.Length;
+        
         enemyDefeated.Clear(); PlayerPrefsElite.SetStringArray("enemyDefeated", new string[0]);
 
         ParalysisOver();

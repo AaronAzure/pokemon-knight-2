@@ -5,6 +5,7 @@ public class AllyAttack : MonoBehaviour
     public int atkDmg;
     public int atkForce;    // knockback force
     public int spBonus;
+    public bool playerGainsExp=true;
     public bool registerOneHitOnly;
     [SerializeField] private bool yKb;
 
@@ -33,16 +34,16 @@ public class AllyAttack : MonoBehaviour
                 {
                     // enemy.col.offset;
                     if (origin != null)
-                        enemy.TakeDamage(atkDmg, origin.position, atkForce, true, spBonus, this, false, yKb);
+                        enemy.TakeDamage(atkDmg, origin.position, atkForce, playerGainsExp, spBonus, this, false, yKb);
                     else
-                        enemy.TakeDamage(atkDmg, this.transform.position, atkForce, true, spBonus, this, false, yKb);
+                        enemy.TakeDamage(atkDmg, transform.position, atkForce, true, spBonus, this, false, yKb);
                 }
                 else
                 {
                     if (origin != null)
-                        enemy.TakeDamage(atkDmg, origin.position, atkForce, true, spBonus, null, false, yKb);
+                        enemy.TakeDamage(atkDmg, origin.position, atkForce, playerGainsExp, spBonus, null, false, yKb);
                     else
-                        enemy.TakeDamage(atkDmg, this.transform.position, atkForce, true, spBonus, null, false, yKb);
+                        enemy.TakeDamage(atkDmg, transform.position, atkForce, playerGainsExp, spBonus, null, false, yKb);
                 }
                 if (spawnEffect && spawnEffectObj != null)
                 {

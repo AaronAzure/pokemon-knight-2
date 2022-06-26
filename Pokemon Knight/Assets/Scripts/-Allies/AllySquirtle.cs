@@ -6,6 +6,9 @@ public class AllySquirtle : Ally
     [Space] [Header("Squirtle")] [SerializeField] private AllyProjectile watergunObj;
     [SerializeField] private Transform atkPos;
 	[SerializeField] private int nProjectiles=1;
+	[SerializeField] private GameObject ultFlash;
+
+	
     protected override void Setup() 
     {
         if (useUlt && anim != null)
@@ -13,6 +16,8 @@ public class AllySquirtle : Ally
             outTime = 0.5f;
             anim.SetTrigger("ult");
             StartCoroutine( UltimateAttack() );
+			if (ultFlash != null)
+				ultFlash.SetActive(true);
         }
         else
         {
@@ -49,7 +54,13 @@ public class AllySquirtle : Ally
         else if (x % 3 == 2)
             offset = Random.Range(-0.25f ,-0.1f);
         var obj = Instantiate(watergunObj, atkPos.position + new Vector3(0, offset), Quaternion.identity);
-        obj.atkDmg = (this.atkDmg / 2);
+		if (IsAtSecondEvolution())
+        	obj.atkDmg = Mathf.RoundToInt(this.atkDmg);
+		else if (IsAtThirdEvolution())
+        	obj.atkDmg = Mathf.RoundToInt(this.atkDmg * 0.75f);
+		else
+        	obj.atkDmg = (this.atkDmg / 2);
+
         obj.atkForce = (this.atkForce);
         obj.spawnedPos = this.transform.position;
         obj.velocity *= 1.5f;

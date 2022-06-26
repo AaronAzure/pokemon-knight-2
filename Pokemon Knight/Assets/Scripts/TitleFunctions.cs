@@ -243,6 +243,9 @@ public class TitleFunctions : MonoBehaviour
         
         if (PlayerPrefsElite.VerifyArray("purchaseNames" + gameNumber.ToString()))
             PlayerPrefsElite.SetStringArray("purchaseNames" + gameNumber.ToString(), new string[0]);
+        
+        if (PlayerPrefsElite.VerifyArray("visitedScenes" + gameNumber.ToString()))
+            PlayerPrefsElite.SetStringArray("visitedScenes" + gameNumber.ToString(), new string[0]);
 
         PlayerPrefsElite.SetBoolean("hasLostBag" + PlayerPrefsElite.GetInt("gameNumber"), false);
 
