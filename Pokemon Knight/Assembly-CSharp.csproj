@@ -323,6 +323,7 @@
      <Compile Include="Assets/ProCamera2D/3rd Party Plugins Support/PlayMakerActions/PC2DCinematicsToggle.cs" />
      <Compile Include="Assets/CreativeSpore/SuperTilemapEditor/Scripts/Tilemap/Tileset.cs" />
      <Compile Include="Assets/Ferr/2D/Scripts/poly2tri/Triangulation/Delaunay/Sweep/DTSweepContext.cs" />
+     <Compile Include="Assets/Scripts/-Allies/AllyAlakazam.cs" />
      <Compile Include="Assets/Ferr/Common/Scripts/Juice.cs" />
      <Compile Include="Assets/Scripts/GameManager.cs" />
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CustomToggle.cs" />
@@ -475,6 +476,7 @@
      <Compile Include="Assets/Scripts/-Enemies/ButterfreeBoss.cs" />
      <Compile Include="Assets/Scripts/-Enemies/RazorLeaf.cs" />
      <Compile Include="Assets/ProCamera2D/Examples/Platformer/Scripts/ToggleTransitionsFX.cs" />
+     <Compile Include="Assets/Scripts/Mew.cs" />
      <Compile Include="Assets/Ferr/Common/Scripts/Export.cs" />
      <Compile Include="Assets/Ferr/2D/Scripts/poly2tri/Triangulation/TriangulationAlgorithm.cs" />
      <Compile Include="Assets/Rewired/Integration/UnityUI/RewiredPointerInputModule.cs" />
@@ -491,8 +493,6 @@
      <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIGroup.cs" />
      <Compile Include="Assets/ProCamera2D/Code/Core/IPostMover.cs" />
      <Compile Include="Assets/Ferr/Common/Scripts/EditInIsolation.cs" />
-     <Compile Include="Assets/Scripts/-Allies/AllyAlakazam.cs" />
-     <Compile Include="Assets/Scripts/Mew.cs" />
      <None Include="Assets/Ferr/Common/Shaders/UnlitSolidColor.shader" />
      <None Include="Assets/Game2DWaterKit/Runtime/Shaders/Game2DWaterKit Waterfall PixelLit.shader" />
      <None Include="Assets/Ferr/2DTerrain/Shaders/LitColoredTransparent.shader" />
@@ -1164,187 +1164,145 @@
     <Reference Include="mscorlib">
         <HintPath>/Applications/Unity/Hub/Editor/2020.3.23f1/Unity.app/Contents/NetStandard/compat/2.0.0/shims/netfx/mscorlib.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Animation.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Animation.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.InternalAPIEngineBridge.001">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VSCode.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.PixelPerfect">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.PixelPerfect.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Shaders">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Runtime">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="PsdPlugin">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/PsdPlugin.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Tilemap.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualStudio.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Timeline">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Searcher.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.Searcher.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.IK.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.IK.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Psdimporter.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Psdimporter.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Path.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Path.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Runtime">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.PlasticSCM.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Rider.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.InternalAPIEditorBridge.001">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.InternalAPIEditorBridge.001.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.IK.Runtime">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.IK.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ShaderGraph.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.ShaderGraph.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Cinemachine">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.cinemachine.editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Animation.Triangle.Runtime">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Animation.Triangle.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Animation.Runtime">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Animation.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.PixelPerfect.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.PixelPerfect.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Timeline.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Common.Runtime">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Common.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.SpriteShape.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.SpriteShape.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Common.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.Common.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Editor">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.SpriteShape.Runtime">
+        <HintPath>/Users/aaronwee/Desktop/unity/pokemon-knight-2/Pokemon Knight/Library/ScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Unity.2D.Animation.Editor.csproj">
-      <Project>{f6f0dce0-122a-0dc6-a11d-9a64486632c4}</Project>
-      <Name>Unity.2D.Animation.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.InternalAPIEngineBridge.001.csproj">
-      <Project>{a2726ec9-d22a-8913-a580-143b3612782e}</Project>
-      <Name>Unity.InternalAPIEngineBridge.001</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.VSCode.Editor.csproj">
-      <Project>{edd15e5e-98b4-a35b-a3d5-bb028abd0f55}</Project>
-      <Name>Unity.VSCode.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.PixelPerfect.csproj">
-      <Project>{71b26d72-26db-4304-6003-36911da42ad2}</Project>
-      <Name>Unity.2D.PixelPerfect</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.RenderPipelines.Universal.Shaders.csproj">
-      <Project>{89e165ea-156c-b74b-dfea-2cfb7786a8d7}</Project>
-      <Name>Unity.RenderPipelines.Universal.Shaders</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.RenderPipelines.Universal.Runtime.csproj">
-      <Project>{226ed599-5b86-b11d-cb00-b8da263437f3}</Project>
-      <Name>Unity.RenderPipelines.Universal.Runtime</Name>
-    </ProjectReference>
-    <ProjectReference Include="PsdPlugin.csproj">
-      <Project>{a40ebfbb-52ed-cb5a-f958-ba482888250c}</Project>
-      <Name>PsdPlugin</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.Tilemap.Editor.csproj">
-      <Project>{7048f872-c2ad-0929-f120-61cf07d5ef44}</Project>
-      <Name>Unity.2D.Tilemap.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.TextMeshPro.Editor.csproj">
-      <Project>{a4c4101c-a832-9ccc-444b-213bd1fa19df}</Project>
-      <Name>Unity.TextMeshPro.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.VisualStudio.Editor.csproj">
-      <Project>{613f6f07-7efc-60d0-1901-749f2b81e448}</Project>
-      <Name>Unity.VisualStudio.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Timeline.csproj">
-      <Project>{550e4771-fa83-9acf-8944-c8f938296354}</Project>
-      <Name>Unity.Timeline</Name>
-    </ProjectReference>
     <ProjectReference Include="PackageToolsEditor.csproj">
       <Project>{47f2af5a-2885-3156-cb35-3ae26c121261}</Project>
       <Name>PackageToolsEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.TextMeshPro.csproj">
-      <Project>{dd86c4f7-7a78-7b78-bc45-4e64ed503694}</Project>
-      <Name>Unity.TextMeshPro</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Searcher.Editor.csproj">
-      <Project>{2e96a0bb-db04-b956-95fa-598b50ecf03f}</Project>
-      <Name>Unity.Searcher.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.IK.Editor.csproj">
-      <Project>{31a2264f-165f-398a-9770-fd328c93f085}</Project>
-      <Name>Unity.2D.IK.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.Sprite.Editor.csproj">
-      <Project>{b8f981c0-69a4-900d-7618-4689bfe23a22}</Project>
-      <Name>Unity.2D.Sprite.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.Psdimporter.Editor.csproj">
-      <Project>{041a9d00-4c2f-ab02-ee7c-93ef53e9fe0d}</Project>
-      <Name>Unity.2D.Psdimporter.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.Path.Editor.csproj">
-      <Project>{22ce28fe-47ab-a7f9-3d12-df0ba7bb80d2}</Project>
-      <Name>Unity.2D.Path.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.RenderPipelines.Core.Runtime.csproj">
-      <Project>{a0da603b-b785-0350-0d60-47318eada3c7}</Project>
-      <Name>Unity.RenderPipelines.Core.Runtime</Name>
-    </ProjectReference>
-    <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{a36d6521-5001-ed1d-1d8f-4486242797b0}</Project>
-      <Name>UnityEditor.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.PlasticSCM.Editor.csproj">
-      <Project>{589e1f91-d4e2-8002-ac4f-056d6743654f}</Project>
-      <Name>Unity.PlasticSCM.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Rider.Editor.csproj">
-      <Project>{ed856674-d8a7-32fc-8977-f61f643e81df}</Project>
-      <Name>Unity.Rider.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.RenderPipelines.Core.ShaderLibrary.csproj">
-      <Project>{5536223a-f420-32b6-b1d4-03fd8e532016}</Project>
-      <Name>Unity.RenderPipelines.Core.ShaderLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="UnityEngine.UI.csproj">
-      <Project>{2f406119-228b-f66d-e341-cd51281f00a1}</Project>
-      <Name>UnityEngine.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.InternalAPIEditorBridge.001.csproj">
-      <Project>{c7631d52-e039-a712-0877-9360f4364a34}</Project>
-      <Name>Unity.InternalAPIEditorBridge.001</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Mathematics.csproj">
-      <Project>{585b5ae0-ba90-cf44-3e65-1ef23633c424}</Project>
-      <Name>Unity.Mathematics</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.IK.Runtime.csproj">
-      <Project>{95bd44d2-070c-7927-37c1-adb49273b4f4}</Project>
-      <Name>Unity.2D.IK.Runtime</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.ShaderGraph.Editor.csproj">
-      <Project>{3e0afcc9-72bc-710b-2c92-c3f4dac4bbd4}</Project>
-      <Name>Unity.ShaderGraph.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Cinemachine.csproj">
-      <Project>{fbdfd636-65fb-d71d-6c1a-bd581c3aaa0f}</Project>
-      <Name>Cinemachine</Name>
-    </ProjectReference>
-    <ProjectReference Include="com.unity.cinemachine.editor.csproj">
-      <Project>{ad8869a2-754d-db7c-3baa-420e025e75ce}</Project>
-      <Name>com.unity.cinemachine.editor</Name>
     </ProjectReference>
     <ProjectReference Include="AstarPathfindingProject.csproj">
       <Project>{e2560f14-45c8-9153-0993-e09d4a7232e3}</Project>
       <Name>AstarPathfindingProject</Name>
     </ProjectReference>
-    <ProjectReference Include="Unity.RenderPipelines.Universal.Editor.csproj">
-      <Project>{72b0a609-bb2e-9f5a-c4dc-ff1fe5826b97}</Project>
-      <Name>Unity.RenderPipelines.Universal.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.Animation.Triangle.Runtime.csproj">
-      <Project>{315eb858-da87-ec68-7f7b-e4f640ab1676}</Project>
-      <Name>Unity.2D.Animation.Triangle.Runtime</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.Animation.Runtime.csproj">
-      <Project>{8dfc9b50-154c-74b7-9660-883139c8feb7}</Project>
-      <Name>Unity.2D.Animation.Runtime</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.PixelPerfect.Editor.csproj">
-      <Project>{2933210b-3296-0258-0235-23381dd90b83}</Project>
-      <Name>Unity.2D.PixelPerfect.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.RenderPipeline.Universal.ShaderLibrary.csproj">
-      <Project>{e80227ac-fcfb-ce35-79f6-d91128a2cf8b}</Project>
-      <Name>Unity.RenderPipeline.Universal.ShaderLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.csproj">
-      <Project>{f0cea572-145b-929c-22eb-40a4a36d7e37}</Project>
-      <Name>Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Timeline.Editor.csproj">
-      <Project>{c04837a3-35e5-c3f4-7315-51546e733992}</Project>
-      <Name>Unity.Timeline.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Mathematics.Editor.csproj">
-      <Project>{074172b7-4f49-02da-220e-957e9da7f62a}</Project>
-      <Name>Unity.Mathematics.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.Common.Runtime.csproj">
-      <Project>{7e557641-b9cf-5475-238e-92092ff4bd50}</Project>
-      <Name>Unity.2D.Common.Runtime</Name>
-    </ProjectReference>
     <ProjectReference Include="AstarPathfindingProjectEditor.csproj">
       <Project>{6916f8ab-6bb8-bfd1-ec03-23d62b2b8245}</Project>
       <Name>AstarPathfindingProjectEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.SpriteShape.Editor.csproj">
-      <Project>{2c7badaa-374c-3570-bb91-d2c397fef18f}</Project>
-      <Name>Unity.2D.SpriteShape.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.Common.Editor.csproj">
-      <Project>{3f91c617-19fa-3923-a7e1-f053985b259d}</Project>
-      <Name>Unity.2D.Common.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.RenderPipelines.Core.Editor.csproj">
-      <Project>{f2ecb0cb-7df4-935a-0939-78dc094578f8}</Project>
-      <Name>Unity.RenderPipelines.Core.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.SpriteShape.Runtime.csproj">
-      <Project>{0c2d501a-1ab2-294d-3cbb-d77671492550}</Project>
-      <Name>Unity.2D.SpriteShape.Runtime</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

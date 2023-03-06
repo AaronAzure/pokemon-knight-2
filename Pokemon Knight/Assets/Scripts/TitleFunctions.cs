@@ -66,6 +66,8 @@ public class TitleFunctions : MonoBehaviour
     {
         player = ReInput.players.GetPlayer(0);
 
+		Screen.SetResolution(Screen.width, (int) (Screen.width * (9f / 16f)), Screen.fullScreen);
+
         PlayerPrefsElite.SetBoolean("nintendoControls", nintendoControls);
         if (controlsTxt != null)
             controlsTxt.text = "Nintendo";
