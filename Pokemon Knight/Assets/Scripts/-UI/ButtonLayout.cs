@@ -1,8 +1,10 @@
 using System.Collections;
 using UnityEngine;
-using UnityEditor;
 // using Rewired;
 using TMPro;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class ButtonLayout : MonoBehaviour
 {

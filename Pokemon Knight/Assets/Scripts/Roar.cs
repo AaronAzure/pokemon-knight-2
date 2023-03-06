@@ -10,7 +10,7 @@ public class Roar : MonoBehaviour
         if (other.CompareTag("Player"))    
         {
             PlayerControls pc = other.GetComponent<PlayerControls>();
-            pc.EngagedBossRoar(musicName);
+            pc.EngagedBossRoar(musicName, transform);
 			if (playLastMusic)
 				pc.musicManager.playLastMusic = true;
         }

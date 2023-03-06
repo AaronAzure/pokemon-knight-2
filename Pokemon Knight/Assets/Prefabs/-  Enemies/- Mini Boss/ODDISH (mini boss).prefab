@@ -10225,7 +10225,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lv: 5
   chapterLevel: 0
+  playerControls: {fileID: 0}
   mainAnim: {fileID: 0}
+  pokemonSpr: {fileID: 0}
   maxHp: 75
   hp: 0
   contactDmg: 5
@@ -10237,7 +10239,7 @@ MonoBehaviour:
   perLv: 2
   expPossess: 15
   extraExp: 8
-  secondDmg: 15
+  secondDmg: 25
   secondExtraDmg: 3
   hasExtraDmg: 0
   isSmart: 0
@@ -10255,6 +10257,8 @@ MonoBehaviour:
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
   bossRoom: {fileID: 0}
+  destroyable: 0
+  explosion: {fileID: 0}
   calcExtraProjectileDmg: 0
   col: {fileID: 6059486759220388701}
   body: {fileID: 5798675815866953818}
@@ -10286,10 +10290,12 @@ MonoBehaviour:
   isBoss: 1
   isMiniBoss: 1
   possessedAura: {fileID: 6074212082474721446}
-  battleRoarObj: {fileID: 6089374794301073798}
   rageChargeObj: {fileID: 888560006423492906}
-  inRage: 0
+  battleRoarObj: {fileID: 6089374794301073798}
+  effects: []
+  cannotDmgPlayer: 0
   inCutscene: 0
+  inRage: 0
   inRageCutscene: 0
   isDefeated: 0
   powerupName: oddish
@@ -10304,6 +10310,7 @@ MonoBehaviour:
   alert: {fileID: 0}
   eyes: {fileID: 17566888063875573}
   eyes2: {fileID: 0}
+  blood: {fileID: 0}
   isAttacking: 0
   isTargeting: 0
   keepSearching: 0
@@ -10336,7 +10343,7 @@ MonoBehaviour:
   face: {fileID: 8404566178504463058}
   anim: {fileID: 8587678589928221810}
   stunSpore: {fileID: 6543823460546405717, guid: 7ed5b4a6b0d3346f59dd15bd8410872c, type: 3}
-  stunSporePos: {fileID: 0}
+  stunSporePos: {fileID: 661756503065352181}
   canSeePlayer: 0
   canAtk: 1
   spawnedHolder: {fileID: 8166622205378207284}
@@ -24836,6 +24843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicName: Accolade
+  playLastMusic: 0
 --- !u!1 &6834304160540669383
 GameObject:
   m_ObjectHideFlags: 0
@@ -34640,6 +34648,7 @@ Transform:
   m_Children:
   - {fileID: 8452553695541995158}
   - {fileID: 8404566178504463058}
+  - {fileID: 661756503065352181}
   m_Father: {fileID: 1210750820205220004}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -34725,6 +34734,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &8545200389879771492
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 661756503065352181}
+  m_Layer: 0
+  m_Name: stun spore pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &661756503065352181
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8545200389879771492}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.5, y: 2.25, z: 0}
+  m_LocalScale: {x: 0.74999994, y: 0.74999994, z: 0.74999994}
+  m_Children: []
+  m_Father: {fileID: 1828258095164446057}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8622351505074372758
 GameObject:
   m_ObjectHideFlags: 0
@@ -35093,17 +35132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &172641025672617191 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7156364850012388439, guid: d20f75ad4b74e41c68f2c521dcb67ad9, type: 3}
-  m_PrefabInstance: {fileID: 7004746633794838704}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2306269714981723284 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4698485749703408676, guid: d20f75ad4b74e41c68f2c521dcb67ad9, type: 3}
@@ -35120,6 +35148,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8181078561444662038, guid: d20f75ad4b74e41c68f2c521dcb67ad9, type: 3}
   m_PrefabInstance: {fileID: 7004746633794838704}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &172641025672617191 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7156364850012388439, guid: d20f75ad4b74e41c68f2c521dcb67ad9, type: 3}
+  m_PrefabInstance: {fileID: 7004746633794838704}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8760570438856112430 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1776133033594329502, guid: d20f75ad4b74e41c68f2c521dcb67ad9, type: 3}

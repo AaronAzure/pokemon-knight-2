@@ -3053,7 +3053,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2241457487965682773}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -22474,7 +22474,7 @@ RectTransform:
   m_Children:
   - {fileID: 6482866094620976134}
   m_Father: {fileID: 2241457487965682773}
-  m_RootOrder: 21
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -24735,6 +24735,7 @@ MonoBehaviour:
   dashSpeed: 50
   jumpHeight: 8
   jumpTimer: 0.35
+  deadZone: 0
   expGainText: {fileID: 2165376480154755250}
   playerUi: {fileID: 6527588444086334518}
   visitedScenes: []
@@ -25656,7 +25657,6 @@ RectTransform:
   - {fileID: 335962031534838806}
   - {fileID: 108166811234523049}
   - {fileID: 6810482837103920603}
-  - {fileID: 8062086460508735467}
   - {fileID: 3876666506487583746}
   - {fileID: 7717421854064119015}
   - {fileID: 2257266550071145081}
@@ -26369,6 +26369,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2241457487339488611}
+  - {fileID: 8062086460508735467}
   m_Father: {fileID: 2241457487965682773}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -78792,12 +78793,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2241457487965682773}
-  m_RootOrder: 14
+  m_Father: {fileID: 2241457488857083531}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 525, y: 620}
+  m_AnchoredPosition: {x: 290, y: 5}
   m_SizeDelta: {x: 500, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6761076064361795170
@@ -79061,7 +79062,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2241457487965682773}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -79745,7 +79746,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2241457487965682773}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -98553,7 +98554,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2241457487965682773}
-  m_RootOrder: 19
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -98815,7 +98816,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2241457487965682773}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -99386,7 +99387,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2241457487965682773}
-  m_RootOrder: 20
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -117267,11 +117268,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 525020084862395773, guid: 277018fe55c0b4e64bb2147f4b51228a, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: -0.13531478
+      value: -0.11032717
       objectReference: {fileID: 0}
     - target: {fileID: 525020084862395773, guid: 277018fe55c0b4e64bb2147f4b51228a, type: 3}
       propertyPath: m_Bounds.m_Extent.y
-      value: 0.18523864
+      value: 0.17032485
       objectReference: {fileID: 0}
     - target: {fileID: 2052718621262125639, guid: 277018fe55c0b4e64bb2147f4b51228a, type: 3}
       propertyPath: p1
@@ -117343,11 +117344,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7390596973144183550, guid: 277018fe55c0b4e64bb2147f4b51228a, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: -0.045646638
+      value: -0.24702948
       objectReference: {fileID: 0}
     - target: {fileID: 7390596973144183550, guid: 277018fe55c0b4e64bb2147f4b51228a, type: 3}
       propertyPath: m_Bounds.m_Extent.y
-      value: 0.15218154
+      value: 0.29958797
       objectReference: {fileID: 0}
     - target: {fileID: 8135558736057334082, guid: 277018fe55c0b4e64bb2147f4b51228a, type: 3}
       propertyPath: m_Bounds.m_Center.y

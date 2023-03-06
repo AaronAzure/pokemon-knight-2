@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5360237816614136189}
   m_Layer: 0
   m_Name: "\xBB COLLISION DETECTION"
-  m_TagString: Untagged
+  m_TagString: Hurtbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1062,6 +1062,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lv: 12
   chapterLevel: 1
+  playerControls: {fileID: 0}
   mainAnim: {fileID: 5262776919767863634}
   pokemonSpr: {fileID: 0}
   maxHp: 125
@@ -1095,6 +1096,8 @@ MonoBehaviour:
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
   bossRoom: {fileID: 0}
+  destroyable: 0
+  explosion: {fileID: 0}
   calcExtraProjectileDmg: 0
   col: {fileID: 4723499407535618369}
   body: {fileID: 5036056118465129030}
@@ -1128,8 +1131,10 @@ MonoBehaviour:
   possessedAura: {fileID: 0}
   rageChargeObj: {fileID: 0}
   battleRoarObj: {fileID: 0}
-  inRage: 0
+  effects: []
+  cannotDmgPlayer: 0
   inCutscene: 0
+  inRage: 0
   inRageCutscene: 0
   isDefeated: 0
   powerupName: 

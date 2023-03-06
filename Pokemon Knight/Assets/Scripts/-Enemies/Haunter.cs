@@ -170,7 +170,7 @@ public class Haunter : Enemy
         if (spawnedHolder != null)
             Destroy( spawnedHolder.gameObject );
     }
-    public override void CallChildOnDropLoot()
+    public override void CallChildOnDropLoot(bool attackedByPlayer)
     {
         // if (!Physics2D.Linecast(transform.position - new Vector3(0.1f,0), transform.position + new Vector3(0.1f,0),
         //     whatIsGround))

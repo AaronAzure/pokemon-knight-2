@@ -31,6 +31,7 @@ public class Oddish : Enemy
     [Space] [SerializeField] private Transform target;
     private float trajectory;
     private int attackCount;
+	bool justSludgeBomb;
 
     [Space] [Header("Stronger mob")]
     public Collider2D visionCol;
@@ -277,6 +278,8 @@ public class Oddish : Enemy
 
     IEnumerator RestBeforeNextVolley()
     {
+		if (!isMiniBoss) yield break;
+
         if (hpImg.fillAmount <= 0.5f)
             yield return new WaitForSeconds(1.2f);
         else
@@ -285,8 +288,23 @@ public class Oddish : Enemy
         if (hpImg.fillAmount <= 0.5f)
             anim.speed = 1.5f;
 
+		float distToTarget = Vector2.Distance(transform.position, target.position);
+		// Debug.Log(Vector2.Distance(transform.position, target.position));
         if (hp > 0)
-            anim.SetTrigger("sludgeBomb");
+		{
+			// Too close, poison powder
+			if (!justSludgeBomb && distToTarget < 5)
+			{
+				AdjustAnim("attacking");
+				justSludgeBomb = true;
+			}
+			// Too far away, sludge bomb
+			else
+			{
+				anim.SetTrigger("sludgeBomb");
+				justSludgeBomb = false;
+			}
+		}
         attackCount = 0;
     }
 

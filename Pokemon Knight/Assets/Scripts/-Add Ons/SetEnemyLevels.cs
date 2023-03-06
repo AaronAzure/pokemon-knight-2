@@ -1,4 +1,5 @@
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
 
 public class SetEnemyLevels : MonoBehaviour
@@ -24,7 +25,6 @@ public class SetEnemyLevels : MonoBehaviour
     }
 }
 
-
 [CanEditMultipleObjects] [CustomEditor(typeof(SetEnemyLevels), true)]
 public class SetEnemyLevelsEditor : Editor
 {
@@ -40,3 +40,4 @@ public class SetEnemyLevelsEditor : Editor
 
     }
 }
+#endif

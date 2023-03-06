@@ -45,6 +45,8 @@ public class Butterfree : Enemy
             target = playerControls.transform;
 
         origAtkDmg = contactDmg;
+		if (mainAnim != null)
+			mainAnim.SetBool("isMob", true);
 
         if (Random.Range(0,2) == 0)
             movingLeft = true;

@@ -272,10 +272,12 @@ public abstract class Enemy : MonoBehaviour
     public virtual void CallChildOnDamaged() {}
     public virtual void CallChildOnKnockbackStart() {}
     public virtual void CallChildOnKnockbackFinish() {}
-    public virtual void CallChildOnDropLoot() 
+    public virtual void CallChildOnDropLoot(bool attackedByPlayer=true) 
     {
 		if (loot != null)
 		{
+			if (!attackedByPlayer)
+				loot.rewardSize /= 2;
 			if (!isBoss || isMiniBoss)
 				loot.DropLoot( Mathf.FloorToInt(lv / 10) );
 			else
@@ -508,8 +510,8 @@ public abstract class Enemy : MonoBehaviour
                 CallChildOnBossDeath();
 
                 StartCoroutine(DramaticSlowmo());
-                if (possessedAura != null)
-                    possessedAura.SetActive(false);
+        		if (rageChargeObj != null) rageChargeObj.SetActive(false);
+                // if (possessedAura != null) possessedAura.SetActive(false);
                 inCutscene = true;
 				if (statusBar != null)
                 	statusBar.SetActive(false);
@@ -532,7 +534,7 @@ public abstract class Enemy : MonoBehaviour
 					if (horde != null)
 						horde.RemoveFromEnemies(this);
 
-					CallChildOnDropLoot();
+					CallChildOnDropLoot(attackedByPlayer);
 
 					if (playerControls != null && attackedByPlayer)
 					{
@@ -554,7 +556,7 @@ public abstract class Enemy : MonoBehaviour
 								renderer.material = flashMat;
 					}
 					else if (playerControls != null)
-						playerControls.BossBattleOver();
+						playerControls.BossBattleOver(this);
 				}
 				else
 					CallChildOnDeath();
@@ -578,12 +580,17 @@ public abstract class Enemy : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         Time.timeScale = 1;
         yield return new WaitForSeconds(0.5f);
-        if (rageChargeObj != null) rageChargeObj.SetActive(false);
         
-        if (canCatchEffect != null) 
-            canCatchEffect.SetActive(true);
-        canCatch = true;
+        // if (canCatchEffect != null) 
+        //     canCatchEffect.SetActive(true);
+        // canCatch = true;
     }
+	public void Purify()
+	{
+		if (possessedAura != null) possessedAura.SetActive(false);
+		if (canCatchEffect != null) canCatchEffect.SetActive(true);
+        canCatch = true;
+	}
     public IEnumerator ApplyKnockback(Vector2 direction, float force, bool yKb=false)
     {
         if (hp > 0)
@@ -965,6 +972,7 @@ public abstract class Enemy : MonoBehaviour
 }
 
 
+#if UNITY_EDITOR
 [CanEditMultipleObjects] [CustomEditor(typeof(Enemy), true)]
 public class EnemyEditor : Editor
 {
@@ -982,3 +990,4 @@ public class EnemyEditor : Editor
         DrawDefaultInspector();
     }
 }
+#endif

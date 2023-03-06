@@ -4900,6 +4900,7 @@ MonoBehaviour:
   destoryOnWallCollision: 0
   explosion: {fileID: 0}
   trailObj: {fileID: 0}
+  trailPs: {fileID: 0}
   body: {fileID: 0}
   direction: {x: 0, y: 0}
   speed: 0
@@ -4912,6 +4913,12 @@ MonoBehaviour:
   absorbEffect: 1
   moveMaster: {fileID: 0}
   absorbReturnObj: {fileID: 1133196975338173599, guid: 6e9b27035856b44ed953efb3d7ad5eb8, type: 3}
+  chasePlayer: 0
+  chase: {fileID: 0}
+  target: {fileID: 0}
+  gengarShadow: 0
+  destroyItself: 0
+  destroyAfter: 10
 --- !u!114 &3755788023701768691
 MonoBehaviour:
   m_ObjectHideFlags: 0

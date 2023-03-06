@@ -71,6 +71,7 @@ public class Pidgey : Enemy
     {
         if (co != null)
             StopCoroutine(co);
+		StopAllCoroutines();
         if (aiPath != null)
             aiPath.canMove = false;
         body.gravityScale = 3;
@@ -284,7 +285,7 @@ public class Pidgey : Enemy
     
     public void Gust()
     {
-        if (gust != null)
+        if (hp > 0 && gust != null)
         {
             var obj = Instantiate(gust, this.transform.position - new Vector3(0,1),
                 gust.transform.rotation, spawnedHolder.transform);
@@ -294,11 +295,14 @@ public class Pidgey : Enemy
 
     public void ResumeMovement()
     {
-        aiPath.canMove = true;
-        anim.speed = chaseSpeed;
-        if (hpImg.fillAmount < 0.5f)
-            co = StartCoroutine( Attack(3.5f) );
-        else
-            co = StartCoroutine( Attack() );
+		if (hp > 0)
+		{
+			aiPath.canMove = true;
+			anim.speed = chaseSpeed;
+			if (hpImg.fillAmount < 0.5f)
+				co = StartCoroutine( Attack(3.5f) );
+			else
+				co = StartCoroutine( Attack() );
+		}
     }
 }

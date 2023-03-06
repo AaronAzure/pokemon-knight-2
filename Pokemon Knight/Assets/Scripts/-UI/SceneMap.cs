@@ -1,7 +1,9 @@
 // using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class SceneMap : MonoBehaviour
 {
@@ -59,6 +61,7 @@ public class SceneMap : MonoBehaviour
         playerHead.SetActive(false);
     }
     
+	#if UNITY_EDITOR
     public void GetPlayerHead()
     {
         var serialisedObj = new SerializedObject(this);
@@ -85,9 +88,10 @@ public class SceneMap : MonoBehaviour
         
         serialisedObj.ApplyModifiedProperties();
     }
+	#endif
 }
 
-
+#if UNITY_EDITOR
 [CanEditMultipleObjects] [CustomEditor(typeof(SceneMap), true)]
 public class SceneMapEditor : Editor
 {
@@ -106,3 +110,4 @@ public class SceneMapEditor : Editor
         DrawDefaultInspector();
     }
 }
+#endif

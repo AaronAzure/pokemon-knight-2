@@ -164,7 +164,7 @@ public class Gastly : Enemy
             if (wisp != null)
                 Destroy( wisp.gameObject );
     }
-    public override void CallChildOnDropLoot()
+    public override void CallChildOnDropLoot(bool attackedByPlayer=true)
     {
         bool insideWall = false;
         if (map != null)

@@ -9720,7 +9720,7 @@ GameObject:
   - component: {fileID: 5797366289352769875}
   m_Layer: 14
   m_Name: BubbleGun 1
-  m_TagString: Untagged
+  m_TagString: EnemyProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14587,14 +14587,17 @@ MonoBehaviour:
   atkDmg: 15
   kbForce: 10
   ignoreInvincible: 0
+  ignoreDodge: 0
   destoryOnPlayerCollision: 1
   destoryOnWallCollision: 1
   explosion: {fileID: 1817797803601600, guid: 5b2b96c1b267046df8cf99b91b9f4484, type: 3}
   trailObj: {fileID: 1632642793083130}
+  trailPs: {fileID: 0}
   body: {fileID: 3483699989780539279}
   direction: {x: 0, y: 0}
   speed: 20
   anim: {fileID: 0}
+  explosiveHitbox: {fileID: 0}
   sleepEffect: 0
   sleepDelay: 0
   paralysisEffect: 0
@@ -14602,6 +14605,12 @@ MonoBehaviour:
   absorbEffect: 0
   moveMaster: {fileID: 0}
   absorbReturnObj: {fileID: 0}
+  chasePlayer: 0
+  chase: {fileID: 0}
+  target: {fileID: 0}
+  gengarShadow: 0
+  destroyItself: 0
+  destroyAfter: 10
 --- !u!50 &3483699989780539279
 Rigidbody2D:
   serializedVersion: 4

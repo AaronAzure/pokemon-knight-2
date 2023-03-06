@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2207901740113102106}
   m_Layer: 14
   m_Name: Whirlwind
-  m_TagString: Untagged
+  m_TagString: EnemyProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89,10 +89,12 @@ MonoBehaviour:
   atkDmg: 20
   kbForce: 20
   ignoreInvincible: 0
+  ignoreDodge: 0
   destoryOnPlayerCollision: 0
   destoryOnWallCollision: 0
   explosion: {fileID: 1773673519030548, guid: 640c472cc4584418fbc8e5d2bd394ea0, type: 3}
   trailObj: {fileID: 0}
+  trailPs: {fileID: 0}
   body: {fileID: 5341421016389988590}
   direction: {x: 0, y: 0}
   speed: 5
@@ -105,6 +107,12 @@ MonoBehaviour:
   absorbEffect: 0
   moveMaster: {fileID: 0}
   absorbReturnObj: {fileID: 0}
+  chasePlayer: 0
+  chase: {fileID: 0}
+  target: {fileID: 0}
+  gengarShadow: 0
+  destroyItself: 0
+  destroyAfter: 10
 --- !u!210 &4041949879290081921
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -145,6 +153,7 @@ MonoBehaviour:
   delayOff: 2.75
   cols:
   - {fileID: 3757481485504771578}
+  turnOns: []
 --- !u!1 &3820580599158414650
 GameObject:
   m_ObjectHideFlags: 0

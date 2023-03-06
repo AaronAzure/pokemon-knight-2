@@ -188,24 +188,6 @@ public class Gengar : Enemy
 		// this.gameObject.layer = enemyLayer;
 		this.transform.position = startPos;
     }
-    public override void CallChildOnDropLoot()
-    {
-        // if (!Physics2D.Linecast(transform.position - new Vector3(0.1f,0), transform.position + new Vector3(0.1f,0),
-        //     whatIsGround))
-        // if (!Physics2D.BoxCast(this.transform.position, new Vector2(0.1f, 0.1f), 0, Vector2.zero, 0, whatIsGround))
-        // Collider[] cols = Physics.OverlapSphere(transform.position, 0.5f, whatIsGround);
-        // foreach(Collider col in cols)
-        // {
-        //     Debug.Log(col.name);
-        // }
-        if (!Physics2D.OverlapBox(transform.position, new Vector2(0.2f, 0.2f), 0, whatIsGround))
-        {
-            if (!isBoss && !isMiniBoss)
-                loot.DropLoot( Mathf.FloorToInt(lv / 10) );
-            else
-                loot.DropLoot();
-        }
-    }
 
 	public override void CallChildOnBossFightStart()
     {

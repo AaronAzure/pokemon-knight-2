@@ -9489,7 +9489,7 @@ GameObject:
   - component: {fileID: 4604088919549150223}
   m_Layer: 14
   m_Name: Haunter Shadow Punch
-  m_TagString: Untagged
+  m_TagString: EnemyProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9604,14 +9604,17 @@ MonoBehaviour:
   atkDmg: 10
   kbForce: 10
   ignoreInvincible: 0
+  ignoreDodge: 0
   destoryOnPlayerCollision: 0
   destoryOnWallCollision: 0
   explosion: {fileID: 133642, guid: 3d569052143f5474f9eb4430bcc5105a, type: 3}
   trailObj: {fileID: 0}
+  trailPs: {fileID: 0}
   body: {fileID: 4604088919549150223}
   direction: {x: 0, y: 0}
   speed: 0
   anim: {fileID: 0}
+  explosiveHitbox: {fileID: 0}
   sleepEffect: 0
   sleepDelay: 0
   paralysisEffect: 0
@@ -9619,6 +9622,12 @@ MonoBehaviour:
   absorbEffect: 0
   moveMaster: {fileID: 0}
   absorbReturnObj: {fileID: 0}
+  chasePlayer: 0
+  chase: {fileID: 0}
+  target: {fileID: 0}
+  gengarShadow: 0
+  destroyItself: 0
+  destroyAfter: 10
 --- !u!50 &4604088919549150223
 Rigidbody2D:
   serializedVersion: 4

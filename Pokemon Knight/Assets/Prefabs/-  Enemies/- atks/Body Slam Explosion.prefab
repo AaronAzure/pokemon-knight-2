@@ -4799,7 +4799,7 @@ GameObject:
   - component: {fileID: 4779398135093493312}
   m_Layer: 14
   m_Name: Body Slam Explosion
-  m_TagString: Untagged
+  m_TagString: EnemyProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4879,6 +4879,7 @@ MonoBehaviour:
   atkDmg: 50
   kbForce: 25
   ignoreInvincible: 0
+  ignoreDodge: 0
 --- !u!210 &4779398135093493312
 SortingGroup:
   m_ObjectHideFlags: 0

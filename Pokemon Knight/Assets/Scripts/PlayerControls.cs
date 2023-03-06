@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Rewired;
 using Rewired.Integration.UnityUI;
+#if UNITY_EDITOR 
+using UnityEditor;
+#endif
 // using Com.LuisPedroFonseca.ProCamera2D;
 
 public class PlayerControls : MonoBehaviour
@@ -185,6 +187,8 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float jumpHeight = 10;
     [SerializeField] private float jumpTimer = 0.35f;
     private float jumpTimerCounter = 0;
+	[SerializeField] private float deadZone = 0f;
+	private Vector2 persistentInput; // this is the "accumulator"
     
     [Space] [SerializeField] private TextMeshProUGUI expGainText;
     [SerializeField] private GameObject playerUi;
@@ -1374,15 +1378,23 @@ public class PlayerControls : MonoBehaviour
             if (inWater && canSwim)
             {
                 float yValue = player.GetAxis("Move Vertical");
+				persistentInput = new Vector2(xValue, yValue);
+ 
+				if (persistentInput.magnitude < deadZone)
+					persistentInput = Vector2.zero;
 
                 if (swiftCharm)
-                    body.velocity = new Vector2(xValue, yValue) * moveSpeed * 1.25f;
+                    body.velocity = persistentInput * moveSpeed * 1.25f;
                 else
-                    body.velocity = new Vector2(xValue, yValue) * moveSpeed;
+                    body.velocity = persistentInput * moveSpeed;
             }
             else if (!crouching)
             {
-                Walk(xValue);
+				persistentInput = new Vector2(xValue, body.velocity.y);
+				if (persistentInput.magnitude < deadZone)
+					persistentInput = Vector2.zero;
+ 
+                Walk(persistentInput.x);
 
                 // Walking animation
                 if (Mathf.Abs(xValue) > 0)
@@ -1717,6 +1729,7 @@ public class PlayerControls : MonoBehaviour
 
 		if (teleportObj != null)
         {
+			Debug.Log("Teleporting!!!");
             var pokemon = Instantiate(teleportObj, doubleJumpSpawnPos.position, teleportObj.transform.rotation);
             pokemon.transform.SetParent(doubleJumpSpawnPos, true);
 			spawnedDoubleJumpObj = pokemon;
@@ -2692,7 +2705,7 @@ public class PlayerControls : MonoBehaviour
 		yield return new WaitForSeconds(0.2f);
 		if (canRest)
 			RestOnBench();
-			
+
         BagLostInScene(sceneName);
     }
     
@@ -2882,12 +2895,16 @@ public class PlayerControls : MonoBehaviour
 		StartCoroutine( musicManager.TransitionMusic(music) );
 	}
     
-    public void BossBattleOver()
+    public void BossBattleOver(Enemy boss=null)
     {
         if (musicManager != null)
 		{
 			string newSceneFirstWord = SceneManager.GetActiveScene().name.Split(' ')[0];
 			StartingMusic(newSceneFirstWord, true);
+		}
+		if (mew != null && boss != null) 
+		{
+			StartCoroutine( mew.StartPurify(boss) );
 		}
             // StartCoroutine( musicManager.TransitionMusic(musicManager.previousMusic) );
     }
@@ -2896,7 +2913,7 @@ public class PlayerControls : MonoBehaviour
     // todo ------------------------------------------------------------------------------------
     // todo ---------------------  B O S S  ----------------------------------------------------
 
-    public void EngagedBossRoar(string musicName)
+    public void EngagedBossRoar(string musicName, Transform bossPos)
     {
         if (ledgeGrabbing)
         {
@@ -2909,8 +2926,7 @@ public class PlayerControls : MonoBehaviour
         anim.SetTrigger("engaged");
         body.velocity = Vector2.zero;
 
-		if (mew != null)
-			mew.anim.SetTrigger("battle");
+		if (mew != null) mew.EnterBossBattle(bossPos);
 
 		if (musicManager != null)
 		{
@@ -3774,6 +3790,7 @@ public class MoomooMilkUi
     public Animator[] excludedMoomooUi;
 }
 
+#if UNITY_EDITOR 
 [CanEditMultipleObjects] [CustomEditor(typeof(PlayerControls), true)]
 public class PlayerControlsEditor : Editor
 {
@@ -3812,3 +3829,4 @@ public class PlayerControlsEditor : Editor
         DrawDefaultInspector();
     }
 }
+#endif

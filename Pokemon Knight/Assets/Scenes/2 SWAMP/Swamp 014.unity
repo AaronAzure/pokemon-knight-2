@@ -5404,7 +5404,7 @@ GameObject:
   m_Component:
   - component: {fileID: 194502124}
   - component: {fileID: 194502123}
-  m_Layer: 19
+  m_Layer: 22
   m_Name: Ignore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5787,18 +5787,24 @@ MonoBehaviour:
   waves:
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 1482746041171250567, guid: fb62a1c3fa81a48b59bb6cd65be72889, type: 3}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   enemiesLevel: 17
   miniBossLevel: 20
   flipEnemies: 0
+  facePlayer: 0
   alwaysAttackPlayer: 1
   jumpForce: 5
   waveManager: {fileID: 0}
+  mirrorImg: {fileID: 0}
 --- !u!95 &280529032
 Animator:
   serializedVersion: 3
@@ -15755,7 +15761,7 @@ GameObject:
   - component: {fileID: 388700052}
   - component: {fileID: 388700051}
   - component: {fileID: 388700050}
-  m_Layer: 19
+  m_Layer: 22
   m_Name: 0_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21993,18 +21999,24 @@ MonoBehaviour:
   waves:
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 1482746041171250567, guid: fb62a1c3fa81a48b59bb6cd65be72889, type: 3}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   enemiesLevel: 17
   miniBossLevel: 20
   flipEnemies: 1
+  facePlayer: 0
   alwaysAttackPlayer: 1
   jumpForce: 5
   waveManager: {fileID: 0}
+  mirrorImg: {fileID: 0}
 --- !u!95 &629795338
 Animator:
   serializedVersion: 3
@@ -22155,18 +22167,24 @@ MonoBehaviour:
   waves:
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 5074059084330990211, guid: dbdc38e5c4d9e4010a5db16207660acf, type: 3}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   enemiesLevel: 17
   miniBossLevel: 20
   flipEnemies: 0
+  facePlayer: 0
   alwaysAttackPlayer: 1
   jumpForce: 5
   waveManager: {fileID: 0}
+  mirrorImg: {fileID: 0}
 --- !u!95 &644969096
 Animator:
   serializedVersion: 3
@@ -27017,6 +27035,107 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1 &690356568
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 690356571}
+  - component: {fileID: 690356570}
+  - component: {fileID: 690356569}
+  m_Layer: 0
+  m_Name: Brush
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &690356569
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690356568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 860611cc84144924c8a95e2a1670d236, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Offset: {x: 0, y: 0}
+  IsUndoEnabled: 1
+  m_brushTilemap: {fileID: 0}
+--- !u!114 &690356570
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690356568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dec3ca0fe88506448df84e8bf55b2dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowGrid: 1
+  InnerPadding: 0
+  ColliderDepth: 0.1
+  ColliderType: 0
+  Collider2DType: 0
+  Collider2DOptimizationDisabled: 0
+  ShowColliderNormals: 1
+  ColliderDisplayMode: 0
+  IsUndoEnabled: 0
+  SortOrder: 0
+  ColliderGenerationMethod: 0
+  m_sortingLayer: 0
+  m_sortingLayerName: Default
+  m_orderInLayer: 0
+  m_material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_tintColor: {r: 1, g: 1, b: 1, a: 1}
+  m_pixelSnap: 0
+  m_maskInteraction: 0
+  m_isVisible: 1
+  m_allowPaintingOutOfBounds: 1
+  m_autoShrink: 0
+  m_enableUndoWhilePainting: 1
+  m_isTrigger: 0
+  m_physicMaterial: {fileID: 0}
+  m_physicMaterial2D: {fileID: 0}
+  m_cellSize: {x: 0, y: 0}
+  m_mapBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_tileset: {fileID: 0}
+  m_minGridX: 0
+  m_minGridY: 0
+  m_maxGridX: 0
+  m_maxGridY: 0
+  m_parentTilemapGroup: {fileID: 0}
+  m_parallaxFactor: {x: 1, y: 1}
+  m_chunkRendererProperties:
+    castShadows: 0
+    receiveShadows: 0
+    useLightProbes: 0
+    reflectionProbeUsage: 0
+    anchorOverride: {fileID: 0}
+--- !u!4 &690356571
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690356568}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &696720137
 GameObject:
   m_ObjectHideFlags: 0
@@ -32521,18 +32640,24 @@ MonoBehaviour:
   waves:
   - enemies: {fileID: 7516535775449187497, guid: 2135f4c88f6ea4a00a870eefce9e117f, type: 3}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   enemiesLevel: 17
   miniBossLevel: 20
   flipEnemies: 0
+  facePlayer: 0
   alwaysAttackPlayer: 1
   jumpForce: 5
   waveManager: {fileID: 0}
+  mirrorImg: {fileID: 0}
 --- !u!95 &842067881
 Animator:
   serializedVersion: 3
@@ -32799,7 +32924,7 @@ GameObject:
   - component: {fileID: 950412323}
   - component: {fileID: 950412322}
   - component: {fileID: 950412326}
-  m_Layer: 19
+  m_Layer: 22
   m_Name: -1_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33532,18 +33657,24 @@ MonoBehaviour:
   waves:
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 5074059084330990211, guid: dbdc38e5c4d9e4010a5db16207660acf, type: 3}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   enemiesLevel: 17
   miniBossLevel: 20
   flipEnemies: 1
+  facePlayer: 0
   alwaysAttackPlayer: 1
   jumpForce: 5
   waveManager: {fileID: 0}
+  mirrorImg: {fileID: 0}
 --- !u!95 &1079224628
 Animator:
   serializedVersion: 3
@@ -39003,7 +39134,7 @@ MonoBehaviour:
   - {fileID: 2032091209}
   - {fileID: 194502123}
   - {fileID: 88188918}
-  m_selectedIndex: 1
+  m_selectedIndex: 4
   m_unselectedColorMultiplier: 1
   m_defaultTilemapWindowVisible: 0
   m_displayTilemapRList: 1
@@ -44213,7 +44344,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1976175703200949028, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.9959238
+      value: 2.98855
       objectReference: {fileID: 0}
     - target: {fileID: 1976175703200949028, guid: 08f795b29b1d44e62922ad18b8fd85a3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -44424,18 +44555,24 @@ MonoBehaviour:
   waves:
   - enemies: {fileID: 7516535775449187497, guid: 2135f4c88f6ea4a00a870eefce9e117f, type: 3}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   enemiesLevel: 17
   miniBossLevel: 20
   flipEnemies: 1
+  facePlayer: 0
   alwaysAttackPlayer: 1
   jumpForce: 5
   waveManager: {fileID: 0}
+  mirrorImg: {fileID: 0}
 --- !u!95 &1598984898
 Animator:
   serializedVersion: 3
@@ -44939,107 +45076,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1673280276
-GameObject:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1673280279}
-  - component: {fileID: 1673280278}
-  - component: {fileID: 1673280277}
-  m_Layer: 0
-  m_Name: Brush
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1673280277
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1673280276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 860611cc84144924c8a95e2a1670d236, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Offset: {x: 0, y: 0}
-  IsUndoEnabled: 1
-  m_brushTilemap: {fileID: 1673280278}
---- !u!114 &1673280278
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1673280276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dec3ca0fe88506448df84e8bf55b2dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowGrid: 1
-  InnerPadding: 0
-  ColliderDepth: 0.1
-  ColliderType: 0
-  Collider2DType: 0
-  Collider2DOptimizationDisabled: 0
-  ShowColliderNormals: 1
-  ColliderDisplayMode: 0
-  IsUndoEnabled: 0
-  SortOrder: 0
-  ColliderGenerationMethod: 0
-  m_sortingLayer: 0
-  m_sortingLayerName: Default
-  m_orderInLayer: 0
-  m_material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_tintColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.7}
-  m_pixelSnap: 0
-  m_maskInteraction: 0
-  m_isVisible: 0
-  m_allowPaintingOutOfBounds: 1
-  m_autoShrink: 0
-  m_enableUndoWhilePainting: 1
-  m_isTrigger: 0
-  m_physicMaterial: {fileID: 0}
-  m_physicMaterial2D: {fileID: 0}
-  m_cellSize: {x: 1.26, y: 1.26}
-  m_mapBounds:
-    m_Center: {x: 0.63, y: 0.63, z: 0}
-    m_Extent: {x: 0.63, y: 0.63, z: 0}
-  m_tileset: {fileID: 11400000, guid: 755bfc859bee94889aa202281d94f327, type: 2}
-  m_minGridX: 0
-  m_minGridY: 0
-  m_maxGridX: 0
-  m_maxGridY: 0
-  m_parentTilemapGroup: {fileID: 0}
-  m_parallaxFactor: {x: 1, y: 1}
-  m_chunkRendererProperties:
-    castShadows: 0
-    receiveShadows: 0
-    useLightProbes: 0
-    reflectionProbeUsage: 0
-    anchorOverride: {fileID: 0}
---- !u!4 &1673280279
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1673280276}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 56.7, y: 13.86, z: -0.01}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1676008434
 GameObject:
   m_ObjectHideFlags: 1
@@ -45448,18 +45484,24 @@ MonoBehaviour:
   waves:
   - enemies: {fileID: 7516535775449187497, guid: 2135f4c88f6ea4a00a870eefce9e117f, type: 3}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 5798721009978950976, guid: 2d9369dfcfd8c4620a3255127ea3ef6c, type: 3}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 7875437770724249734, guid: 27d7300e0b3fa4919982a671ad286497, type: 3}
     canUseBuffs: 1
+    jumpOut: 1
   enemiesLevel: 17
   miniBossLevel: 20
   flipEnemies: 1
+  facePlayer: 0
   alwaysAttackPlayer: 1
   jumpForce: 5
   waveManager: {fileID: 0}
+  mirrorImg: {fileID: 0}
 --- !u!95 &1807794649
 Animator:
   serializedVersion: 3
@@ -45610,18 +45652,24 @@ MonoBehaviour:
   waves:
   - enemies: {fileID: 7516535775449187497, guid: 2135f4c88f6ea4a00a870eefce9e117f, type: 3}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 3518313580975055849, guid: a2eb64faae6e14b3ea98aa665ebdc87d, type: 3}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   enemiesLevel: 17
   miniBossLevel: 20
   flipEnemies: 1
+  facePlayer: 0
   alwaysAttackPlayer: 1
   jumpForce: 5
   waveManager: {fileID: 0}
+  mirrorImg: {fileID: 0}
 --- !u!95 &1905436545
 Animator:
   serializedVersion: 3
@@ -45690,18 +45738,24 @@ MonoBehaviour:
   waves:
   - enemies: {fileID: 7516535775449187497, guid: 2135f4c88f6ea4a00a870eefce9e117f, type: 3}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 3518313580975055849, guid: a2eb64faae6e14b3ea98aa665ebdc87d, type: 3}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   enemiesLevel: 17
   miniBossLevel: 20
   flipEnemies: 0
+  facePlayer: 0
   alwaysAttackPlayer: 1
   jumpForce: 5
   waveManager: {fileID: 0}
+  mirrorImg: {fileID: 0}
 --- !u!95 &1918192734
 Animator:
   serializedVersion: 3
@@ -45770,18 +45824,24 @@ MonoBehaviour:
   waves:
   - enemies: {fileID: 7516535775449187497, guid: 2135f4c88f6ea4a00a870eefce9e117f, type: 3}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 3518313580975055849, guid: a2eb64faae6e14b3ea98aa665ebdc87d, type: 3}
     canUseBuffs: 1
+    jumpOut: 1
   - enemies: {fileID: 0}
     canUseBuffs: 1
+    jumpOut: 1
   enemiesLevel: 17
   miniBossLevel: 20
   flipEnemies: 0
+  facePlayer: 0
   alwaysAttackPlayer: 1
   jumpForce: 5
   waveManager: {fileID: 0}
+  mirrorImg: {fileID: 0}
 --- !u!95 &1956249853
 Animator:
   serializedVersion: 3
@@ -51252,7 +51312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2080342810}
   - component: {fileID: 2080342809}
-  m_Layer: 0
+  m_Layer: 22
   m_Name: A*
   m_TagString: Untagged
   m_Icon: {fileID: 0}

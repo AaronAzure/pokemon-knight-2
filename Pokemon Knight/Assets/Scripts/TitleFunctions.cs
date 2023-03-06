@@ -97,12 +97,16 @@ public class TitleFunctions : MonoBehaviour
             // SelectDefaultButton();
         }
     }
+	public void SELECT_START_BUTTON()
+	{
+		firstStartMenuButton.Select();
+	}
     public void SELECT_DEFAULT_BUTTON()
     {
-        if      (firstSaveGameButton.IsInteractable())
-            firstSaveGameButton.Select();
-        else if (firstStartMenuButton.IsInteractable())
+        if 		(firstStartMenuButton.IsInteractable())
             firstStartMenuButton.Select();
+        else if (firstSaveGameButton.IsInteractable())
+            firstSaveGameButton.Select();
         else if (loadedGameFileButton.IsInteractable())
             loadedGameFileButton.Select();
     }
@@ -161,7 +165,6 @@ public class TitleFunctions : MonoBehaviour
         fileNumTxt.text = (fileNumber+1).ToString() + ".";
         loadedGameFileButton.Select();
         anim.SetTrigger("next");
-        // anim.SetBool("toFile", true);
     }
     public void NAMING_FILE()
     {
