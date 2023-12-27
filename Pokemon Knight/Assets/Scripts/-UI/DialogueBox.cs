@@ -70,9 +70,11 @@ public class DialogueBox : MonoBehaviour
         // Debug.Log("saving...");
         playerControls.CaughtAPokemon(pokemonName); //? OPENS ANOTHER UI
         playerControls.SaveState(false);
+		playerControls.PAUSE_GAME();
 
         // SELECT_DEFAULT_BUTTON();
         CloseDialogue(true);
+		playerControls.inCutscene = true;
     }
 
 
@@ -92,8 +94,10 @@ public class DialogueBox : MonoBehaviour
 
         playerControls.ShowUpgradeAcquired(true);   //? OPENS ANOTHER UI
         playerControls.SaveState(false);
+		playerControls.PAUSE_GAME();
 
         CloseDialogue(true);
+		playerControls.inCutscene = true;
     }
 
 
@@ -109,11 +113,12 @@ public class DialogueBox : MonoBehaviour
         temp.Add(name);
         PlayerPrefsElite.SetStringArray("itemsObtained" + PlayerPrefsElite.GetInt("gameNumber"), temp.ToArray());
         
-        playerControls.CheckObtainedItems();    //? OPENS ANOTHER UI
-
+        playerControls.CheckObtainedItems(true, false);    //? OPENS ANOTHER UI
         playerControls.SaveState(false);
+		playerControls.PAUSE_GAME();
 
         CloseDialogue(true);
+		playerControls.inCutscene = true;
     }
     
 }

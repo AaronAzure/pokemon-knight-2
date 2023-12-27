@@ -43,7 +43,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 3ae8c274e0aea40aebe03a857c202f41, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -419,6 +419,8 @@ MonoBehaviour:
   - {fileID: 5440643809216196249}
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   powerup: 
+  spawner: {fileID: 0}
+  bossRoom: {fileID: 0}
 --- !u!210 &6162353522805553449
 SortingGroup:
   m_ObjectHideFlags: 0

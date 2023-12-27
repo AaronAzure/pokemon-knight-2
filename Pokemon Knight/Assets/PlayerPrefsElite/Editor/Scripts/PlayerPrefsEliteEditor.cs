@@ -102,7 +102,7 @@ public class PlayerPrefsEliteEditor : EditorWindow
 		EditorPrefs.SetInt("PPElockProtected", 1);
 		EditorPrefs.SetInt("rtUpdate", 1);
 		EditorPrefs.SetFloat("updInterval", 0.3f);
-		EditorPrefs.SetInt("PPEkeyfieldsize", 80);
+		EditorPrefs.SetInt("PPEkeyfieldsize", 160);
 		EditorPrefs.SetInt("PPEvaluefieldsize", 227);
 	}
 
@@ -643,7 +643,7 @@ public class PlayerPrefsEliteEditor : EditorWindow
 				rtUpdate = EditorPrefs.GetInt("rtUpdate") == 1 ? true : false;
 				lockProtected = EditorPrefs.GetInt("PPElockProtected") == 1 ? true : false;
 				updInterval = EditorPrefs.GetFloat("updInterval");
-				keyfieldsize = 80;
+				keyfieldsize = 160;
 				valuefieldsize = 227;
 			}
 			GUILayout.EndHorizontal();
@@ -1820,7 +1820,7 @@ public class PlayerPrefsEliteEditor : EditorWindow
 		updInterval = 0.2f;
 		updIntervalNP = 1f;
 		showdrop = new bool[6];
-		keyfieldsize = 80;
+		keyfieldsize = 160;
 		valuefieldsize = 227;
 		objNames = "";
 	}

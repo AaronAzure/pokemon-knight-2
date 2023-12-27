@@ -144,7 +144,7 @@ public class Victreebel : Enemy
             {
                 atkPattern++;
                 mainAnim.SetTrigger("attack");
-                JUMP_CHANCE();
+                JUMP_CHANCE(target.position.y - this.transform.position.y < 0);
             }
             else if (atkPattern != maxAtkPattern)
             {
@@ -187,12 +187,12 @@ public class Victreebel : Enemy
         jumpLeft = PlayerIsToTheLeft();
     }
 
-    public void JUMP_CHANCE()
+    public void JUMP_CHANCE(bool guaranteed=false)
     {
         if (!IsGrounded())
             return;
 
-        if (Random.Range(0, 3) == 0)
+        if (guaranteed || Random.Range(0, 3) == 0)
             body.AddForce(new Vector2(0, jumpForce + 5), ForceMode2D.Impulse);
     }
 

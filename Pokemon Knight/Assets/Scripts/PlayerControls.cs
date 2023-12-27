@@ -308,6 +308,7 @@ public class PlayerControls : MonoBehaviour
     public bool graciousHeartCharm;
     public bool milkAddictCharm;
     public bool sturdyCharm;
+	[HideInInspector] public bool canSturdy;
     public bool swiftCharm;
     [Space] [Range(0f,1f)] public float coolDownSpeed=0.7f;
     [SerializeField] private GameObject furyYellowObj;
@@ -1034,7 +1035,7 @@ public class PlayerControls : MonoBehaviour
         //* RESTING
         else if (resting)
         {
-            if (NO())
+            if (NO() || player.GetAxis("Move Vertical") < -0.9f)
                 LeaveBench();
         }
         
@@ -1516,6 +1517,116 @@ public class PlayerControls : MonoBehaviour
         
     }
 
+	
+	[SerializeField] bool isWallJumping;
+	[SerializeField] float wallJumpTimer;
+	[SerializeField] float wallJumpMin=0.125f; // can be released
+	[SerializeField] float wallJumpControlThreshold=0.25f; // can control
+	[SerializeField] float wallJumpThreshold=0.5f; // max height
+	[SerializeField] [Range(0f,1f)] float jumpCutoffForce=0.75f;
+	[SerializeField] [Range(0f,1f)] float maxJumpCutoffForce=0.6f;
+	[SerializeField] float jumpMaxTimer=0.5f;
+	[SerializeField] bool isJumping;
+	[SerializeField] bool jumpRegistered;
+	[SerializeField] private float jumpBufferTimer;
+	[SerializeField] float jumpBufferThreshold=0.2f;
+	[SerializeField] private float coyoteTimer;
+	[SerializeField] float coyoteThreshold=0.1f;
+
+	// update
+	void JumpMechanic()
+	{
+		// Wall jump
+		if (isWallJumping)
+		{
+			// wallJumpTimer += Time.deltaTime;
+
+			// reach jump hold threshold
+			if (wallJumpTimer >= wallJumpThreshold)
+			{
+				isWallJumping = false;
+				wallJumpTimer = 0;
+				body.velocity = new Vector2(body.velocity.x, body.velocity.y * maxJumpCutoffForce);
+			}
+			// release jump button
+			// else if (CheckIsCeiling() || (!player.GetButton("B") && wallJumpTimer >= wallJumpMin))
+			else if ((!player.GetButton("B") && wallJumpTimer >= wallJumpMin))
+			{
+				isWallJumping = false;
+				wallJumpTimer = 0;
+				body.velocity = new Vector2(body.velocity.x, body.velocity.y * jumpCutoffForce);
+			}
+		}
+		// Regular jump
+		else
+		{
+			// First Frame of Jump
+			if (player.GetButtonDown("B"))
+			{
+				jumpBufferTimer = 0;
+				jumpRegistered = true;
+			}
+			// First Frame of Jump
+			if (!isJumping && jumpRegistered && jumpBufferTimer < jumpBufferThreshold && coyoteTimer < coyoteThreshold)
+			{
+				jumpRegistered = false;
+				jumpBufferTimer = jumpBufferThreshold;
+				Jump();
+				// jumpSound?.Play();
+			}
+			// Released jump button
+			// else if (player.GetButtonUp("B") || CheckIsCeiling() || isLedgeGrabbing)
+			else if (player.GetButtonUp("B"))
+			{
+				if (isJumping)
+					body.velocity = new Vector2(body.velocity.x, body.velocity.y * jumpCutoffForce);
+				jumpRegistered = isJumping = false;
+				coyoteTimer = coyoteThreshold;
+			}
+			// Holding jump button
+			else if (isJumping && player.GetButton("B"))
+			{
+
+			}
+			// wall sliding
+			// else if (isWallSliding && player.GetButtonDown("B"))
+			// {
+			// 	WallJump();
+			// }
+		}
+	}
+
+	// fixed update
+	void JumpCalculation()
+	{
+		if (isWallJumping)
+		{
+			wallJumpTimer += Time.fixedDeltaTime;
+		}
+		else
+		{
+			if (jumpRegistered && jumpBufferTimer < jumpBufferThreshold)
+			{
+				jumpBufferTimer += Time.fixedDeltaTime;
+			}
+			if (isJumping && player.GetButton("B"))
+			{
+				if (jumpTimer < jumpMaxTimer)
+				{
+					body.velocity = new Vector2(body.velocity.x, jumpHeight);
+					jumpTimer += Time.deltaTime;
+				}
+				// jump over
+				else
+				{
+					if (isJumping)
+						body.velocity = new Vector2(body.velocity.x, body.velocity.y * maxJumpCutoffForce);
+					isJumping = false;
+					jumpTimer = 0;
+				}
+			}
+		}
+	}
     private void ChangeInHp(float hpPercent)
     {
         if (crisisCharm && lastHp != hp && hp > 0)
@@ -1892,6 +2003,7 @@ public class PlayerControls : MonoBehaviour
     public void FullRestore()
     {
         hp = maxHp;
+		if (sturdyCharm) canSturdy = true;
 		if (moomooUi != null)
         {
             for (int i=nMoomooMilkLeft ; i<moomooUi.Length ; i++)
@@ -1952,8 +2064,11 @@ public class PlayerControls : MonoBehaviour
         {
             Debug.Log("<color=#FF8800>Took " + dmg + " dmg</color>");
             anim.SetBool("isDrinking", false);
-            if (sturdyCharm && hp > 1)
+            if (sturdyCharm && canSturdy && hp > 1)
+			{
                 hp = Mathf.Max(1, hp - Mathf.FloorToInt(dmg * (easyMode ? 0.7f : 1)));
+				canSturdy = false;
+			}
             else
                 hp -= Mathf.FloorToInt(dmg * (easyMode ? 0.7f : 1));
 
@@ -1966,6 +2081,7 @@ public class PlayerControls : MonoBehaviour
                 {
                     damageIndicatorAnim.SetTrigger("injured");
                     damageIndicatorAnim.SetFloat("fadeSpeed", hpImg.fillAmount * hpImg.fillAmount);
+					// CinemachineShake.Instance.ShakeCam(20, 1f);
                 }
                 //* WEAK ATTACK (NO knockback)
                 else if (damageIndicatorAnim != null && force == 0)
@@ -3210,14 +3326,13 @@ public class PlayerControls : MonoBehaviour
         if (subseqAnim == null)
         {
             inCutscene = canMoveAfterAnimation;
+			Debug.Log($"<color=green>canMoveAfterAnimation {canMoveAfterAnimation}</color>");
             if (talkingToNpc)
             {
                 inCutscene = true;
                 dialogue.OpenDialogue(this);
                 // inCutscene = false;
             }
-            
-
 
             Time.timeScale = 1;
             if (descAnim != null)
@@ -3407,8 +3522,6 @@ public class PlayerControls : MonoBehaviour
                     epu.gameObject.SetActive(true);
                 }
             }
-            // if (!foundMatch)
-            //     Debug.LogError("PlayerControls.CaughtAPokemon - unregistered pokemon (ADD TO boxPokemonsToActivate)");
 
             // CheckEquippablePokemon();
             return foundMatch;
@@ -3446,7 +3559,7 @@ public class PlayerControls : MonoBehaviour
     }
     
     //* Set all obtained items gameObject (buttons) active - Start(), GainItem()
-    public void CheckObtainedItems(bool newItem=true)
+    public void CheckObtainedItems(bool newItem=true, bool withCo=true)
     {
         if (PlayerPrefsElite.VerifyArray("itemsObtained" + gameNumber))
         {
@@ -3461,7 +3574,13 @@ public class PlayerControls : MonoBehaviour
                     {
                         descAnim = heldItem.itemAcqDesc.anim;
                         heldItem.ShowDescriptionOfAcquired();
-                        StartCoroutine( ShowDescriptionOfAcquiredCo() );
+						if (withCo)
+                        	StartCoroutine( ShowDescriptionOfAcquiredCo() );
+						else 
+						{
+							descAnim.gameObject.SetActive(true);
+        					inCutscene = true;
+						}
                     }
                 }
             }
@@ -3527,7 +3646,7 @@ public class PlayerControls : MonoBehaviour
 
     public void ShowUpgradeAcquired(bool keychainUpgrade)
     {
-        inCutscene = false;
+        // inCutscene = false;
         
         if (keychainUpgrade)
             descAnim = keychainUpgradeAnim;

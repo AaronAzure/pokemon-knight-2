@@ -174,7 +174,7 @@ public class Weepinbell : Enemy
         if ((keepAttacking || alwaysAttackPlayer) && missCount % 3 != 0)
         {
             mainAnim.SetTrigger("attack");
-            JumpChance();
+            JumpChance(target.position.y - this.transform.position.y < 0);
         }
         // CHASE
         else if ((keepAttacking || alwaysAttackPlayer))

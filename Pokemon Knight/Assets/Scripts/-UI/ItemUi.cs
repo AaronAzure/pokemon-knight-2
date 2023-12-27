@@ -101,6 +101,7 @@ public class ItemUi : MonoBehaviour
                     break;
                 case "sturdyCharm":
                     playerControls.sturdyCharm = false;
+                    playerControls.canSturdy = false;
                     break;
                 default:
                     Debug.LogError("ItemUi.itemName is not yet registered to a matching item");
@@ -145,6 +146,7 @@ public class ItemUi : MonoBehaviour
                     break;
                 case "sturdyCharm":
                     playerControls.sturdyCharm = true;
+                    playerControls.canSturdy = true;
                     break;
                 default:
                     Debug.LogError("ItemUi.itemName is not yet registered to a matching item");

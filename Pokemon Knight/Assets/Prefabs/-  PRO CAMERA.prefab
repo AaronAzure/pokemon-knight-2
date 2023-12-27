@@ -72,6 +72,7 @@ GameObject:
   - component: {fileID: 1976175702109154766}
   - component: {fileID: 1976175702109154764}
   - component: {fileID: 1976175702109154771}
+  - component: {fileID: 6895026956724317405}
   m_Layer: 0
   m_Name: CMV cam
   m_TagString: Untagged
@@ -158,6 +159,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a8a05de0ac134f4f9d01bef6b9da077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6895026956724317405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976175702109154767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03cde63c09834d1f9c622c1bd3770e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cm: {fileID: 1976175702109154766}
 --- !u!1 &1976175702623803058
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,6 +183,7 @@ GameObject:
   - component: {fileID: 1976175702623803057}
   - component: {fileID: 1976175702623803063}
   - component: {fileID: 1976175702623803056}
+  - component: {fileID: 6980773684819412939}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -245,6 +260,23 @@ MonoBehaviour:
   m_MaximumFOV: 60
   m_MinimumOrthoSize: 1
   m_MaximumOrthoSize: 5000
+--- !u!114 &6980773684819412939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976175702623803058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 0
+  mNoiseOffsets: {x: 404.48877, y: 820.29724, z: -982.6345}
 --- !u!1 &1976175703103308493
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,7 +355,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1976175703200949031}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.332778, y: 1.7500002, z: -10}
+  m_LocalPosition: {x: 2.9884167, y: 1.7500002, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4138279427511021}
