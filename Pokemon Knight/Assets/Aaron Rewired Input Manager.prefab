@@ -141,7 +141,7 @@ MonoBehaviour:
         ignoreInputWhenAppNotInFocus: 1
         useNativeKeyboard: 1
         useNativeMouse: 1
-      maxJoysticksPerPlayer: 1
+      maxJoysticksPerPlayer: 100
       autoAssignJoysticks: 1
       assignJoysticksToPlayingPlayersOnly: 0
       distributeJoysticksEvenly: 1
@@ -564,18 +564,18 @@ MonoBehaviour:
     inputBehaviors:
     - _id: 0
       _name: Default
-      _joystickAxisSensitivity: 10
+      _joystickAxisSensitivity: 1
       _digitalAxisSimulation: 1
       _digitalAxisSnap: 1
       _digitalAxisInstantReverse: 0
-      _digitalAxisGravity: 10
-      _digitalAxisSensitivity: 10
+      _digitalAxisGravity: 20
+      _digitalAxisSensitivity: 20
       _mouseXYAxisMode: 0
       _mouseOtherAxisMode: 0
-      _mouseXYAxisSensitivity: 10
+      _mouseXYAxisSensitivity: 1
       _mouseXYAxisDeltaCalc: 0
-      _mouseOtherAxisSensitivity: 10
-      _customControllerAxisSensitivity: 10
+      _mouseOtherAxisSensitivity: 1
+      _customControllerAxisSensitivity: 1
       _buttonDoublePressSpeed: 0.3
       _buttonShortPressTime: 0.25
       _buttonShortPressExpiresIn: 0
