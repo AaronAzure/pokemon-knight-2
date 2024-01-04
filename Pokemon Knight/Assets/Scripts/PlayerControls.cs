@@ -6,7 +6,11 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Rewired;
 using Rewired.Integration.UnityUI;
-#if UNITY_EDITOR 
+using UnityEngine.Rendering;
+using Cinemachine;
+
+
+#if UNITY_EDITOR
 using UnityEditor;
 #endif
 // using Com.LuisPedroFonseca.ProCamera2D;
@@ -227,8 +231,9 @@ public class PlayerControls : MonoBehaviour
 
 	[Space]
 	[SerializeField] private Transform feetPos; // To detect ground
-	[SerializeField] private float feetRadius;
 	[SerializeField] private Vector2 feetBox;
+	[SerializeField] Transform ceilingCheck;
+	[SerializeField] Vector2 ceilingCheckSize;
 	[SerializeField] private LayerMask whatIsGround;
 	[SerializeField] private LayerMask whatIsWater;
 	[SerializeField] public bool grounded = true;
@@ -390,13 +395,15 @@ public class PlayerControls : MonoBehaviour
 	public bool extraRange;
 	[Space] public bool easyMode;
 
-	private static PlayerControls playerInstance;   // There can only be one
+	[SerializeField] float globalShakeForce=1f;
+
+	public static PlayerControls Instance;   // There can only be one
 
 		
 	private void Awake() {
 		DontDestroyOnLoad(this.gameObject);
-		if (playerInstance == null)
-			playerInstance = this;
+		if (Instance == null)
+			Instance = this;
 		else 
 			Destroy(this.gameObject);
 		
@@ -1210,10 +1217,7 @@ public class PlayerControls : MonoBehaviour
 			if (!dodging)
 			{
 				JumpMechanic();
-				// if (!inWater && grounded && player.GetButtonDown("B"))
-				// 	Jump();
-				// else if (inWater && CheckAtWaterSurface() && player.GetButtonDown("B"))
-				// 	Jump();
+				
 				//* Double Jump (mid air jump)
 				if (canDoubleJump)
 				{
@@ -1223,12 +1227,12 @@ public class PlayerControls : MonoBehaviour
 						nExtraJumpsLeft--;
 						MidairJump();
 					}
-					// else if (inWater && !butterfreeOut && nExtraJumpsLeft > 0 && CheckAtWaterSurface()
-					//     && player.GetButtonDown("B"))
-					// {
-					//     nExtraJumpsLeft--;
-					//     MidairJump();
-					// }
+					else if (inWater && !butterfreeOut && nExtraJumpsLeft > 0 && CheckAtWaterSurface()
+					    && player.GetButtonDown("B"))
+					{
+					    nExtraJumpsLeft--;
+					    MidairJump();
+					}
 				}
 
 				if (canGroundPound && !inWater && !grounded && 
@@ -1292,6 +1296,10 @@ public class PlayerControls : MonoBehaviour
 		}
 	}
 
+	bool CheckIsCeiling()
+	{
+		return (!grounded && Physics2D.OverlapBox(ceilingCheck.position, ceilingCheckSize, 0, whatIsGround));
+	}
 	private void SummonPokemon(int slot, string button)
 	{
 		if (allies[ slot ] != null && (!inWater || allies[ slot ].aquatic))
@@ -1562,8 +1570,7 @@ public class PlayerControls : MonoBehaviour
 				body.velocity = new Vector2(body.velocity.x, body.velocity.y * maxJumpCutoffForce);
 			}
 			// release jump button
-			// else if (CheckIsCeiling() || (!player.GetButton("B") && wallJumpTimer >= wallJumpMin))
-			else if (!player.GetButton("B") && wallJumpTimer >= wallJumpMin)
+			else if (CheckIsCeiling() || (!player.GetButton("B") && wallJumpTimer >= wallJumpMin))
 			{
 				isWallJumping = false;
 				wallJumpTimer = 0;
@@ -1584,12 +1591,15 @@ public class PlayerControls : MonoBehaviour
 			{
 				jumpRegistered = false;
 				jumpBufferTimer = jumpBufferThreshold;
-				Jump();
+				if (!inWater)
+					Jump();
+				else if (inWater && CheckAtWaterSurface())
+					Jump();
+				// Jump();
 				// jumpSound?.Play();
 			}
 			// Released jump button
-			// else if (player.GetButtonUp("B") || CheckIsCeiling() || isLedgeGrabbing)
-			else if (player.GetButtonUp("B"))
+			else if (player.GetButtonUp("B") || CheckIsCeiling() || ledgeGrabbing)
 			{
 				if (jumping)
 					body.velocity = new Vector2(body.velocity.x, body.velocity.y * jumpCutoffForce);
@@ -2963,7 +2973,7 @@ public class PlayerControls : MonoBehaviour
 		}
 		if (mew != null)
 			Destroy(mew.gameObject);
-		playerInstance = null;
+		Instance = null;
 		
 		Time.timeScale = 1;
 		this.enabled = false;
@@ -3917,6 +3927,22 @@ public class PlayerControls : MonoBehaviour
 			DecreaseNumberOfMoomooMilk();
 			FullRestore();
 		}
+	}
+
+
+	// todo -------------------------------------------------------------------
+	// todo ----------------------- CAMERA SHAKE ------------------------------
+
+	[SerializeField] CinemachineImpulseSource enemyHitImpluse;
+
+	public void EnemyHitShakeCamera()
+	{
+		if (enemyHitImpluse != null)
+			enemyHitImpluse.GenerateImpulse(globalShakeForce);
+	}
+	public void ShakeCamera(CinemachineImpulseSource src)
+	{
+		src.GenerateImpulse(globalShakeForce);
 	}
 
 }

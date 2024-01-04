@@ -438,6 +438,7 @@ public abstract class Enemy : MonoBehaviour
         if (dontGetHitTwice != null && dontGetHitTwice == registerAttack) {}
         else if (inCutscene && hp > 1)
         {
+			PlayerControls.Instance.EnemyHitShakeCamera();
             hp--;
         }
         else if (!inCutscene && hp > 0)
@@ -446,11 +447,13 @@ public abstract class Enemy : MonoBehaviour
             if (mustDmgBeforeFight  && !bossBattleBegin && !playerInBossRoom)
                 return;
 
+			
             //* PREVENTS GETTING HIT BY VINE WHIP TWICE
             if (registerAttack != null)
                 dontGetHitTwice = registerAttack;
             if (hp > 0)
             {
+				PlayerControls.Instance.EnemyHitShakeCamera();
                 if (defenseStage == 0 || ignoreDef)
                     hp -= dmg;
                 else
@@ -636,6 +639,12 @@ public abstract class Enemy : MonoBehaviour
                 renderer.material = origMat;
         }
 	}
+
+	// protected bool PlayerIsToTheRight()
+	// {
+	// 	if (target == null) return false;
+	// 	return (target.transform.position.x - self.position.x) > 0;
+	// }
 
     protected bool IsGrounded()
     {

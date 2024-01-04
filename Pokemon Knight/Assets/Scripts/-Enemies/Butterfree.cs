@@ -33,6 +33,7 @@ public class Butterfree : Enemy
     public float poisonPowderAttackTimer=1;
     private int origAtkDmg;
     public bool performingPoisonPowder;
+	[SerializeField] float distToPlayer=4;
 
 
     public override void Setup()
@@ -90,6 +91,12 @@ public class Butterfree : Enemy
         targetLostCo = null;
     }
 
+	protected bool PlayerIsToTheRight()
+	{
+		if (target == null) return false;
+		return (target.transform.position.x - transform.position.x) > 0;
+	}
+
     // Start is called before the first frame update
     void FixedUpdate() 
     {
@@ -102,7 +109,18 @@ public class Butterfree : Enemy
                 {
                     if (hp > 0 && !receivingKnockback)
                     {
-                        Vector3 dir = (target.position + new Vector3(0,1) - this.transform.position).normalized;
+						RaycastHit2D targetInfo = Physics2D.Raycast(
+							target.position, 
+							new Vector2((PlayerIsToTheRight() ? -1 : 1), 0.5f),  
+							distToPlayer,
+							whatIsGround
+						);
+						Vector3 destPos = (targetInfo.collider != null) ? 
+							targetInfo.point : 
+							new Vector2((PlayerIsToTheRight() ? -1 : 1), 0.5f) * distToPlayer + (Vector2) target.position;
+
+                        Vector3 dir = (destPos + new Vector3(0,1) - this.transform.position).normalized;
+                        // Vector3 dir = (target.position + new Vector3(0,1) - this.transform.position).normalized;
                         //* If at edge, then turn around
                         body.AddForce(dir * 5 * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
                         CapVelocity();

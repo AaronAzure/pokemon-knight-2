@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: 6948537191354315187}
   - component: {fileID: 1568939497178970862}
   - component: {fileID: 1452307455988770854}
+  - component: {fileID: 2317399169449138361}
   m_Layer: 8
   m_Name: CATERPIE (enemy)
   m_TagString: Enemy
@@ -325,6 +326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lv: 1
   chapterLevel: 0
+  playerControls: {fileID: 0}
   mainAnim: {fileID: 6948537191354315187}
   pokemonSpr: {fileID: 0}
   maxHp: 50
@@ -351,6 +353,8 @@ MonoBehaviour:
   flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
   origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
   bossRoom: {fileID: 0}
+  destroyable: 0
+  explosion: {fileID: 0}
   calcExtraProjectileDmg: 0
   col: {fileID: 8531754209341023284}
   body: {fileID: 8531754209341023285}
@@ -384,8 +388,10 @@ MonoBehaviour:
   possessedAura: {fileID: 0}
   rageChargeObj: {fileID: 0}
   battleRoarObj: {fileID: 0}
-  inRage: 0
+  effects: []
+  cannotDmgPlayer: 0
   inCutscene: 0
+  inRage: 0
   inRageCutscene: 0
   isDefeated: 0
   powerupName: 
@@ -447,6 +453,48 @@ MonoBehaviour:
   expL: {fileID: 1856295254583195530, guid: d27018a99e7b54de48824b3e1560cb92, type: 3}
   expM: {fileID: 6231101655905951431, guid: 3154a023cb73842f6b4b377e97abffd7, type: 3}
   expS: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
+--- !u!114 &2317399169449138361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8531754209341023282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_RawSignal: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 1000
+    m_PropagationSpeed: 343
 --- !u!1 &8531754209428490774
 GameObject:
   m_ObjectHideFlags: 0
