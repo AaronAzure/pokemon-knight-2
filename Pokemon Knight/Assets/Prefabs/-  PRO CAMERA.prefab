@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1976175703103308492}
   m_RootOrder: 2
@@ -91,6 +92,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -2.47, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1976175702623803057}
   m_Father: {fileID: 1976175703103308492}
@@ -122,7 +124,10 @@ MonoBehaviour:
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
+    ModeOverride: 0
     LensShift: {x: 0, y: 0}
+    GateFit: 2
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -185,9 +190,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ApplyAfter: 1
   m_ChannelMask: 1
   m_Gain: 1
   m_Use2DDistance: 0
+  m_UseCameraSpace: 1
+  m_ReactionSettings:
+    m_SecondaryNoise: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_Duration: 0.5
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &1976175702623803058
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,6 +230,7 @@ Transform:
   m_LocalRotation: {x: 0.2131065, y: -0.116046704, z: 0.025501098, w: -0.9697776}
   m_LocalPosition: {x: 20.453701, y: 17.12784, z: 67.25485}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1976175702109154765}
   m_RootOrder: 0
@@ -320,6 +334,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1976175703200949028}
   - {fileID: 1976175702109154765}
@@ -374,6 +389,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3, y: 1.7500002, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4138279427511021}
   m_Father: {fileID: 1976175703103308492}
@@ -517,6 +533,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5569631520758403580}
   m_RootOrder: 2
@@ -594,6 +611,7 @@ Transform:
   m_LocalRotation: {x: 0.2131065, y: -0.116046704, z: 0.025501098, w: -0.9697776}
   m_LocalPosition: {x: 20.453701, y: 17.12784, z: 67.25485}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6629692757880317028}
   m_RootOrder: 0
@@ -681,6 +699,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1976175703200949028}
   m_RootOrder: 0
@@ -787,6 +806,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 278195183492923407}
   - {fileID: 6629692757880317028}
@@ -823,6 +843,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.33000004, y: 1.89, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2955007020723533515}
   m_Father: {fileID: 5569631520758403580}
@@ -854,7 +875,10 @@ MonoBehaviour:
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
+    ModeOverride: 0
     LensShift: {x: 0, y: 0}
+    GateFit: 2
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -919,6 +943,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5569631520758403580}
   m_RootOrder: 0

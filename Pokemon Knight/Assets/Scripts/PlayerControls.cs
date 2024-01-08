@@ -1849,7 +1849,8 @@ public class PlayerControls : MonoBehaviour
 		//* FINISH DODGE ROLL
 		yield return new WaitForSeconds(0.5f);
 		if (!dodgingThruScene)
-			body.velocity = Vector2.zero;
+			body.velocity = new Vector2(0, body.velocity.y);
+			// body.velocity = Vector2.zero;
 		dodging = false;
 		justDodged = true;
 	}

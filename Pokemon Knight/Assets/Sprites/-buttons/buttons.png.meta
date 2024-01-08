@@ -69,7 +69,7 @@ TextureImporter:
       213: 1654285022694055569
     second: buttons_21
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -90,6 +90,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -128,6 +129,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -143,6 +145,30 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -628,6 +654,29 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      buttons_8: 650656284835190746
+      buttons_10: 8359661988393023892
+      buttons_14: -7237472072382729174
+      buttons_2: -480254276019886394
+      buttons_0: -8191739510646017925
+      buttons_4: 2958514102543403041
+      buttons_6: -3219683103784253410
+      buttons_1: 3713549098536957005
+      buttons_11: -7138311499508957143
+      buttons_12: -9124727645642988533
+      buttons_21: 1654285022694055569
+      buttons_13: -2986871994705294210
+      buttons_19: 3349644112325863184
+      buttons_7: 5830344958925785552
+      buttons_17: 7174167584646727459
+      buttons_15: -8315295956674182197
+      buttons_16: -77006150763170147
+      buttons_5: 1008705478319212569
+      buttons_18: 6506343174705358099
+      buttons_20: 8864463547421281627
+      buttons_9: 4009284081192125275
+      buttons_3: -6460607209241108654
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

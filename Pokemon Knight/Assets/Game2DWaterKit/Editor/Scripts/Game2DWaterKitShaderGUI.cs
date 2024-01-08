@@ -910,7 +910,7 @@
                 _noiseTexturePreviews[channelIndex].Reinitialize(noiseTextureSize, noiseTextureSize);
 #else
             if (_noiseTexturePreviews[channelIndex].width != noiseTextureSize)
-                _noiseTexturePreviews[channelIndex].Resize(noiseTextureSize, noiseTextureSize);
+                _noiseTexturePreviews[channelIndex].Reinitialize(noiseTextureSize, noiseTextureSize);
 #endif
 
             var previewTex = _noiseTexturePreviews[channelIndex];
@@ -982,7 +982,7 @@
 #if UNITY_2021_2_0
                 noiseTexture.Reinitialize(size, size, TextureFormat.ARGB32, false);
 #else
-                noiseTexture.Resize(size, size, TextureFormat.ARGB32, false);
+                noiseTexture.Reinitialize(size, size, TextureFormat.ARGB32, false);
 #endif
                 noiseTextureSize = size;
             }

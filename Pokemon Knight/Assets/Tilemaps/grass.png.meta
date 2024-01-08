@@ -69,7 +69,7 @@ TextureImporter:
       213: -6742746201946172663
     second: vines-3
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -90,6 +90,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -128,6 +129,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -143,6 +145,30 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -628,6 +654,29 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      grass_9: -7650045499417364637
+      grass_10: -7102782719272619346
+      vines-2: 7882093760513265202
+      grass_11: 5760560697798805154
+      vines-1: -6402286615853794283
+      grass_0: 7932798033344189819
+      grass_3: -4875790746840711183
+      grass_2: -6996743899038756316
+      grass_4: 7008057662264404087
+      jungle-leaf-0: 1221758358402831077
+      jungle-leaf-2: 7485028316761915057
+      jungle-leaf-1: 1549955567050341098
+      grass_5: -4331507780233467490
+      vines-3: -6742746201946172663
+      grass_6: 3947305696912312628
+      grass_1: 917857947829267716
+      grass_7: 1511364853548294097
+      jungle-weed: 5979050371840818550
+      grass_8: -1196767453120055481
+      jungle-leaf-: -3605513636885208035
+      jungle-weed-1: -4157006506167928481
+      vines-0: 7062079563280921139
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

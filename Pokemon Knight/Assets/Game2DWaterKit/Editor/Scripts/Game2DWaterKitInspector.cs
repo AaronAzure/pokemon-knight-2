@@ -199,7 +199,7 @@
 #if UNITY_2021_2_0
             showPrefabUtility &= UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() == null;
 #else
-            showPrefabUtility &= UnityEditor.Experimental.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() == null;
+            showPrefabUtility &= UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() == null;
 #endif
 #endif
 

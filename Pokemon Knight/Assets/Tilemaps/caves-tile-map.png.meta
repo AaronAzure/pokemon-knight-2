@@ -84,7 +84,7 @@ TextureImporter:
       213: 6468747718747786578
     second: caves-tile-map_26
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -105,6 +105,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -143,6 +144,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -158,6 +160,30 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
     maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
@@ -748,6 +774,34 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      caves-tile-map_16: 5914909451146471033
+      caves-tile-map_21: 7100698234887080987
+      caves-tile-map_19: -7827318061607761891
+      caves-tile-map_9: -5996894045907144836
+      caves-tile-map_6: 6201763294968277186
+      caves-tile-map_4: -2018890760065512962
+      caves-tile-map_5: -5546628357595537035
+      caves-tile-map_11: -9184513959904940690
+      caves-tile-map_8: -7685711219184519437
+      caves-tile-map_1: 8847815470890975904
+      caves-tile-map_7: 2031745151373587118
+      caves-tile-map_14: -2640737295986509598
+      caves-tile-map_20: 5761217464840549747
+      caves-tile-map_17: -1641225259658418669
+      caves-tile-map_2: -7662408357191681357
+      caves-tile-map_15: 7704001058200384122
+      caves-tile-map_0: -3329314825550134815
+      caves-tile-map_10: -4105268237145580260
+      caves-tile-map_18: -1238275988311390260
+      caves-tile-map_22: -8271813025686420005
+      caves-tile-map_13: 2945468808082739916
+      caves-tile-map_12: 5474741773301457275
+      caves-tile-map_3: -6197237434660521766
+      caves-tile-map_26: 6468747718747786578
+      caves-tile-map_25: -1890278016115369811
+      caves-tile-map_23: -284122107755599863
+      caves-tile-map_24: -8005349546485510148
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
