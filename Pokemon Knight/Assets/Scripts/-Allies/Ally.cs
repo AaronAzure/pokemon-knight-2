@@ -56,6 +56,7 @@ public abstract class Ally : MonoBehaviour
 
     [Space] [Header("Physics")] 
     public bool aquatic=false;
+    public bool isFlying=false;
     private bool hitWater;
     private Coroutine co;
     [Space] [SerializeField] protected LayerMask whatIsGround;
@@ -153,6 +154,7 @@ public abstract class Ally : MonoBehaviour
                 obj.extraLevel = this.extraLevel;
                 obj.useUlt = this.useUlt;
                 obj.body.velocity = this.body.velocity;
+				if (obj.isFlying) obj.body.velocity *= 0.5f;
                 obj.trainer = this.trainer;
                 obj.button = this.button;
 
@@ -171,6 +173,7 @@ public abstract class Ally : MonoBehaviour
                 obj.extraLevel = this.extraLevel;
                 obj.useUlt = this.useUlt;
                 obj.body.velocity = this.body.velocity;
+				if (obj.isFlying) obj.body.velocity *= 0.5f;
                 obj.trainer = this.trainer;
                 obj.button = this.button;
 

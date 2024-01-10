@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class AllyCharmander : Ally
 {
@@ -29,4 +30,17 @@ public class AllyCharmander : Ally
                 obj.velocity *= -1;
         }
     }
+
+	public IEnumerator _STOP()
+	{
+		Vector3 origVel = body.velocity;
+
+		for (float i=0 ; i<=1 ; i += 0.1f)
+		{
+			yield return new WaitForSeconds(0.05f);
+			body.velocity = Vector3.Slerp(origVel, Vector3.zero, i);
+			if (body != null)
+				body.velocity *= 0.9f;
+		}
+	}
 }
