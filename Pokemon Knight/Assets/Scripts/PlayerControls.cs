@@ -2620,6 +2620,7 @@ public class PlayerControls : MonoBehaviour
 			furyYellowObj.SetActive(false);
 
 		inWater = false;
+		anim.SetBool("isSwimming", false);
 		isSleeping = false;
 		isParalysed = false;
 		inCutscene = false;
@@ -2985,7 +2986,10 @@ public class PlayerControls : MonoBehaviour
 	private void OnTriggerEnter2D(Collider2D other) 
 	{
 		if (other.CompareTag("Underwater"))
+		{
+			anim.SetBool("isSwimming", true);
 			inWater = true;
+		}
 			// nExtraJumpsLeft = nExtraJumps;
 		// if (other.CompareTag("Rage") && musicManager != null)
 		//     StartCoroutine( musicManager.TransitionMusic(musicManager.bossOutroMusic) );
@@ -2993,7 +2997,10 @@ public class PlayerControls : MonoBehaviour
 	private void OnTriggerExit2D(Collider2D other) 
 	{
 		if (other.CompareTag("Underwater"))
+		{
 			inWater = false;
+			anim.SetBool("isSwimming", false);
+		}
 		if (other.CompareTag("Roar"))
 			RoarOver();
 	}
