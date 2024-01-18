@@ -438,7 +438,7 @@ public abstract class Enemy : MonoBehaviour
         if (dontGetHitTwice != null && dontGetHitTwice == registerAttack) {}
         else if (inCutscene && hp > 1)
         {
-			PlayerControls.Instance.EnemyHitShakeCamera();
+			// PlayerControls.Instance.EnemyHitShakeCamera();
             hp--;
         }
         else if (!inCutscene && hp > 0)
@@ -453,7 +453,7 @@ public abstract class Enemy : MonoBehaviour
                 dontGetHitTwice = registerAttack;
             if (hp > 0)
             {
-				PlayerControls.Instance.EnemyHitShakeCamera();
+				// PlayerControls.Instance.EnemyHitShakeCamera();
                 if (defenseStage == 0 || ignoreDef)
                     hp -= dmg;
                 else

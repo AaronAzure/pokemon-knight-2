@@ -396,6 +396,7 @@ public class PlayerControls : MonoBehaviour
 	[Space] public bool easyMode;
 
 	[SerializeField] float globalShakeForce=1f;
+	[SerializeField] float globalWeakShakeForce=0.3f;
 
 	public static PlayerControls Instance;   // There can only be one
 
@@ -1389,15 +1390,15 @@ public class PlayerControls : MonoBehaviour
 			if (inWater && canSwim)
 			{
 				float yValue = player.GetAxis("Move Vertical");
-				// persistentInput = new Vector2(xValue, yValue);
+				Vector2 input = new Vector2(xValue, yValue);
 
 				// if (persistentInput.magnitude < deadZone)
 				// 	persistentInput = Vector2.zero;
 
-				// if (swiftCharm)
-				//     body.velocity = persistentInput * moveSpeed * 1.25f;
-				// else
-				//     body.velocity = persistentInput * moveSpeed;
+				if (swiftCharm)
+				    body.velocity = input * moveSpeed * 1.25f;
+				else
+				    body.velocity = input * moveSpeed;
 			}
 			else if (!crouching)
 			{
@@ -1414,7 +1415,7 @@ public class PlayerControls : MonoBehaviour
 					body.gravityScale = origGrav;
 
 				// Walking animation
-				if (Mathf.Abs(xValue) > 0)
+				if (Mathf.Abs(xValue) > 0 && !inWater)
 				{
 					anim.SetBool("isWalking", true);
 					anim.speed = Mathf.Min(Mathf.Abs(xValue) * moveSpeed, 3);
@@ -2113,6 +2114,7 @@ public class PlayerControls : MonoBehaviour
 				if (damageIndicatorAnim != null && force > 0)
 				{
 					damageIndicatorAnim.SetTrigger("injured");
+					EnemyHitShakeCamera();
 					damageIndicatorAnim.SetFloat("fadeSpeed", hpImg.fillAmount * hpImg.fillAmount);
 					// CinemachineShake.Instance.ShakeCam(20, 1f);
 				}
@@ -2120,6 +2122,7 @@ public class PlayerControls : MonoBehaviour
 				else if (damageIndicatorAnim != null && force == 0)
 				{
 					damageIndicatorAnim.SetTrigger("injuredWeak");
+					EnemyWeakHitShakeCamera();
 					damageIndicatorAnim.SetFloat("fadeSpeed", hpImg.fillAmount * hpImg.fillAmount);
 				}
 			}
@@ -2989,6 +2992,7 @@ public class PlayerControls : MonoBehaviour
 		{
 			anim.SetBool("isSwimming", true);
 			inWater = true;
+			anim.speed = 1;
 		}
 			// nExtraJumpsLeft = nExtraJumps;
 		// if (other.CompareTag("Rage") && musicManager != null)
@@ -3947,6 +3951,11 @@ public class PlayerControls : MonoBehaviour
 	{
 		if (enemyHitImpluse != null)
 			enemyHitImpluse.GenerateImpulse(globalShakeForce);
+	}
+	public void EnemyWeakHitShakeCamera()
+	{
+		if (enemyHitImpluse != null)
+			enemyHitImpluse.GenerateImpulse(globalWeakShakeForce);
 	}
 	public void ShakeCamera(CinemachineImpulseSource src)
 	{
