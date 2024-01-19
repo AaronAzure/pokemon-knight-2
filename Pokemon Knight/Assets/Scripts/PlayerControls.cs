@@ -189,6 +189,7 @@ public class PlayerControls : MonoBehaviour
 	[SerializeField] private float dashSpeed = 50;
 	// [SerializeField] private float dashTime = 0.3f;
 	[SerializeField] private float jumpHeight = 10;
+	[SerializeField] private float climbSpeed = 5;
 	private float jumpTimer = 0f;
 	// private float jumpTimerCounter = 0;
 	// [SerializeField] private float deadZone = 0f;
@@ -232,12 +233,14 @@ public class PlayerControls : MonoBehaviour
 	[Space]
 	[SerializeField] private Transform feetPos; // To detect ground
 	[SerializeField] private Vector2 feetBox;
+	[SerializeField] private Vector2 wallCheckBoxSize;
 	[SerializeField] Transform ceilingCheck;
 	[SerializeField] Vector2 ceilingCheckSize;
 	[SerializeField] private LayerMask whatIsGround;
 	[SerializeField] private LayerMask whatIsWater;
 	[SerializeField] public bool grounded = true;
 	[HideInInspector] public bool jumping = false;
+	[HideInInspector] public bool climbing = false; // wall climb
 	[HideInInspector] public bool crouching = false;
 	[HideInInspector] public bool ledgeGrabbing = false;
 	[SerializeField] private Vector2 wallDetectBox;
@@ -255,7 +258,7 @@ public class PlayerControls : MonoBehaviour
 	[SerializeField] private Transform aboveWaterCheckOffset, inWaterCheckOffset;
 	private bool greenBox, redBox;
 	private bool wallCheck, ledgeCheck;
-	[SerializeField] private Transform wallCheckOffset, ledgeCheckOffset;
+	[SerializeField] private Transform wallCheckOffset, ledgeCheckOffset, climbCheckOffset;
 	[SerializeField] private float checkDist=0.3f;
 	private float origGrav;
 
@@ -1220,7 +1223,7 @@ public class PlayerControls : MonoBehaviour
 				JumpMechanic();
 				
 				//* Double Jump (mid air jump)
-				if (canDoubleJump)
+				if (canDoubleJump && !climbing && !isWallJumping)
 				{
 					if (!inWater && !butterfreeOut && nExtraJumpsLeft > 0 && !grounded 
 						&& player.GetButtonDown("B") && player.GetAxis("Move Vertical") > -0.8f)
@@ -1377,6 +1380,8 @@ public class PlayerControls : MonoBehaviour
 		canSwitchSets = true;
 	}
 
+	float moveX;
+	float moveY;
 	void FixedUpdate()
 	{
 		//* Paused
@@ -1386,7 +1391,9 @@ public class PlayerControls : MonoBehaviour
 		else if (resting) {}
 		else if (hp > 0 && !inCutscene && !dodging && !drinking && !isSleeping && !isParalysed)
 		{
-			float xValue = player.GetAxis("Move Horizontal");
+			float xValue = moveX = player.GetAxis("Move Horizontal");
+
+			// swimming
 			if (inWater && canSwim)
 			{
 				float yValue = player.GetAxis("Move Vertical");
@@ -1402,20 +1409,29 @@ public class PlayerControls : MonoBehaviour
 			}
 			else if (!crouching)
 			{
+				if (!ledgeGrabbing && !isWallJumping)
+					CheckIsWalled();
+
 				// persistentInput = new Vector2(xValue, body.velocity.y);
 				// if (persistentInput.magnitude < deadZone)
 				// 	persistentInput = Vector2.zero;
 
-				Walk(xValue);
+				if (!climbing && !isWallJumping)
+					Walk(xValue);
 
-				if (!grounded && !jumping && body.velocity.y < fallSpeed)
+				if (!climbing && !grounded && !jumping && body.velocity.y < fallSpeed)
 					body.gravityScale = fallGrav;
+				else if (climbing)
+				{
+					moveY = player.GetAxis("Move Vertical");
+					body.gravityScale = 0;
+				}
 				// regular fall speed
 				else
 					body.gravityScale = origGrav;
 
 				// Walking animation
-				if (Mathf.Abs(xValue) > 0 && !inWater)
+				if (Mathf.Abs(xValue) > 0 && !inWater && !climbing)
 				{
 					anim.SetBool("isWalking", true);
 					anim.speed = Mathf.Min(Mathf.Abs(xValue) * moveSpeed, 3);
@@ -1540,6 +1556,8 @@ public class PlayerControls : MonoBehaviour
 	
 	[SerializeField] bool isWallJumping;
 	[SerializeField] float wallJumpTimer;
+	[SerializeField] Vector2 wallJumpForce;
+
 	[SerializeField] float wallJumpMin=0.125f; // can be released
 	[SerializeField] float wallJumpControlThreshold=0.25f; // can control
 	[SerializeField] float wallJumpThreshold=0.5f; // max height
@@ -1554,6 +1572,25 @@ public class PlayerControls : MonoBehaviour
 	[SerializeField] float coyoteThreshold=0.1f;
 	[SerializeField] float fallSpeed=-2;
 	[SerializeField] float fallGrav=2;
+	float wallJumpDir;
+
+
+	void CheckIsWalled()
+	{
+		climbing = Physics2D.OverlapBox(climbCheckOffset.position, wallCheckBoxSize, 0, whatIsGround) && !grounded && moveX != 0;
+		anim.SetBool("isClimbing", climbing);
+
+		// if (wallSlideSound != null)
+		// 	wallSlideSound.enabled = isWallSliding;
+
+		if (climbing) 
+		{
+			nExtraJumpsLeft = nExtraJumps;
+			anim.speed = 1;
+			body.velocity = new Vector2(0, moveY * climbSpeed);
+		}
+		// PlayWallDustTrail();
+	}
 
 	// update
 	void JumpMechanic()
@@ -1561,7 +1598,15 @@ public class PlayerControls : MonoBehaviour
 		// Wall jump
 		if (isWallJumping)
 		{
-			// wallJumpTimer += Time.deltaTime;
+			wallJumpTimer += Time.deltaTime;
+
+			if (wallJumpTimer < wallJumpControlThreshold)
+			{
+				body.velocity = new Vector2(
+					wallJumpDir * wallJumpForce.x, 
+					wallJumpForce.y
+				);
+			}
 
 			// reach jump hold threshold
 			if (wallJumpTimer >= wallJumpThreshold)
@@ -1592,10 +1637,13 @@ public class PlayerControls : MonoBehaviour
 			{
 				jumpRegistered = false;
 				jumpBufferTimer = jumpBufferThreshold;
-				if (!inWater)
-					Jump();
-				else if (inWater && CheckAtWaterSurface())
-					Jump();
+				if (!climbing)
+				{
+					if (!inWater)
+						Jump();
+					else if (inWater && CheckAtWaterSurface())
+						Jump();
+				}
 				// Jump();
 				// jumpSound?.Play();
 			}
@@ -1613,11 +1661,28 @@ public class PlayerControls : MonoBehaviour
 
 			}
 			// wall sliding
-			// else if (isWallSliding && player.GetButtonDown("B"))
-			// {
-			// 	WallJump();
-			// }
+			else if (climbing && player.GetButtonDown("B"))
+			{
+				Debug.Log("Wall Jump");
+				WallJump();
+			}
 		}
+	}
+
+	void WallJump()
+	{
+		climbing = false;
+		anim.SetBool("isClimbing", false);
+			
+		wallJumpTimer = 0;
+		isWallJumping = true;
+		// jumpSound?.Play();
+		wallJumpDir = (holder.transform.eulerAngles.y != 0 ? 1 : -1);
+		// holder.transform.localScale = new Vector3(wallJumpDir, 1, 1);
+		if (wallJumpDir > -0.01f)
+			holder.transform.eulerAngles = new Vector3(0,180);  // left
+		else if (wallJumpDir < 0.01f)
+			holder.transform.eulerAngles = new Vector3(0,0);    // right
 	}
 
 	// fixed update
@@ -1797,7 +1862,8 @@ public class PlayerControls : MonoBehaviour
 			else
 				anim.SetTrigger("ledgeGrab");
 			ledgeGrabbing = true;
-			jumping = false;
+			climbing = jumping = false;
+			anim.SetBool("isClimbing", false);
 			return true;
 		}
 		return false;
