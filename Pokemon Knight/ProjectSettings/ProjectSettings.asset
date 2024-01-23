@@ -676,7 +676,16 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Standalone: SUPER_TILEMAP_EDITOR;USING_URP
+    Android: GAME_2D_WATER_KIT_URP
+    Nintendo Switch: GAME_2D_WATER_KIT_URP
+    PS4: GAME_2D_WATER_KIT_URP
+    Stadia: GAME_2D_WATER_KIT_URP
+    Standalone: SUPER_TILEMAP_EDITOR;USING_URP;GAME_2D_WATER_KIT_URP
+    WebGL: GAME_2D_WATER_KIT_URP
+    Windows Store Apps: GAME_2D_WATER_KIT_URP
+    XboxOne: GAME_2D_WATER_KIT_URP
+    iPhone: GAME_2D_WATER_KIT_URP
+    tvOS: GAME_2D_WATER_KIT_URP
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

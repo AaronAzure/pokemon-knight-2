@@ -258,8 +258,10 @@ public class PlayerControls : MonoBehaviour
 	[SerializeField] private Transform aboveWaterCheckOffset, inWaterCheckOffset;
 	private bool greenBox, redBox;
 	private bool wallCheck, ledgeCheck;
-	[SerializeField] private Transform wallCheckOffset, ledgeCheckOffset, climbCheckOffset;
+	[SerializeField] private Transform wallCheckOffset, ledgeCheckOffset;
+	[SerializeField] private Transform climbCheckOffset, climbCheck2Offset;
 	[SerializeField] private float checkDist=0.3f;
+	[SerializeField] private float climbCheckDist=0.2f;
 	private float origGrav;
 
 
@@ -1454,7 +1456,8 @@ public class PlayerControls : MonoBehaviour
 			CoyoteTimeCalculation();
 
 			//* Flip character
-			playerDirection(xValue);
+			if (!isWallJumping)
+				playerDirection(xValue);
 		}
 	}
 	private void LateUpdate() 
@@ -1577,7 +1580,23 @@ public class PlayerControls : MonoBehaviour
 
 	void CheckIsWalled()
 	{
-		climbing = Physics2D.OverlapBox(climbCheckOffset.position, wallCheckBoxSize, 0, whatIsGround) && !grounded && moveX != 0;
+		int facingRight = holder.transform.eulerAngles.y > 0 ? -1 : 1;
+
+		bool climbUpCheck = Physics2D.Raycast(
+			climbCheckOffset.position, 
+			Vector2.right * facingRight, 
+			climbCheckDist, 
+			whatIsGround
+		);
+		bool climbDownCheck = Physics2D.Raycast(
+			climbCheck2Offset.position, 
+			Vector2.right * facingRight, 
+			climbCheckDist, 
+			whatIsGround
+		);
+
+		climbing = climbUpCheck && climbDownCheck && !grounded && moveX != 0;
+
 		anim.SetBool("isClimbing", climbing);
 
 		// if (wallSlideSound != null)
@@ -1588,6 +1607,7 @@ public class PlayerControls : MonoBehaviour
 			nExtraJumpsLeft = nExtraJumps;
 			anim.speed = 1;
 			body.velocity = new Vector2(0, moveY * climbSpeed);
+			anim.SetFloat("climbSpeed", moveY);
 		}
 		// PlayWallDustTrail();
 	}
@@ -1679,9 +1699,9 @@ public class PlayerControls : MonoBehaviour
 		// jumpSound?.Play();
 		wallJumpDir = (holder.transform.eulerAngles.y != 0 ? 1 : -1);
 		// holder.transform.localScale = new Vector3(wallJumpDir, 1, 1);
-		if (wallJumpDir > -0.01f)
+		if (wallJumpDir < -0.01f)
 			holder.transform.eulerAngles = new Vector3(0,180);  // left
-		else if (wallJumpDir < 0.01f)
+		else if (wallJumpDir > 0.01f)
 			holder.transform.eulerAngles = new Vector3(0,0);    // right
 	}
 
