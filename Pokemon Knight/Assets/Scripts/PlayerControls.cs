@@ -346,6 +346,7 @@ public class PlayerControls : MonoBehaviour
 	public bool canTeleport;
 	[SerializeField] private GameObject teleportBeginEffect;
 	[SerializeField] private GameObject teleportEffect;
+	[SerializeField] private GameObject alakazamObj;
 	[SerializeField] private Transform alakazamPos;
 	[SerializeField] private Transform teleportEffectPos;
 	[SerializeField] private float dodgeSpeed = 7.5f;
@@ -819,6 +820,11 @@ public class PlayerControls : MonoBehaviour
 			subwaysCleared = new List<string>();
 			PlayerPrefsElite.SetStringArray("subwaysCleared" + gameNumber, subwaysCleared.ToArray());
 			SaveSubwayCleared();
+		}
+
+		if (alakazamObj != null)
+		{
+			alakazamObj.transform.parent = null;
 		}
 
 		
@@ -1952,6 +1958,14 @@ public class PlayerControls : MonoBehaviour
 
 	IEnumerator Teleport()
 	{
+		if (alakazamObj != null)
+		{
+			float facingLeft = holder.transform.eulerAngles.y != 0 ? 1 : -1;
+			alakazamObj.transform.eulerAngles = new Vector3(0,facingLeft == 1 ? 180 : 0);
+			alakazamObj.transform.position = transform.position;
+			alakazamObj.SetActive(true);
+		}
+
 		if (spawnedDoubleJumpObj != null)
 		{
 			spawnedDoubleJumpObj.transform.parent = null;
@@ -2004,6 +2018,10 @@ public class PlayerControls : MonoBehaviour
 		dodging = false;
 		TELEPORT_BACK();
 		justDodged = true;
+
+		yield return new WaitForSeconds(0.25f);
+		if (alakazamObj != null)
+			alakazamObj.SetActive(false);
 	}
 
 	public void TELEPORT_BACK()
@@ -3076,9 +3094,18 @@ public class PlayerControls : MonoBehaviour
 	{
 		if (other.CompareTag("Underwater"))
 		{
-			anim.SetBool("isSwimming", true);
-			inWater = true;
 			anim.speed = 1;
+			if (diveCo != null)
+			{
+				StopCoroutine(diveCo);
+				diveCo = null;
+			}
+			if (canSwim)
+			{
+				diveCo = StartCoroutine( SummonDivePokemon() );
+			}
+			else
+				inWater = true;
 		}
 			// nExtraJumpsLeft = nExtraJumps;
 		// if (other.CompareTag("Rage") && musicManager != null)
@@ -3089,10 +3116,24 @@ public class PlayerControls : MonoBehaviour
 		if (other.CompareTag("Underwater"))
 		{
 			inWater = false;
+			if (diveCo != null)
+			{
+				StopCoroutine(diveCo);
+				diveCo = null;
+			}
 			anim.SetBool("isSwimming", false);
 		}
 		if (other.CompareTag("Roar"))
 			RoarOver();
+	}
+
+	Coroutine diveCo;
+	IEnumerator SummonDivePokemon()
+	{
+		yield return new WaitForSeconds(0.25f);
+		anim.SetBool("isSwimming", true);
+		inWater = true;
+		diveCo = null;
 	}
 
 
