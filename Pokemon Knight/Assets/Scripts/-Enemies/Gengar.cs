@@ -289,6 +289,8 @@ public class Gengar : Enemy
             // charging = false;
         }
     }
+	int prevAtk=-1;
+	int prevAtk2=-1;
 	public void NEXT_ATTACK(int specific=-1)
 	{
 		if (!isActuallyBoss && !inCutscene)
@@ -298,6 +300,7 @@ public class Gengar : Enemy
 			shadowTrail.SetActive(true);
 
 		int rng = Random.Range(0,5);
+		rng = rng == 4 ? 3 : rng;
 		if (downToHalfHp || hpImg.fillAmount <= 0.5f)
 		{
 			downToHalfHp = true;
@@ -307,6 +310,23 @@ public class Gengar : Enemy
 		}
 		if (specific != -1)
 			rng = specific;
+		else if (prevAtk != rng)
+		{
+			prevAtk = rng == 4 ? 3 : rng;
+			prevAtk2 = -1;
+		}
+		else if (prevAtk2 != rng)
+			prevAtk2 = rng == 4 ? 3 : rng;
+		else if (prevAtk == rng && prevAtk2 == rng)
+		{
+			while (rng == prevAtk2)
+			{
+				rng = Random.Range(0,5);
+				rng = rng == 4 ? 3 : rng;
+			}
+			prevAtk = rng == 4 ? 3 : rng;
+			prevAtk2 = -1;
+		}
 
 		licking = false;
 		mainAnim.SetBool("usingShadowBall", false);
@@ -351,7 +371,7 @@ public class Gengar : Enemy
 				mainAnim.SetBool("usingShadows", true);
 				break;
 
-			//* SHADOW BALL
+			//* SHADOW BALL ( 3 or 4 )
 			default:
 				nShadowBalls = 1;
 				if (hpImg.fillAmount <= 0.5f)
