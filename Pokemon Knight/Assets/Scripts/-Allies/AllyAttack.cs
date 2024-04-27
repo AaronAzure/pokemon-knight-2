@@ -2,17 +2,19 @@
 
 public class AllyAttack : MonoBehaviour
 {
-    // public Transform atkPos;
-    // public LayerMask whatIsEnemy;
-    // public float atkRange;
     public int atkDmg;
     public int atkForce;    // knockback force
+    public int spBonus;
+    public bool playerGainsExp=true;
+    public bool registerOneHitOnly;
+    [SerializeField] private bool yKb;
 
     [SerializeField] private GameObject spawnEffectObj;
     [SerializeField] private bool spawnEffect;
 
     [Header("Moving projectile")] public float velocity=0;
     public Rigidbody2D body;
+    public Transform origin;
 
 
     private void Start() 
@@ -27,7 +29,37 @@ public class AllyAttack : MonoBehaviour
             Component[] scripts = other.GetComponents(typeof(Enemy));
             foreach (var script in scripts)
             {
-                script.GetComponent<Enemy>().TakeDamage(atkDmg, this.transform, atkForce);
+                Enemy enemy = script.GetComponent<Enemy>();
+                if (registerOneHitOnly)
+                {
+                    // enemy.col.offset;
+                    if (origin != null)
+                        enemy.TakeDamage(atkDmg, origin.position, atkForce, playerGainsExp, spBonus, this, false, yKb);
+                    else
+                        enemy.TakeDamage(atkDmg, transform.position, atkForce, true, spBonus, this, false, yKb);
+                }
+                else
+                {
+                    if (origin != null)
+                        enemy.TakeDamage(atkDmg, origin.position, atkForce, playerGainsExp, spBonus, null, false, yKb);
+                    else
+                        enemy.TakeDamage(atkDmg, transform.position, atkForce, playerGainsExp, spBonus, null, false, yKb);
+                }
+                if (spawnEffect && spawnEffectObj != null)
+                {
+                    var obj = Instantiate(spawnEffectObj, (
+                        Vector2) enemy.transform.position + enemy.col.offset, Quaternion.identity);
+                    // var obj = Instantiate(spawnEffectObj, script.gameObject.transform.position, Quaternion.identity);
+                    Destroy(obj.gameObject, 0.5f);
+                }
+            }
+        }
+        if (other.CompareTag("Crystal"))
+        {
+            Component[] scripts = other.GetComponents(typeof(CrystalBarrier));
+            foreach (var script in scripts)
+            {
+                script.GetComponent<CrystalBarrier>().BreakCrystal();
                 if (spawnEffect && spawnEffectObj != null)
                 {
                     var obj = Instantiate(spawnEffectObj, script.gameObject.transform.position, Quaternion.identity);

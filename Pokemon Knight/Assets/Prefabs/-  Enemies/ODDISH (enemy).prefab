@@ -521,9 +521,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1210750820205220004}
   - component: {fileID: 8587678589928221810}
+  - component: {fileID: -8110470590469120560}
   - component: {fileID: 6059486759220388701}
-  - component: {fileID: 7907085212256002918}
   - component: {fileID: 5798675815866953818}
+  - component: {fileID: 7907085212256002918}
+  - component: {fileID: 7935767185365052515}
   m_Layer: 8
   m_Name: ODDISH (enemy)
   m_TagString: Enemy
@@ -568,6 +570,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!210 &-8110470590469120560
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5249119507078783117}
+  m_Enabled: 1
+  m_SortingLayerID: 480402825
+  m_SortingLayer: 1
+  m_SortingOrder: 0
 --- !u!61 &6059486759220388701
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -594,117 +607,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.75, y: 0.75}
   m_EdgeRadius: 0
---- !u!114 &7907085212256002918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5249119507078783117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9769976b619bb41c48a1e390a98cc703, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lv: 5
-  chapterLevel: 0
-  maxHp: 75
-  hp: 0
-  mainAnim: {fileID: 0}
-  contactDmg: 5
-  contactKb: 10
-  projectileDmg: 4
-  isSmart: 1
-  renderers:
-  - {fileID: 5478942814163688623}
-  - {fileID: 2335878881091891655}
-  - {fileID: 7268308278520208116}
-  - {fileID: 4792069771240763185}
-  - {fileID: 4184624923440520074}
-  - {fileID: 1720472758345791981}
-  - {fileID: 3659830457379585843}
-  - {fileID: 5523439291125198772}
-  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
-  flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
-  origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
-  bossRoom: {fileID: 0}
-  extraHp: 15
-  extraDmg: 5
-  extraProjectileDmg: 1
-  perLv: 1
-  calcExtraProjectileDmg: 0
-  expPossess: 12
-  extraExp: 7
-  col: {fileID: 6059486759220388701}
-  body: {fileID: 5798675815866953818}
-  model: {fileID: 8315939532998918946}
-  cannotRecieveKb: 0
-  kbDefense: 1
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 128
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 64
-  statusBar: {fileID: 8760570438856112430}
-  hpEffectImg: {fileID: 2306269714981723284}
-  hpImg: {fileID: 7908789846407830107}
-  lvText: {fileID: 172641025672617191}
-  effectSpeed: 0.005
-  origSize: {x: 0, y: 0, z: 0}
-  ShrinkDuration: 0.5
-  t: 0
-  feetSize: {x: 0, y: 0}
-  feetOffset: {x: 0, y: 0}
-  isBoss: 0
-  isMiniBoss: 0
-  possessedAura: {fileID: 0}
-  battleRoarObj: {fileID: 0}
-  rageChargeObj: {fileID: 0}
-  inRage: 0
-  inCutscene: 0
-  inRageCutscene: 0
-  isDefeated: 0
-  powerupName: 
-  pokeball: {fileID: 0}
-  canCatchEffect: {fileID: 0}
-  mustDmgBeforeFight: 0
-  bossBattleBegin: 0
-  spawner: {fileID: 0}
-  alert: {fileID: 0}
-  playerInField: 0
-  playerInSight: 0
-  alwaysAttackPlayer: 0
-  movingLeft: 0
-  movingRight: 0
-  canUseBuffs: 0
-  statusConditions:
-  - {fileID: 8770370005866762583}
-  - {fileID: 9125889177834057939}
-  - {fileID: 5313779962011859152}
-  - {fileID: 6214726369287789158}
-  nCondition: 0
-  empty: {fileID: 21300000, guid: 7503bdd3f276f42aeb5d1f6ed3cfe5bc, type: 3}
-  increaseAtk: {fileID: 21300000, guid: e6aa1c7ac5d224f13baa80336f2fa589, type: 3}
-  increaseDef: {fileID: 21300000, guid: 803d0478c00c541368ad3d9588c08a5e, type: 3}
-  increaseSpd: {fileID: 21300000, guid: dc912f0b2b3a04e8e9249ae5607abeab, type: 3}
-  moveSpeed: 2
-  distanceDetect: 1
-  groundDetection: {fileID: 8404566178504463058}
-  whatIsTree:
-    serializedVersion: 2
-    m_Bits: 128
-  forwardDetect: 1
-  face: {fileID: 8404566178504463058}
-  anim: {fileID: 8587678589928221810}
-  stunSpore: {fileID: 6543823460546405717, guid: 7ed5b4a6b0d3346f59dd15bd8410872c, type: 3}
-  stunSporePos: {fileID: 1167601653546487358}
-  canSeePlayer: 0
-  canAtk: 1
-  spawnedHolder: {fileID: 0}
-  sludgeBomb: {fileID: 0}
-  sludgeBombPos: {fileID: 0}
-  target: {fileID: 0}
 --- !u!50 &5798675815866953818
 Rigidbody2D:
   serializedVersion: 4
@@ -726,6 +628,167 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &7907085212256002918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5249119507078783117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9769976b619bb41c48a1e390a98cc703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lv: 5
+  chapterLevel: 0
+  playerControls: {fileID: 0}
+  mainAnim: {fileID: 0}
+  pokemonSpr: {fileID: 0}
+  maxHp: 75
+  hp: 0
+  contactDmg: 5
+  projectileDmg: 4
+  contactKb: 10
+  extraHp: 15
+  extraDmg: 3
+  extraProjectileDmg: 2
+  perLv: 2
+  expPossess: 12
+  extraExp: 7
+  secondDmg: 5
+  secondExtraDmg: 3
+  hasExtraDmg: 0
+  isSmart: 1
+  isEvenSmarter: 0
+  renderers:
+  - {fileID: 5478942814163688623}
+  - {fileID: 2335878881091891655}
+  - {fileID: 7268308278520208116}
+  - {fileID: 4792069771240763185}
+  - {fileID: 4184624923440520074}
+  - {fileID: 1720472758345791981}
+  - {fileID: 3659830457379585843}
+  - {fileID: 5523439291125198772}
+  defeatedMat: {fileID: 2100000, guid: 88a78efbb666b4afa8c9e0a27868eb20, type: 2}
+  flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
+  origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
+  bossRoom: {fileID: 0}
+  destroyable: 0
+  explosion: {fileID: 0}
+  calcExtraProjectileDmg: 0
+  col: {fileID: 6059486759220388701}
+  body: {fileID: 5798675815866953818}
+  model: {fileID: 8315939532998918946}
+  cannotRecieveKb: 0
+  kbDefense: 1
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 128
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 64
+  whatIsBounds:
+    serializedVersion: 2
+    m_Bits: 0
+  whatIsTree:
+    serializedVersion: 2
+    m_Bits: 128
+  statusBar: {fileID: 8760570438856112430}
+  hpEffectImg: {fileID: 2306269714981723284}
+  hpImg: {fileID: 7908789846407830107}
+  lvText: {fileID: 172641025672617191}
+  effectSpeed: 0.005
+  origSize: {x: 0, y: 0, z: 0}
+  ShrinkDuration: 0.5
+  t: 0
+  feetSize: {x: 0, y: 0}
+  feetOffset: {x: 0, y: 0}
+  isBoss: 0
+  isMiniBoss: 0
+  possessedAura: {fileID: 0}
+  rageChargeObj: {fileID: 0}
+  battleRoarObj: {fileID: 0}
+  effects: []
+  cannotDmgPlayer: 0
+  inCutscene: 0
+  inRage: 0
+  inRageCutscene: 0
+  isDefeated: 0
+  powerupName: 
+  pokeball: {fileID: 0}
+  canCatchEffect: {fileID: 0}
+  mustDmgBeforeFight: 0
+  bossBattleBegin: 0
+  playerInBossRoom: 0
+  spawner: {fileID: 0}
+  horde: {fileID: 0}
+  partOfHorde: 0
+  alert: {fileID: 0}
+  eyes: {fileID: 8642424231272887945}
+  eyes2: {fileID: 0}
+  blood: {fileID: 8924585071623999260, guid: 9b05ec0da04bb4a8b957e2063e3a6280, type: 3}
+  isAttacking: 0
+  isTargeting: 0
+  keepSearching: 0
+  playerInField: 0
+  playerInSight: 0
+  playerInCloseRange: 0
+  alwaysAttackPlayer: 0
+  isInRoom: 0
+  cannotMove: 0
+  movingLeft: 0
+  movingRight: 0
+  aquatic: 0
+  dontGetHitTwice: {fileID: 0}
+  performingBuff: 0
+  canUseBuffs: 0
+  buffDuration: 5
+  beforeNextUse: 5
+  statusConditions:
+  - {fileID: 8770370005866762583}
+  - {fileID: 9125889177834057939}
+  - {fileID: 5313779962011859152}
+  - {fileID: 6214726369287789158}
+  nCondition: 0
+  empty: {fileID: 21300000, guid: 7503bdd3f276f42aeb5d1f6ed3cfe5bc, type: 3}
+  increaseAtk: {fileID: 21300000, guid: e6aa1c7ac5d224f13baa80336f2fa589, type: 3}
+  increaseDef: {fileID: 21300000, guid: 803d0478c00c541368ad3d9588c08a5e, type: 3}
+  increaseSpd: {fileID: 21300000, guid: dc912f0b2b3a04e8e9249ae5607abeab, type: 3}
+  spawnedByWave: 0
+  loot: {fileID: 7935767185365052515}
+  moveSpeed: 2
+  distanceDetect: 1
+  groundDetection: {fileID: 8404566178504463058}
+  forwardDetect: 1
+  face: {fileID: 8404566178504463058}
+  anim: {fileID: 8587678589928221810}
+  stunSpore: {fileID: 6543823460546405717, guid: 7ed5b4a6b0d3346f59dd15bd8410872c, type: 3}
+  stunSporePos: {fileID: 1167601653546487358}
+  canSeePlayer: 0
+  canAtk: 1
+  spawnedHolder: {fileID: 0}
+  sludgeBomb: {fileID: 0}
+  sludgeBombPos: {fileID: 0}
+  target: {fileID: 0}
+  visionCol: {fileID: 1884754462771420046}
+  colOffset: {x: -2.5, y: 0}
+--- !u!114 &7935767185365052515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5249119507078783117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardSize: 4
+  expL: {fileID: 1856295254583195530, guid: d27018a99e7b54de48824b3e1560cb92, type: 3}
+  expM: {fileID: 6231101655905951431, guid: 3154a023cb73842f6b4b377e97abffd7, type: 3}
+  expS: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
 --- !u!1 &6834304160540669383
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,6 +938,7 @@ Transform:
   - {fileID: 2846961639279543562}
   - {fileID: 7641216351777906140}
   - {fileID: 3847788144503378909}
+  - {fileID: 8642424231272888053}
   m_Father: {fileID: 8452553695541995158}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1121,6 +1185,130 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
   m_PrefabInstance: {fileID: 2391971178812743357}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &3215984646092089256
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8642424231272888053}
+    m_Modifications:
+    - target: {fileID: 3066352489987038475, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_Name
+      value: Evil eyes ( purple ) (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ae6567de858914065afb2af11749cb43, type: 3}
+--- !u!1001 &6736769709409069954
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8021916019445943823}
+    m_Modifications:
+    - target: {fileID: 3066352489987038475, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_Name
+      value: Evil eyes ( purple )
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ae6567de858914065afb2af11749cb43, type: 3}
+--- !u!1 &8642424231272887945 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3066352489987038475, guid: ae6567de858914065afb2af11749cb43, type: 3}
+  m_PrefabInstance: {fileID: 6736769709409069954}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8642424231272888053 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+  m_PrefabInstance: {fileID: 6736769709409069954}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7004746633794838704
 PrefabInstance:

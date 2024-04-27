@@ -183,8 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e45b07600af1d4565a4bc3edde0aa05f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: speedScarf
-  anim: {fileID: 3091697108823833746}
+  itemName: speedCharm
 --- !u!58 &3091697107756361062
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -309,7 +308,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3091697108823833758
 RectTransform:
   m_ObjectHideFlags: 0
@@ -669,8 +668,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 15}
-  m_SizeDelta: {x: 8, y: 2}
+  m_AnchoredPosition: {x: 0, y: -5}
+  m_SizeDelta: {x: 12, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &4361995114304607092
 MeshRenderer:
@@ -733,7 +732,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Inspect
+  m_text: <sprite=6> Inspect
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b94edc951cdad4c0b9684e82cf30030d, type: 2}
   m_sharedMaterial: {fileID: -1698028554778917790, guid: b94edc951cdad4c0b9684e82cf30030d, type: 2}
@@ -752,7 +751,7 @@ MonoBehaviour:
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
+  m_spriteAsset: {fileID: 11400000, guid: aeed7b5ea97fa4a94b654fc06102cf07, type: 2}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
   m_TextStyleHashCode: -1183493901
@@ -760,8 +759,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15
-  m_fontSizeBase: 15
+  m_fontSize: 12
+  m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

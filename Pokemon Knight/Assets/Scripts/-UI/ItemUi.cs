@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,16 +9,52 @@ public class ItemUi : MonoBehaviour
     public bool equipped;
     public int weight=1;
     public string itemName = "N/A";
+    [Space] public string camelisedItemName;
     public Sprite sprite;
     [Space] public Button button;
     [TextArea(15,20)] public string itemDesc;
 
 
+
+    [Space] [Header("Canvas - On Acquire")]
+    public AcquiredDescUi itemAcqDesc;
+
+    void Start() 
+    {
+        GetCamelisedName();
+    }
+
+    void GetCamelisedName()
+    {
+        string temp = "";
+        //*  "crisisCharm"  ->  "Crisis Charm"
+        for (int i=0 ; i<itemName.Length ; i++)
+        {
+            char letter = itemName[i];
+            if (char.IsUpper(letter))
+                temp += " " + char.ToUpper(letter);
+            else
+                if (i == 0)
+                    temp += char.ToUpper(letter);
+                else
+                    temp += letter;
+        }
+        camelisedItemName = temp;
+    }
+
+    public void ShowDescriptionOfAcquired()
+    {
+        GetCamelisedName();
+        itemAcqDesc.descTxt.text = itemDesc;
+        itemAcqDesc.headerTxt.text = camelisedItemName;
+        itemAcqDesc.acqImg.sprite = this.sprite;
+    }
+
     private bool CanEquip(int itemWeight)
     {
         if ((playerControls.currentWeight + itemWeight) <= (playerControls.maxWeight + playerControls.extraWeight) )
             return true;
-        Debug.LogError("TOO HEAVY = [" + playerControls.currentWeight + "]  [" + itemWeight + "]");
+        playerControls.TooHeavy();
         return ( (playerControls.currentWeight + itemWeight) <= (playerControls.maxWeight + playerControls.extraWeight) );
     }
 
@@ -39,24 +77,39 @@ public class ItemUi : MonoBehaviour
             equipped = false;
             switch (itemName)
             {
-                case "speedScarf":
-                    playerControls.speedScarf = false;
+                case "quickCharm":
+                    playerControls.quickCharm = false;
                     break;
-                case "amberNecklace":
-                    playerControls.amberNecklace = false;
+                case "chuggerCharm":
+                    playerControls.chuggerCharm = false;
                     break;
-                case "furyBracelet":
-                    playerControls.furyBracelet = false;
+                case "crisisCharm":
+                    playerControls.crisisCharm = false;
                     break;
-                case "amethystCharm":
-                    playerControls.amethystCharm = false;
+                case "dualCharm":
+                    playerControls.dualCharm = false;
                     playerControls.maxPokemonOut--;
+                    break;
+                case "graciousHeartCharm":
+                    playerControls.graciousHeartCharm = false;
+                    playerControls.CalculateMaxHp();
+                    playerControls.RecalculateHp();
+                    break;
+                case "milkLoverCharm":
+                    playerControls.milkAddictCharm = false;
+                    playerControls.DecreaseNumberOfMoomooMilk();
+                    break;
+                case "sturdyCharm":
+                    playerControls.sturdyCharm = false;
+                    playerControls.canSturdy = false;
                     break;
                 default:
                     Debug.LogError("ItemUi.itemName is not yet registered to a matching item");
                     break;
             }
             Unequip(this.weight);
+            EquipItemPref(false);
+
             if (sprite != null)
                 playerControls.UnequipItem(sprite);
             else
@@ -69,18 +122,31 @@ public class ItemUi : MonoBehaviour
             equipped = true;
             switch (itemName)
             {
-                case "speedScarf":
-                    playerControls.speedScarf = true;
+                case "quickCharm":
+                    playerControls.quickCharm = true;
                     break;
-                case "amberNecklace":
-                    playerControls.amberNecklace = true;
+                case "chuggerCharm":
+                    playerControls.chuggerCharm = true;
                     break;
-                case "furyBracelet":
-                    playerControls.furyBracelet = true;
+                case "crisisCharm":
+                    playerControls.crisisCharm = true;
                     break;
-                case "amethystCharm":
-                    playerControls.amethystCharm = true;
+                case "dualCharm":
+                    playerControls.dualCharm = true;
                     playerControls.maxPokemonOut++;
+                    break;
+                case "graciousHeartCharm":
+                    playerControls.graciousHeartCharm = true;
+                    playerControls.CalculateMaxHp();
+                    playerControls.FullRestore();
+                    break;
+                case "milkLoverCharm":
+                    playerControls.milkAddictCharm = true;
+                    playerControls.IncreaseNumberOfMoomooMilk();
+                    break;
+                case "sturdyCharm":
+                    playerControls.sturdyCharm = true;
+                    playerControls.canSturdy = true;
                     break;
                 default:
                     Debug.LogError("ItemUi.itemName is not yet registered to a matching item");
@@ -88,6 +154,7 @@ public class ItemUi : MonoBehaviour
             }
 
             Equip(this.weight);
+            EquipItemPref(true);
 
             if (sprite != null)
                 playerControls.EquipItem(sprite);
@@ -96,17 +163,16 @@ public class ItemUi : MonoBehaviour
             // todo - call to player
         }
         
-        EquipItemPref();
     }
 
-    public void EquipItemPref()
+    public void EquipItemPref(bool toEquip)
     {
         if (playerControls != null)
         {
-            if (playerControls.equippedItemNames.Contains(itemName))
-                playerControls.equippedItemNames.Remove(itemName);
-            else
+            if (toEquip && !playerControls.equippedItemNames.Contains(itemName))
                 playerControls.equippedItemNames.Add(itemName);
+            else if (!toEquip && playerControls.equippedItemNames.Contains(itemName))
+                playerControls.equippedItemNames.Remove(itemName);
         }
         else
         {

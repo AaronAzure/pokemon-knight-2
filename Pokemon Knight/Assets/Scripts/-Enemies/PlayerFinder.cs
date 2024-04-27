@@ -9,7 +9,7 @@ public class PlayerFinder : MonoBehaviour
         {
             if (weepinbell.target == null)
                 weepinbell.target = other.transform;
-            weepinbell.anim.SetTrigger("walking");
+            // weepinbell.anim.SetTrigger("walking");
         }    
     }
 }

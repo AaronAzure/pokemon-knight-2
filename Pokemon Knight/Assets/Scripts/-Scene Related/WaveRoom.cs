@@ -6,7 +6,6 @@ using Cinemachine;
 
 public class WaveRoom : MonoBehaviour
 {
-    // [SerializeField] private Enemy boss;
     [SerializeField] private string roomName;
     [SerializeField] private GameObject[] walls;
     private bool once;
@@ -22,6 +21,7 @@ public class WaveRoom : MonoBehaviour
     private int spawnersDefeated;
     public Enemy miniBoss;
     public string[] roomsBeaten;
+    public bool hasABoss;
 
     [Header("Already Beaten")]
     [Space] [SerializeField] private GameObject newRoom;
@@ -29,7 +29,6 @@ public class WaveRoom : MonoBehaviour
     void Start() 
     {
         roomName = SceneManager.GetActiveScene().name + " " + this.name;
-        roomsBeaten = new string[100];
         defeatedSpawners = new List<WaveSpawner>();
 
         if (newRoom != null)
@@ -51,6 +50,8 @@ public class WaveRoom : MonoBehaviour
             }
 
         }
+        else
+           PlayerPrefsElite.SetStringArray("roomsBeaten" + PlayerPrefsElite.GetInt("gameNumber"), new string[0]); 
         foreach (WaveSpawner ws in waveSpawners)
             ws.waveManager = this;
 
@@ -123,8 +124,16 @@ public class WaveRoom : MonoBehaviour
 
     public void RoomBeaten()
     {
+        if (!hasABoss)
+            player.BossBattleOver();
+            
         Walls(false);
 
-        player.AddRoomBeaten(roomName);
+        List<string> temp = new List<string>(
+            PlayerPrefsElite.GetStringArray("roomsBeaten" + PlayerPrefsElite.GetInt("gameNumber")) 
+        );
+        temp.Add(roomName);
+        PlayerPrefsElite.SetStringArray("roomsBeaten" + PlayerPrefsElite.GetInt("gameNumber"), temp.ToArray());
+        // player.AddRoomBeaten(roomName);
     }
 }

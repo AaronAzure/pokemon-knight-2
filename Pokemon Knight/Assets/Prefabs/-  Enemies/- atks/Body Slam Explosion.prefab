@@ -674,7 +674,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.8
+      value: 1.25
       mode: 0
       spread: 0
       speed:
@@ -4799,7 +4799,7 @@ GameObject:
   - component: {fileID: 4779398135093493312}
   m_Layer: 14
   m_Name: Body Slam Explosion
-  m_TagString: Untagged
+  m_TagString: EnemyProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4832,7 +4832,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.4}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4843,7 +4843,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3, y: 2}
+  m_Size: {x: 2.8, y: 0.8}
   m_EdgeRadius: 0
 --- !u!95 &4977202971957210170
 Animator:
@@ -4878,6 +4878,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atkDmg: 50
   kbForce: 25
+  ignoreInvincible: 0
+  ignoreDodge: 0
 --- !u!210 &4779398135093493312
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -9708,7 +9710,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4977202973191749790
 Transform:
   m_ObjectHideFlags: 0
@@ -19851,7 +19853,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 27.89
+    angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1

@@ -7,7 +7,6 @@ public class Tangela : Enemy
     [Space] [Header("Tangela")]  public float moveSpeed=2;
     public float distanceDetect=1f;
     public Transform groundDetection;
-    [SerializeField] private LayerMask whatIsTree;
     public float forwardDetect=1f;
     public Transform face;
     
@@ -15,7 +14,7 @@ public class Tangela : Enemy
 
     [Space] public EnemyProjectile absorbObj;
     private Transform target;
-    private float multiplier=-1.1f;
+    // private float multiplier=-1.1f;
     private float trajectory;
     private LayerMask finalMask;
 
@@ -90,9 +89,12 @@ public class Tangela : Enemy
                 }
             }
                 
-            if ((!groundInfo || frontInfo) && canFlip && body.velocity.y >= 0 && (movingLeft || movingRight))
-                Flip();
-
+            if (!receivingKnockback)
+            {
+                if ((!groundInfo || frontInfo) && canFlip && body.velocity.y >= 0 
+                    && (movingLeft || movingRight) && !isAttacking)
+                    Flip();
+            }
             if (playerInField && target != null)
             {
                 Vector3 lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position + new Vector3(0, 1));

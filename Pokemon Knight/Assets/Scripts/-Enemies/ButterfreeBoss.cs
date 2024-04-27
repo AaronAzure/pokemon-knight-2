@@ -5,9 +5,12 @@ using UnityEngine;
 public class ButterfreeBoss : Enemy
 {
     [Space] [Header("Butterfree")]  public float moveSpeed=7.5f;
+    public float chaseSpeed=3.5f;
+    public float maxSpeed=5f;
     public float dashSpeed=50;
     public GameObject player;
-    private Vector3 target;
+    private Transform target;
+    private Vector3 targetPos;
     private int count;
     private int newAttackPattern=5;
     private bool callOnce;
@@ -19,6 +22,11 @@ public class ButterfreeBoss : Enemy
     [SerializeField] private Transform stunSporePos;
     private int atkCount;
     private bool canMove=true;
+    public bool performingPoisonPowder;
+    [SerializeField] private GameObject spawnHolder;
+    private bool tackledAgain;
+    [SerializeField] private GameObject tackleEffect;
+	private bool started;
 
 
     public override void Setup()
@@ -29,58 +37,97 @@ public class ButterfreeBoss : Enemy
         if (statusBar != null)
             statusBar.SetActive(false);
         playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
+        target = playerControls.transform;
+		inCutscene = false;
+        
+        if (spawnHolder != null)
+            spawnHolder.transform.parent = null;
+    }
+
+
+	public override void CallChildOnRoar()
+    {
+        //* CALLED ONCE
+		possessedAura.SetActive(true);
+        if (mainAnim != null)
+            mainAnim.SetTrigger("attacked");
+
+		foreach (ParticleSystem ps in effects)
+			ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
     }
 
     public override void CallChildOnBossFightStart()
     {
         player = playerControls.gameObject;
         count = 0;
+		started = true;
         StartCoroutine( TrackPlayer() );
     }
     public override void CallChildOnRageCutsceneFinished()
     {
+        count = newAttackPattern;
         atkCount = 0;
-    }
-
-    void FixedUpdate()
-    {
-        if (!inCutscene && !inRageCutscene && canMove)
-        {
-            if (count < newAttackPattern)
-            {
-                //Find direction
-                Vector3 dir = (target - body.transform.position).normalized;
-                //Check if we need to follow object then do so 
-                // if (!receivingKnockback)
-                if (Vector3.Distance(target, body.transform.position) > 0.5f)
-                    body.AddForce(dir * moveSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
-                else {
-                    LocatePlayer();
-                }
-            }
-        }
     }
 
     public override void CallChildOnRage() 
     {
         count = 0;
-        newAttackPattern = 3;
-        moveSpeed *= 1.5f;
+        newAttackPattern = 4;
+        moveSpeed *= 1.25f;
+        // chaseSpeed *= 1.5f;
+        maxSpeed *= 1.25f;
     }
+    public override void CallChildOnBossDeath() 
+    {
+        if (spawnHolder != null)
+            Destroy(spawnHolder);
+        StopAllCoroutines();
+    }
+
+    void FixedUpdate()
+    {
+        if (started && !inCutscene && !inRageCutscene && canMove && hp > 0)
+        {
+            if (count < newAttackPattern)
+            {
+                // //Find direction
+                // Vector3 dir = (targetPos - body.transform.position).normalized;
+                // //Check if we need to follow object then do so 
+                // // if (!receivingKnockback)
+                // if (Vector3.Distance(targetPos, body.transform.position) > 0.5f)
+                //     body.AddForce(dir * moveSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
+                // else {
+                //     LocatePlayer();
+                // }
+                Vector3 dir = (target.position + new Vector3(0,1) - this.transform.position).normalized;
+
+				if (body.velocity.x > 0)
+					model.transform.eulerAngles = new Vector3(0,180);
+				else if (body.velocity.x < 0)
+					model.transform.eulerAngles = new Vector3(0,0);
+					
+                //* If at edge, then turn around
+                body.AddForce(dir * 5 * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
+				body.velocity = Vector2.ClampMagnitude(body.velocity, maxSpeed);
+            }
+        }
+    }
+
 
     private void LocatePlayer()
     {
-        target = player.transform.position + new Vector3(0,1);
-        if (target.x - this.transform.position.x > 0)
-        {
-            // Debug.Log("looking right");
-            model.transform.eulerAngles = new Vector3(0,180);
-        }
-        else if (target.x - this.transform.position.x < 0)
-        {
-            // Debug.Log("looking left");
-            model.transform.eulerAngles = new Vector3(0,0);
-        }
+        targetPos = player.transform.position + new Vector3(0,1);
+		LookAtTarget();
+        // if (targetPos.x - this.transform.position.x > 0)
+        // {
+        //     // Debug.Log("looking right");
+        //     model.transform.eulerAngles = new Vector3(0,180);
+        // }
+        // else if (targetPos.x - this.transform.position.x < 0)
+        // {
+        //     // Debug.Log("looking left");
+        //     model.transform.eulerAngles = new Vector3(0,0);
+        // }
     }
 
     IEnumerator TrackPlayer()
@@ -109,28 +156,50 @@ public class ButterfreeBoss : Enemy
 
     IEnumerator Tackle()
     {
-        // charging up
+        // CHARGING UP
         body.velocity = Vector2.zero;
 
         glint.SetActive(false);
-        yield return new WaitForEndOfFrame();
+        // yield return new WaitForEndOfFrame();
         glint.SetActive(true);
+        LocatePlayer();
         
-        if (inRage)
-            yield return new WaitForSeconds(0.5f);
-        else
-            yield return new WaitForSeconds(0.8f);
-        // cannotRecieveKb = true;
-        Vector3 dir = (target - body.transform.position).normalized;
+		// LOCATE TARGET
+        yield return new WaitForSeconds(0.3f);
+        LocatePlayer();
+        
+		// DASH
+        yield return new WaitForSeconds(0.5f);
+        int tempDmg = contactDmg;
+        contactDmg = secondDmg;
+
+        Vector2 dir = (targetPos - body.transform.position).normalized;
         if (!inCutscene) 
+        {
+            tackleEffect.SetActive(false);
+            tackleEffect.SetActive(true);
+            tackleEffect.transform.rotation = Quaternion.LookRotation(-dir, Vector3.up);
             body.AddForce(dir*dashSpeed, ForceMode2D.Impulse);
+        }
 
         // resting
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.6f);
+		contactDmg = tempDmg;
+
         // cannotRecieveKb = false;
-        count = 0;
-        LocatePlayer();
-        StartCoroutine( TrackPlayer() );
+        body.velocity = Vector2.zero;
+        if (inRage && !tackledAgain)
+        {
+            StartCoroutine( Tackle() );
+            tackledAgain = true;
+        }
+        else
+        {
+            tackledAgain = false;
+            count = 0;
+            LocatePlayer();
+            StartCoroutine( TrackPlayer() );
+        }
     }
     IEnumerator PoisonPowder()
     {
@@ -144,10 +213,10 @@ public class ButterfreeBoss : Enemy
         yield return new WaitForSeconds(0.5f);
         if (!inCutscene) 
         {
-            var obj = Instantiate(stunSpore, stunSporePos.position, Quaternion.identity);
+            var obj = Instantiate(stunSpore, stunSporePos.position, Quaternion.identity, spawnHolder.transform);
             obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
             if (inRage)
-                obj.transform.localScale *= 1.75f;
+                obj.transform.localScale *= 1.5f;
             Destroy(obj.gameObject, 4.5f);
         }
 
@@ -167,7 +236,7 @@ public class ButterfreeBoss : Enemy
             canMove = false;
         }
     }
-    public void INCREASE_DEF()
+    public void INCREASE_DEF_CO()
     {
         StartCoroutine( ResetBuff(6, 4, Stat.def) );
     }

@@ -92,7 +92,6 @@ GameObject:
   m_Component:
   - component: {fileID: 316627596908520326}
   - component: {fileID: 316627596908520327}
-  - component: {fileID: 316627596908520324}
   m_Layer: 0
   m_Name: berry-bush
   m_TagString: Untagged
@@ -168,17 +167,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!210 &316627596908520324
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 316627596908520328}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!1 &316627597786644179
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,7 +293,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomName: 
   berries: []
-  anim: {fileID: 3351532703939215783}
 --- !u!114 &6600634705590660829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,7 +537,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3351532703939215787
 RectTransform:
   m_ObjectHideFlags: 0
@@ -774,8 +761,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1.75}
-  m_SizeDelta: {x: 8, y: 2}
+  m_AnchoredPosition: {x: 0, y: -1}
+  m_SizeDelta: {x: 10, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &4101662626750180929
 MeshRenderer:
@@ -838,7 +825,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Inspect
+  m_text: <sprite=6> Inspect
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b94edc951cdad4c0b9684e82cf30030d, type: 2}
   m_sharedMaterial: {fileID: -1698028554778917790, guid: b94edc951cdad4c0b9684e82cf30030d, type: 2}
@@ -857,7 +844,7 @@ MonoBehaviour:
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
+  m_spriteAsset: {fileID: 11400000, guid: aeed7b5ea97fa4a94b654fc06102cf07, type: 2}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
   m_TextStyleHashCode: -1183493901

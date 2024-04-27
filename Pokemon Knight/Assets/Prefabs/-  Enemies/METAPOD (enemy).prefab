@@ -4931,8 +4931,9 @@ GameObject:
   - component: {fileID: 5850416406816429718}
   - component: {fileID: 5850416406816429714}
   - component: {fileID: 5850416406816429715}
-  - component: {fileID: 5850416406816429723}
   - component: {fileID: 7241809505544309795}
+  - component: {fileID: 5850416406816429723}
+  - component: {fileID: 3662468729622258163}
   m_Layer: 8
   m_Name: METAPOD (enemy)
   m_TagString: Enemy
@@ -5015,94 +5016,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &5850416406816429723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5850416406816429716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67620f7d068974342a7499d96117dc9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lv: 4
-  chapterLevel: 0
-  maxHp: 55
-  hp: 0
-  mainAnim: {fileID: 7241809505544309795}
-  contactDmg: 5
-  contactKb: 10
-  projectileDmg: 5
-  isSmart: 0
-  renderers:
-  - {fileID: 8959013983781483722}
-  defeatedMat: {fileID: 0}
-  flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
-  origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
-  bossRoom: {fileID: 0}
-  extraHp: 10
-  extraDmg: 4
-  extraProjectileDmg: 0
-  perLv: 1
-  calcExtraProjectileDmg: 0
-  expPossess: 8
-  extraExp: 3
-  col: {fileID: 5850416406816429714}
-  body: {fileID: 5850416406816429715}
-  model: {fileID: 8959013983781483716}
-  cannotRecieveKb: 0
-  kbDefense: 0.25
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 128
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 64
-  statusBar: {fileID: 688795535926388655}
-  hpEffectImg: {fileID: 5772875385975865877}
-  hpImg: {fileID: 2152001487630288090}
-  lvText: {fileID: 8248768902116016742}
-  effectSpeed: 0.005
-  origSize: {x: 0, y: 0, z: 0}
-  ShrinkDuration: 0.5
-  t: 0
-  feetSize: {x: 0, y: 0}
-  feetOffset: {x: 0, y: 0}
-  isBoss: 0
-  isMiniBoss: 0
-  possessedAura: {fileID: 0}
-  battleRoarObj: {fileID: 0}
-  rageChargeObj: {fileID: 0}
-  inRage: 0
-  inCutscene: 0
-  inRageCutscene: 0
-  isDefeated: 0
-  powerupName: 
-  pokeball: {fileID: 0}
-  canCatchEffect: {fileID: 0}
-  mustDmgBeforeFight: 0
-  bossBattleBegin: 0
-  spawner: {fileID: 0}
-  alert: {fileID: 0}
-  playerInField: 0
-  playerInSight: 0
-  alwaysAttackPlayer: 0
-  movingLeft: 0
-  movingRight: 0
-  canUseBuffs: 0
-  statusConditions:
-  - {fileID: 696446644331728854}
-  - {fileID: 1061002739547074130}
-  - {fileID: 4153037100566193745}
-  - {fileID: 2748320784713565415}
-  nCondition: 0
-  empty: {fileID: 21300000, guid: 7503bdd3f276f42aeb5d1f6ed3cfe5bc, type: 3}
-  increaseAtk: {fileID: 21300000, guid: e6aa1c7ac5d224f13baa80336f2fa589, type: 3}
-  increaseDef: {fileID: 21300000, guid: 803d0478c00c541368ad3d9588c08a5e, type: 3}
-  increaseSpd: {fileID: 21300000, guid: dc912f0b2b3a04e8e9249ae5607abeab, type: 3}
-  distanceDetect: 10
 --- !u!95 &7241809505544309795
 Animator:
   serializedVersion: 3
@@ -5122,6 +5035,140 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5850416406816429723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5850416406816429716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67620f7d068974342a7499d96117dc9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lv: 4
+  chapterLevel: 0
+  mainAnim: {fileID: 7241809505544309795}
+  pokemonSpr: {fileID: 0}
+  maxHp: 55
+  hp: 0
+  contactDmg: 10
+  projectileDmg: 5
+  contactKb: 10
+  extraHp: 10
+  extraDmg: 3
+  extraProjectileDmg: 0
+  perLv: 1
+  expPossess: 8
+  extraExp: 3
+  secondDmg: 5
+  secondExtraDmg: 3
+  hasExtraDmg: 0
+  isSmart: 0
+  isEvenSmarter: 0
+  renderers:
+  - {fileID: 8959013983781483722}
+  defeatedMat: {fileID: 0}
+  flashMat: {fileID: 2100000, guid: 0ee883f39b38a493d99db8e380ce6eda, type: 2}
+  origMat: {fileID: 2100000, guid: e0c2d545bc40346168ca54ba92a5e508, type: 2}
+  bossRoom: {fileID: 0}
+  calcExtraProjectileDmg: 0
+  col: {fileID: 5850416406816429714}
+  body: {fileID: 5850416406816429715}
+  model: {fileID: 8959013983781483716}
+  cannotRecieveKb: 0
+  kbDefense: 0.25
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 128
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 64
+  whatIsBounds:
+    serializedVersion: 2
+    m_Bits: 0
+  whatIsTree:
+    serializedVersion: 2
+    m_Bits: 0
+  statusBar: {fileID: 688795535926388655}
+  hpEffectImg: {fileID: 5772875385975865877}
+  hpImg: {fileID: 2152001487630288090}
+  lvText: {fileID: 8248768902116016742}
+  effectSpeed: 0.005
+  origSize: {x: 0, y: 0, z: 0}
+  ShrinkDuration: 0.5
+  t: 0
+  feetSize: {x: 0, y: 0}
+  feetOffset: {x: 0, y: 0}
+  isBoss: 0
+  isMiniBoss: 0
+  possessedAura: {fileID: 0}
+  rageChargeObj: {fileID: 0}
+  battleRoarObj: {fileID: 0}
+  inRage: 0
+  inCutscene: 0
+  inRageCutscene: 0
+  isDefeated: 0
+  powerupName: 
+  pokeball: {fileID: 0}
+  canCatchEffect: {fileID: 0}
+  mustDmgBeforeFight: 0
+  bossBattleBegin: 0
+  playerInBossRoom: 0
+  spawner: {fileID: 0}
+  horde: {fileID: 0}
+  partOfHorde: 0
+  alert: {fileID: 0}
+  eyes: {fileID: 4747673680505762182}
+  eyes2: {fileID: 0}
+  blood: {fileID: 8924585071623999260, guid: 9b05ec0da04bb4a8b957e2063e3a6280, type: 3}
+  isAttacking: 0
+  isTargeting: 0
+  keepSearching: 0
+  playerInField: 0
+  playerInSight: 0
+  playerInCloseRange: 0
+  alwaysAttackPlayer: 0
+  isInRoom: 0
+  cannotMove: 0
+  movingLeft: 0
+  movingRight: 0
+  aquatic: 0
+  dontGetHitTwice: {fileID: 0}
+  performingBuff: 0
+  canUseBuffs: 0
+  buffDuration: 5
+  beforeNextUse: 5
+  statusConditions:
+  - {fileID: 696446644331728854}
+  - {fileID: 1061002739547074130}
+  - {fileID: 4153037100566193745}
+  - {fileID: 2748320784713565415}
+  nCondition: 0
+  empty: {fileID: 21300000, guid: 7503bdd3f276f42aeb5d1f6ed3cfe5bc, type: 3}
+  increaseAtk: {fileID: 21300000, guid: e6aa1c7ac5d224f13baa80336f2fa589, type: 3}
+  increaseDef: {fileID: 21300000, guid: 803d0478c00c541368ad3d9588c08a5e, type: 3}
+  increaseSpd: {fileID: 21300000, guid: dc912f0b2b3a04e8e9249ae5607abeab, type: 3}
+  spawnedByWave: 0
+  loot: {fileID: 3662468729622258163}
+  distanceDetect: 10
+--- !u!114 &3662468729622258163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5850416406816429716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d44d4387d704929bda85ce35925ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardSize: 2
+  expL: {fileID: 1856295254583195530, guid: d27018a99e7b54de48824b3e1560cb92, type: 3}
+  expM: {fileID: 6231101655905951431, guid: 3154a023cb73842f6b4b377e97abffd7, type: 3}
+  expS: {fileID: 8195589905395243760, guid: 4afc4474714144325a79c309ebad3e2d, type: 3}
 --- !u!1 &7766297111936708759
 GameObject:
   m_ObjectHideFlags: 0
@@ -5236,6 +5283,7 @@ Transform:
   - {fileID: 4790337375420697635}
   - {fileID: 4160658219508442689}
   - {fileID: 3868172222412639587}
+  - {fileID: 4747673680505762298}
   m_Father: {fileID: 5850416406816429713}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5617,6 +5665,73 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1465899634756832608, guid: ff6458576ef1e4e5797950dfe4d28c23, type: 3}
   m_PrefabInstance: {fileID: 6209717889217593667}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7741405567445085325
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8959013983781483723}
+    m_Modifications:
+    - target: {fileID: 3066352489987038475, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_Name
+      value: Evil eyes ( purple )
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ae6567de858914065afb2af11749cb43, type: 3}
+--- !u!1 &4747673680505762182 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3066352489987038475, guid: ae6567de858914065afb2af11749cb43, type: 3}
+  m_PrefabInstance: {fileID: 7741405567445085325}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4747673680505762298 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3066352489987038583, guid: ae6567de858914065afb2af11749cb43, type: 3}
+  m_PrefabInstance: {fileID: 7741405567445085325}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8948178768319077582
 PrefabInstance:

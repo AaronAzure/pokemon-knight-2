@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,44 +7,38 @@ public class Berry : MonoBehaviour
 {
     private PlayerControls player;
     [SerializeField] private string roomName;
-    [Space] [SerializeField] private string[] berries;
+    [Space] [SerializeField] private List<string> berries;
     [SerializeField] private HashSet<string> berriesSet;
-    [Space] [SerializeField] private Animator anim;
+    private bool once;
    
     private void Start() 
     {
         roomName = SceneManager.GetActiveScene().name + " " + this.name;
 
-        if (PlayerPrefsElite.VerifyArray("berries" + PlayerPrefsElite.GetInt("gameNumber")))
+        if (PlayerPrefsElite.VerifyArray("berriesCollected" + PlayerPrefsElite.GetInt("gameNumber")))
         {
-            berries = PlayerPrefsElite.GetStringArray("berries" + PlayerPrefsElite.GetInt("gameNumber"));
+            berries = new List<string>(
+                PlayerPrefsElite.GetStringArray("berriesCollected" + PlayerPrefsElite.GetInt("gameNumber"))
+            );
             berriesSet = new HashSet<string>(berries);
             if (berriesSet.Contains(""))
                 berriesSet.Remove("");
             if (berriesSet.Contains(roomName))
                 Destroy(this.gameObject);
         }
-
-        if (anim != null)
-            anim.gameObject.SetActive(false);
     } 
 
-    public void PickupBerry()
+    public IEnumerator PickupBerry()
     {
-        if (anim != null)
+        if (player != null && !once)
         {
-            anim.gameObject.transform.parent = null;
-            anim.gameObject.SetActive(true);
-        }
-        if (player != null)
-        {
+            once = true;
+            yield return new WaitForSeconds(0.33f);
+
             player.nBerries++;
-            Debug.Log("<color=yellow>"+berriesSet.Count+"</color>");
-            if (berriesSet.Count < berries.Length)
-            {
-                berries[ berriesSet.Count ] = roomName;
-                PlayerPrefsElite.SetStringArray("berries" + PlayerPrefsElite.GetInt("gameNumber"), berries);
-            }
+            player.PickupBerryCo();
+            berries.Add(roomName);
+            PlayerPrefsElite.SetStringArray("berriesCollected" + PlayerPrefsElite.GetInt("gameNumber"), berries.ToArray());
 
             Destroy(this.gameObject);
         }

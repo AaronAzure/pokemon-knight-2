@@ -16,4 +16,8 @@ public class PowerupScreen : MonoBehaviour
         if (player != null)
             player.Resume();
     }
+
+    public void SELECT_DEFAULT_STATION(){
+        player.SELECT_DEFAULT_STATION();
+    }
 }

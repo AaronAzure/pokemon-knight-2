@@ -19,7 +19,7 @@ public class Bellsprout : Enemy
     public bool playerInRange;
     private Coroutine co;
     private LayerMask finalMask;    // detect Player, Ground, ignores Enemy, Bounds
-
+    public bool usingGrowth;
 
 
     public override void Setup()
@@ -32,49 +32,52 @@ public class Bellsprout : Enemy
     // Start is called before the first frame update
     void FixedUpdate() 
     {
-        // Wandering around
-        if (!chasing)
+        if (!usingGrowth)
         {
-            if (!receivingKnockback && hp > 0)
+            // Wandering around
+            if (!chasing)
             {
-                if (movingLeft)
-                    body.velocity = new Vector2(-moveSpeed, body.velocity.y);
-                else if (movingRight)
-                    body.velocity = new Vector2(moveSpeed, body.velocity.y);
+                if (!receivingKnockback && hp > 0 && !cannotMove)
+                {
+                    if (movingLeft)
+                        body.velocity = new Vector2(-moveSpeed, body.velocity.y);
+                    else if (movingRight)
+                        body.velocity = new Vector2(moveSpeed, body.velocity.y);
+                }
+                RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsGround);
+                RaycastHit2D frontInfo;
+                if (model.transform.eulerAngles.y > 0) // right
+                    frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
+                else // left
+                    frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
+
+                if (movingRight)
+                    frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
+                
+                //* If at edge, then turn around
+                if (body.velocity.y >= 0 && (!groundInfo || frontInfo))
+                    Flip();
             }
-            RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distanceDetect, whatIsGround);
-            RaycastHit2D frontInfo;
-            if (model.transform.eulerAngles.y > 0) // right
-                frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
-            else // left
-                frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
-
-            if (movingRight)
-                frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, distanceDetect, whatIsGround);
-            
-            //* If at edge, then turn around
-            if (body.velocity.y >= 0 && (!groundInfo || frontInfo))
-                Flip();
-        }
-        // Chasing PLayer
-        else if (!receivingKnockback && hp > 0)
-        {
-            //* If at edge, then turn around
-            if (target.position.x > this.transform.position.x)  // player is to the right
+            // Chasing PLayer
+            else if (!receivingKnockback && hp > 0)
             {
-                body.AddForce(Vector2.right * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
-                float cappedSpeed = Mathf.Min(body.velocity.x, maxSpeed);
+                //* If at edge, then turn around
+                if (target.position.x > this.transform.position.x)  // player is to the right
+                {
+                    body.AddForce(Vector2.right * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
+                    float cappedSpeed = Mathf.Min(body.velocity.x, maxSpeed);
 
-                body.velocity = new Vector2(cappedSpeed, body.velocity.y);
-                model.transform.eulerAngles = new Vector3(0, 180);  // face right
-            }
-            else
-            {
-                body.AddForce(Vector2.left * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
-                float cappedSpeed = Mathf.Max(body.velocity.x, -maxSpeed);
+                    body.velocity = new Vector2(cappedSpeed, body.velocity.y);
+                    model.transform.eulerAngles = new Vector3(0, 180);  // face right
+                }
+                else
+                {
+                    body.AddForce(Vector2.left * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
+                    float cappedSpeed = Mathf.Max(body.velocity.x, -maxSpeed);
 
-                body.velocity = new Vector2(cappedSpeed, body.velocity.y);
-                model.transform.eulerAngles = new Vector3(0, 0);  // face left
+                    body.velocity = new Vector2(cappedSpeed, body.velocity.y);
+                    model.transform.eulerAngles = new Vector3(0, 0);  // face left
+                }
             }
         }
 
@@ -88,6 +91,10 @@ public class Bellsprout : Enemy
                 chasing = true;
                 if (alert != null) alert.gameObject.SetActive(true);
                 anim.speed = chaseSpeed;
+                if (canUseBuffs && !usingGrowth)
+                    anim.SetTrigger("growth");
+                else
+                    anim.SetTrigger("walking");
             }
             else
             {
@@ -118,17 +125,20 @@ public class Bellsprout : Enemy
     {
         if (!canFlip)
             return;
-        if (model.transform.eulerAngles.y != 0)
+        if (movingLeft || movingRight)
         {
-            model.transform.eulerAngles = new Vector3(0, 0);    // left
-            movingRight = false;
-            movingLeft = true;
-        }
-        else
-        {
-            model.transform.eulerAngles = new Vector3(0, 180);  // right
-            movingLeft = false;
-            movingRight = true;
+            if (model.transform.eulerAngles.y != 0)
+            {
+                model.transform.eulerAngles = new Vector3(0, 0);    // left
+                movingRight = false;
+                movingLeft = true;
+            }
+            else
+            {
+                model.transform.eulerAngles = new Vector3(0, 180);  // right
+                movingLeft = false;
+                movingRight = true;
+            }
         }
         StartCoroutine( ResetFlipTimer() );
     }
@@ -177,6 +187,11 @@ public class Bellsprout : Enemy
         }
 
         co = StartCoroutine(DoSomething());
+    }
+
+    public void STOP_MOVING()
+    {
+        body.velocity = new Vector2(0,body.velocity.y);
     }
 
 }

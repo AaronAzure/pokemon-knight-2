@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,8 +8,8 @@ public class SpareKeychain : MonoBehaviour
     public PlayerControls player;
     [SerializeField] private string roomName;
     [Space] [SerializeField] private List<string> keychain;
+    private bool once;
     // [SerializeField] private HashSet<string> kaychainSet;
-    [Space] [SerializeField] private Animator anim;
    
     private void Start() 
     {
@@ -24,24 +25,23 @@ public class SpareKeychain : MonoBehaviour
             if (kaychainSet.Contains(roomName))
                 Destroy(this.gameObject);
         }
-
-        if (anim != null)
-            anim.gameObject.SetActive(false);
     } 
 
-    public void PickupSpareKeychain()
+    public IEnumerator PickupSpareKeychain()
     {
-        if (anim != null)
+        if (player != null && !once)
         {
-            anim.gameObject.transform.parent = null;
-            anim.gameObject.SetActive(true);
-        }
-        if (player != null)
-        {
+            once = true;
+            yield return new WaitForSeconds(0.33f);
             player.extraWeight++;
+            player.PickupKeychainCo();
             
-            keychain.Add(roomName);
-            PlayerPrefsElite.SetStringArray("spareKeychain" + PlayerPrefsElite.GetInt("gameNumber"), keychain.ToArray());
+            // keychain.Add(roomName);
+            List<string> temp = new List<string>(
+                PlayerPrefsElite.GetStringArray("spareKeychain" + PlayerPrefsElite.GetInt("gameNumber"))
+            );
+            temp.Add(roomName);
+            PlayerPrefsElite.SetStringArray("spareKeychain" + PlayerPrefsElite.GetInt("gameNumber"), temp.ToArray());
 
             Destroy(this.gameObject);
         }

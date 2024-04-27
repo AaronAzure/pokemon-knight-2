@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 
 public class FindMatchingNames : MonoBehaviour
@@ -31,7 +33,7 @@ public class FindMatchingNames : MonoBehaviour
     }
 }
 
-
+#if UNITY_EDITOR
 [CustomEditor(typeof(FindMatchingNames), true)]
 public class FindMatchingNamesEditor : Editor {
     public override void OnInspectorGUI() 
@@ -46,3 +48,4 @@ public class FindMatchingNamesEditor : Editor {
         base.OnInspectorGUI();
     }
 }
+#endif

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
@@ -18,9 +19,18 @@ public class HighlightedButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI coolDown;
     
     
-    [Space] [Header("Pokemon Menu")]
+    [Space] [Header("Item Menu")]
     public bool itemMenu;
     [SerializeField] private ItemUi[] items;
+    
+    
+    [Space] [Header("Enhance Menu")]
+    public bool enhanceMenu;
+    [SerializeField] private EnhancePokemonUi[] enhancePokemonUis;
+    public Image[] enhanceImg;
+    public GameObject canEnhanceObj;
+    public TextMeshProUGUI enhancementCostTxt;
+    public TextMeshProUGUI evolutionBonusTxt;
 
 
     [Space] [Header("UI (tmpro)")]
@@ -47,29 +57,7 @@ public class HighlightedButton : MonoBehaviour
                             && newlyHighlighted.name == pokemonButton.name)
                         {
                             found = true;
-                            header.text = pokemonButton.ally.moveName;
-
-                            float atkDmg = pokemonButton.ally.atkDmg;
-                            atkDmg += ( pokemonButton.ally.extraDmg * Mathf.CeilToInt(((player.lv - 1) / pokemonButton.ally.perLevel)) );
-                            atkpower.text = atkDmg.ToString();
-                            if (pokemonButton.ally.multiHit > 1)
-                            {
-                                float temp = atkDmg;
-                                atkDmg *= pokemonButton.ally.multiHit;
-                                atkpower.text = atkDmg.ToString() + " (" + temp + "×" + pokemonButton.ally.multiHit + ")";
-                            }
-
-                            float resummonTime = pokemonButton.ally.resummonTime;
-                            coolDown.text = resummonTime.ToString();
-                            if (player != null && player.speedScarf)
-                            {
-                                resummonTime *= 0.7f;
-                                coolDown.text = resummonTime.ToString() + "s (" + pokemonButton.ally.resummonTime + "s)";
-                            }
-
-                            desc.text = pokemonButton.ally.moveDesc;
-                            if (player != null)
-                                desc.text += pokemonButton.ally.ExtraDesc(player.lv);
+                            ShowDescription(pokemonButton.ally);
 
                             break;
                         }
@@ -93,7 +81,7 @@ public class HighlightedButton : MonoBehaviour
                         if (itemButton != null && newlyHighlighted.name == itemButton.name)
                         {
                             found = true;
-                            header.text = itemButton.itemName;
+                            header.text = itemButton.camelisedItemName;
 
                             weight.text = itemButton.weight.ToString();
 
@@ -111,6 +99,131 @@ public class HighlightedButton : MonoBehaviour
                     desc.text = "";
                 }
             }
+        
+            else if (enhanceMenu)
+            {
+                RefreshEnhanceMenu();
+            }
+        
         }
     }
+
+    public void RefreshEnhanceMenu()
+    {
+        if (enhancePokemonUis != null)
+        {
+            foreach (EnhancePokemonUi epu in enhancePokemonUis)
+            {
+                if (epu != null && epu.pokemon != null && newlyHighlighted.name == epu.name)
+                {
+                    ShowEnhancementDescription(epu.pokemon);
+					break;
+                }
+            }
+        }
+    }
+
+
+	public void ShowDescription(Ally ally)
+	{
+		header.text = ally.moveName;
+
+		if (ally.cmd.isCustomDmg)
+		{
+			atkpower.text = ally.cmd.customDmg;
+		}
+		else
+		{
+			float atkDmg = ally.atkDmg;
+			atkDmg += ( ally.extraDmg * Mathf.CeilToInt(
+				((player.lv - 1) + (ally.ExtraEnhancedDmg()) / ally.perLevel)) 
+			);
+			atkpower.text = atkDmg.ToString();
+			if (ally.multiHit > 1)
+			{
+				float temp = atkDmg;
+				atkDmg *= ally.multiHit;
+				atkpower.text = atkDmg.ToString() + " (" + temp + "×" + ally.multiHit + ")";
+			}
+			// int bonusDmg = (ally.extraDmg*ally.EnhanceDmgBonus()*ally.multiHit);
+			// atkpower.text = atkDmg.ToString() + "<color=#8FFF78> (+" + bonusDmg + ")</color>";
+		}
+		atkpower.text += ally.ExtraAttacks();
+
+		float resummonTime = ally.resummonTime;
+		coolDown.text = resummonTime.ToString();
+		if (player != null && player.quickCharm)
+		{
+			resummonTime *= player.coolDownSpeed;
+			coolDown.text = resummonTime.ToString() + "s <size=16>";
+			coolDown.text += "(" + ally.resummonTime + "s)</size>";
+		}
+
+		desc.text = ally.moveDesc;
+		if (player != null)
+			desc.text += ally.ExtraDesc(player.lv);
+	}
+
+	public void ShowEnhancementDescription(Ally ally)
+	{
+		header.text = ally.pokemonName;
+		// if (atkDmg == 0)
+		// 	atkpower.text = "???";
+		if (ally.cmd.isCustomDmg)
+		{
+			atkpower.text = ally.cmd.customDmg;
+		}
+		else
+		{
+			float atkDmg = ally.atkDmg;
+			atkDmg += ( ally.extraDmg * Mathf.CeilToInt(
+				((player.lv - 1) + (ally.ExtraEnhancedDmg()) / ally.perLevel)) 
+			);
+			atkpower.text = atkDmg.ToString();
+			if (ally.multiHit > 1)
+			{
+				float temp = atkDmg;
+				atkDmg *= ally.multiHit;
+				atkpower.text = atkDmg.ToString() + " (" + temp + "×" + ally.multiHit + ")";
+			}
+			int bonusDmg = (ally.extraDmg*ally.EnhanceDmgBonus()*ally.multiHit);
+			atkpower.text = atkDmg.ToString() + "<color=#8FFF78> (+" + bonusDmg + ")</color>";
+		}
+		// if (atkDmg == 0 && bonusDmg == 0)
+		// 	atkpower.text = "???" + "<color=#8FFF78> (+???)</color>";
+
+		float resummonTime = ally.resummonTime;
+		coolDown.text = resummonTime.ToString();
+
+		//* DIAMOND LV VISUAL INDICATOR
+		int extraLv = ally.extraLevel;
+		for (int i=0 ; i<enhanceImg.Length ; i++)
+		{
+			//* NEXT LEVEL TO BE ENHANCED
+			if (extraLv == i)
+				enhanceImg[i].color = new Color(1,1,1,0.3f);
+			//* ALREADY ENHANCED
+			else if (extraLv > i)
+				enhanceImg[i].color = new Color(1,1,1,1f);
+			//* NOT YET
+			else
+				enhanceImg[i].color = new Color(1,1,1,0f);
+		}
+
+		if (evolutionBonusTxt != null && ally.cmd.evolutionBonus != "" && extraLv % 3 == 2)
+			evolutionBonusTxt.text = "(" + ally.cmd.evolutionBonus + ")";
+		else
+			evolutionBonusTxt.text = "";
+
+		int enhancementCost = Mathf.RoundToInt(Mathf.Min( 10000, 100 * Mathf.Pow(3, extraLv) ));
+		if (player.currency < enhancementCost || extraLv > 5)
+			canEnhanceObj.SetActive(false);
+		else
+			canEnhanceObj.SetActive(true);
+
+		if (extraLv <= 5)
+			enhancementCostTxt.text = enhancementCost.ToString();
+		else
+			enhancementCostTxt.text = "Maxed";
+	}
 }

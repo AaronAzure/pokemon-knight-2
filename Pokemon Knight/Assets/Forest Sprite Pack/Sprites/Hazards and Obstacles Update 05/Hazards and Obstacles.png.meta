@@ -321,7 +321,7 @@ TextureImporter:
       213: 21300210
     second: RockChunk_12
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -342,6 +342,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -380,6 +381,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -407,6 +409,30 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: iPhone
     maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
@@ -2656,6 +2682,113 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      RockChunk_11: 21300208
+      RockChunk_9: 21300204
+      MushroomCap_1: 21300082
+      RockChunk_3: 21300192
+      HangingLeaves_11: 21300150
+      RockChunk_12: 21300210
+      TrunksChunks_5: 21300012
+      WoodenStructure_Large_3: 21300042
+      BrokenTrunkCracks_2: 21300020
+      TrunksChunks_1: 21300008
+      StoneSpike_2: 21300092
+      HangingLeaves_5: 21300138
+      GrassyLedge_3: 21300108
+      BreakableRocks_4: 21300178
+      GrassyLedge_2: 21300106
+      Thorns_4: 21300074
+      WoodenStructure_Large_2: 21300040
+      WoodenStructure_Medium_3: 21300050
+      WoodenStructure_Small_2: 21300056
+      RockChunk_8: 21300202
+      HangingLeaves_15: 21300158
+      WoodenSpikes_2: 21300064
+      WoodenStructure_Large_1: 21300038
+      StoneLedge_1: 21300096
+      Trunk_5: 21300034
+      RockChunk_6: 21300198
+      Thorns_2: 21300070
+      RockChunk_4: 21300194
+      BreakableRocks_2: 21300174
+      BreakableRocksCracks_3: 21300182
+      Trunk_4: 21300032
+      HangingLeaves_1: 21300130
+      BreakableRocksCracks_4: 21300180
+      WoodenStructure_Medium_4: 21300052
+      RockChunk_1: 21300188
+      MushroomStem_3: 21300080
+      TrunksChunks_4: 21300006
+      WoodenStructure_Medium_1: 21300046
+      Trunk_1: 21300026
+      MushroomStem_2: 21300078
+      Rocks_5: 21300120
+      BreakableRocks_1: 21300172
+      RockChunk_7: 21300200
+      Rocks_1: 21300112
+      WoodenStructure_Small_4: 21300060
+      GrassyLedge_1: 21300104
+      HangingLeaves_6: 21300140
+      BrokenTrunkCracks_3: 21300016
+      RockChunk_2: 21300190
+      HangingLeaves_7: 21300142
+      HangingLeaves_2: 21300132
+      Trunk_3: 21300030
+      StoneLedge_3: 21300100
+      StoneSpike_3: 21300094
+      HangingMoss_2: 21300168
+      Rocks_2: 21300114
+      WoodenStructure_Large_4: 21300044
+      Thorns_3: 21300072
+      WoodenSpikes_4: 21300088
+      FalseFloor_3: 21300164
+      HangingMoss_3: 21300170
+      HangingLeaves_4: 21300136
+      HangingLeaves_12: 21300152
+      HangingLeaves_14: 21300156
+      TrunksChunks_3: 21300010
+      Trunk_2: 21300028
+      HangingMoss_1: 21300166
+      HangingLeaves_3: 21300134
+      WoodenStructure_Medium_2: 21300048
+      Thorns_1: 21300068
+      WoodenStructure_Small_3: 21300058
+      HangingLeaves_9: 21300146
+      BrokenTrunkCracks_4: 21300002
+      HangingRoots_1: 21300124
+      MushroomStem_1: 21300076
+      TrunksChunks_2: 21300004
+      FalseFloor_1: 21300160
+      GrassyLedge_4: 21300110
+      Rocks_3: 21300116
+      BrokenTrunk_2: 21300018
+      StoneSpike_1: 21300090
+      HangingLeaves_10: 21300148
+      WoodenSpikes_3: 21300066
+      HangingRoots_3: 21300128
+      MushroomCap_3: 21300086
+      WoodenSpikes_1: 21300062
+      BreakableRocksCracks_1: 21300186
+      RockChunk_5: 21300196
+      HangingRoots_2: 21300126
+      Trunk_6: 21300036
+      HangingLeaves_13: 21300154
+      RockChunk_10: 21300206
+      Rocks_4: 21300118
+      BreakableRocks_3: 21300176
+      WoodenStructure_Small_1: 21300054
+      MushroomCap_2: 21300084
+      Rocks_6: 21300122
+      BreakableRocksCracks_2: 21300184
+      BrokenTrunk_3: 21300014
+      BrokenTrunk_1: 21300022
+      HangingLeaves_8: 21300144
+      BrokenTrunkCracks_1: 21300024
+      FalseFloor_2: 21300162
+      StoneLedge_4: 21300102
+      BrokenTrunk_4: 21300000
+      StoneLedge_2: 21300098
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

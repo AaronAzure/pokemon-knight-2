@@ -7,7 +7,6 @@ public class Caterpie : Enemy
     [Space] [Header("Caterpie")] public float moveSpeed=5;
     public float distanceDetect=2f;
     public Transform groundDetection;
-    [SerializeField] private LayerMask whatIsTree;
     public float forwardDetect=1f;
     public Transform face;
 
@@ -28,7 +27,6 @@ public class Caterpie : Enemy
             frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.right, forwardDetect, whatIsGround);
         else // left
             frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, forwardDetect, whatIsGround);
-        // RaycastHit2D treeInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsTree);
 
         //* If at edge, then turn around
         if (body.velocity.y >= 0 && (!groundInfo || frontInfo))

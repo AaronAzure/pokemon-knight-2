@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3146973104018085902}
   - component: {fileID: 5341421016389988590}
   - component: {fileID: 4041949879290081921}
-  - component: {fileID: 491219381366719844}
   - component: {fileID: 3149849982928632411}
   - component: {fileID: 2790582370561778091}
+  - component: {fileID: 7011715991304629414}
   m_Layer: 0
   m_Name: Ally Gust
   m_TagString: Untagged
@@ -95,26 +95,6 @@ SortingGroup:
   m_SortingLayerID: 480402825
   m_SortingLayer: 1
   m_SortingOrder: 1
---- !u!114 &491219381366719844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1982109146318214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 362cf1093310646f4b06376b328c08b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  atkDmg: 30
-  atkForce: 40
-  trailObj: {fileID: 0}
-  explosionObj: {fileID: 0}
-  destoryOnCollision: 0
-  velocity: 0
-  customTrajectory: 0
-  body: {fileID: 5341421016389988590}
 --- !u!114 &3149849982928632411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,6 +127,28 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7011715991304629414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982109146318214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ba190cd6fbf4bfcb5a838392927218, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atkDmg: 30
+  atkForce: 40
+  spBonus: 0
+  registerOneHitOnly: 1
+  yKb: 1
+  spawnEffectObj: {fileID: 0}
+  spawnEffect: 0
+  velocity: 0
+  body: {fileID: 0}
+  origin: {fileID: 0}
 --- !u!1 &1385909205638541268
 GameObject:
   m_ObjectHideFlags: 0

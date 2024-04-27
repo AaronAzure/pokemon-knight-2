@@ -176,7 +176,7 @@ namespace Rewired.Integration.UnityUI {
         /// </summary>
         [SerializeField]
         [Tooltip("Name of the action used to submit.")]
-        private string m_SubmitButton = DEFAULT_ACTION_SUBMIT;
+        public string m_SubmitButton = DEFAULT_ACTION_SUBMIT;
 
         /// <summary>
         /// Name of the action used to cancel.

@@ -12,7 +12,7 @@ public class PidgeySupport : MonoBehaviour
             if (pidgey.target == null)
                 pidgey.target = other.transform;
             pidgey.playerInRange = true;
-            pidgey.anim.speed = pidgey.chaseSpeed;
+            // pidgey.anim.speed = pidgey.chaseSpeed;
         }    
     }
     

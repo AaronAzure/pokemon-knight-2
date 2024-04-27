@@ -6,7 +6,7 @@ public class TargetFinder : MonoBehaviour
 {
     [SerializeField] private ProCamera2D proCam;
     [SerializeField] private CinemachineVirtualCamera[] cm;
-    [SerializeField] private CameraManualFollow manualFollow;
+    [SerializeField] private CameraManualFollow[] manualFollow;
 
     // Start is called before the first frame update
     void Start()
@@ -15,11 +15,18 @@ public class TargetFinder : MonoBehaviour
         {
             GameObject target = GameObject.Find("PLAYER/MODEL");
             if (proCam != null) proCam.AddCameraTarget(target.transform);
+            
             if (cm != null) {
                 foreach (CinemachineVirtualCamera c in cm)
-                    c.Follow = target.transform;
+                    if (c != null)
+                        c.Follow = target.transform;
             }
-            if (manualFollow != null) manualFollow.target = target.transform;
+            if (manualFollow != null) {
+                foreach (CameraManualFollow m in manualFollow)
+                    if (m != null)
+                        m.target = target.transform;
+            }
+            // if (manualFollow != null) manualFollow.target = target.transform;
         }
     }
 }

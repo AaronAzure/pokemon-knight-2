@@ -9714,7 +9714,6 @@ GameObject:
   - component: {fileID: 4662914085798664}
   - component: {fileID: 198793095439891898}
   - component: {fileID: 199240126902714026}
-  - component: {fileID: 114385112809515308}
   - component: {fileID: 2960670372736562437}
   - component: {fileID: 3746478155411923182}
   - component: {fileID: 3483699989780539279}
@@ -14557,19 +14556,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &114385112809515308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1905436362935654}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 628ef9b0c7e4fd24db54868035e11237, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomPercent: 8
 --- !u!58 &2960670372736562437
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -14600,11 +14586,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atkDmg: 15
   atkForce: 0
+  spBonus: 0
+  spawnedPos: {x: 0, y: 0, z: 0}
   trailObj: {fileID: 1632642793083130}
+  destroyAfter: 1
   explosionObj: {fileID: 1817797803601600, guid: 5b2b96c1b267046df8cf99b91b9f4484, type: 3}
   destoryOnCollision: 1
   velocity: 25
+  customTrajectory: 0
   body: {fileID: 3483699989780539279}
+  anim: {fileID: 0}
+  explosiveHitbox: 0
+  explosiveAtk: 0
+  explosiveKb: 0
+  explosiveHitboxObj: {fileID: 0}
+  absorbEffect: 0
+  player: {fileID: 0}
+  absorbReturnObj: {fileID: 0}
+  maxDrain: 5
 --- !u!50 &3483699989780539279
 Rigidbody2D:
   serializedVersion: 4

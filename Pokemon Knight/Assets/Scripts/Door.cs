@@ -7,6 +7,7 @@ public class Door : MonoBehaviour
     public string newSceneName;
     public Vector2 newPos;
     [Tooltip("true = moving left\nfalse = moving right")] public bool moveLeftFromDoor;
+    [Space] [Tooltip("No moving")] public bool exitingAnotherDoor;
 
     private PlayerControls playerControls;
 
@@ -23,6 +24,7 @@ public class Door : MonoBehaviour
                 playerControls.canEnter = true;
                 playerControls.newSceneName = this.newSceneName;
                 playerControls.newScenePos = this.newPos;
+                playerControls.exitingAnotherDoor = this.exitingAnotherDoor;
                 playerControls.moveLeftFromDoor = this.moveLeftFromDoor;
             }
         }
@@ -35,7 +37,10 @@ public class Door : MonoBehaviour
                 playerControls = other.GetComponent<PlayerControls>();
             
             if (playerControls != null)
+            {
                 playerControls.canEnter = false;
+                playerControls.exitingAnotherDoor = false;
+            }
         }
     }
 }

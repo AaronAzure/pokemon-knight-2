@@ -8,9 +8,9 @@ public class Nidoran : Enemy
     public Animator anim;
     public float moveSpeed=2;
     public float chaseSpeed=5;
+    public float maxSpeed=6f;
     public bool canJump=true;
     public float jumpHeight=16;
-    public float maxSpeed=6f;
     public float distanceDetect=1f;
     public Transform groundDetection;
 
@@ -26,6 +26,7 @@ public class Nidoran : Enemy
     [SerializeField] private Coroutine targetLostCo;
     private LayerMask finalMask;    // detect Player, Ground, ignores Enemy, Bounds
     private RaycastHit2D playerInfo;
+    [Space] public bool speedVariant;
 
 
 
@@ -37,6 +38,8 @@ public class Nidoran : Enemy
             alert.gameObject.SetActive(false);
         if (target == null && playerControls != null)
             target = playerControls.transform;
+        if (speedVariant)
+            maxSpeed *= Random.Range(0.9f, 1.1f);
     }
 
     public override void CallChildOnTargetFound()
@@ -52,7 +55,6 @@ public class Nidoran : Enemy
     {
         yield return new WaitForSeconds(duration);
         chasing = false;
-        // playerInField = false;    
         alert.SetActive(false);
 
         targetLostCo = null;
@@ -107,19 +109,18 @@ public class Nidoran : Enemy
                 if (target.position.x > this.transform.position.x)  // player is to the right
                 {
                     body.AddForce(Vector2.right * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
-                    float cappedSpeed = Mathf.Min(body.velocity.x, maxSpeed);
-
-                    body.velocity = new Vector2(cappedSpeed, body.velocity.y);
+                    // float cappedSpeed = Mathf.Min(body.velocity.x, maxSpeed);
+                    // body.velocity = new Vector2(cappedSpeed, body.velocity.y);
                     model.transform.eulerAngles = new Vector3(0, 180);  // face right
                 }
                 else
                 {
                     body.AddForce(Vector2.left * chaseSpeed * Time.fixedDeltaTime, ForceMode2D.Impulse);
-                    float cappedSpeed = Mathf.Max(body.velocity.x, -maxSpeed);
-
-                    body.velocity = new Vector2(cappedSpeed, body.velocity.y);
+                    // float cappedSpeed = Mathf.Max(body.velocity.x, -maxSpeed);
+                    // body.velocity = new Vector2(cappedSpeed, body.velocity.y);
                     model.transform.eulerAngles = new Vector3(0, 0);  // face left
                 }
+				body.velocity = Vector2.ClampMagnitude(body.velocity, maxSpeed);
             }
             else 
             {
@@ -220,6 +221,7 @@ public class Nidoran : Enemy
 
     bool IsBelowTarget()
     {
+        // return (this.transform.position.y - target.transform.position.y) <= 0;
         return (this.transform.position.y - target.transform.position.y) < -0.1f;
     }
 

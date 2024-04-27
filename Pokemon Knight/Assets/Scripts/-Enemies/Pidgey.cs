@@ -14,8 +14,13 @@ public class Pidgey : Enemy
     public Transform target;
     public bool chasing;
     public bool playerInRange;
-    
+    private float timer;
+    private float flipTimer=3;
+
     private bool once;
+    private Coroutine targetLostCo;
+
+
 
     [Space] [Header("Miniboss attacks")]
     [SerializeField] private EnemyProjectile gust;
@@ -25,6 +30,8 @@ public class Pidgey : Enemy
     [SerializeField] private AIPath aiPath;
     [SerializeField] private GameObject spawnedHolder;
     private Coroutine co;
+
+
 
     [Space] [Header("Debug")]
     [SerializeField] private string rayCast;
@@ -38,9 +45,9 @@ public class Pidgey : Enemy
         if (spawnedHolder != null) 
             spawnedHolder.transform.parent = null;
             
+        target = playerControls.gameObject.transform;
         if (isMiniBoss)
         {
-            target = playerControls.gameObject.transform;
             co = StartCoroutine( Attack(7.5f) );
             chasing = true;
             anim.speed = chaseSpeed;
@@ -51,7 +58,7 @@ public class Pidgey : Enemy
         }
         else
         {
-            // StartCoroutine( Wait() );
+            // target = playerControls.gameObject.transform;
         }
     }
 
@@ -62,7 +69,9 @@ public class Pidgey : Enemy
     }
     public override void CallChildOnBossDeath()
     {
-        StopCoroutine(co);
+        if (co != null)
+            StopCoroutine(co);
+		StopAllCoroutines();
         if (aiPath != null)
             aiPath.canMove = false;
         body.gravityScale = 3;
@@ -82,14 +91,64 @@ public class Pidgey : Enemy
         chaseSpeed /= 1.5f;
         maxSpeed /= 1.5f;
     }
+    public override void CallChildOnHalfHealth()
+    {
+        if (isMiniBoss)
+        {
+            aiPath.maxSpeed *= 1.25f;
+            // aiPath.maxAcceleration *= 1.25f;
+        }
+    }
+
+    public override void CallChildOnTargetLost()
+    {
+        if (targetLostCo == null)
+            targetLostCo = StartCoroutine( TryToFindTarget(1f) );
+    }
+    IEnumerator TryToFindTarget(float duration=2)
+    {
+        yield return new WaitForSeconds(duration);
+        chasing = false;
+        alert.SetActive(false);
+        body.velocity = Vector2.zero;
+        playerInField = false;
+        playerInSight = false;
+
+        targetLostCo = null;
+        timer = 0;
+        anim.speed = 1;
+    }
+
+    public override void CallChildOnKnockbackStart()
+    {
+        if (aiPath != null)
+            aiPath.canMove = false;
+    }
+    public override void CallChildOnKnockbackFinish()
+    {
+        if (aiPath != null)
+            aiPath.canMove = true;
+    }
+
 
     // Start is called before the first frame update
     void FixedUpdate() 
     {
-        // Wandering around
+        // Wandering around ( MOB )
         if (!inCutscene && !isMiniBoss)
         {
-            if (!chasing || inAnimation) { body.velocity = Vector2.zero; }
+            if (!chasing || inAnimation) { 
+                if (!receivingKnockback)
+                    body.velocity = Vector2.zero;
+
+                if (timer < flipTimer)
+                    timer += Time.fixedDeltaTime;
+                else
+                {
+                    timer = 0;
+                    Flip();
+                }
+            }
             // Chasing PLayer
             else if (!receivingKnockback)
             {
@@ -99,44 +158,70 @@ public class Pidgey : Enemy
                 CapVelocity();
             }
 
-            if (target != null && playerInRange)
+            if (target != null && playerInField)
             {
-                if (canUseBuffs)
+                // if (canUseBuffs)
+                // {
+                //     canUseBuffs = false;
+                //     anim.SetTrigger("agility");
+                //     inAnimation = true;
+                // }
+                
+                lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position);
+                RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position,
+                    this.transform.position + new Vector3(0, 1) + lineOfSight, finalMask);
+                if (rayCast != null && playerInfo.collider != null)
+                    rayCast = playerInfo.collider.name;
+                if (playerInfo.collider != null && playerInfo.collider.gameObject.CompareTag("Player"))
                 {
-                    canUseBuffs = false;
-                    anim.SetTrigger("agility");
-                    inAnimation = true;
+                    chasing = true;
+                    anim.speed = chaseSpeed;
+                    
+                    //* BUFF
+                    if (canUseBuffs)
+                    {
+                        canUseBuffs = false;
+                        anim.SetTrigger("agility");
+                        inAnimation = true;
+                    }
+
+                    if (alert != null) alert.gameObject.SetActive(true);
+                    if (targetLostCo != null)
+                    {
+                        StopCoroutine( targetLostCo );
+                        targetLostCo = null;
+                    }
                 }
-                    lineOfSight = (target.position + new Vector3(0, 1)) - (this.transform.position);
-                    RaycastHit2D playerInfo = Physics2D.Linecast(this.transform.position,
-                        this.transform.position + new Vector3(0, 1) + lineOfSight, finalMask);
-                    if (rayCast != null && playerInfo.collider != null)
-                        rayCast = playerInfo.collider.name;
-                    if (playerInfo.collider != null && playerInfo.collider.gameObject.CompareTag("Player"))
-                    {
-                        chasing = true;
-                        anim.speed = chaseSpeed;
-                        if (alert != null) alert.gameObject.SetActive(true);
-                    }
-                    else if (playerInfo.collider != null)
-                    {
-                        chasing = false;
-                        if (alert != null) alert.gameObject.SetActive(false);
-                    }
+                else if (playerInfo.collider != null)
+                {
+                    CallChildOnTargetLost();
+                    // chasing = false;
+                    // if (alert != null) alert.gameObject.SetActive(false);
+                }
             }
-            else if (alert != null) alert.gameObject.SetActive(false);
+            // else if (alert != null) alert.gameObject.SetActive(false);
+            // else if (target != null && !playerInField && chasing)
+            // {
+            //     CallChildOnTargetLost();
+            // }
         }
         if (isMiniBoss && hp > 0)
+        {
+            // if (!receivingKnockback && !aiPath.canMove)
+            //     aiPath.canMove = true;
+            // else if (receivingKnockback && aiPath.canMove)
+            //     aiPath.canMove = false;
             LookAtTarget();
+        }
     }
 
-    private void LookAtTarget()
+
+    private void Flip()
     {
-        if (target.position.x > this.transform.position.x)  // player is to the right
-            model.transform.eulerAngles = new Vector3(0, 180);  // face right
-        // chasing left (negative velocity)
-        else
-            model.transform.eulerAngles = new Vector3(0, 0);  // face left
+        if (model.transform.eulerAngles.y != 0) // currently facing right
+            model.transform.eulerAngles = new Vector3(0, 0);
+        else     // currently facing left
+            model.transform.eulerAngles = new Vector3(0, 180);
     }
 
     private void CapVelocity()
@@ -200,14 +285,24 @@ public class Pidgey : Enemy
     
     public void Gust()
     {
-        if (gust != null)
-            Instantiate(gust, this.transform.position, gust.transform.rotation, spawnedHolder.transform);
+        if (hp > 0 && gust != null)
+        {
+            var obj = Instantiate(gust, this.transform.position - new Vector3(0,1),
+                gust.transform.rotation, spawnedHolder.transform);
+            obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
+        }
     }
 
     public void ResumeMovement()
     {
-        aiPath.canMove = true;
-        anim.speed = chaseSpeed;
-        co = StartCoroutine( Attack() );
+		if (hp > 0)
+		{
+			aiPath.canMove = true;
+			anim.speed = chaseSpeed;
+			if (hpImg.fillAmount < 0.5f)
+				co = StartCoroutine( Attack(3.5f) );
+			else
+				co = StartCoroutine( Attack() );
+		}
     }
 }

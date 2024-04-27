@@ -13,24 +13,40 @@ using UnityEditor;
 
 public abstract class Enemy : MonoBehaviour
 {
-    [SerializeField] private string enemyId;
+    private string enemyId;
     public int lv=2;
     protected int defaultLv=1; // Bonus
     private int lvBreak=10;  // Additional bonus
     [HideInInspector] public enum ChapterLevel { one, two, three, four, five, six, seven };
     public ChapterLevel chapterLevel = ChapterLevel.one;
-    [Space] public int maxHp=100;
-    public int hp;
-    protected PlayerControls playerControls;
-    [SerializeField] protected Animator mainAnim;
+    [HideInInspector] public PlayerControls playerControls;
+    [Space] [SerializeField] protected Animator mainAnim;
     private bool inPlayMode;
+	[Space] public Sprite pokemonSpr;
     
 
-    [Space] [Header("Damage Related")]
-    public int contactDmg=5;
-    public float contactKb=10;
+    [Space] [Header("Stats")]
+    
+    public int maxHp=100;
+    public int hp;
+    [Space] public int contactDmg=5;
     public int projectileDmg=5;
+    public float contactKb=10;
+    [Space] public int extraHp=2;   // Bonus
+    public int extraDmg=2;  // Bonus
+    public int extraProjectileDmg=0;  // Bonus
+    public int perLv=1;  // Bonus
+    [Space] public int expPossess=5;
+    public int extraExp=2;  // Additional bonus
+    [Space] public int secondDmg=5;
+    public int secondExtraDmg=3;
+    public bool hasExtraDmg;
+    
+    
+    [Space] [Header("Ai")]
+
     [Space] public bool isSmart;    // Turns if attacked from behind;
+    [Space] public bool isEvenSmarter;    // Turns if attacked from behind;
     
     [Space] [SerializeField] private SpriteRenderer[] renderers;
     [SerializeField] private Material defeatedMat;
@@ -38,21 +54,20 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private Material origMat;
     [HideInInspector] public BossRoom bossRoom;
     private bool canCatch;
+	
+	
+    [Space] [Header("Destroyable Projectile")]
+	public bool destroyable;
+	[SerializeField] protected GameObject explosion;
 
 
-    [Space] [Header("Level Bonus")]
-    public int extraHp=2;   // Bonus
-    public int extraDmg=2;  // Bonus
-    public int extraProjectileDmg=0;  // Bonus
-    public int perLv=1;  // Bonus
+
+    [Space] [Header("Damage Related")]
     [SerializeField] protected int calcExtraProjectileDmg=0;
     
     protected int origContactDmg;
     protected float origContactKb;
     protected int origTotalExtraDmg;
-
-    [Space] public int expPossess=5;
-    public int extraExp=2;  // Additional bonus
     
     //// [SerializeField] private GameObject emptyHolder;
     //// [SerializeField] private TextMeshPro dmgText;
@@ -66,6 +81,9 @@ public abstract class Enemy : MonoBehaviour
     [Tooltip("1 = 100% kb, 0 = 0%")] [SerializeField] [Range(0,1f)] protected float kbDefense=1;
     [SerializeField] protected LayerMask whatIsGround;
     [SerializeField] protected LayerMask whatIsPlayer;
+    [SerializeField] protected LayerMask whatIsBounds;
+    [SerializeField] private LayerMask whatIsTree;
+    protected LayerMask obstacleMask;
 
 
     //* UI
@@ -76,10 +94,10 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private float effectSpeed = 0.005f;
 
 
-    [Header("size")]
-    public Vector3 origSize;
-    public float ShrinkDuration = 0.5f;
-    public float t = 0;
+    [Header("Feet")]
+    [HideInInspector] public Vector3 origSize;
+    [HideInInspector] public float ShrinkDuration = 0.5f;
+    [HideInInspector] public float t = 0;
     [Space] public Vector2 feetSize;
     public Vector2 feetOffset;
 
@@ -88,38 +106,60 @@ public abstract class Enemy : MonoBehaviour
     [Header("Boss")]
     public bool isBoss;
     public bool isMiniBoss;
-    public GameObject possessedAura;
+    [Tooltip("possessed")] public GameObject possessedAura;
+    [Tooltip("aura")] public GameObject rageChargeObj;
     public GameObject battleRoarObj;
-    public GameObject rageChargeObj;
+	public ParticleSystem[] effects;
+	[Space] public bool cannotDmgPlayer;
+    public bool inCutscene; // Can't move
     [HideInInspector] public bool inRage;
-    [HideInInspector] public bool inCutscene; // Can't move
     [HideInInspector] public bool inRageCutscene; // Can't move
     [HideInInspector] public bool isDefeated;
     [Space] [Space] public string powerupName;
-    public GameObject pokeball;
-    public GameObject canCatchEffect;
-    [HideInInspector] public bool mustDmgBeforeFight;
-    [HideInInspector] public bool bossBattleBegin;
+    [Tooltip("Prefabs/- Enemies/- effects/-pokeball-catch")] public GameObject pokeball;
+    [Tooltip("Prefabs/- Enemies/- effects/-can catch")] public GameObject canCatchEffect;
+    /*[HideInInspector]*/ [Space] public bool mustDmgBeforeFight;
+    /*[HideInInspector]*/ public bool bossBattleBegin;
+    /*[HideInInspector]*/ public bool playerInBossRoom;
 
 
 
     [Space] [Header("Waves Related")]
     [HideInInspector] public WaveSpawner spawner;
+    [Space] [Header("Horde Related")]
+    [HideInInspector] public HordeManager horde;
+    [HideInInspector] public bool partOfHorde;
 
     
     [Space] [Header("Support / Mechanics")]
     public GameObject alert;
+    public GameObject eyes;
+    public GameObject eyes2;
+    [Space] public GameObject blood;
+    [Space] public bool isAttacking;    // SET BY ANIMATION
+    public bool isTargeting;
     [HideInInspector] protected bool canFlip=true ;
+    public bool keepSearching;
     public bool playerInField;
     public bool playerInSight;
+    public bool playerInCloseRange;
     protected bool trigger;
     public bool alwaysAttackPlayer;
-    [Space] [SerializeField] protected bool movingLeft;
+    public bool isInRoom;
+    [Space] public bool cannotMove;
+    [SerializeField] protected bool movingLeft;
     [SerializeField] protected bool movingRight;
+    protected bool downToHalfHp;
+    [Space] public bool aquatic;
+    [HideInInspector] public AllyAttack dontGetHitTwice;
+    public bool performingBuff;
+    protected bool dead=false;
 
 
     [Space] [Header("Buffs / Debuffs")]
     public bool canUseBuffs;
+    public float buffDuration=5;
+    public float beforeNextUse=5;
     [SerializeField] protected Image[] statusConditions;
     [SerializeField] protected int nCondition;
     [Space] [SerializeField] protected Sprite empty;
@@ -134,80 +174,124 @@ public abstract class Enemy : MonoBehaviour
     private enum HpEffect { none, heal, lost };
     private HpEffect healthStatus = HpEffect.none;
     [HideInInspector] public bool spawnedByWave;
+    
+    
+    [Space] [Header("Loot")]
+    public DropItems loot;
 
 
 
 
     public virtual void Start() 
     {
-        if (!isBoss && !spawnedByWave)
-        {
-            enemyId = SceneManager.GetActiveScene().name + " " + this.name;
-            if (PlayerPrefsElite.VerifyArray("enemyDefeated"))
-            {
-                HashSet<string> names = new HashSet<string>(PlayerPrefsElite.GetStringArray("enemyDefeated"));
-                if (names.Contains(enemyId))
-                    Destroy(this.gameObject);
-            }
-        }
+		if (!destroyable)
+		{
+			if (!isBoss && !spawnedByWave)
+			{
+				enemyId = SceneManager.GetActiveScene().name + " " + this.name;
+				if (PlayerPrefsElite.VerifyArray("enemyDefeated"))
+				{
+					HashSet<string> names = new HashSet<string>(PlayerPrefsElite.GetStringArray("enemyDefeated"));
 
-        inPlayMode = true;
-        if (statusBar != null)
-            statusBar.SetActive(false);
-        if (GameObject.Find("PLAYER") != null)
-            playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
-        else
-            Debug.LogError("PLAYER couldn't be found!!");
+					if (names.Contains(enemyId))
+					{
+						if (horde != null)  
+							horde.RemoveFromEnemies(this);
+						Destroy(this.gameObject);
+					}
+				}
+			}
 
-        if (!isBoss)
-            model.transform.localScale *= Random.Range(0.9f, 1.1f);
-        if (isMiniBoss)
-        {
-            maxHp *= 4;
-            expPossess *= 3;
-        }
+			inPlayMode = true;
+			if (statusBar != null)
+				statusBar.SetActive(false);
+			if (GameObject.Find("PLAYER") != null)
+				playerControls = GameObject.Find("PLAYER").GetComponent<PlayerControls>();
+			else
+				Debug.LogError("PLAYER couldn't be found!!");
 
-        Setup();
+			if (!isBoss)
+				model.transform.localScale *= Random.Range(0.9f, 1.1f);
 
-        if (lv > defaultLv)
-            maxHp += Mathf.CeilToInt((extraHp * (lv - defaultLv))/2f);
-        if (lv > defaultLv)
-            contactDmg += Mathf.FloorToInt((extraDmg * (lv - defaultLv))/2f);
-        if (lv > defaultLv)
-            expPossess += Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) );
 
-        calcExtraProjectileDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
+			if (lv > defaultLv)
+				maxHp += Mathf.CeilToInt((extraHp * (lv - defaultLv))/2f);
+			if (lv > defaultLv)
+				contactDmg += Mathf.FloorToInt((extraDmg * (lv - defaultLv))/2f);
+			if (lv > defaultLv)
+				expPossess += Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) );
 
-        if (!isBoss)
-        {
-            int nextAreas = (lv / lvBreak);
-            for (int i=0 ; i<nextAreas ; i++)
-            // for (int i=0 ; i<(int)chapterLevel ; i++)
-            {
-                maxHp = Mathf.RoundToInt(maxHp * 2f);
-                expPossess = Mathf.RoundToInt(expPossess * 2f);
-            }
-        }
+			if (hasExtraDmg)
+				secondDmg += Mathf.FloorToInt((secondExtraDmg * (lv - defaultLv))/2f);
 
-        hp = maxHp;   
-        if (lvText != null)
-            lvText.text = "Lv. " + lv; 
+			calcExtraProjectileDmg = Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv));
 
-        origSize = model.transform.localScale;
-    }
+			if (isMiniBoss)
+			{
+				maxHp *= 4;
+				expPossess *= 4;
+			}
+			if (!isBoss || isMiniBoss)
+			{
+				int nextAreas = (lv / lvBreak);
+				for (int i=0 ; i<nextAreas ; i++)
+				// for (int i=0 ; i<(int)chapterLevel ; i++)
+				{
+					maxHp = Mathf.RoundToInt(maxHp * 2f);
+					expPossess = Mathf.RoundToInt(expPossess * 1.5f);
+				}
+			}
+
+			hp = maxHp;   
+			if (lvText != null)
+				lvText.text = "Lv. " + lv; 
+
+			origSize = model.transform.localScale;
+			obstacleMask = (whatIsGround | whatIsBounds);
+			
+			Setup();
+		}
+		else
+		{
+			hp = maxHp;   
+			Setup();
+		}
+	}
 
     public virtual void Setup() {}
+    public virtual void CallChilByOther() {}
     public virtual void CallChildOnRoar() {}
     public virtual void CallChildOnBossFightStart() {}
     public virtual void CallChildOnRage() {}
     public virtual void CallChildOnRageCutsceneFinished() {}
     public virtual void CallChildOnDeath() {}
+    public virtual void CallChildOnCollision() {}
     public virtual void CallChildOnBossDeath() {}
     public virtual void CallChildOnTargetLost() {}  // VIA EnemyFieldOfVision
     public virtual void CallChildOnTargetFound() {}  // VIA EnemyFieldOfVision
+    public virtual void CallChildOnDamaged() {}
+    public virtual void CallChildOnKnockbackStart() {}
+    public virtual void CallChildOnKnockbackFinish() {}
+    public virtual void CallChildOnDropLoot(bool attackedByPlayer=true) 
+    {
+		if (loot != null)
+		{
+			if (!attackedByPlayer)
+				loot.rewardSize /= 2;
+			if (!isBoss || isMiniBoss)
+				loot.DropLoot( Mathf.FloorToInt(lv / 10) );
+			else
+				loot.DropLoot();
+		}
+    }
     
-    public virtual void CallChildOnIncreaseSpd() {}  // VIA EnemyFieldOfVision
-    public virtual void CallChildOnRevertSpd() {}  // VIA EnemyFieldOfVision
+    public virtual void CallChildOnHalfHealth() {}  
+    public virtual void CallChildOnIncreaseSpd() {}  
+    public virtual void CallChildOnRevertSpd() {}  
+
+	public virtual void CallChildOnDeactivate() {}  
+	public virtual void CallChildOnLaunch(Vector2 dir, float speed) {}  
+
 
     // todo ----------------------------------------------------------------------------------------------------
 
@@ -242,13 +326,18 @@ public abstract class Enemy : MonoBehaviour
             //* Hp lost 
             else if (healthStatus == HpEffect.lost)
             {
-                if (hpEffectImg.fillAmount > hpImg.fillAmount)
-                    hpEffectImg.fillAmount -= effectSpeed;
-                else
+                if (hp > 0)
                 {
-                    hpEffectImg.fillAmount = hpImg.fillAmount;
-                    healthStatus = HpEffect.none;
+                    if (hpEffectImg.fillAmount > hpImg.fillAmount)
+                        hpEffectImg.fillAmount -= effectSpeed;
+                    else
+                    {
+                        hpEffectImg.fillAmount = hpImg.fillAmount;
+                        healthStatus = HpEffect.none;
+                    }
                 }
+                else if (hpEffectImg.fillAmount > hpImg.fillAmount)
+                    hpEffectImg.fillAmount -= (effectSpeed * 5);
             }
                     
             
@@ -260,7 +349,8 @@ public abstract class Enemy : MonoBehaviour
             else
                 hpImg.color = new Color(0f, 0.85f, 0f);
         }
-        if (hp <= 0 && !isBoss)
+        // STRINK
+        if (dead && !destroyable && !isBoss)
         {
             t += Time.deltaTime / ShrinkDuration;
 
@@ -276,6 +366,11 @@ public abstract class Enemy : MonoBehaviour
     }
 
 
+    protected bool IsLookingLeft()
+    {
+        //* LOOKING LEFT
+        return (model.transform.eulerAngles.y == 0);
+    }
     protected void WalkTheOtherWay()
     {
         //* LOOKING RIGHT
@@ -293,7 +388,7 @@ public abstract class Enemy : MonoBehaviour
         canFlip = true;
     }
 
-    public void LookAtPlayer()
+    public void LookAtPlayer()  // MOVE IN THAT DIRECTION AS WELL
     {
         if (playerControls == null)
             return;
@@ -319,6 +414,16 @@ public abstract class Enemy : MonoBehaviour
             model.transform.eulerAngles = new Vector3(0,0);
         }
     }
+    public void LookAtTarget()
+    {
+        if (playerControls == null)
+            return;
+
+        if (playerControls.transform.position.x > this.transform.position.x)
+            model.transform.eulerAngles = new Vector3(0,180);   // to the right
+        else
+            model.transform.eulerAngles = new Vector3(0,0);     // to the left
+    }
     public bool PlayerIsToTheLeft()
     {
         if (playerControls == null)
@@ -327,17 +432,34 @@ public abstract class Enemy : MonoBehaviour
         return(playerControls.transform.position.x - this.transform.position.x < 0);
     }
 
-    public void TakeDamage(int dmg=0, Transform opponent=null, float force=0)
+    public void TakeDamage(int dmg, Vector3 hitPos, float force=0, bool attackedByPlayer=true, int spBonus=0, 
+        AllyAttack registerAttack=null, bool ignoreDef=false, bool yKb=false)
     {
-        if (!inCutscene && hp > 0)
+        if (dontGetHitTwice != null && dontGetHitTwice == registerAttack) {}
+        else if (inCutscene && hp > 1)
         {
+			// PlayerControls.Instance.EnemyHitShakeCamera();
+            hp--;
+        }
+        else if (!inCutscene && hp > 0)
+        {
+            // Player attacking outside of area
+            if (mustDmgBeforeFight  && !bossBattleBegin && !playerInBossRoom)
+                return;
+
+			
+            //* PREVENTS GETTING HIT BY VINE WHIP TWICE
+            if (registerAttack != null)
+                dontGetHitTwice = registerAttack;
             if (hp > 0)
             {
-                if (defenseStage == 0)
+				// PlayerControls.Instance.EnemyHitShakeCamera();
+                if (defenseStage == 0 || ignoreDef)
                     hp -= dmg;
                 else
                     hp -= Mathf.FloorToInt( Mathf.Pow(0.7f, defenseStage) * dmg);
-                statusBar.SetActive(true);
+				if (statusBar != null)
+                	statusBar.SetActive(true);
             }
 
             //// var holder = Instantiate(emptyHolder, new Vector3(transform.position.x, transform.position.y + 2), Quaternion.identity);
@@ -345,69 +467,104 @@ public abstract class Enemy : MonoBehaviour
             //// var obj = Instantiate(dmgText, new Vector3(transform.position.x, transform.position.y + 2), Quaternion.identity, holder.transform);
             //// obj.text = dmg.ToString();
 
+            if (!destroyable && attackedByPlayer && playerControls != null)
+                playerControls.FillGauge(spBonus);
+
+			if (hpImg != null)
+			{
+				if (!downToHalfHp && hpImg.fillAmount <= 0.5f)
+				{
+					downToHalfHp = true;
+					CallChildOnHalfHealth();
+				}
+			}
+
             if (dmg > 0 && dmg < hp)
                 StartCoroutine( Flash() );
 
-            if (force > 0 && opponent != null && !cannotRecieveKb)
-                StartCoroutine( ApplyKnockback(opponent, force) );
+			if (!destroyable && force != 0 && hitPos != null)
+			{
+				Vector2 direction = (hitPos - this.transform.position).normalized;
+				if (blood != null)
+				{
+					float angleZ = Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg;
+					Instantiate(blood, col.offset + (Vector2) transform.position, 
+						Quaternion.Euler(0,0,angleZ));
+				}
+				if (force != 0 && hitPos != null && !cannotRecieveKb)
+					StartCoroutine( ApplyKnockback(direction, force, yKb) );
+			}
 
-            if (isSmart && force > 0)
+            // if (isEvenSmarter && force > 0)
+            //     LookAtPlayer();
+            CallChildOnDamaged();
+            if (isSmart && force != 0 && hp > 0)
                 LookAtPlayer();
 
             // Dramatic Boss Finisher
             if (isBoss && hp <= 0 && !isDefeated)
             {
                 if (defeatedMat != null)
-                {
                     foreach (SpriteRenderer renderer in renderers)
-                    {
                         renderer.material = defeatedMat;
-                    }
-                }
                 isDefeated = true;
                 if (mainAnim != null)
                     mainAnim.speed = 0.3f;
                 CallChildOnBossDeath();
 
                 StartCoroutine(DramaticSlowmo());
-                if (possessedAura != null)
-                    possessedAura.SetActive(false);
+        		if (rageChargeObj != null) rageChargeObj.SetActive(false);
+                // if (possessedAura != null) possessedAura.SetActive(false);
                 inCutscene = true;
-                statusBar.SetActive(false);
+				if (statusBar != null)
+                	statusBar.SetActive(false);
                 body.velocity = Vector2.zero;
                 body.gravityScale = 3;
             }
+			
             // Player Gains exp
             if (hp <= 0)
             {
-                if (spawner != null && !isBoss)
-                    spawner.SpawnedDefeated();
+				if (!destroyable)
+				{
+					if (eyes != null)
+						eyes.SetActive(false);
+					if (eyes2 != null)
+						eyes2.SetActive(false);
+					if (spawner != null && !isBoss)
+						spawner.SpawnedDefeated();
+					
+					if (horde != null)
+						horde.RemoveFromEnemies(this);
 
-                if (playerControls != null)
-                {
-                    playerControls.GainExp(expPossess, lv);
-                    playerControls.KilledEnemy(enemyId);
-                }
+					CallChildOnDropLoot(attackedByPlayer);
 
-                if (!isBoss)
-                {
-                    CallChildOnDeath();
-                    if (body != null) 
-                    {
-                        body.gravityScale = 0;
-                        body.bodyType = RigidbodyType2D.Static;
-                    }
-                    if (col != null) col.enabled = false;
-                    foreach (SpriteRenderer renderer in renderers)
-                        if (flashMat != null)
-                            renderer.material = flashMat;
-                    // Destroy(this.gameObject);
-                    // StartCoroutine( Fainted() );
-                }
-                else if (playerControls != null)
-                    playerControls.BossBattleOver();
+					if (playerControls != null && attackedByPlayer)
+					{
+						playerControls.GainExp(expPossess, lv);
+						playerControls.KilledEnemy(enemyId);
+					}
+					if (!isBoss)
+					{
+						CallChildOnDeath();
+						dead = true;
+						if (body != null) 
+						{
+							body.gravityScale = 0;
+							body.bodyType = RigidbodyType2D.Static;
+						}
+						if (col != null) col.enabled = false;
+						foreach (SpriteRenderer renderer in renderers)
+							if (flashMat != null)
+								renderer.material = flashMat;
+					}
+					else if (playerControls != null)
+						playerControls.BossBattleOver(this);
+				}
+				else
+					CallChildOnDeath();
             }
-            // Boss half health
+			// Boss half health
             else if (isBoss && !isMiniBoss && !inRage && (float)hp/(float)maxHp < 0.5f)
             {
                 inRage = true;  
@@ -415,32 +572,42 @@ public abstract class Enemy : MonoBehaviour
                 StartCoroutine( ActivateRageMode() );
             }
         }
-        if (mustDmgBeforeFight && !bossBattleBegin)
+        if (mustDmgBeforeFight && !bossBattleBegin && playerInBossRoom)
         {
             StartBossBattle();
         }
     }
     IEnumerator DramaticSlowmo()
     {
-        Time.timeScale = 0.5f;
+        Time.timeScale = 0.3f;
         yield return new WaitForSeconds(0.5f);
         Time.timeScale = 1;
         yield return new WaitForSeconds(0.5f);
-        if (rageChargeObj != null) rageChargeObj.SetActive(false);
         
-        if (canCatchEffect != null) 
-            canCatchEffect.SetActive(true);
-        canCatch = true;
+        // if (canCatchEffect != null) 
+        //     canCatchEffect.SetActive(true);
+        // canCatch = true;
     }
-    public IEnumerator ApplyKnockback(Transform opponent, float force)
+	public void Purify()
+	{
+		if (possessedAura != null) possessedAura.SetActive(false);
+		if (canCatchEffect != null) canCatchEffect.SetActive(true);
+        canCatch = true;
+	}
+    public IEnumerator ApplyKnockback(Vector2 direction, float force, bool yKb=false)
     {
         if (hp > 0)
         {
+            CallChildOnKnockbackStart();
             receivingKnockback = true;
-            Vector2 direction = (opponent.position - this.transform.position).normalized;
+            // Vector2 direction = (hitPos - this.transform.position).normalized;
+			if (!yKb)
+            	direction *= new Vector2(1,0);
             body.velocity = -direction * force * kbDefense;
-            yield return new WaitForSeconds(0.1f);
             
+            yield return new WaitForSeconds(0.1f);
+            CallChildOnKnockbackFinish();
+
             if (hp > 0)
                 if (body.gravityScale != 0)
                     body.velocity = new Vector2(0, Mathf.Min(0, body.velocity.y));
@@ -463,8 +630,21 @@ public abstract class Enemy : MonoBehaviour
             if (flashMat != null && origMat != null)
                 renderer.material = origMat;
         }
-
     }
+	protected void Unflash()
+	{
+		foreach (SpriteRenderer renderer in renderers)
+        {
+            if (flashMat != null && origMat != null)
+                renderer.material = origMat;
+        }
+	}
+
+	// protected bool PlayerIsToTheRight()
+	// {
+	// 	if (target == null) return false;
+	// 	return (target.transform.position.x - self.position.x) > 0;
+	// }
 
     protected bool IsGrounded()
     {
@@ -472,11 +652,12 @@ public abstract class Enemy : MonoBehaviour
     }
     public void PlayerCollision()
     {
-        if (hp > 0 && !inCutscene)
+        if (!cannotDmgPlayer && hp > 0 && !inCutscene)
         {
             playerControls.TakeDamage(contactDmg, this.transform, contactKb);
-            if (!cannotRecieveKb)
-                body.velocity = Vector2.zero;
+			CallChildOnCollision();
+            // if (!cannotRecieveKb)
+            //     body.velocity = Vector2.zero;
         }    
         else if (canCatch)
         {
@@ -508,11 +689,12 @@ public abstract class Enemy : MonoBehaviour
     }
     protected IEnumerator BossIntro(float delay)
     {
-        inCutscene = true;
-        body.velocity = Vector2.zero;
-
         CallChildOnRoar();
         yield return new WaitForSeconds(delay);
+        
+		inCutscene = true;
+        body.velocity = Vector2.zero;
+
         if (battleRoarObj != null) 
             battleRoarObj.SetActive(true);
         
@@ -521,6 +703,7 @@ public abstract class Enemy : MonoBehaviour
             battleRoarObj.SetActive(false);
 
         inCutscene = false;
+		cannotDmgPlayer = false;
         CallChildOnBossFightStart();
     }
     IEnumerator ActivateRageMode()
@@ -624,10 +807,10 @@ public abstract class Enemy : MonoBehaviour
         canUseBuffs = false;
         IncreaseAtk();
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(buffDuration);
         RevertAtk();
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(beforeNextUse);
         canUseBuffs = true;
     }
     public void INCREASE_DEF()
@@ -643,10 +826,10 @@ public abstract class Enemy : MonoBehaviour
         canUseBuffs = false;
         IncreaseDef();
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(buffDuration);
         RevertDef();
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(beforeNextUse);
         canUseBuffs = true;
     }
     public void INCREASE_SPD()
@@ -662,10 +845,10 @@ public abstract class Enemy : MonoBehaviour
         canUseBuffs = false;
         IncreaseSpd();
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(buffDuration);
         RevertSpd();
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(beforeNextUse);
         canUseBuffs = true;
     }
 
@@ -731,6 +914,15 @@ public abstract class Enemy : MonoBehaviour
             statusConditions[i].sprite = statusConditions[i+1].sprite;
     }
 
+
+	public void SpeedUpAnimation(float speed)
+	{
+		if (mainAnim != null)
+			mainAnim.speed = speed;
+	}
+
+
+
     public void LogCurrentStatus()
     {
 
@@ -743,40 +935,53 @@ public abstract class Enemy : MonoBehaviour
             if (lv > defaultLv)
                 tempExp += Mathf.FloorToInt((extraExp * Mathf.Max(1, lv - defaultLv)) );
             
-            if (!isBoss)
+            if (isMiniBoss)
+            {
+                tempHp *= 4;
+                tempExp *= 4;
+            }
+            
+            if (!isBoss || isMiniBoss)
             {
                 int nextAreas = (lv / lvBreak);
                 for (int i=0 ; i<nextAreas ; i++)
                 // for (int i=0 ; i<(int)chapterLevel ; i++)
                 {
-                    tempHp = Mathf.RoundToInt(tempHp * 1.5f);
+                    tempHp = Mathf.RoundToInt(tempHp * 2f);
                     tempExp = Mathf.RoundToInt(tempExp * 1.5f);
                 }
             }
 
-            string gap = "          ";
-            Debug.Log("<color=yellow>  " + this.name + " <b><i>( Lv. " + this.lv + " )</i></b></color> =   " +
-                "<color=#11FF00> maxHP = " + (tempHp) +  gap +
-                "</color><color=#FF8000> contactDmg = " + (contactDmg + (Mathf.FloorToInt((extraDmg * (lv - defaultLv))/2f))) + gap +
-                "</color><color=#F784FF> projectileDmg = " + 
+            // string gap = "          ";
+            string gap = "    ";
+            Debug.Log("<color=yellow>  " + this.name.Split(' ')[0] + " <b><i>( Lv. " + this.lv + " )</i></b></color> =   " +
+                "<color=#11FF00> HP = " + (tempHp) +  gap +
+                "</color><color=#FF8000> c Dmg = " + (contactDmg + (Mathf.FloorToInt((extraDmg * (lv - defaultLv))/2f))) + gap +
+                "</color><color=#F784FF> p Dmg = " + 
                 (projectileDmg + Mathf.Max(0, extraProjectileDmg * Mathf.FloorToInt((float)(lv - defaultLv)/perLv))) + gap +
-                "</color><color=#00E8FF> expGained = " + (tempExp) + "</color>"
+                "</color><color=#00E8FF> exp = " + (tempExp) + gap +
+                "</color><color=#F6161F> 2nd Dmg = " + (secondDmg + (Mathf.FloorToInt((secondExtraDmg * (lv - defaultLv))/2f)))
+                + "</color>"
             );
         }
         else
         {
-            string gap = "          ";
-            Debug.Log("<color=yellow>  " + this.name + " <b><i>( Lv. " + this.lv + " )</i></b></color> =   " +
-                "<color=#11FF00> maxHP = " + (maxHp) +  gap +
-                "</color><color=#FF8000> contactDmg = " + (contactDmg) + gap +
-                "</color><color=#F784FF> projectileDmg = " + (projectileDmg + calcExtraProjectileDmg) + gap +
-                "</color><color=#00E8FF> expGained = " + (expPossess) + "</color>"
+            // string gap = "          ";
+            string gap = "    ";
+            Debug.Log("<color=yellow>  " + this.name.Split(' ')[0] + " <b><i>( Lv. " + this.lv + " )</i></b></color> =   " +
+                "<color=#11FF00> HP = " + (maxHp) +  gap +
+                "</color><color=#FF8000> c Dmg = " + (contactDmg) + gap +
+                "</color><color=#F784FF> p Dmg = " + (projectileDmg + calcExtraProjectileDmg) + gap +
+                "</color><color=#00E8FF> exp = " + (expPossess) + gap +
+                "</color><color=#F6161F> 2 Dmg = " + (secondDmg)
+                + "</color>"
             );
         }
     }
 }
 
 
+#if UNITY_EDITOR
 [CanEditMultipleObjects] [CustomEditor(typeof(Enemy), true)]
 public class EnemyEditor : Editor
 {
@@ -794,3 +999,4 @@ public class EnemyEditor : Editor
         DrawDefaultInspector();
     }
 }
+#endif

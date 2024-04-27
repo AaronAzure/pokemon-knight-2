@@ -4,6 +4,9 @@ public class EnemyAttack : MonoBehaviour
 {
     public int atkDmg=3;
     public float kbForce;
+    [Space] public bool ignoreInvincible;
+    [Space] public bool ignoreDodge;
+
 
 
     private void OnTriggerEnter2D(Collider2D other) 
@@ -11,11 +14,11 @@ public class EnemyAttack : MonoBehaviour
         if (other.CompareTag("Player"))    
         {
             // HAS KNOCKBACK
-            if (kbForce > 0)
-                other.GetComponent<PlayerControls>().TakeDamage(atkDmg, this.transform, kbForce);
-            // NO KNOCKBACK
-            else
-                other.GetComponent<PlayerControls>().TakeDamage(atkDmg);
+            other.GetComponent<PlayerControls>().TakeDamage(atkDmg, this.transform, kbForce, ignoreInvincible, ignoreDodge);
+            //// if (kbForce > 0)
+            // // NO KNOCKBACK
+            //// else
+            ////     other.GetComponent<PlayerControls>().TakeDamage(atkDmg);
         }
     }
 }

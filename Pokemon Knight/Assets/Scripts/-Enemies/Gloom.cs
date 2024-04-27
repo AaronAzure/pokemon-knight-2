@@ -7,7 +7,6 @@ public class Gloom : Enemy
     [Space] [Header("Gloom")]  public float moveSpeed=2;
     public float distanceDetect=1f;
     public Transform groundDetection;
-    [SerializeField] private LayerMask whatIsTree;
     public float forwardDetect=1f;
     public Transform face;
     [SerializeField] private EnemyProjectile sludgeBomb;
@@ -24,8 +23,8 @@ public class Gloom : Enemy
     public override void Setup()
     {
         // StartCoroutine( Attack() );
-        if (GameObject.Find("PLAYER") != null)
-            target = GameObject.Find("PLAYER").transform;
+        if (target == null)
+            target = playerControls.transform;
 
         finalMask = (whatIsPlayer | whatIsGround);
     }
@@ -39,11 +38,14 @@ public class Gloom : Enemy
         else    // left
             frontInfo = Physics2D.Raycast(groundDetection.position, Vector2.left, distanceDetect, whatIsGround);
             
-        if ((!groundInfo || frontInfo) && canFlip && body.velocity.y >= 0)
+        if (!receivingKnockback)
         {
-            canFlip = false;
-            WalkTheOtherWay();
-            StartCoroutine( ResetFlipTimer() );
+            if ((!groundInfo || frontInfo) && canFlip && body.velocity.y >= 0 && !isAttacking)
+            {
+                canFlip = false;
+                WalkTheOtherWay();
+                StartCoroutine( ResetFlipTimer() );
+            }
         }
 
         if (playerInField && target != null)
@@ -56,7 +58,15 @@ public class Gloom : Enemy
             {
                 playerInSight = true;
                 alert.SetActive(true);
-                if (!trigger)
+                if (canUseBuffs)
+                {
+                    // INCREASE_DEF();
+                    mainAnim.speed = 1;
+                    mainAnim.SetTrigger("growth");
+                    performingBuff = true;
+                    body.velocity = new Vector2(0, body.velocity.y);
+                }
+                else if (!trigger)
                 {
                     trigger = true;
                     mainAnim.SetTrigger("attack");

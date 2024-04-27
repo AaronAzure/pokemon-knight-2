@@ -7,7 +7,6 @@ public class Oddish : Enemy
     [Space] [Header("Oddish")]  public float moveSpeed=2;
     public float distanceDetect=1f;
     public Transform groundDetection;
-    [SerializeField] private LayerMask whatIsTree;
     public float forwardDetect=1f;
     public Transform face;
 
@@ -32,6 +31,11 @@ public class Oddish : Enemy
     [Space] [SerializeField] private Transform target;
     private float trajectory;
     private int attackCount;
+	bool justSludgeBomb;
+
+    [Space] [Header("Stronger mob")]
+    public Collider2D visionCol;
+    public Vector2 colOffset;
 
 
     public override void Setup()
@@ -48,6 +52,12 @@ public class Oddish : Enemy
         else
         {
             co = StartCoroutine( DoSomething() );
+        }
+
+        if (canUseBuffs && visionCol != null)
+        {
+            visionCol.transform.localScale *= 2;
+            visionCol.offset = colOffset;
         }
     }
 
@@ -226,7 +236,8 @@ public class Oddish : Enemy
             {
                 var obj = Instantiate(sludgeBomb, sludgeBombPos.position, sludgeBomb.transform.rotation);
                 obj.body.gravityScale = 3;
-                obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
+                // obj.atkDmg = projectileDmg + calcExtraProjectileDmg;
+                obj.atkDmg = secondDmg;
                 obj.direction = new Vector2(-trajectory, Random.Range(14,21));
                 if (spawnedHolder != null)
                     obj.transform.parent = spawnedHolder.transform;
@@ -259,7 +270,7 @@ public class Oddish : Enemy
         }
         else 
         {
-            // anim.Play("animState", -1, 0);
+            anim.speed = 1f;
             anim.SetTrigger("reset");
             co = StartCoroutine( RestBeforeNextVolley() );
         }
@@ -267,12 +278,33 @@ public class Oddish : Enemy
 
     IEnumerator RestBeforeNextVolley()
     {
+		if (!isMiniBoss) yield break;
+
         if (hpImg.fillAmount <= 0.5f)
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1.2f);
         else
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(2.5f);
+
+        if (hpImg.fillAmount <= 0.5f)
+            anim.speed = 1.5f;
+
+		float distToTarget = Vector2.Distance(transform.position, target.position);
+		// Debug.Log(Vector2.Distance(transform.position, target.position));
         if (hp > 0)
-            anim.SetTrigger("sludgeBomb");
+		{
+			// Too close, poison powder
+			if (!justSludgeBomb && distToTarget < 5)
+			{
+				AdjustAnim("attacking");
+				justSludgeBomb = true;
+			}
+			// Too far away, sludge bomb
+			else
+			{
+				anim.SetTrigger("sludgeBomb");
+				justSludgeBomb = false;
+			}
+		}
         attackCount = 0;
     }
 
