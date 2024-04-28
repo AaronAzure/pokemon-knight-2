@@ -253,7 +253,7 @@ public class PlayerControls : MonoBehaviour
 	[SerializeField] private GameObject glint;
 	private bool dodgingThruScene;
 
-	[SerializeField] private bool inWater;
+	public bool inWater {get; private set;}
 	private bool aboveWaterCheck, inWaterCheck;
 	[SerializeField] private Transform aboveWaterCheckOffset, inWaterCheckOffset;
 	private bool greenBox, redBox;
@@ -1225,7 +1225,7 @@ public class PlayerControls : MonoBehaviour
 			}
 			else if (canTeleport && (grounded || (inWater && !dodging)))
 			{
-				anim.SetBool("isGrounded", grounded);
+				anim.SetBool("isGrounded", grounded && body.velocity.y == 0);
 				anim.SetBool("isFalling", !grounded);
 				nExtraJumpsLeft = nExtraJumps;
 				if (justDodged)
