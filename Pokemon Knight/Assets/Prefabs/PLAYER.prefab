@@ -15893,6 +15893,7 @@ MonoBehaviour:
   alakazamPos: {fileID: 0}
   teleportEffectPos: {fileID: 7231263006945417685}
   dodgeSpeed: 10
+  teleportSpeed: 11
   teleportObj: {fileID: 0}
   canGroundPound: 0
   groundPoundSpeed: 35
@@ -27952,6 +27953,7 @@ MonoBehaviour:
   _dontDestroyOnLoad: 0
   _userData:
     configVars:
+      updateMode: 0
       updateLoop: 1
       alwaysUseUnityInput: 0
       windowsStandalonePrimaryInputSource: 0
@@ -27968,7 +27970,6 @@ MonoBehaviour:
       useXInput: 1
       useNativeMouse: 1
       useEnhancedDeviceSupport: 1
-      windowsStandalone_useSteamRawInputControllerWorkaround: 0
       osxStandalone_useEnhancedDeviceSupport: 1
       android_supportUnknownGamepads: 1
       ps4_assignJoysticksByPS4JoyId: 1
@@ -27976,74 +27977,86 @@ MonoBehaviour:
       logToScreen: 0
       runInEditMode: 0
       allowInputInEditorSceneView: 0
+      unityUsePhysicalKeys: 0
+      keyCombinationOverrideMode: 1
+      generateKeyEventsOnKeyCombinationOverride: 0
       platformVars_windowsStandalone:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
         useNativeKeyboard: 1
         joystickRefreshRate: 240
+        useWindowsGamingInput: 0
+        enhancedDeviceSupportExcludedDeviceTypes: 
       platformVars_linuxStandalone:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
+        useEnhancedDeviceSupport: 1
+        enhancedDeviceSupportExcludedDeviceTypes: 
       platformVars_osxStandalone:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
-      platformVars_windows8Store:
-        disableKeyboard: 0
-        ignoreInputWhenAppNotInFocus: 1
+        useAppleGameController: 0
+        assignJoysticksByUserId: 0
+        enhancedDeviceSupportExcludedDeviceTypes: 
       platformVars_windowsUWP:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
         useGamepadAPI: 1
         useHIDAPI: 1
       platformVars_iOS:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
       platformVars_tvOS:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
       platformVars_android:
         disableKeyboard: 0
-        ignoreInputWhenAppNotInFocus: 1
-      platformVars_ps3:
-        disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
       platformVars_ps4:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
       platformVars_ps5:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
+        assignJoysticksByPS5JoyId: 1
       platformVars_psVita:
         disableKeyboard: 0
-        ignoreInputWhenAppNotInFocus: 1
-      platformVars_xbox360:
-        disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
       platformVars_xboxOne:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
       platformVars_gameCoreXboxOne:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
         assignJoysticksByUserId: 0
       platformVars_gameCoreScarlett:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
         assignJoysticksByUserId: 0
-      platformVars_wii:
-        disableKeyboard: 0
-        ignoreInputWhenAppNotInFocus: 1
-      platformVars_wiiu:
-        disableKeyboard: 0
-        ignoreInputWhenAppNotInFocus: 1
       platformVars_switch:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
       platformVars_webGL:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
       platformVars_stadia:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
         useNativeKeyboard: 1
         useNativeMouse: 1
@@ -63138,6 +63151,7 @@ MonoBehaviour:
   _dontDestroyOnLoad: 0
   _userData:
     configVars:
+      updateMode: 0
       updateLoop: 1
       alwaysUseUnityInput: 0
       windowsStandalonePrimaryInputSource: 0
@@ -63154,7 +63168,6 @@ MonoBehaviour:
       useXInput: 1
       useNativeMouse: 1
       useEnhancedDeviceSupport: 1
-      windowsStandalone_useSteamRawInputControllerWorkaround: 0
       osxStandalone_useEnhancedDeviceSupport: 1
       android_supportUnknownGamepads: 1
       ps4_assignJoysticksByPS4JoyId: 1
@@ -63162,74 +63175,86 @@ MonoBehaviour:
       logToScreen: 0
       runInEditMode: 0
       allowInputInEditorSceneView: 0
+      unityUsePhysicalKeys: 0
+      keyCombinationOverrideMode: 1
+      generateKeyEventsOnKeyCombinationOverride: 0
       platformVars_windowsStandalone:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
         useNativeKeyboard: 1
         joystickRefreshRate: 240
+        useWindowsGamingInput: 0
+        enhancedDeviceSupportExcludedDeviceTypes: 
       platformVars_linuxStandalone:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
+        useEnhancedDeviceSupport: 1
+        enhancedDeviceSupportExcludedDeviceTypes: 
       platformVars_osxStandalone:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
-      platformVars_windows8Store:
-        disableKeyboard: 0
-        ignoreInputWhenAppNotInFocus: 1
+        useAppleGameController: 0
+        assignJoysticksByUserId: 0
+        enhancedDeviceSupportExcludedDeviceTypes: 
       platformVars_windowsUWP:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
         useGamepadAPI: 1
         useHIDAPI: 1
       platformVars_iOS:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
       platformVars_tvOS:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
       platformVars_android:
         disableKeyboard: 0
-        ignoreInputWhenAppNotInFocus: 1
-      platformVars_ps3:
-        disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
       platformVars_ps4:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
       platformVars_ps5:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
+        assignJoysticksByPS5JoyId: 1
       platformVars_psVita:
         disableKeyboard: 0
-        ignoreInputWhenAppNotInFocus: 1
-      platformVars_xbox360:
-        disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
       platformVars_xboxOne:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
       platformVars_gameCoreXboxOne:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
         assignJoysticksByUserId: 0
       platformVars_gameCoreScarlett:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
         assignJoysticksByUserId: 0
-      platformVars_wii:
-        disableKeyboard: 0
-        ignoreInputWhenAppNotInFocus: 1
-      platformVars_wiiu:
-        disableKeyboard: 0
-        ignoreInputWhenAppNotInFocus: 1
       platformVars_switch:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
       platformVars_webGL:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
       platformVars_stadia:
         disableKeyboard: 0
+        disableMouse: 0
         ignoreInputWhenAppNotInFocus: 1
         useNativeKeyboard: 1
         useNativeMouse: 1

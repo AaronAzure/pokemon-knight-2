@@ -3,7 +3,7 @@
 // https://bitbucket.org/Unity-Technologies/ui/src
 
 #region Defines
-#if UNITY_2020 || UNITY_2021 || UNITY_2022 || UNITY_2023 || UNITY_2024 || UNITY_2025
+#if UNITY_2020 || UNITY_2021 || UNITY_2022 || UNITY_2023 || UNITY_6000 || UNITY_6000_0_OR_NEWER
 #define UNITY_2020_PLUS
 #endif
 #if UNITY_2019 || UNITY_2020_PLUS
@@ -176,7 +176,7 @@ namespace Rewired.Integration.UnityUI {
         /// </summary>
         [SerializeField]
         [Tooltip("Name of the action used to submit.")]
-        public string m_SubmitButton = DEFAULT_ACTION_SUBMIT;
+        private string m_SubmitButton = DEFAULT_ACTION_SUBMIT;
 
         /// <summary>
         /// Name of the action used to cancel.
@@ -582,15 +582,6 @@ namespace Rewired.Integration.UnityUI {
 
             // Determine if touch is supported
             isTouchSupported = defaultTouchInputSource.touchSupported;
-
-            // Deactivate the TouchInputModule because it has been deprecated in 5.3. Functionality was moved into here on all versions.
-            TouchInputModule tim = GetComponent<TouchInputModule>();
-            if (tim != null) {
-                tim.enabled = false;
-#if UNITY_EDITOR
-                Debug.LogWarning("The TouchInputModule is no longer used as the functionality has been moved into the RewiredStandaloneInputModule. Please remove the TouchInputModule component.");
-#endif
-            }
 
             Rewired.ReInput.InitializedEvent += OnRewiredInitialized;
 

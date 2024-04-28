@@ -350,6 +350,8 @@ public class PlayerControls : MonoBehaviour
 	[SerializeField] private Transform alakazamPos;
 	[SerializeField] private Transform teleportEffectPos;
 	[SerializeField] private float dodgeSpeed = 7.5f;
+	[SerializeField] private float teleportSpeed = 8f;
+	private Vector2 teleportDir;
 	[SerializeField] private Ally teleportObj;
 	
 	[Space]
@@ -466,8 +468,8 @@ public class PlayerControls : MonoBehaviour
 		gaugeImg.fillAmount = 0;
 		gaugeGlow.SetActive(false);
 
-		if (equimentInputs != null)
-			equimentInputsSubmit = equimentInputs.m_SubmitButton;
+		//if (equimentInputs != null)
+		//	equimentInputsSubmit = equimentInputs.m_SubmitButton;
 			
 		if (PlayerPrefsElite.VerifyInt("playerLevel" + gameNumber))
 		{
@@ -1069,12 +1071,18 @@ public class PlayerControls : MonoBehaviour
 			}
 		}
 		else if (dodging && !isSleeping && !isParalysed && hp > 0)
-		// else if (!canTeleport && dodging && !isSleeping && !isParalysed && hp > 0)
 		{
-			if (holder.transform.eulerAngles.y < 180)   // right
-				body.velocity = new Vector2(dodgeSpeed, body.velocity.y);
+			if (!canTeleport)
+			{
+				if (holder.transform.eulerAngles.y < 180)   // right
+					body.velocity = new Vector2(dodgeSpeed, body.velocity.y);
+				else
+					body.velocity = new Vector2(-dodgeSpeed, body.velocity.y);
+			}
 			else
-				body.velocity = new Vector2(-dodgeSpeed, body.velocity.y);
+			{
+				body.velocity = teleportDir;
+			}
 		}
 		//* Walking, Dashing, Summoning, jumping, Interacting
 		else if (!inCutscene && !dodging && !isSleeping && !isParalysed && hp > 0)
@@ -1197,17 +1205,28 @@ public class PlayerControls : MonoBehaviour
 				if (canDodge && player.GetButtonDown("ZR") )
 				{
 					canDodge = false;
-					StartCoroutine( Teleport() );
+					StartCoroutine(Teleport());
 				}
 			}
 
 
 			grounded = (Physics2D.OverlapBox(feetPos.position, feetBox, 0, whatIsGround) && !inWater);
 			// Touched floor
-			if (body.velocity.y == 0 && grounded)
+			if (!canTeleport && body.velocity.y == 0 && grounded)
 			{
 				anim.SetBool("isGrounded", true);
 				anim.SetBool("isFalling", false);
+				nExtraJumpsLeft = nExtraJumps;
+				if (justDodged)
+				{
+					justDodged = false;
+					StartCoroutine( DodgeCooldown() );
+				}
+			}
+			else if (canTeleport && (grounded || (inWater && !dodging)))
+			{
+				anim.SetBool("isGrounded", grounded);
+				anim.SetBool("isFalling", !grounded);
 				nExtraJumpsLeft = nExtraJumps;
 				if (justDodged)
 				{
@@ -1399,13 +1418,13 @@ public class PlayerControls : MonoBehaviour
 		else if (resting) {}
 		else if (hp > 0 && !inCutscene && !dodging && !drinking && !isSleeping && !isParalysed)
 		{
-			float xValue = moveX = player.GetAxis("Move Horizontal");
+			moveX = player.GetAxis("Move Horizontal");
 
 			// swimming
 			if (inWater && canSwim)
 			{
-				float yValue = player.GetAxis("Move Vertical");
-				Vector2 input = new Vector2(xValue, yValue);
+				moveY = player.GetAxis("Move Vertical");
+				Vector2 input = new Vector2(moveX, moveY);
 
 				// if (persistentInput.magnitude < deadZone)
 				// 	persistentInput = Vector2.zero;
@@ -1425,7 +1444,7 @@ public class PlayerControls : MonoBehaviour
 				// 	persistentInput = Vector2.zero;
 
 				if (!climbing && !isWallJumping)
-					Walk(xValue);
+					Walk(moveX);
 
 				if (!climbing && !grounded && !jumping && body.velocity.y < fallSpeed)
 					body.gravityScale = fallGrav;
@@ -1439,10 +1458,10 @@ public class PlayerControls : MonoBehaviour
 					body.gravityScale = origGrav;
 
 				// Walking animation
-				if (Mathf.Abs(xValue) > 0 && !inWater && !climbing)
+				if (Mathf.Abs(moveX) > 0 && !inWater && !climbing)
 				{
 					anim.SetBool("isWalking", true);
-					anim.speed = Mathf.Min(Mathf.Abs(xValue) * moveSpeed, 3);
+					anim.speed = Mathf.Min(Mathf.Abs(moveX) * moveSpeed, 3);
 				}
 				// Not moving (idle)
 				else
@@ -1463,7 +1482,7 @@ public class PlayerControls : MonoBehaviour
 
 			//* Flip character
 			if (!isWallJumping)
-				playerDirection(xValue);
+				playerDirection(moveX);
 		}
 	}
 	private void LateUpdate() 
@@ -1795,10 +1814,7 @@ public class PlayerControls : MonoBehaviour
 
 	bool Interact()
 	{
-		// return player.GetButtonDown("ZR");
 		return player.GetButtonDown("Up");
-		// float yValue = Mathf.Abs( player.GetAxis("Move Vertical") );
-		// return (yValue > 0.75f);
 	}
 	private void Walk(float xValue)
 	{
@@ -1997,6 +2013,7 @@ public class PlayerControls : MonoBehaviour
 		teleportBeginEffect.transform.position = teleportEffectPos.position;
 		teleportBeginEffect.SetActive(true);
 		
+		// start teleporting
 		yield return new WaitForEndOfFrame();
 
 		if (glint != null)
@@ -2007,6 +2024,10 @@ public class PlayerControls : MonoBehaviour
 		canDodge = false;
 		body.gravityScale = 0;
 		anim.SetTrigger("teleport");
+		if (!inWater)
+			teleportDir = new Vector2(holder.transform.eulerAngles.y < 180 ? teleportSpeed : -teleportSpeed, 0);
+		else
+			teleportDir = new Vector2((moveX != 0 || moveY != 0) ? moveX : (holder.transform.eulerAngles.y < 180 ? 1 : -1) , moveY).normalized * teleportSpeed;
 
 		// TELEPORT
 
