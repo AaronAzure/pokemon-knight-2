@@ -165,13 +165,16 @@ AnimatorStateMachine:
     m_Position: {x: -60, y: -120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7981466778098364954}
-    m_Position: {x: 820, y: 40, z: 0}
+    m_Position: {x: 1020, y: 50, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1750623588797796134}
     m_Position: {x: 770, y: -140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4416377112813830077}
     m_Position: {x: 805, y: -75, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 6538855881063571515}
+    m_Position: {x: 1020, y: 130, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -8992148681663762389}
@@ -264,7 +267,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: cb26606b386074ddcb7ed149ab0eb696, type: 2}
+  m_Motion: {fileID: 4567239319743609718}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -889,6 +892,18 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
+  - m_Name: drown
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: waterT
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -1345,6 +1360,37 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!206 &4567239319743609718
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Blend Tree
+  m_Childs:
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400000, guid: 111da2768aea77747bcabddc26d3b747, type: 2}
+    m_Threshold: 0
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: drinkSpeed
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400000, guid: cb26606b386074ddcb7ed149ab0eb696, type: 2}
+    m_Threshold: 1
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: drinkSpeed
+    m_Mirror: 0
+  m_BlendParameter: waterT
+  m_BlendParameterY: drinkSpeed
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 1
+  m_NormalizedBlendValues: 0
+  m_BlendType: 0
 --- !u!1101 &4627457674062852350
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1567,6 +1613,32 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 2275f3c8305eb4dd5a6a354f6914ce4c, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &6538855881063571515
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: player-drown-anim
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 111da2768aea77747bcabddc26d3b747, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

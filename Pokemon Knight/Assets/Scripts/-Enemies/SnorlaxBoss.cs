@@ -32,6 +32,8 @@ public class SnorlaxBoss : Enemy
     public float gigaImpactForce = 30;
     public float gigaImpactDuration = 1f;
 
+	[Space] [SerializeField] bool jumpInPlace;
+
     public override void Setup()
     {
         if (PlayerPrefsElite.VerifyBoolean("canUseUlt" + PlayerPrefsElite.GetInt("gameNumber")))
@@ -167,7 +169,8 @@ public class SnorlaxBoss : Enemy
 
         anim.SetTrigger("bodySlam");
         body.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
-        body.AddForce(Vector2.right * xTargetPos, ForceMode2D.Impulse);
+		if (!jumpInPlace)
+        	body.AddForce(Vector2.right * xTargetPos, ForceMode2D.Impulse);
     }
     IEnumerator GigaImpact()
     {
@@ -213,21 +216,21 @@ public class SnorlaxBoss : Enemy
 
     public void YAWN_AGAIN()
     {
-        // if (inRage && yawnCount == 0)
-        // {
-        //     yawnCount++;
-        //     LookAtPlayer();
-        //     anim.SetTrigger("yawn");
-        // }
-        // else if (inRage && yawnCount > 0)
-        // {
-        //     yawnCount = 0;
-        //     PERFORMED_ACTION();
-        // }
-        // else if (!inRage)
-        // {
-        // }
-        PERFORMED_ACTION();
+		if (inRage && yawnCount == 0)
+		{
+			yawnCount++;
+			LookAtPlayer();
+			anim.SetTrigger("yawn");
+		}
+		else if (inRage && yawnCount > 0)
+		{
+			yawnCount = 0;
+			PERFORMED_ACTION();
+		}
+		else if (!inRage)
+		{
+        	PERFORMED_ACTION();
+		}
     }
     public void YAWN()
     {

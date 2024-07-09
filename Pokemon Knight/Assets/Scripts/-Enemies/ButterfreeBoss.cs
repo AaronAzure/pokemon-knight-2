@@ -28,6 +28,9 @@ public class ButterfreeBoss : Enemy
     [SerializeField] private GameObject tackleEffect;
 	private bool started;
 
+    [Space] [SerializeField] private bool justPoison;
+    [SerializeField] private bool justHarden;
+
 
     public override void Setup()
     {
@@ -147,7 +150,11 @@ public class ButterfreeBoss : Enemy
     void ChooseAttack()
     {
         atkCount++;
-        if (atkCount % 2 == 0)
+		if (justHarden)
+            StartCoroutine( HardenCo() );
+		else if (justPoison)
+            StartCoroutine( PoisonPowder() );
+        else if (atkCount % 2 == 0)
             StartCoroutine( Tackle() );
         else
             StartCoroutine( PoisonPowder() );
@@ -203,7 +210,7 @@ public class ButterfreeBoss : Enemy
     }
     IEnumerator PoisonPowder()
     {
-        if (inRage)
+        if (inRage && !justPoison)
         {
             Harden();
             yield return new WaitForSeconds(1.25f);
@@ -227,6 +234,19 @@ public class ButterfreeBoss : Enemy
         StartCoroutine( TrackPlayer() );
     }
 
+	private IEnumerator HardenCo()
+	{
+		if (mainAnim != null)
+		{
+			body.velocity = Vector2.zero;
+			mainAnim.SetTrigger("harden");
+			canMove = false;
+		}
+		yield return new WaitForSeconds(0.75f);
+        count = 0;
+        LocatePlayer();
+        StartCoroutine( TrackPlayer() );
+	}
     private void Harden()
     {
         if (mainAnim != null)

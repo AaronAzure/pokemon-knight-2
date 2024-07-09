@@ -194,20 +194,20 @@ MonoBehaviour:
   onWaterExit:
     m_PersistentCalls:
       m_Calls: []
-  activateConstantRipples: 0
+  activateConstantRipples: 1
   constantRipplesUpdateWhenOffscreen: 0
   constantRipplesRandomizeDisturbance: 0
   constantRipplesSmoothDisturbance: 0
   constantRipplesSmoothFactor: 0.5
-  constantRipplesDisturbance: 0.1
+  constantRipplesDisturbance: 0.075
   constantRipplesMinimumDisturbance: 0.08
   constantRipplesMaximumDisturbance: 0.12
-  constantRipplesRandomizeTimeInterval: 0
+  constantRipplesRandomizeTimeInterval: 1
   constantRipplesTimeInterval: 1
-  constantRipplesMinimumTimeInterval: 0.75
-  constantRipplesMaximumTimeInterval: 1.25
-  constantRipplesRandomizeRipplesSourcesPositions: 0
-  constantRipplesRandomizeRipplesSourcesCount: 3
+  constantRipplesMinimumTimeInterval: 0.1
+  constantRipplesMaximumTimeInterval: 0.2
+  constantRipplesRandomizeRipplesSourcesPositions: 1
+  constantRipplesRandomizeRipplesSourcesCount: 5
   constantRipplesAllowDuplicateRipplesSourcesPositions: 0
   constantRipplesSourcePositions: []
   constantRipplesActivateSoundEffect: 0

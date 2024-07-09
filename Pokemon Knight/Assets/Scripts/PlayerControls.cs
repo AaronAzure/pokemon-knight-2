@@ -339,6 +339,7 @@ public class PlayerControls : MonoBehaviour
 	private int nExtraJumps = 1;
 	private int nExtraJumpsLeft = 1;
 	[SerializeField] private Transform doubleJumpSpawnPos;
+	[Space] public bool canWallClimb;
 	[Space] public bool canSwim;
 	[Space] public bool canUseUlt;
 	
@@ -392,6 +393,18 @@ public class PlayerControls : MonoBehaviour
 	[SerializeField] private ParticleSystem[] sleepEffectsUi;
 
 	
+	[Header("HACKS")]
+	[SerializeField] private bool brokenDodge;  
+	[SerializeField] private bool brokenInvincible;  
+	[SerializeField] private bool brokenLedgeGrab;  
+	[SerializeField] private bool cannotTakeKb; 
+	[SerializeField] private bool infiniteHp; 
+
+	[Space] [SerializeField] private bool fallingPokemon; 
+	[SerializeField] private bool frozenSummon; 
+	private bool frozen; 
+	
+
 	[Header("CHEATS")]
 	[SerializeField] private float dmgMultiplier = 1;
 	[SerializeField] private float expMultiplier = 1;
@@ -915,12 +928,12 @@ public class PlayerControls : MonoBehaviour
 			if (resting)
 			{
 				needToRestObj.SetActive(false);
-				equimentInputs.submitButton = equimentInputsSubmit;
+				//equimentInputs.submitButton = equimentInputsSubmit;
 			}
 			else
 			{
 				needToRestObj.SetActive(true);
-				equimentInputs.submitButton = "None";
+				//equimentInputs.submitButton = "None";
 			}
 
 			// OPEN
@@ -1293,6 +1306,10 @@ public class PlayerControls : MonoBehaviour
 			//* Summon Pokemon
 			if (nPokemonOut < maxPokemonOut)
 			{
+				if (frozenSummon && body.gravityScale == 0)
+					body.gravityScale = origGrav;
+				if (frozenSummon && frozen)
+					frozen = false;
 				if (isSet1)
 				{
 					if      (canPressButtonWest && player.GetButtonDown("Y"))
@@ -1324,6 +1341,15 @@ public class PlayerControls : MonoBehaviour
 					}
 				}
 			}
+			else if (frozenSummon)
+			{
+				Debug.Log($"<color=green>body.velocity = {body.velocity} | body.gravityScale = {body.gravityScale}</color>");
+				if (frozenSummon && !frozen)
+					frozen = true;
+				if (body.gravityScale != 0)
+					body.gravityScale = 0;
+				body.velocity = Vector2.zero;
+			}
 		}
 	}
 
@@ -1343,7 +1369,11 @@ public class PlayerControls : MonoBehaviour
 				if (!noCoolDown) nPokemonOut++;
 				var pokemon = Instantiate(allies[ slot ], spawnPos.position, allies[ slot ].transform.rotation);
 				pokemon.atkDmg = (int) (dmgMultiplier * pokemon.atkDmg);
-				pokemon.body.velocity = this.body.velocity;
+				if (!fallingPokemon && !frozenSummon)
+					pokemon.body.velocity = this.body.velocity;
+				if (frozenSummon)
+					pokemon.body.gravityScale = 0;
+
 				// pokemon.trainer = this;
 				pokemon.button = button;
 					
@@ -1436,7 +1466,7 @@ public class PlayerControls : MonoBehaviour
 			}
 			else if (!crouching)
 			{
-				if (!ledgeGrabbing && !isWallJumping)
+				if (canWallClimb && !ledgeGrabbing && !isWallJumping)
 					CheckIsWalled();
 
 				// persistentInput = new Vector2(xValue, body.velocity.y);
@@ -1446,16 +1476,19 @@ public class PlayerControls : MonoBehaviour
 				if (!climbing && !isWallJumping)
 					Walk(moveX);
 
-				if (!climbing && !grounded && !jumping && body.velocity.y < fallSpeed)
-					body.gravityScale = fallGrav;
-				else if (climbing)
+				if (!frozen)
 				{
-					moveY = player.GetAxis("Move Vertical");
-					body.gravityScale = 0;
+					if (!climbing && !grounded && !jumping && body.velocity.y < fallSpeed)
+						body.gravityScale = fallGrav;
+					else if (climbing)
+					{
+						moveY = player.GetAxis("Move Vertical");
+						body.gravityScale = 0;
+					}
+					// regular fall speed
+					else
+						body.gravityScale = origGrav;
 				}
-				// regular fall speed
-				else
-					body.gravityScale = origGrav;
 
 				// Walking animation
 				if (Mathf.Abs(moveX) > 0 && !inWater && !climbing)
@@ -1678,7 +1711,7 @@ public class PlayerControls : MonoBehaviour
 				jumpRegistered = true;
 			}
 			// First Frame of Jump
-			if (!jumping && jumpRegistered && jumpBufferTimer < jumpBufferThreshold && coyoteTimer < coyoteThreshold)
+			if (!jumping && jumpRegistered && jumpBufferTimer < jumpBufferThreshold && coyoteTimer < coyoteThreshold && !frozen)
 			{
 				jumpRegistered = false;
 				jumpBufferTimer = jumpBufferThreshold;
@@ -1695,7 +1728,7 @@ public class PlayerControls : MonoBehaviour
 			// Released jump button
 			else if (player.GetButtonUp("B") || CheckIsCeiling() || ledgeGrabbing)
 			{
-				if (jumping)
+				if (jumping && !frozen)
 					body.velocity = new Vector2(body.velocity.x, body.velocity.y * jumpCutoffForce);
 				jumpRegistered = jumping = false;
 				coyoteTimer = coyoteThreshold;
@@ -1932,7 +1965,21 @@ public class PlayerControls : MonoBehaviour
 			transform.position += new Vector3(1.5f * holder.transform.localScale.x, 4 * holder.transform.localScale.y);
 
 		body.gravityScale = origGrav;
-		ledgeGrabbing = false;
+		if (!brokenLedgeGrab)
+			ledgeGrabbing = false;
+		else
+		{
+			body.gravityScale = 0;
+			body.velocity = Vector2.zero;
+			anim.speed = 1;
+			if (holder.transform.eulerAngles.y > 0)
+				anim.SetTrigger("ledgeGrabLeft");
+			else
+				anim.SetTrigger("ledgeGrab");
+			ledgeGrabbing = true;
+			climbing = jumping = false;
+			anim.SetBool("isClimbing", false);
+		}
 	}
 
 	bool PressedStandardButton()
@@ -2058,6 +2105,8 @@ public class PlayerControls : MonoBehaviour
 	public void DODGE_ROLL_INVINCIBLE()
 	{
 		// Invincible(true);
+		if (brokenDodge)
+			Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
 		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyProjectile"), true);
 		
 		if (canTeleport)
@@ -2069,6 +2118,8 @@ public class PlayerControls : MonoBehaviour
 	public void DODGE_ROLL_FINISH()
 	{
 		// Invincible(false);
+		if (brokenDodge)
+			Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
 		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyProjectile"), false);
 		
 		if (canTeleport)
@@ -2081,6 +2132,8 @@ public class PlayerControls : MonoBehaviour
 	void Invincible(bool active)
 	{
 		isInvincible = active;
+		if (brokenInvincible)
+			Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), active);
 		// Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyProjectile"), active);
 	}
 
@@ -2223,12 +2276,12 @@ public class PlayerControls : MonoBehaviour
 		{
 			Debug.Log("<color=#FF8800>Took " + dmg + " dmg</color>");
 			anim.SetBool("isDrinking", false);
-			if (sturdyCharm && canSturdy && hp > 1)
+			if (sturdyCharm && !infiniteHp && canSturdy && hp > 1)
 			{
 				hp = Mathf.Max(1, hp - Mathf.FloorToInt(dmg * (easyMode ? 0.7f : 1)));
 				canSturdy = false;
 			}
-			else
+			else if (!infiniteHp)
 				hp -= Mathf.FloorToInt(dmg * (easyMode ? 0.7f : 1));
 
 			if (dmg > 0 && hp > 0)
@@ -2289,16 +2342,18 @@ public class PlayerControls : MonoBehaviour
 	}
 	public IEnumerator ApplyKnockback(Transform opponent, float force)
 	{
-
-		receivingKnockback = true;
-		Vector2 direction = (opponent.position - this.transform.position).normalized;
-		// direction = new Vector2(direction.x, 0);
-		body.velocity = new Vector2(-direction.x * force, 1);
-		// body..MovePosition(-direction * force);
-		
-		yield return new WaitForSeconds(0.1f);
-		body.velocity = Vector2.zero;
-		receivingKnockback = false;
+		if (!cannotTakeKb)
+		{
+			receivingKnockback = true;
+			Vector2 direction = (opponent.position - this.transform.position).normalized;
+			// direction = new Vector2(direction.x, 0);
+			body.velocity = new Vector2(-direction.x * force, 1);
+			// body..MovePosition(-direction * force);
+			
+			yield return new WaitForSeconds(0.1f);
+			body.velocity = Vector2.zero;
+			receivingKnockback = false;
+		}
 	}
 	
 	
@@ -2361,7 +2416,7 @@ public class PlayerControls : MonoBehaviour
 
 		yield return new WaitForSeconds(duration);
 		if (face != null)
-			face.sprite = origFace;
+			face.sprite = null;
 		if (sleepingEffect != null)
 			sleepingEffect.Stop(true, ParticleSystemStopBehavior.StopEmitting);
 		foreach (ParticleSystem se in sleepEffectsUi)
@@ -2964,7 +3019,7 @@ public class PlayerControls : MonoBehaviour
 				obj.quantity = candiesLost;
 			}
 		}
-		if (mew != null)
+		if (mew != null && mew.gameObject.activeSelf)
 			mew.TeleportToP1();
 	}
 	public void ShowLostBagInMap(string sceneName, bool lost=true)
@@ -3116,6 +3171,8 @@ public class PlayerControls : MonoBehaviour
 		if (other.CompareTag("Underwater"))
 		{
 			anim.speed = 1;
+			anim.SetFloat("waterT", canSwim ? 1 : 0);
+			anim.SetBool("isSwimming", true);
 			if (diveCo != null)
 			{
 				StopCoroutine(diveCo);
@@ -3152,7 +3209,7 @@ public class PlayerControls : MonoBehaviour
 	IEnumerator SummonDivePokemon()
 	{
 		yield return new WaitForSeconds(0.25f);
-		anim.SetBool("isSwimming", true);
+		//anim.SetBool("isSwimming", true);
 		inWater = true;
 		diveCo = null;
 	}

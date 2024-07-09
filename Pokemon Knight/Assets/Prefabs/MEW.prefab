@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: 0.3929213, w: 0.9195722}
   m_LocalPosition: {x: 0.17, y: -0.014, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2560764039635807076}
   m_RootOrder: 0
@@ -42,6 +43,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -110,6 +112,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3476982302522374617}
   m_RootOrder: 3
@@ -121,19 +124,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 283289123242017779}
-  serializedVersion: 7
+  serializedVersion: 8
   lengthInSec: 2
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 1
   looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -611,6 +614,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     maxNumParticles: 1000
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -4830,6 +4834,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -4860,6 +4865,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 1
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 1
@@ -4883,6 +4889,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1 &1222126448856892757
 GameObject:
@@ -4912,6 +4922,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0.2588191, w: 0.9659258}
   m_LocalPosition: {x: 0.2, y: 0.31, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6434518854867246751}
   m_RootOrder: 6
@@ -4923,19 +4934,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1222126448856892757}
-  serializedVersion: 7
+  serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 0
   looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -5485,6 +5496,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     maxNumParticles: 1000
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -9634,6 +9646,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -9664,6 +9677,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 0
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -9687,6 +9701,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1 &1585125534198501953
 GameObject:
@@ -9716,6 +9734,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6861392236592451997}
   - {fileID: 1502794481303725705}
@@ -9731,19 +9750,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1585125534198501953}
-  serializedVersion: 7
+  serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 1
   looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -10221,6 +10240,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     maxNumParticles: 1000
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -14458,6 +14478,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -14488,6 +14509,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 0
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 1
@@ -14511,6 +14533,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1 &1611464486336602692
 GameObject:
@@ -14540,6 +14566,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5310403461362338726}
   m_RootOrder: 0
@@ -14551,19 +14578,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611464486336602692}
-  serializedVersion: 7
+  serializedVersion: 8
   lengthInSec: 1.5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 0
   looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -15041,6 +15068,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     maxNumParticles: 1000
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -19260,6 +19288,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -19290,6 +19319,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 0
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 1
@@ -19313,6 +19343,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1 &1611464486336615194
 GameObject:
@@ -19342,6 +19376,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1611464486337047152}
   m_RootOrder: 1
@@ -19353,19 +19388,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611464486336615194}
-  serializedVersion: 7
+  serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 0
   looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -19807,6 +19842,7 @@ ParticleSystem:
         m_RotationOrder: 0
     randomizeRotationDirection: 0
     maxNumParticles: 1000
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 1
     gravityModifier:
@@ -24026,6 +24062,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -24056,6 +24093,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 4
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -24079,6 +24117,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1 &1611464486336618914
 GameObject:
@@ -24108,6 +24150,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1611464486337047152}
   m_RootOrder: 2
@@ -24119,19 +24162,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611464486336618914}
-  serializedVersion: 7
+  serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 0
   looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -24627,6 +24670,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     maxNumParticles: 1000
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -28873,6 +28917,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -28903,6 +28948,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 1
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -28926,6 +28972,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1 &1611464486336621796
 GameObject:
@@ -28955,6 +29005,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1611464486337047152}
   m_RootOrder: 0
@@ -28966,19 +29017,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611464486336621796}
-  serializedVersion: 7
+  serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 0
   looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -29420,6 +29471,7 @@ ParticleSystem:
         m_RotationOrder: 0
     randomizeRotationDirection: 0
     maxNumParticles: 1000
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 1
     gravityModifier:
@@ -33639,6 +33691,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -33669,6 +33722,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 4
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -33692,6 +33746,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1 &1611464486336818412
 GameObject:
@@ -33707,6 +33765,7 @@ GameObject:
   - component: {fileID: 1611464486336342242}
   - component: {fileID: 1611464486347393422}
   - component: {fileID: 1611464486348120268}
+  - component: {fileID: 8705119255669361175}
   m_Layer: 0
   m_Name: NovaPink
   m_TagString: Untagged
@@ -33724,6 +33783,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1611464486337088258}
   - {fileID: 1611464486337019198}
@@ -33738,19 +33798,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611464486336818412}
-  serializedVersion: 7
+  serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 0
   looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -34228,6 +34288,7 @@ ParticleSystem:
         m_RotationOrder: 0
     randomizeRotationDirection: 0
     maxNumParticles: 1000
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -38438,6 +38499,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -38468,6 +38530,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_RenderMode: 0
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -38491,6 +38554,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!82 &1611464486336342242
 AudioSource:
@@ -38664,6 +38731,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 0.3
   killAfterLife: 1
+--- !u!114 &8705119255669361175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611464486336818412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &3643139592253174224
 GameObject:
   m_ObjectHideFlags: 0
@@ -38692,6 +38779,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8994125607897196131}
   m_RootOrder: 3
@@ -38703,19 +38791,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3643139592253174224}
-  serializedVersion: 7
+  serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 1
   looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -39193,6 +39281,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     maxNumParticles: 1000
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -43412,6 +43501,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -43442,6 +43532,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 0
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 1
@@ -43465,6 +43556,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1 &4577262643761602011
 GameObject:
@@ -43494,6 +43589,7 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3476982302522374617}
   m_RootOrder: 1
@@ -43505,19 +43601,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4577262643761602011}
-  serializedVersion: 7
+  serializedVersion: 8
   lengthInSec: 2
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 1
   looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -44013,6 +44109,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     maxNumParticles: 1000
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -48232,6 +48329,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -48262,6 +48360,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 0
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 2
@@ -48285,6 +48384,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1 &4894245350158810930
 GameObject:
@@ -48314,6 +48417,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8994125607897196131}
   m_RootOrder: 0
@@ -48325,19 +48429,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4894245350158810930}
-  serializedVersion: 7
+  serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 1
   looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -48815,6 +48919,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     maxNumParticles: 1000
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -53034,6 +53139,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -53064,6 +53170,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 0
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 1
@@ -53087,6 +53194,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1 &5310403461362738562
 GameObject:
@@ -53116,6 +53227,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1611464486337079412}
   m_Father: {fileID: 6434518854867246751}
@@ -53128,19 +53240,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5310403461362738562}
-  serializedVersion: 7
+  serializedVersion: 8
   lengthInSec: 1.5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 0
   looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -53582,6 +53694,7 @@ ParticleSystem:
         m_RotationOrder: 0
     randomizeRotationDirection: 0
     maxNumParticles: 1000
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 1
     gravityModifier:
@@ -57801,6 +57914,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -57831,6 +57945,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 4
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -57854,6 +57969,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1 &5479722786555250475
 GameObject:
@@ -57883,6 +58002,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8994125607897196131}
   m_RootOrder: 2
@@ -57894,19 +58014,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5479722786555250475}
-  serializedVersion: 7
+  serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 1
   looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -58402,6 +58522,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     maxNumParticles: 1000
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -62666,6 +62787,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -62696,6 +62818,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 0
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -62719,6 +62842,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1 &6252226142218632897
 GameObject:
@@ -62748,6 +62875,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3476982302522374617}
   m_RootOrder: 2
@@ -62759,19 +62887,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6252226142218632897}
-  serializedVersion: 7
+  serializedVersion: 8
   lengthInSec: 0.3
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 1
   looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -63285,6 +63413,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     maxNumParticles: 1000
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -67594,6 +67723,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -67624,6 +67754,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 0
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -67647,6 +67778,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1 &6434315139457597809
 GameObject:
@@ -67677,6 +67812,7 @@ Transform:
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6215514626681772783}
   - {fileID: 4660014143356358538}
@@ -67693,19 +67829,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6434315139457597809}
-  serializedVersion: 7
+  serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 1
   looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -68183,6 +68319,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     maxNumParticles: 1000
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -72465,6 +72602,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -72495,6 +72633,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_RenderMode: 5
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -72518,6 +72657,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!210 &5146689277419784569
 SortingGroup:
@@ -72561,6 +72704,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6434518856399313296}
   - {fileID: 3476982302522374617}
@@ -72591,7 +72735,7 @@ CapsuleCollider2D:
   m_Direction: 0
 --- !u!95 &6434518854867246749
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -72604,6 +72748,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -72639,12 +72784,6 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
-  whatIsEnemy:
-    serializedVersion: 2
-    m_Bits: 0
-  finalMask:
-    serializedVersion: 2
-    m_Bits: 384
   moveSpeed: 3
   p1Alive: 1
   maxSpeed: 5
@@ -72707,6 +72846,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1319347650313865967}
   m_Father: {fileID: 6434518854867246751}
@@ -72738,6 +72878,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1787270544975471307}
   m_Father: {fileID: 6434518854867246751}
@@ -72771,6 +72912,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3476982302522374617}
   m_RootOrder: 0
@@ -72782,19 +72924,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7318895617491245079}
-  serializedVersion: 7
+  serializedVersion: 8
   lengthInSec: 2
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 1
   looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -73290,6 +73432,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     maxNumParticles: 1000
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -77509,6 +77652,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -77539,6 +77683,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 0
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 2
@@ -77562,6 +77707,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1 &7632933931886474546
 GameObject:
@@ -77591,6 +77740,7 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8994125607897196131}
   m_RootOrder: 1
@@ -77602,19 +77752,19 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7632933931886474546}
-  serializedVersion: 7
+  serializedVersion: 8
   lengthInSec: 2
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+  emitterVelocityMode: 1
   looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
-  useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -78092,6 +78242,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     maxNumParticles: 1000
+    customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -82311,6 +82462,7 @@ ParticleSystemRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -82341,6 +82493,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 1
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 1
@@ -82364,6 +82517,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1001 &1394128704263195999
 PrefabInstance:
@@ -82664,51 +82821,67 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7554865059951536324, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: 0.00088971853
+      value: -0.0037119985
       objectReference: {fileID: 0}
     - target: {fileID: -7554865059951536324, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: 0.0008158684
+      value: -0.007234931
+      objectReference: {fileID: 0}
+    - target: {fileID: -7554865059951536324, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
+      propertyPath: m_Bounds.m_Center.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7554865059951536324, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Extent.x
-      value: 0.48911005
+      value: 0.4877727
       objectReference: {fileID: 0}
     - target: {fileID: -7554865059951536324, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Extent.y
-      value: 0.5062748
+      value: 0.5091237
+      objectReference: {fileID: 0}
+    - target: {fileID: -7554865059951536324, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
+      propertyPath: m_Bounds.m_Extent.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -6669968748007650522, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: 0.09631443
+      value: 0.40631983
       objectReference: {fileID: 0}
     - target: {fileID: -6669968748007650522, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: 0.068253875
+      value: 0.13789421
       objectReference: {fileID: 0}
     - target: {fileID: -6669968748007650522, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Extent.x
-      value: 0.6746813
+      value: 0.6478241
       objectReference: {fileID: 0}
     - target: {fileID: -6669968748007650522, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Extent.y
-      value: 1.0870233
+      value: 1.1275365
       objectReference: {fileID: 0}
     - target: {fileID: -6220791187489048084, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: 0.0013845265
+      value: 0.013891503
       objectReference: {fileID: 0}
     - target: {fileID: -6220791187489048084, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: -0.0015990734
+      value: -0.01701431
+      objectReference: {fileID: 0}
+    - target: {fileID: -6220791187489048084, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
+      propertyPath: m_Bounds.m_Center.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -6220791187489048084, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Extent.x
-      value: 0.148485
+      value: 0.14608818
       objectReference: {fileID: 0}
     - target: {fileID: -6220791187489048084, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Extent.y
-      value: 0.19731992
+      value: 0.1996758
+      objectReference: {fileID: 0}
+    - target: {fileID: -6220791187489048084, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
+      propertyPath: m_Bounds.m_Extent.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -6024937892213586058, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Center.x
@@ -82748,19 +82921,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4621629980222795184, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: -0.31917122
+      value: -0.095745
       objectReference: {fileID: 0}
     - target: {fileID: -4621629980222795184, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: -0.24702951
+      value: 0.22712779
       objectReference: {fileID: 0}
     - target: {fileID: -4621629980222795184, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Extent.x
-      value: 0.12965748
+      value: 0.21816626
       objectReference: {fileID: 0}
     - target: {fileID: -4621629980222795184, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Extent.y
-      value: 0.29958794
+      value: 0.28470838
       objectReference: {fileID: 0}
     - target: {fileID: -4197632726661573225, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -82804,19 +82977,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -2592740766390951481, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: 0.0000003874302
+      value: 0.07720864
       objectReference: {fileID: 0}
     - target: {fileID: -2592740766390951481, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: -0.00083470345
+      value: 0.07410681
       objectReference: {fileID: 0}
     - target: {fileID: -2592740766390951481, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Extent.x
-      value: 0.47999984
+      value: 0.41963488
       objectReference: {fileID: 0}
     - target: {fileID: -2592740766390951481, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Extent.y
-      value: 0.8241652
+      value: 0.7618623
       objectReference: {fileID: 0}
     - target: {fileID: -2553777780917477547, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -82972,19 +83145,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1126557953234772972, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: 0.00008432567
+      value: 0.010960385
       objectReference: {fileID: 0}
     - target: {fileID: 1126557953234772972, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: 0.000000923872
+      value: 0.0037174523
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126557953234772972, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
+      propertyPath: m_Bounds.m_Center.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1126557953234772972, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Extent.x
-      value: 0.21991499
+      value: 0.222411
       objectReference: {fileID: 0}
     - target: {fileID: 1126557953234772972, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Extent.y
-      value: 0.21500003
+      value: 0.21553406
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126557953234772972, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
+      propertyPath: m_Bounds.m_Extent.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2056134795028698169, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -83016,19 +83197,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4134740699544371138, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: -0.0007402599
+      value: 0.10449451
       objectReference: {fileID: 0}
     - target: {fileID: 4134740699544371138, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: -0.0010851622
+      value: 0.030758321
       objectReference: {fileID: 0}
     - target: {fileID: 4134740699544371138, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Extent.x
-      value: 0.48138016
+      value: 0.37774795
       objectReference: {fileID: 0}
     - target: {fileID: 4134740699544371138, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Extent.y
-      value: 0.82391536
+      value: 0.79722506
       objectReference: {fileID: 0}
     - target: {fileID: 4863118084141331114, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -83144,19 +83325,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6774889601300129235, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: -0.014753342
+      value: -0.08076416
       objectReference: {fileID: 0}
     - target: {fileID: 6774889601300129235, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: -0.110327125
+      value: 0.14675802
       objectReference: {fileID: 0}
     - target: {fileID: 6774889601300129235, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Extent.x
-      value: 0.3002743
+      value: 0.24497809
       objectReference: {fileID: 0}
     - target: {fileID: 6774889601300129235, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_Bounds.m_Extent.y
-      value: 0.17032468
+      value: 0.2530695
       objectReference: {fileID: 0}
     - target: {fileID: 6801566712301166374, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -83180,7 +83361,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7627199528703383788, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_SortingOrder
-      value: 15
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 8846663536421006282, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -83212,14 +83393,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: -5862392098139380635, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
---- !u!1 &8734808577645974641 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2338571972462499039, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
-  m_PrefabInstance: {fileID: 6434518855721173166}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2801194423459629512 stripped
+--- !u!4 &1319347650313865967 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 9192928425420884326, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5405238179372730945, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
   m_PrefabInstance: {fileID: 6434518855721173166}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &2560764039635807076 stripped
@@ -83227,9 +83403,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8846663536421006282, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
   m_PrefabInstance: {fileID: 6434518855721173166}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1319347650313865967 stripped
+--- !u!4 &2801194423459629512 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 5405238179372730945, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
+  m_CorrespondingSourceObject: {fileID: 9192928425420884326, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
+  m_PrefabInstance: {fileID: 6434518855721173166}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8734808577645974641 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2338571972462499039, guid: 7ec5b918e73474ef59bc83d1ca39dbc5, type: 3}
   m_PrefabInstance: {fileID: 6434518855721173166}
   m_PrefabAsset: {fileID: 0}
 --- !u!50 &2219783027466770783
@@ -83353,14 +83534,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6703ccc57c65540f9ba3a758963aff7e, type: 3}
---- !u!1 &1787270544975811345 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8924585071623999260, guid: 6703ccc57c65540f9ba3a758963aff7e, type: 3}
-  m_PrefabInstance: {fileID: 7140412961623530509}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1787270544975471307 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8924585071623700166, guid: 6703ccc57c65540f9ba3a758963aff7e, type: 3}
+  m_PrefabInstance: {fileID: 7140412961623530509}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1787270544975811345 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8924585071623999260, guid: 6703ccc57c65540f9ba3a758963aff7e, type: 3}
   m_PrefabInstance: {fileID: 7140412961623530509}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8575506190832768339
