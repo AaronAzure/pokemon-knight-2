@@ -7,6 +7,7 @@ public class AllyAttack : MonoBehaviour
     public int spBonus;
     public bool playerGainsExp=true;
     public bool registerOneHitOnly;
+    public bool isCut;
     [SerializeField] private bool yKb;
 
     [SerializeField] private GameObject spawnEffectObj;
@@ -66,6 +67,26 @@ public class AllyAttack : MonoBehaviour
                     Destroy(obj.gameObject, 0.5f);
                 }
             }
+        }
+        if (other.CompareTag("Tree"))
+        {
+			if (isCut)
+			{
+				SmallTree smallTree = other.GetComponent<SmallTree>();
+
+				if (smallTree != null)
+				{
+					smallTree.DestroyTree();
+				}
+			}
+			else
+			{
+				if (spawnEffect && spawnEffectObj != null)
+				{
+					var obj = Instantiate(spawnEffectObj, other.transform.position, Quaternion.identity);
+					Destroy(obj.gameObject, 0.5f);
+				}
+			}
         }
     }
 

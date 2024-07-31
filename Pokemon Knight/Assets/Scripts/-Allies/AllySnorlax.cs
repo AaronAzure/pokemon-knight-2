@@ -31,9 +31,19 @@ public class AllySnorlax : Ally
             body.velocity = new Vector2(body.velocity.x, 0);
             body.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
         }
-    }   
+    }
 
-    public override void CallChildIsGrounded() 
+	public override void CallChildOnHitHead()
+	{
+		base.CallChildOnHitHead();
+		body.velocity = new Vector2(body.velocity.x, 0);
+	}
+	public override void CallChildOnLateUpdate()
+	{
+		if (!isCeiling)
+			CallChildIsCeiling();
+	}
+	public override void CallChildIsGrounded() 
     {
 		if (!useUlt && stillJumping)
 			body.velocity = new Vector2(body.velocity.x, jumpHeight);

@@ -83,6 +83,7 @@ MonoBehaviour:
   spBonus: 0
   playerGainsExp: 1
   registerOneHitOnly: 0
+  isCut: 0
   yKb: 0
   spawnEffectObj: {fileID: 130848, guid: dfe14af2039644612b8899b0c21c9015, type: 3}
   spawnEffect: 1
@@ -9740,7 +9741,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1603478121553535202}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.469, z: 0}
+  m_LocalPosition: {x: -0.243, y: 0.894, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -34179,6 +34180,7 @@ MonoBehaviour:
   feetBox: {x: 0, y: 0}
   feetOffset: {x: 0, y: 0}
   feetRadius: 0.1
+  headDist: 0.01
   registerMultipleLanding: 0
   imgs: []
   fireBlast: {fileID: 4194350957834545132, guid: 87b19fe3bfd204a04b47ba77cc490dee, type: 3}

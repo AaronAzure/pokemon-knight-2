@@ -46,7 +46,7 @@ public class Clefairy : Enemy
     [SerializeField] private Transform atkPos;
     [Space] [SerializeField] private GameObject spawnedHolder;
     [SerializeField] private int nProjectiles=4;
-    [SerializeField] private int fixedAtk=-1;
+    [SerializeField] private int fixedAtk=-2;
 
     [Space] [SerializeField] private RazorLeaf razorLeafObj;
     [SerializeField] private MetronomeAttacks razorLeafStat;
@@ -84,6 +84,11 @@ public class Clefairy : Enemy
 
     [Space] [SerializeField] private GameObject teleportEffect;
     [SerializeField] private GameObject teleportBurstEffect;
+
+    [Space] [SerializeField] private GameObject splash;
+
+    [Space] [SerializeField] private GameObject explosionAtk;
+    //[SerializeField] private GameObject teleportBurstEffect;
 
 
     // [SerializeField] private MetronomeAttacks[] metronomeAttacks;
@@ -261,11 +266,24 @@ public class Clefairy : Enemy
         if (isMiniBoss && hp <= 0)
             return;
 
-        int rng = Random.Range(0, nProjectiles);
-		if (fixedAtk >= 0)
+        int rng = Random.Range(isBoss ? -1 : -2, nProjectiles);
+		if (fixedAtk != -69)
 			rng = fixedAtk;
         switch (rng)
         {
+			// splash
+			case -2:
+				if (explosionAtk != null)
+					Instantiate(explosionAtk, atkPos.position, explosionAtk.transform.rotation);
+				TakeDamage(maxHp, transform.position);
+				//StartCoroutine( Done( 0.1f ) );
+				break;
+			// splash
+			case -1:
+				if (splash != null)
+					splash.SetActive(true);
+                StartCoroutine( Done( 0.1f ) );
+				break;
             // Razor Leaf
             case 0:
                 LookAtTarget();
@@ -428,7 +446,7 @@ public class Clefairy : Enemy
 				// }
 
                 break;
-        }
+		}
     }
 
 	public void Teleport( Vector3 telePos , float delay=0f)

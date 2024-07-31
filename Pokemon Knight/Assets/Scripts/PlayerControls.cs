@@ -13,7 +13,6 @@ using Cinemachine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-// using Com.LuisPedroFonseca.ProCamera2D;
 
 public class PlayerControls : MonoBehaviour
 {
@@ -93,6 +92,10 @@ public class PlayerControls : MonoBehaviour
 	
 	[Space] [Header("Pokemon (Allies)")]
 	[SerializeField] private Transform spawnPos;    // Place to Summon Pokemon
+
+	[Space][SerializeField] GameObject armSummonObj;
+	[SerializeField] GameObject armNormObj;
+	
 	[Space][SerializeField] private Ally doubleJumpObj;   //Butterfree
 	private Ally spawnedDoubleJumpObj;
 
@@ -127,6 +130,7 @@ public class PlayerControls : MonoBehaviour
 	[Space] public Ally clefable;
 	[Space] public Ally gengar;
 	[Space] public Ally alakazam;
+	[Space] public Ally farfetchd;
 
 
 
@@ -409,6 +413,7 @@ public class PlayerControls : MonoBehaviour
 	[SerializeField] private float dmgMultiplier = 1;
 	[SerializeField] private float expMultiplier = 1;
 	[SerializeField] private float candyMultiplier = 1;
+	[SerializeField] [Range(1,100)] int spMultiplier = 1;
 	[SerializeField] private bool noCoolDown;
 	[SerializeField] private bool cannotTakeDmg;
 	[SerializeField] private bool infiniteGauge;
@@ -760,6 +765,12 @@ public class PlayerControls : MonoBehaviour
 						pokemonInTeamBenchSettings[i].img.sprite = alakazam.currentForm;
 						pokemonInTeamBenchSettings[i].ally = alakazam;
 						partyPokemonsUI[i].sprite = alakazam.currentForm;
+						break;
+					case "farfetchd":
+						allies[i] = farfetchd;
+						pokemonInTeamBenchSettings[i].img.sprite = farfetchd.currentForm;
+						pokemonInTeamBenchSettings[i].ally = farfetchd;
+						partyPokemonsUI[i].sprite = farfetchd.currentForm;
 						break;
 					case "":
 						pokemonInTeamBenchSettings[i].img.sprite = emptySprite;
@@ -1388,12 +1399,45 @@ public class PlayerControls : MonoBehaviour
 				}
 
 				PokemonSummonedIndicator(button);
+				Summon();
 				
 				//* Looking left
 				if (holder.transform.eulerAngles.y > 0)
 					pokemon.transform.eulerAngles = new Vector3(0,-180);
 			}
 		}
+	}
+
+	Coroutine summonCo;
+	private void Summon()
+	{
+		if (summonCo != null)
+			StopCoroutine(summonCo);
+		summonCo = StartCoroutine( SummonCo() );
+	}
+	private IEnumerator SummonCo()
+	{
+		if (armSummonObj != null)
+		{
+			armSummonObj.SetActive(false);
+			armSummonObj.SetActive(true);
+		}
+		if (armNormObj != null)
+			armNormObj.SetActive(false);
+
+		yield return new WaitForSeconds(0.4f);
+		if (armSummonObj != null)
+			armSummonObj.SetActive(false);
+		if (armNormObj != null)
+			armNormObj.SetActive(true);
+
+		summonCo = null;
+	}
+	private void SummonPokemonAlly(int slot)
+	{
+		nPokemonOut++;
+		var pokemon = Instantiate(allies[slot], spawnPos.position, allies[slot].transform.rotation);
+		pokemon.body.velocity = this.body.velocity;
 	}
 
 	public void EnhanceAllyPokemonLevel(Ally ally, int enhancementCost)
@@ -2347,7 +2391,7 @@ public class PlayerControls : MonoBehaviour
 			receivingKnockback = true;
 			Vector2 direction = (opponent.position - this.transform.position).normalized;
 			// direction = new Vector2(direction.x, 0);
-			body.velocity = new Vector2(-direction.x * force, 1);
+			body.velocity = new Vector2(-direction.x * force, 5);
 			// body..MovePosition(-direction * force);
 			
 			yield return new WaitForSeconds(0.1f);
@@ -2619,7 +2663,7 @@ public class PlayerControls : MonoBehaviour
 	{
 		if (canUseUlt)
 		{
-			sp = Mathf.Min( spMax , sp + spGained );
+			sp = Mathf.Min( spMax , sp + (spGained * spMultiplier) );
 			// gaugeImg.fillAmount += amount;
 			if (gaugeGlow != null)
 			{
@@ -2678,6 +2722,8 @@ public class PlayerControls : MonoBehaviour
 	{
 		body.velocity = Vector2.zero;
 		anim.SetTrigger("died");
+		if (face != null)
+			face.sprite = null;
 
 		if (mew != null)
 			mew.PlayerDied();
@@ -3449,11 +3495,11 @@ public class PlayerControls : MonoBehaviour
 	}
 
 
-	public void GainPowerup(string powerupName)
+	public void GainPowerup(string pokemonName)
 	{
-		Debug.Log("Gained a power = " + powerupName);
+		Debug.Log("Gained a power = " + pokemonName);
 
-		switch (powerupName)
+		switch (pokemonName)
 		{
 			case "butterfree": 
 				canDoubleJump = true;
@@ -3473,6 +3519,16 @@ public class PlayerControls : MonoBehaviour
 				PlayerPrefsElite.SetBoolean("canTeleport" + gameNumber, true);
 				CaughtAPokemon("alakazam");
 				break;
+			case "starmie": 
+				canSwim = true;
+				PlayerPrefsElite.SetBoolean("canSwim" + gameNumber, true);
+				CaughtAPokemon("starmie");
+				break;
+			case "machamp": 
+				canWallClimb = true;
+				PlayerPrefsElite.SetBoolean("canWallClimb" + gameNumber, true);
+				CaughtAPokemon("machamp");
+				break;
 			case "pidgey": 
 				CaughtAPokemon("pidgey");
 				break;
@@ -3490,7 +3546,7 @@ public class PlayerControls : MonoBehaviour
 				PlayerPrefsElite.SetBoolean("caughtGengar" + gameNumber, true);
 				break;
 			default:
-				if (CaughtAPokemon(powerupName))
+				if (CaughtAPokemon(pokemonName))
 					Debug.LogError("PlayerControls.GainPowerup - unregistered powerup (ADD TO SWITCH CASE)");
 				break;
 		}

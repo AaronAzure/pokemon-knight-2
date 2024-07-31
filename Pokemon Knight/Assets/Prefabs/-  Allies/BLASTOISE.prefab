@@ -144,7 +144,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 480402825
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: -1
 --- !u!114 &5641373995452626351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,6 +211,7 @@ MonoBehaviour:
   feetBox: {x: 0, y: 0}
   feetOffset: {x: 0, y: 0}
   feetRadius: 0.1
+  headDist: 0.01
   registerMultipleLanding: 0
   imgs: []
   watergunObj: {fileID: 3746478155411923182, guid: c2f66f7d9f67143d794c292db200d248, type: 3}
